@@ -1,0 +1,550 @@
+{
+  "meta": {
+    "lang": "en",
+    "version": "2025-08-23T00:00:00Z",
+    "app": "Marathon Companion"
+  },
+  "header": {
+    "overwolf": {
+      "status": {
+        "overall": "Stare Overwolf",
+        "quest_automation": "Automatizare misiuni",
+        "game_mode": "Mod de joc",
+        "map_selection": "Selecție hartă"
+      }
+    },
+    "hotkey": {
+      "switch": "Tastă schimbare ecran",
+      "showHide": "Tastă Afiș./Ascund."
+    },
+    "settings": "Setări",
+    "quests": "Misiuni"
+  },
+  "nav": {
+    "maps": "Hărți",
+    "quests": "Misiuni",
+    "hideout": "Ascunzătoare",
+    "items": "Necesare",
+    "ammo": "Muniție",
+    "progression": {
+      "level": "Nivel"
+    },
+    "subscription": "Premium",
+    "settings": "Setări",
+    "support": "Suport"
+  },
+  "pages": {
+    "hotkeys": {
+      "title": "Tastă rapidă",
+      "placeholder": "Apasă o tastă",
+      "apply": "Aplică"
+    },
+    "questReminder": {
+      "title": "Memento misiuni",
+      "quests": {
+        "button": "Misiuni"
+      },
+      "items": {
+        "button": "Obiecte",
+        "hideout": {
+          "level": "Nivel"
+        }
+      },
+      "map": "Misiuni active pentru"
+    },
+    "reviewAndSubmit": {
+      "title": "Revizuire și trimitere",
+      "submit": {
+        "title": "Trimite",
+        "success": "Mulțumim pentru trimitere, o vom revizui curând. Click pentru a închide",
+        "failure": "A apărut o problemă la trimiterea recenziei."
+      },
+      "newQuests": "Misiuni noi",
+      "newCrafts": "Meșteșuguri noi",
+      "modifiedQuests": "Misiuni modificate",
+      "modifiedHideout": "Stații ascunzătoare modificate",
+      "modifiedCrafts": "Meșteșuguri modificate",
+      "removedQuests": "Misiuni eliminate",
+      "addedIcons": "Pictograme hartă adăugate",
+      "removedIcons": "Pictograme hartă eliminate",
+      "removedCrafts": "Meșteșuguri eliminate",
+      "imageToUplaod": "Imagini de încărcat",
+      "none": "nimic",
+      "crafts": "meșteșuguri",
+      "iconsOn": "pictograme on",
+      "removed": "eliminat"
+    },
+    "file": {
+      "import": {
+        "title": "Importă progresul aplicației",
+        "file": "Fișier",
+        "select": "Selectează",
+        "warning": {
+          "1": "Prin importarea unui progres nou, vei șterge tot progresul curent.",
+          "2": "Asigură-te că salvezi progresul curent, dacă este nevoie, înainte de a importa altul."
+        },
+        "load": "Încarcă progresul"
+      },
+      "save": {
+        "title": "Salvează progresul aplicației",
+        "folder": "Dosar",
+        "change": "Schimbă",
+        "filename": "Nume fișier",
+        "save": "Salvează"
+      }
+    },
+    "externalLinkWarning": {
+      "title": "Link extern",
+      "disclaimer": "Ești pe cale să deschizi un link extern. Sigur vrei să continui?",
+      "dontShow": "Nu mai arăta",
+      "yes": "Da",
+      "no": "Nu"
+    },
+    "questReset": {
+      "title": "Resetare misiuni",
+      "warning": {
+        "1": "Vei reseta toate misiunile la valorile implicite. Opțiune utilă la wipe, când ai nevoie să îți cureți progresul.",
+        "2": "Aplicația se va reporni dacă apeși Da. Sigur vrei să continui?"
+      },
+      "yes": "Da",
+      "no": "Nu"
+    },
+    "questCompletedAutomation": {
+      "title": "Automatizează finalizarea",
+      "warning": {
+        "1": "Această opțiune marchează ușor drept finalizate misiunile deja făcute dar neurmărite. (Util mai ales dacă ai instalat aplicația la mijlocul wipe-ului)",
+        "2": "Va finaliza doar misiunile pentru progresul selectat (PvP sau PvE).",
+        "3": "Pentru utilizare corectă, activează în aplicație toate misiunile pe care le ai active în Arc Raiders. Aplicația va finaliza doar cerințele misiunilor activate în aplicație.",
+        "4": "Închiderea unei ramuri care nu duce nicăieri nu se finalizează automat. Marchează ultima misiune ca finalizată pentru ca auto-completarea să funcționeze corect.",
+        "5": "Exemplu: Stirrup nu duce mai departe; dacă nu o marchezi finalizată, misiunile anterioare nu vor fi marcate automat."
+      },
+      "yes": "Continuă",
+      "no": "Ieșire"
+    },
+    "submissions": {
+      "title": "Termeni de trimitere",
+      "rules": {
+        "title": "Reguli & ghid de trimitere",
+        "1": "<b class='keyword'>Conținut nepotrivit:</b> Orice imagine încărcată trebuie să respecte politicile Overwolf. Imaginile nepotrivite vor fi raportate la Overwolf.",
+        "2": "<b class='keyword'>Colectare date:</b> Singurele informații colectate sunt numele tău de utilizator Overwolf și ID-ul Overwolf.",
+        "3": "<b class='keyword'>Anonimat:</b> Trimiterea ta va fi <b class='keyword'>anonimă pentru alți utilizatori</b>.",
+        "4": "<b class='keyword'>Drepturi de utilizare:</b> Prin trimitere, acorzi Marathon Companion dreptul de a folosi imaginea în aplicație.",
+        "5": "<b class='keyword'>Limitări trimitere:</b> Maxim <b class='keyword'>2 trimiteri</b> la <b class='keyword'>5 minute</b>.",
+        "6": "<b class='keyword'>Limitări imagini:</b> Maxim <b class='keyword'>10 imagini</b> la <b class='keyword'>5 minute</b>.",
+        "7": "<b class='keyword'>Cerințe imagine:</b> Raport <b class='keyword'>16:9</b> și <b class='keyword'>până la 8 MB</b>.",
+        "8": "<b class='keyword'>Încălcări & interdicții:</b> Încălcarea regulilor poate duce la <b class='keyword'>interdicție de trimitere</b>.",
+        "9": "Continuând, confirmi că ai citit și ai fost de acord cu aceste condiții."
+      },
+      "notice": "Funcția de editare permite comunității să propună corecții la misiuni și pictograme de hartă când informațiile sunt greșite",
+      "yes": "Acceptă și activează trimiterile",
+      "no": "Anulează"
+    },
+    "maps": {
+      "filters": {
+        "maps": "Hărți",
+        "filter": "Filtru"
+      },
+      "btr": { "guaranteed": "Oprire garantată", "yes": "Da", "no": "Nu" },
+      "author": "Autor",
+      "icon": {
+        "add": "Adaugă pictogramă"
+      },
+      "edit": {
+        "mode": "Mod editare",
+        "disclaimer": "Schimbările făcute în sesiunea de editare nu sunt salvate",
+        "move": "Mută pictograma",
+        "edit": "Editează pictograma",
+        "addOrRemove": "Adaugă sau elimină pictograma"
+      },
+      "popup": {
+        "title": "Proprietăți pictogramă",
+        "type": "Tip pictogramă",
+        "quest": "Selectează misiunea",
+        "questObjective": "Selectează obiectivul misiunii",
+        "description": "Adaugă descriere",
+        "screenshot": {
+          "text": "Atașează o captură",
+          "button": "Selectează din fișier, max 8MB, 16/9"
+        },
+        "apply": "Aplică"
+      }
+    },
+    "quests": {
+      "filters": {
+        "traders": {
+          "label": "Negustori",
+          "order": {
+            "byTrader": "Ordine negustor",
+            "byName": "Ordine după nume"
+          }
+        },
+        "type": {
+          "label": "Tip"
+        },
+        "state": {
+          "label": "Stare"
+        },
+        "maps": {
+          "label": "Hărți"
+        }
+      },
+      "indicator": {
+        "label": "(active|finalizate|total)"
+      },
+      "quest": {
+        "button": {
+          "done": "Gata",
+          "active": "Activă",
+          "completed": "Finalizată",
+          "noTracking": "Oprește tracking",
+          "manualTracking": "ACTIVAT MANUAL",
+          "failed": "Eșuată"
+        },
+        "body": {
+          "requirements": {
+            "label": "Cerințe",
+            "level": "Nivel",
+            "delay": "Disponibil după",
+            "hours": "ore",
+            "type": "Disponibil doar în",
+            "faction": "doar",
+            "edition": "Doar pentru",
+            "edit": {
+              "delay": "Întârziere deblocare (ore)",
+              "type": "Tip progres",
+              "faction": "Facțiune",
+              "edition": "Ediția jocului"
+            }
+          },
+          "unlockedBy": {
+            "label": "Deblocat de",
+            "edit": {
+              "condition": {
+                "label": "Condiție misiune",
+                "add": "Adaugă condiție"
+              }
+            }
+          },
+          "leadsTo": {
+            "label": "Duce la"
+          },
+          "keysRequired": {
+            "label": "Chei necesare",
+            "key": "Cheie"
+          },
+          "itemsNeeded": {
+            "label": "Obiecte necesare"
+          },
+          "weapon": {
+            "label": "Config. armă",
+            "view": {
+              "modding": "Vedere modare",
+              "inspect": "Vedere inspecție"
+            },
+            "parts": {
+              "label": "Piese"
+            }
+          },
+          "tasks": {
+            "label": "Sarcini",
+            "count": "Cant.",
+            "maps": "Hărți",
+            "anyMaps": "Orice hartă",
+            "location": "Locații",
+            "find": "Găsește pe hartă",
+            "fir": "Găsit în raid",
+            "itemInfo": "Info obiect",
+            "optional": "Opțional",
+            "weapon": {
+              "label": "Config. armă",
+              "muzzle": "Gură țeavă",
+              "gasBlock": "Bloc gaz",
+              "handguard": "Apărătoare",
+              "barrel": "Țeavă",
+              "rail": "Șină",
+              "attachment": "Accesorii",
+              "foregrip": "Mâner frontal",
+              "receiver": "Receptor",
+              "mounts": "Monturi",
+              "scope": "Lunetă",
+              "magazine": "Încărcător",
+              "pistolGrip": "Mâner pistol",
+              "bolt": "Închizător",
+              "stock": "Pat"
+            },
+            "edit": {
+              "description": "Descriere",
+              "count": "Cant.",
+              "optional": "Opțional",
+              "mark": "Obiect marcaj",
+              "item": "Obiect",
+              "fir": "Găsit în raid",
+              "add": "Obiectiv misiune"
+            }
+          },
+          "rewards": {
+            "label": "Recompense",
+            "exp": "Exp",
+            "rep": "Rep",
+            "level": "Nivel",
+            "skill": "Aptitudini",
+            "edit": {
+              "exp": "Experiență",
+              "skills": {
+                "label": "Aptitudini",
+                "bonus": "Bonus",
+                "skill": "Aptitudine"
+              },
+              "standing": {
+                "label": "Reputație negustor",
+                "count": "Cant."
+              },
+              "item": {
+                "label": "Recompensă obiect",
+                "item": "Obiect",
+                "count": "Cant."
+              },
+              "unlock": {
+                "label": "Recompensă deblocare",
+                "item": "Obiect",
+                "rep": "Reputație"
+              },
+              "add": "Adaugă"
+            }
+          },
+          "penalties": {
+            "label": "Penalizări",
+            "rep": "Rep",
+            "edit": {
+              "label": "Penalizări",
+              "count": "Cant.",
+              "rep": "Penalizare",
+              "add": "Adaugă"
+            }
+          },
+          "wiki": {
+            "label": "Wiki",
+            "link": "Link Wiki"
+          },
+          "kappa": {
+            "label": "Necesită Kappa",
+            "yes": "Da",
+            "no": "Nu",
+            "edit": {
+              "button": "Necesar pentru Kappa"
+            }
+          }
+        }
+      }
+    },
+    "hideout": {
+      "filters": {
+        "inactive": "Inactiv",
+        "active": "Activ",
+        "completed": "Finalizat"
+      },
+      "station": {
+        "legend": {
+          "blocked": "Blocat",
+          "tracking": "Se urmărește",
+          "completed": "Finalizat/Construit"
+        },
+        "level": {
+          "label": "Nivel",
+          "required": "Nivel necesar",
+          "requirement": "Cerințe",
+          "craft": "Meșteșuguri",
+          "state": {
+            "blocked": "Blocat",
+            "track": "Urmărește",
+            "build": "Construiește"
+          },
+          "requirements": {
+            "button": "Arată cerințele",
+            "edit": {
+              "standing": {
+                "label": "Reputație negustor",
+                "rep": "Rep"
+              },
+              "station": {
+                "label": "Cerințe stație"
+              },
+              "item": {
+                "label": "Cerințe obiecte",
+                "item": "Obiect",
+                "count": "Cant."
+              },
+              "add": "Adaugă"
+            }
+          },
+          "crafts": {
+            "button": "Arată meșteșugurile",
+            "edit": {
+              "item": "Obiect",
+              "count": "Cant.",
+              "duration": "Durată meșteșug",
+              "hours": "Ore",
+              "minutes": "Minute",
+              "seconds": "Secunde",
+              "unlock": "Deblocare misiune",
+              "add": "Adaugă"
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "filters": {
+        "missing": "Doar lipsă",
+        "quest": "Misiuni",
+        "hideout": "Ascunzătoare"
+      },
+      "search": {
+        "placeholder": "Caută după nume"
+      },
+      "overall": "Total necesar",
+      "quests": "Misiuni",
+      "hideout": "Stații ascunzătoare",
+      "required": "Necesar"
+    },
+    "ammo": {
+      "body": {
+        "img": "",
+        "name": "Nume",
+        "dmg": "DMG",
+        "pen": "PEN",
+        "frag": "Frag%",
+        "recoil": "Recul",
+        "tier1": "1",
+        "tier2": "2",
+        "tier3": "3",
+        "tier4": "4",
+        "tier5": "5",
+        "tier6": "6"
+      }
+    },
+    "subscription": {
+      "info": {
+        "title": "Experiență mai bună cu upgrade-uri Marathon Companion",
+        "description": "Controlează mai bine UI, elimină reclamele și susține proiectul",
+        "perks": {
+          "1": "Elimină complet containerul de reclame",
+          "2": "Control mai bun al UI",
+          "3": "Susține Marathon Companion"
+        }
+      },
+      "state": {
+        "notSubscribed": {
+          "title": "Abonează-te pentru a elimina reclamele"
+        },
+        "subscribed": {
+          "title": "Ești abonat la"
+        },
+        "loggedInAs": "Conectat ca ",
+        "notLoggedIn": "Nu ești conectat la Overwolf, autentifică-te pentru a continua",
+        "status": {
+          "title": "Stare abonament: ",
+          "active": "ACTIVĂ",
+          "cancelled": "REÎNNOIRE ANULATĂ"
+        }
+      },
+      "buttons": {
+        "manage": "Gestionează",
+        "refresh": "Actualizează",
+        "subscribe": "Abonează-te"
+      }
+    },
+    "sidePanel": {
+      "search": {
+        "placeholder": "Căutare quest - filtre off"
+      },
+      "filters": {
+        "label": "Filtre",
+        "map": "Filtrează după hartă",
+        "order": {
+          "trader": "După negustor",
+          "quest": "După misiune"
+        },
+        "kappa": "Doar Kappa"
+      },
+      "button": {
+        "reminder": "Deschide memento misiuni",
+        "quest": {
+          "view": "Vezi misiuni | Tasta "
+        }
+      },
+      "ads": {
+        "remove": "Elimină reclame"
+      }
+    },
+    "settings": {
+      "app": {
+        "label": "Aplicație",
+        "locale": "Selectează limba preferată",
+        "restart": "Reporniți aplicația",
+        "monitor": "Preferință monitor secundar",
+        "opacity": "Opacitate fereastră in-game",
+        "sidePanelHotkey": "Tastă Afiș./Ascund. misiuni laterale",
+        "inGameHotkey": {
+          "text": "Tastă in-game"
+        },
+        "ingameDesktopHotkey": {
+          "text": "Tastă joc/desktop"
+        },
+        "questReminderHotkey": {
+          "text": "Tastă memento misiuni"
+        },
+        "enableQuestReminder": "Activează memento misiuni",
+        "onMatchmaking": "Deschide aplicația la matchmaking",
+        "desktopOnly": "Doar desktop",
+        "appCloseOnGameClose": "Închide aplicația la închiderea jocului",
+        "externalLinkWarning": "Avertizare link extern",
+        "inRaidTimer": {
+          "text": "Afișează/Ascunde cronometrul raid",
+          "button": "Afiș./Ascund."
+        },
+        "uploadLogs": {
+          "text": "Încarcă jurnalele sesiunii curente",
+          "button": "Trimite"
+        }
+      },
+      "progression": {
+        "label": "Progres",
+        "automate": "Automatizează progresul misiunilor",
+        "level": "Activează nivel necesar",
+        "completedButton": "Dublu-click pentru finalizare",
+        "wipe": {
+          "text": "Șterge tot progresul",
+          "button": {
+            "1": "Șterge",
+            "2": "Șterge PvE"
+          }
+        },
+        "kappa": {
+          "text": "Activează/Dezactivează misiuni non-Kappa",
+          "button": {
+            "1": "Dezactivează",
+            "2": "Activează"
+          }
+        },
+        "save": {
+          "text": "Salvează progresul pe dispozitiv",
+          "button": "Salvează"
+        },
+        "import": {
+          "text": "Importă progresul de pe dispozitiv",
+          "button": "Importă"
+        },
+        "questCompletedAutomation": {
+          "text": "Automatizare misiuni finalizate",
+          "button": "Auto-finalizează"
+        }
+      },
+      "map": {
+        "label": "Hartă",
+        "default": "Hartă implicită la pornire",
+        "zoom": "Sensibilitate zoom hartă"
+      }
+    }
+  }
+}

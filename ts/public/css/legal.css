@@ -1,0 +1,25 @@
+@import "./common.css";
+
+.frames-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+  }
+
+.page {
+    width: 50vw;
+    height: 50vh;
+}
+
+#hotkey-input {
+    width: 200px;
+    padding: 10px;
+}
+
+.frame-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100% - 30px);
+}

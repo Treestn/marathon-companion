@@ -1,0 +1,116 @@
+@import "./common.css";
+@import "./quests.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#react-root {
+  height: 100%;
+}
+
+body.second-screen {
+  margin: 0;
+  background: var(--bg-base);
+  color: var(--text-secondary);
+  font-family: var(--app-font-family, terminal);
+  user-select: none;
+}
+
+body.second-screen img {
+  -webkit-user-drag: none;
+}
+
+.second-screen-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.second-screen-main {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+  background: var(--bg-sidebar);
+  position: relative;
+}
+
+.second-screen-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  padding: 0px 5px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.second-screen-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 30px;
+}
+
+.second-screen-nav-list {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.second-screen-nav-item {
+  background: transparent;
+  border: none;
+  color: var(--text-nav);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 0;
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+}
+
+.second-screen-nav-item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  background: transparent;
+  background: var(--bg-control-strong);
+}
+
+.second-screen-nav-item.is-active {
+  color: var(--text-primary);
+}
+
+.second-screen-nav-item.is-active::after {
+  background: var(--accent);
+}
+
+.second-screen-pages {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+#main-page-div {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.second-screen-runner,
+.second-screen-subscription,
+.second-screen-side-page {
+  min-height: 0;
+}

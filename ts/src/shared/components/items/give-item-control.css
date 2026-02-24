@@ -1,0 +1,63 @@
+.give-item-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 8px;
+  padding: 4px 6px;
+}
+
+.give-item-button {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 1px solid var(--border-accent);
+  background: var(--accent-bg);
+  color: var(--text-primary);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.give-item-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.give-item-image-wrapper {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.give-item-name-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  font-size: 11px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 5;
+}
+
+.give-item-image-wrapper:hover .give-item-name-tooltip {
+  opacity: 1;
+}
+
+.give-item-amount {
+  font-size: 11px;
+  color: var(--accent-text-dim);
+  line-height: 1;
+}
+
+.give-item-amount.is-complete {
+  color: var(--accent);
+}

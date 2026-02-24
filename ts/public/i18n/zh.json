@@ -1,0 +1,550 @@
+{
+  "meta": {
+    "lang": "en",
+    "version": "2025-08-23T00:00:00Z",
+    "app": "Marathon Companion"
+  },
+  "header": {
+    "overwolf": {
+      "status": {
+        "overall": "Overwolf 状态",
+        "quest_automation": "任务自动化",
+        "game_mode": "游戏模式",
+        "map_selection": "地图选择"
+      }
+    },
+    "hotkey": {
+      "switch": "切屏热键",
+      "showHide": "显示/隐藏热键"
+    },
+    "settings": "设置",
+    "quests": "任务"
+  },
+  "nav": {
+    "maps": "地图",
+    "quests": "任务",
+    "hideout": "藏身处",
+    "items": "所需物品",
+    "ammo": "弹药表",
+    "progression": {
+      "level": "等级"
+    },
+    "subscription": "Premium",
+    "settings": "设置",
+    "support": "支持"
+  },
+  "pages": {
+    "hotkeys": {
+      "title": "热键",
+      "placeholder": "按下热键",
+      "apply": "应用"
+    },
+    "questReminder": {
+      "title": "任务提醒",
+      "quests": {
+        "button": "任务"
+      },
+      "items": {
+        "button": "物品",
+        "hideout": {
+          "level": "等级"
+        }
+      },
+      "map": "活动任务："
+    },
+    "reviewAndSubmit": {
+      "title": "审核并提交",
+      "submit": {
+        "title": "提交",
+        "success": "感谢提交，我们将尽快审核。点击关闭",
+        "failure": "提交审核时出现问题。"
+      },
+      "newQuests": "新任务",
+      "newCrafts": "新制作",
+      "modifiedQuests": "已修改任务",
+      "modifiedHideout": "已修改藏身处站点",
+      "modifiedCrafts": "已修改制作",
+      "removedQuests": "已移除任务",
+      "addedIcons": "新增地图图标",
+      "removedIcons": "移除地图图标",
+      "removedCrafts": "移除制作",
+      "imageToUplaod": "待上传图片",
+      "none": "无",
+      "crafts": "制作",
+      "iconsOn": "图标开",
+      "removed": "已移除"
+    },
+    "file": {
+      "import": {
+        "title": "导入应用进度",
+        "file": "文件",
+        "select": "选择",
+        "warning": {
+          "1": "导入新进度将清除你当前的全部进度。",
+          "2": "在导入前，如需请先保存当前进度。"
+        },
+        "load": "加载进度"
+      },
+      "save": {
+        "title": "保存应用进度",
+        "folder": "文件夹",
+        "change": "更改",
+        "filename": "文件名",
+        "save": "保存"
+      }
+    },
+    "externalLinkWarning": {
+      "title": "外部链接",
+      "disclaimer": "你将打开一个外部链接，确定继续？",
+      "dontShow": "不再提示",
+      "yes": "是",
+      "no": "否"
+    },
+    "questReset": {
+      "title": "重置任务",
+      "warning": {
+        "1": "你将把所有任务重置为默认。此选项在清档时用于清除进度。",
+        "2": "若点击“是”，应用将重启。确定继续？"
+      },
+      "yes": "是",
+      "no": "否"
+    },
+    "questCompletedAutomation": {
+      "title": "自动完成任务",
+      "warning": {
+        "1": "便捷标记已做但未跟踪的任务。（在中途安装应用时很有用）",
+        "2": "仅对当前所选进度（PvP 或 PvE）生效。",
+        "3": "正确使用：先在应用中启用你在 Arc Raiders 中已激活的任务。应用只会完成这些已启用任务的要求。",
+        "4": "不通向后续的任务分支不会自动完成。请将最后一项标记完成，以便自动完成正常工作。",
+        "5": "例如 Stirrup：若不将其标记完成，之前的任务不会被自动标记。"
+      },
+      "yes": "继续",
+      "no": "退出"
+    },
+    "submissions": {
+      "title": "提交条款",
+      "rules": {
+        "title": "提交规则与指南",
+        "1": "<b class='keyword'>不当内容：</b> 任何上传的图片必须遵守 Overwolf 的内容政策。提交不当图片将被上报 Overwolf。",
+        "2": "<b class='keyword'>数据收集：</b> 我们仅收集你的 Overwolf 用户名和 Overwolf ID。",
+        "3": "<b class='keyword'>匿名：</b> 你的提交将对<b class='keyword'>其他用户匿名</b>。",
+        "4": "<b class='keyword'>使用权：</b> 通过提交，你授予 Marathon Companion 在应用内使用该图片的权利。",
+        "5": "<b class='keyword'>提交限制：</b> 每<b class='keyword'>5 分钟</b>最多<b class='keyword'>2 次</b>。",
+        "6": "<b class='keyword'>图片限制：</b> 每<b class='keyword'>5 分钟</b>最多<b class='keyword'>10 张</b>。",
+        "7": "<b class='keyword'>图片要求：</b> 必须为<b class='keyword'>16:9 比例</b>且<b class='keyword'>不超过 8 MB</b>。",
+        "8": "<b class='keyword'>违规与封禁：</b> 违反规则将导致<b class='keyword'>禁止提交</b>。",
+        "9": "继续即表示你已阅读并同意这些条件。"
+      },
+      "notice": "编辑功能用于在信息有误时让社区提交对任务与地图图标的更正",
+      "yes": "接受并启用提交",
+      "no": "取消"
+    },
+    "maps": {
+      "filters": {
+        "maps": "地图",
+        "filter": "筛选"
+      },
+      "btr": { "guaranteed": "保证停靠", "yes": "是", "no": "否" },
+      "author": "作者",
+      "icon": {
+        "add": "添加图标"
+      },
+      "edit": {
+        "mode": "编辑模式",
+        "disclaimer": "编辑会话中的更改不会保存",
+        "move": "移动图标",
+        "edit": "编辑图标",
+        "addOrRemove": "添加或移除图标"
+      },
+      "popup": {
+        "title": "图标属性",
+        "type": "图标类型",
+        "quest": "选择任务",
+        "questObjective": "选择任务目标",
+        "description": "添加描述",
+        "screenshot": {
+          "text": "附加截图",
+          "button": "从文件选择，最大 8MB，16/9"
+        },
+        "apply": "应用"
+      }
+    },
+    "quests": {
+      "filters": {
+        "traders": {
+          "label": "商人",
+          "order": {
+            "byTrader": "按商人",
+            "byName": "按名称"
+          }
+        },
+        "type": {
+          "label": "类型"
+        },
+        "state": {
+          "label": "状态"
+        },
+        "maps": {
+          "label": "地图"
+        }
+      },
+      "indicator": {
+        "label": "(活动|完成|总计)"
+      },
+      "quest": {
+        "button": {
+          "done": "完成",
+          "active": "进行中",
+          "completed": "已完成",
+          "noTracking": "关闭跟踪",
+          "manualTracking": "手动激活",
+          "failed": "失败"
+        },
+        "body": {
+          "requirements": {
+            "label": "需求",
+            "level": "等级",
+            "delay": "可用后",
+            "hours": "小时",
+            "type": "仅限于",
+            "faction": "仅",
+            "edition": "仅适用于",
+            "edit": {
+              "delay": "解锁延迟（小时）",
+              "type": "进度类型",
+              "faction": "阵营",
+              "edition": "游戏版本"
+            }
+          },
+          "unlockedBy": {
+            "label": "解锁条件",
+            "edit": {
+              "condition": {
+                "label": "任务条件",
+                "add": "添加条件"
+              }
+            }
+          },
+          "leadsTo": {
+            "label": "指向"
+          },
+          "keysRequired": {
+            "label": "所需钥匙",
+            "key": "钥匙"
+          },
+          "itemsNeeded": {
+            "label": "所需物品"
+          },
+          "weapon": {
+            "label": "武器构建",
+            "view": {
+              "modding": "改装视图",
+              "inspect": "检视视图"
+            },
+            "parts": {
+              "label": "部件"
+            }
+          },
+          "tasks": {
+            "label": "任务",
+            "count": "数量",
+            "maps": "地图",
+            "anyMaps": "任意地图",
+            "location": "地点",
+            "find": "在地图上查找",
+            "fir": "突袭发现",
+            "itemInfo": "物品信息",
+            "optional": "可选",
+            "weapon": {
+              "label": "武器构建",
+              "muzzle": "枪口",
+              "gasBlock": "导气块",
+              "handguard": "护木",
+              "barrel": "枪管",
+              "rail": "导轨",
+              "attachment": "附件",
+              "foregrip": "前握把",
+              "receiver": "机匣",
+              "mounts": "安装座",
+              "scope": "瞄具",
+              "magazine": "弹匣",
+              "pistolGrip": "手枪握把",
+              "bolt": "枪栓",
+              "stock": "枪托"
+            },
+            "edit": {
+              "description": "描述",
+              "count": "数量",
+              "optional": "可选",
+              "mark": "标记物品",
+              "item": "物品",
+              "fir": "突袭发现",
+              "add": "任务目标"
+            }
+          },
+          "rewards": {
+            "label": "奖励",
+            "exp": "Exp",
+            "rep": "Rep",
+            "level": "等级",
+            "skill": "技能",
+            "edit": {
+              "exp": "经验值",
+              "skills": {
+                "label": "技能",
+                "bonus": "加成",
+                "skill": "技能"
+              },
+              "standing": {
+                "label": "商人声望",
+                "count": "数量"
+              },
+              "item": {
+                "label": "物品奖励",
+                "item": "物品",
+                "count": "数量"
+              },
+              "unlock": {
+                "label": "解锁奖励",
+                "item": "物品",
+                "rep": "声望"
+              },
+              "add": "添加"
+            }
+          },
+          "penalties": {
+            "label": "惩罚",
+            "rep": "Rep",
+            "edit": {
+              "label": "惩罚",
+              "count": "数量",
+              "rep": "惩罚",
+              "add": "添加"
+            }
+          },
+          "wiki": {
+            "label": "Wiki",
+            "link": "Wiki 链接"
+          },
+          "kappa": {
+            "label": "需要 Kappa",
+            "yes": "是",
+            "no": "否",
+            "edit": {
+              "button": "Kappa 所需"
+            }
+          }
+        }
+      }
+    },
+    "hideout": {
+      "filters": {
+        "inactive": "未激活",
+        "active": "激活",
+        "completed": "已完成"
+      },
+      "station": {
+        "legend": {
+          "blocked": "已阻止",
+          "tracking": "正在跟踪",
+          "completed": "完成/建造"
+        },
+        "level": {
+          "label": "等级",
+          "required": "所需等级",
+          "requirement": "需求",
+          "craft": "制作",
+          "state": {
+            "blocked": "已阻止",
+            "track": "跟踪",
+            "build": "建造"
+          },
+          "requirements": {
+            "button": "显示需求",
+            "edit": {
+              "standing": {
+                "label": "商人声望",
+                "rep": "Rep"
+              },
+              "station": {
+                "label": "站点需求"
+              },
+              "item": {
+                "label": "物品需求",
+                "item": "物品",
+                "count": "数量"
+              },
+              "add": "添加"
+            }
+          },
+          "crafts": {
+            "button": "显示制作",
+            "edit": {
+              "item": "物品",
+              "count": "数量",
+              "duration": "制作时长",
+              "hours": "小时",
+              "minutes": "分钟",
+              "seconds": "秒",
+              "unlock": "任务解锁",
+              "add": "添加"
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "filters": {
+        "missing": "仅缺失",
+        "quest": "任务",
+        "hideout": "藏身处"
+      },
+      "search": {
+        "placeholder": "按名称搜索物品"
+      },
+      "overall": "总需",
+      "quests": "任务",
+      "hideout": "藏身处站点",
+      "required": "需要"
+    },
+    "ammo": {
+      "body": {
+        "img": "",
+        "name": "名称",
+        "dmg": "DMG",
+        "pen": "PEN",
+        "frag": "Frag%",
+        "recoil": "后坐",
+        "tier1": "1",
+        "tier2": "2",
+        "tier3": "3",
+        "tier4": "4",
+        "tier5": "5",
+        "tier6": "6"
+      }
+    },
+    "subscription": {
+      "info": {
+        "title": "通过 Marathon Companion 升级获得更好体验",
+        "description": "更好控制界面、移除广告并支持项目",
+        "perks": {
+          "1": "完全移除广告容器",
+          "2": "更好控制界面",
+          "3": "支持 Marathon Companion"
+        }
+      },
+      "state": {
+        "notSubscribed": {
+          "title": "订阅以移除广告"
+        },
+        "subscribed": {
+          "title": "你已订阅"
+        },
+        "loggedInAs": "当前登录为 ",
+        "notLoggedIn": "未登录 Overwolf，请登录以继续",
+        "status": {
+          "title": "订阅状态：",
+          "active": "激活",
+          "cancelled": "续订已取消"
+        }
+      },
+      "buttons": {
+        "manage": "管理",
+        "refresh": "刷新",
+        "subscribe": "订阅"
+      }
+    },
+    "sidePanel": {
+      "search": {
+        "placeholder": "任务搜索 - 未应用筛选"
+      },
+      "filters": {
+        "label": "筛选",
+        "map": "按地图筛选",
+        "order": {
+          "trader": "按商人",
+          "quest": "按任务"
+        },
+        "kappa": "仅 Kappa"
+      },
+      "button": {
+        "reminder": "打开任务提醒",
+        "quest": {
+          "view": "查看任务 | 热键 "
+        }
+      },
+      "ads": {
+        "remove": "移除广告"
+      }
+    },
+    "settings": {
+      "app": {
+        "label": "应用",
+        "locale": "选择首选语言",
+        "restart": "请重启应用",
+        "monitor": "第二显示器偏好",
+        "opacity": "游戏内窗口不透明度",
+        "sidePanelHotkey": "侧页任务热键",
+        "inGameHotkey": {
+          "text": "游戏内热键"
+        },
+        "ingameDesktopHotkey": {
+          "text": "游戏/桌面切换热键"
+        },
+        "questReminderHotkey": {
+          "text": "任务提醒热键"
+        },
+        "enableQuestReminder": "启用任务提醒",
+        "onMatchmaking": "匹配时打开应用",
+        "desktopOnly": "仅桌面模式",
+        "appCloseOnGameClose": "游戏关闭时关闭应用",
+        "externalLinkWarning": "外部链接警告",
+        "inRaidTimer": {
+          "text": "显示/隐藏突袭计时器",
+          "button": "显示/隐藏"
+        },
+        "uploadLogs": {
+          "text": "上传当前会话日志",
+          "button": "提交"
+        }
+      },
+      "progression": {
+        "label": "进度",
+        "automate": "自动化任务进度",
+        "level": "启用等级要求",
+        "completedButton": "双击以完成任务",
+        "wipe": {
+          "text": "清除所有进度",
+          "button": {
+            "1": "清除",
+            "2": "清除 PvE"
+          }
+        },
+        "kappa": {
+          "text": "启用/禁用非 Kappa 任务",
+          "button": {
+            "1": "禁用",
+            "2": "启用"
+          }
+        },
+        "save": {
+          "text": "将进度保存到本机",
+          "button": "保存"
+        },
+        "import": {
+          "text": "从本机导入进度",
+          "button": "导入"
+        },
+        "questCompletedAutomation": {
+          "text": "已完成任务自动化",
+          "button": "自动完成"
+        }
+      },
+      "map": {
+        "label": "地图",
+        "default": "启动时默认地图",
+        "zoom": "地图缩放灵敏度"
+      }
+    }
+  }
+}

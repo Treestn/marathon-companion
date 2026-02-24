@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../../css/header.css" />
+    <link rel="stylesheet" href="../../css/main.css" />
+    <title>Marathon Companion</title>
+  </head>
+  <body class="main-window">
+    <div id="react-root"></div>
+    <div class="resize horizontal top" onmousedown="dragResize('Top');"></div>
+    <div class="resize vertical left" onmousedown="dragResize('Left');"></div>
+    <div class="resize vertical right" onmousedown="dragResize('Right');"></div>
+    <div class="resize horizontal bottom" onmousedown="dragResize('Bottom');"></div>
+    <div class="resize corner top-left" onmousedown="dragResize('TopLeft');"></div>
+    <div class="resize corner top-right" onmousedown="dragResize('TopRight');"></div>
+    <div class="resize corner bottom-left" onmousedown="dragResize('BottomLeft');"></div>
+    <div class="resize corner bottom-right" onmousedown="dragResize('BottomRight');"></div>
+  </body>
+  <script defer>
+    function onAdsSDKNotLoaded() {
+      console.log("Ad Loader: Couldn't load owads.min.js!");
+    }
+
+    function onAdsSDKReady() {
+      globalThis.owAdsReady = true;
+      console.log("Ad Loader: OwAd SDK ready");
+    }
+  </script>
+  <script id="owad-script" src="https://content.overwolf.com/libs/ads/latest/owads.min.js" async onerror="onAdsSDKNotLoaded()" onload="onAdsSDKReady()"></script>
+    <script>
+      function dragResize(edge){
+          overwolf.windows.getCurrentWindow(function(result){
+              if (result.status == "success") {
+                  overwolf.windows.dragResize(result.window.id, edge);
+              }
+          });
+      };
+  </script>
+</html>

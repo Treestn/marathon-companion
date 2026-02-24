@@ -1,0 +1,76 @@
+.frames-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+  
+    /*
+      Introduced in Internet Explorer 10.
+      See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+    */
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 20px;
+  }
+
+.page {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+  
+    /*
+      Introduced in Internet Explorer 10.
+      See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+    */
+    -ms-user-select: none;
+    user-select: none;
+    min-width: 300px;
+    width: 30vw;
+    height: 20vh;
+    font-size: 17px;
+}
+
+.hotkey-error-text {
+    color: var(--error);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#hotkey-input {
+    width: 200px;
+    padding: 10px;
+}
+
+.frame-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100% - 30px);
+    padding-top: 2px;
+}
+
+#hotkey-input {
+    background-color: var(--bg-input);
+    margin: auto;
+    color: var(--text-primary);
+}
+
+#apply-hotkey {
+    height: 40px;
+    color: var(--text-inactive);
+    background-color: var(--main-btn-inactive-color);
+}
+
+#apply-hotkey:hover {
+    cursor: pointer;
+    color: var(--text-primary);
+    background-color: var(--main-btn-active-color);
+}
+
+#apply-hotkey:active {
+    transform: scale(0.95); /* Scale the button down when clicked */
+}

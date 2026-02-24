@@ -1,0 +1,104 @@
+@import "./common.css";
+
+.frame-content {
+    width: 100%;
+}
+
+#ReviewAndSubmitPage {
+    width: 60vw;
+}
+
+.review-and-submit-page {
+    width: 100%;
+    height: 100%;
+}
+
+#submit {
+    height: 40px;
+    width: 100%;
+    background-color: var(--main-btn-inactive-color);
+    color: var(--text-primary);
+    font-size: 18px;
+}
+
+#submit:hover:not([disabled]) {
+    cursor: pointer;
+    background-color: var(--main-btn-active-color);
+    color: black;
+}
+  
+#submit:active:not([disabled]) {
+    transform: scale(0.95); /* Scale the button down when clicked */
+}
+
+.review-body {
+    width: 100%;
+    height: 100%;
+    max-height: 470px;
+    background-color: var(--main-quest-background-color);
+}
+
+
+.scroll-content-wrapper {
+    /* min-height: 100%; */
+    height: auto;
+    display: flex
+;
+    flex-direction: column;
+    align-items: center;
+}
+
+.quest-content-div {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    background-color: var(--filter-hover-bg-color);
+}
+
+.quest-modification-type-wrapper {
+    min-width: 30px;
+    object-fit: contain;
+    height: 40px;
+    margin-left: 10px;
+}
+
+.quest-modification-type-image {
+    width: inherit;
+    object-fit: contain;
+    height: 30px;
+}
+
+.edit-text-field-content {
+    font-size: 22px;
+    color: var(--edit-text-color);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.upload-status-type-wrapper {
+    margin-right: 10px;
+    /* margin-left: 50px; */
+    min-width: 30px;
+    height: 30px;
+}
+
+.edit-section-wrapper {
+    background-color: var(--main-quest-background-color);
+    width: 80%;
+    margin: 10px;
+}
+
+.edit-header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: var(--header-color);
+}
+
+.edit-header-text {
+    font-size: 24px;
+    color: var(--text-primary);
+    margin: auto;
+}
+

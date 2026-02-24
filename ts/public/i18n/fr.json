@@ -1,0 +1,550 @@
+{
+  "meta": {
+    "lang": "en",
+    "version": "2025-08-23T00:00:00Z",
+    "app": "Marathon Companion"
+  },
+  "header": {
+    "overwolf": {
+      "status": {
+        "overall": "État Overwolf",
+        "quest_automation": "Automatisation des quêtes",
+        "game_mode": "Mode de jeu",
+        "map_selection": "Sélection de carte"
+      }
+    },
+    "hotkey": {
+      "switch": "Raccourci de changement d’écran",
+      "showHide": "Raccourci Afficher/Masquer"
+    },
+    "settings": "Paramètres",
+    "quests": "Quêtes"
+  },
+  "nav": {
+    "maps": "Cartes",
+    "quests": "Quêtes",
+    "hideout": "Planque",
+    "items": "Objets req.",
+    "ammo": "Munitions",
+    "progression": {
+      "level": "Niveau"
+    },
+    "subscription": "Premium",
+    "settings": "Paramètres",
+    "support": "Support"
+  },
+  "pages": {
+    "hotkeys": {
+      "title": "Raccourci",
+      "placeholder": "Presser touche",
+      "apply": "Appliquer"
+    },
+    "questReminder": {
+      "title": "Rappel de quête",
+      "quests": {
+        "button": "Quêtes"
+      },
+      "items": {
+        "button": "Objets",
+        "hideout": {
+          "level": "Niveau"
+        }
+      },
+      "map": "Quêtes actives pour"
+    },
+    "reviewAndSubmit": {
+      "title": "Relire et soumettre l’édition",
+      "submit": {
+        "title": "Soumettre",
+        "success": "Merci pour l’envoi, nous le vérifierons bientôt. Cliquez pour fermer",
+        "failure": "Un problème est survenu lors de l’envoi de la révision."
+      },
+      "newQuests": "Nouvelles quêtes",
+      "newCrafts": "Nouvelles fabrications",
+      "modifiedQuests": "Quêtes modifiées",
+      "modifiedHideout": "Stations de planque modifiées",
+      "modifiedCrafts": "Fabrications modifiées",
+      "removedQuests": "Quêtes supprimées",
+      "addedIcons": "Icônes de carte ajoutées",
+      "removedIcons": "Icônes de carte supprimées",
+      "removedCrafts": "Fabrications supprimées",
+      "imageToUplaod": "Images à téléverser",
+      "none": "aucun",
+      "crafts": "fabrications",
+      "iconsOn": "icônes act.",
+      "removed": "supprimé"
+    },
+    "file": {
+      "import": {
+        "title": "Importer la progression de l’app",
+        "file": "Fichier",
+        "select": "Sélectionner",
+        "warning": {
+          "1": "En important une nouvelle progression, vous effacez toute votre progression actuelle.",
+          "2": "Assurez-vous d’enregistrer la progression actuelle si nécessaire avant d’en importer une nouvelle."
+        },
+        "load": "Charger la progression"
+      },
+      "save": {
+        "title": "Sauvegarder la progression de l’app",
+        "folder": "Dossier",
+        "change": "Changer",
+        "filename": "Nom de fichier",
+        "save": "Enregistrer"
+      }
+    },
+    "externalLinkWarning": {
+      "title": "Lien externe",
+      "disclaimer": "Vous êtes sur le point d’ouvrir un lien externe, continuer ?",
+      "dontShow": "Ne plus afficher",
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "questReset": {
+      "title": "Réinitialisation des quêtes",
+      "warning": {
+        "1": "Vous êtes sur le point de réinitialiser toutes les quêtes. Elles seront remises par défaut. Cette option existe lorsqu’un wipe survient et que vous devez effacer votre progression.",
+        "2": "L’application redémarrera si vous cliquez sur Oui. Êtes-vous sûr de vouloir continuer ?"
+      },
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "questCompletedAutomation": {
+      "title": "Automatiser l’achèvement des quêtes",
+      "warning": {
+        "1": "Cette option permet de terminer facilement les quêtes déjà faites mais non suivies. (Particulièrement utile si vous venez d’installer l’app en milieu de wipe)",
+        "2": "Cela ne terminera que les quêtes pour la progression actuellement sélectionnée (PvP ou PvE).",
+        "3": "Pour bien utiliser cette fonction, activez dans l’app toutes les quêtes que vous avez actuellement actives sur Arc Raiders. L’app ne complètera que les exigences des quêtes activées dans l’app.",
+        "4": "Notez que terminer une branche de quêtes qui ne mène à rien ne sera pas fait automatiquement. Marquez la dernière quête comme terminée pour que l’auto-complétion fonctionne correctement.",
+        "5": "Exemple : Stirrup, cette quête ne mène à rien ; si vous ne la marquez pas terminée, les quêtes précédentes ne seront pas marquées automatiquement."
+      },
+      "yes": "Continuer",
+      "no": "Quitter"
+    },
+    "submissions": {
+      "title": "Conditions d’utilisation des soumissions",
+      "rules": {
+        "title": "Règles & directives de soumission",
+        "1": "<b class='keyword'>Contenu inapproprié :</b> Toute image envoyée doit respecter les politiques de contenu d’Overwolf. L’envoi d’images inappropriées entraînera un signalement à Overwolf.",
+        "2": "<b class='keyword'>Collecte de données :</b> Les seules informations collectées avec votre envoi sont votre nom d’utilisateur Overwolf et votre ID Overwolf.",
+        "3": "<b class='keyword'>Anonymat :</b> Votre envoi sera <b class='keyword'>anonyme pour les autres utilisateurs</b>.",
+        "4": "<b class='keyword'>Droits d’usage :</b> En envoyant une image, vous accordez à Marathon Companion le droit d’utiliser l’image dans l’application.",
+        "5": "<b class='keyword'>Limites d’envoi :</b> Maximum <b class='keyword'>2 envois</b> par <b class='keyword'>5 minutes</b>.",
+        "6": "<b class='keyword'>Limites d’images envoyées :</b> Maximum <b class='keyword'>10 images</b> par <b class='keyword'>5 minutes</b>.",
+        "7": "<b class='keyword'>Exigences d’image :</b> Doit avoir un <b class='keyword'>ratio 16:9</b> et <b class='keyword'>ne pas dépasser 8 MB</b>.",
+        "8": "<b class='keyword'>Infractions & bannissements :</b> Le non-respect de ces règles entraînera un <b class='keyword'>ban d’envoi de contenu</b>.",
+        "9": "En continuant, vous confirmez avoir lu et accepté ces conditions."
+      },
+      "notice": "La fonction d’édition permet à la communauté de soumettre des corrections aux quêtes et icônes de carte si l’information est erronée",
+      "yes": "Accepter et activer les envois",
+      "no": "Annuler"
+    },
+    "maps": {
+      "filters": {
+        "maps": "Cartes",
+        "filter": "Filtre"
+      },
+      "btr": { "guaranteed": "Arrêt garanti", "yes": "Oui", "no": "Non" },
+      "author": "Auteur",
+      "icon": {
+        "add": "Ajouter icône"
+      },
+      "edit": {
+        "mode": "Mode édition",
+        "disclaimer": "Les modifications faites durant la session d’édition ne sont pas enregistrées",
+        "move": "Déplacer l'icône",
+        "edit": "Modifier l'icône",
+        "addOrRemove": "Ajouter ou supprimer une icône"
+      },
+      "popup": {
+        "title": "Propriétés de l’icône",
+        "type": "Type d’icône",
+        "quest": "Sélectionner une quête",
+        "questObjective": "Sélectionner l’objectif de quête",
+        "description": "Ajouter une description",
+        "screenshot": {
+          "text": "Joindre une capture",
+          "button": "Sélectionner depuis un fichier, max 8 Mo, 16/9"
+        },
+        "apply": "Appliquer"
+      }
+    },
+    "quests": {
+      "filters": {
+        "traders": {
+          "label": "Commerçants",
+          "order": {
+            "byTrader": "Trier par commerçant",
+            "byName": "Trier par nom"
+          }
+        },
+        "type": {
+          "label": "Type"
+        },
+        "state": {
+          "label": "État"
+        },
+        "maps": {
+          "label": "Cartes"
+        }
+      },
+      "indicator": {
+        "label": "(actives|terminées|total)"
+      },
+      "quest": {
+        "button": {
+          "done": "Fait",
+          "active": "Actif",
+          "completed": "Terminé",
+          "noTracking": "Désactiver suivi",
+          "manualTracking": "ACTIVÉ MANUELLEMENT",
+          "failed": "Échec"
+        },
+        "body": {
+          "requirements": {
+            "label": "Exigences",
+            "level": "Niveau",
+            "delay": "Disponible après",
+            "hours": "heures",
+            "type": "Disponible uniquement en",
+            "faction": "seulement",
+            "edition": "Réservé à",
+            "edit": {
+              "delay": "Délai de déverrouillage (heures)",
+              "type": "Type de progression",
+              "faction": "Faction",
+              "edition": "Édition du jeu"
+            }
+          },
+          "unlockedBy": {
+            "label": "Débloqué par",
+            "edit": {
+              "condition": {
+                "label": "Condition de quête",
+                "add": "Ajouter condition"
+              }
+            }
+          },
+          "leadsTo": {
+            "label": "Mène à"
+          },
+          "keysRequired": {
+            "label": "Clés requises",
+            "key": "Clé"
+          },
+          "itemsNeeded": {
+            "label": "Objets requis"
+          },
+          "weapon": {
+            "label": "Assemblage d’arme",
+            "view": {
+              "modding": "Vue modding",
+              "inspect": "Vue inspection"
+            },
+            "parts": {
+              "label": "Pièces"
+            }
+          },
+          "tasks": {
+            "label": "Tâches",
+            "count": "Nombre",
+            "maps": "Cartes",
+            "anyMaps": "Toutes cartes",
+            "location": "Emplacements",
+            "find": "Trouver sur la carte",
+            "fir": "Trouvé en raid",
+            "itemInfo": "Infos objet",
+            "optional": "Optionnel",
+            "weapon": {
+              "label": "Assemblage d’arme",
+              "muzzle": "Bouche",
+              "gasBlock": "Bloc gaz",
+              "handguard": "Garde-main",
+              "barrel": "Canon",
+              "rail": "Rail",
+              "attachment": "Accessoire",
+              "foregrip": "Poignée avant",
+              "receiver": "Culasse",
+              "mounts": "Supports",
+              "scope": "Lunette",
+              "magazine": "Chargeur",
+              "pistolGrip": "Poignée pistolet",
+              "bolt": "Verrou",
+              "stock": "Crosse"
+            },
+            "edit": {
+              "description": "Description",
+              "count": "Nombre",
+              "optional": "Optionnel",
+              "mark": "Marqueur",
+              "item": "Objet",
+              "fir": "Trouvé en raid",
+              "add": "Objectif de quête"
+            }
+          },
+          "rewards": {
+            "label": "Récompenses",
+            "exp": "Exp",
+            "rep": "Rep",
+            "level": "Niveau",
+            "skill": "Compétences",
+            "edit": {
+              "exp": "Expérience",
+              "skills": {
+                "label": "Compétences",
+                "bonus": "Bonus",
+                "skill": "Compétence"
+              },
+              "standing": {
+                "label": "Réputation du commerçant",
+                "count": "Nombre"
+              },
+              "item": {
+                "label": "Récompense d’objet",
+                "item": "Objet",
+                "count": "Nombre"
+              },
+              "unlock": {
+                "label": "Récompense de déblocage d’objet",
+                "item": "Objet",
+                "rep": "Réputation"
+              },
+              "add": "Ajouter"
+            }
+          },
+          "penalties": {
+            "label": "Pénalités",
+            "rep": "Rep",
+            "edit": {
+              "label": "Pénalités",
+              "count": "Nombre",
+              "rep": "Pénalité",
+              "add": "Ajouter"
+            }
+          },
+          "wiki": {
+            "label": "Wiki",
+            "link": "Lien Wiki"
+          },
+          "kappa": {
+            "label": "Requis pour Kappa",
+            "yes": "Oui",
+            "no": "Non",
+            "edit": {
+              "button": "Requis pour Kappa"
+            }
+          }
+        }
+      }
+    },
+    "hideout": {
+      "filters": {
+        "inactive": "Inactif",
+        "active": "Actif",
+        "completed": "Terminé"
+      },
+      "station": {
+        "legend": {
+          "blocked": "Bloqué",
+          "tracking": "Suivi en cours",
+          "completed": "Terminé/Construit"
+        },
+        "level": {
+          "label": "Niveau",
+          "required": "Niveau requis",
+          "requirement": "Exigences",
+          "craft": "Fabrications",
+          "state": {
+            "blocked": "Bloqué",
+            "track": "Suivre",
+            "build": "Construire"
+          },
+          "requirements": {
+            "button": "Afficher les exigences",
+            "edit": {
+              "standing": {
+                "label": "Réputation du commerçant",
+                "rep": "Rep"
+              },
+              "station": {
+                "label": "Exigences de station"
+              },
+              "item": {
+                "label": "Exigences d’objet",
+                "item": "Objet",
+                "count": "Nombre"
+              },
+              "add": "Ajouter"
+            }
+          },
+          "crafts": {
+            "button": "Afficher les fabrications",
+            "edit": {
+              "item": "Objet",
+              "count": "Nombre",
+              "duration": "Durée de fabrication",
+              "hours": "Heures",
+              "minutes": "Minutes",
+              "seconds": "Secondes",
+              "unlock": "Déblocage par quête",
+              "add": "Ajouter"
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "filters": {
+        "missing": "Manquants",
+        "quest": "Quêtes",
+        "hideout": "Planque"
+      },
+      "search": {
+        "placeholder": "Rechercher un objet"
+      },
+      "overall": "Total requis",
+      "quests": "Quêtes",
+      "hideout": "Stations de planque",
+      "required": "Requis"
+    },
+    "ammo": {
+      "body": {
+        "img": "",
+        "name": "Nom",
+        "dmg": "Dégâts",
+        "pen": "Péné",
+        "frag": "Frag%",
+        "recoil": "Recul",
+        "tier1": "1",
+        "tier2": "2",
+        "tier3": "3",
+        "tier4": "4",
+        "tier5": "5",
+        "tier6": "6"
+      }
+    },
+    "subscription": {
+      "info": {
+        "title": "Améliorez votre expérience avec les améliorations Marathon Companion",
+        "description": "Débloquez un meilleur contrôle de l’UI, supprimez les pubs et soutenez le projet",
+        "perks": {
+          "1": "Supprimer complètement le conteneur de pubs",
+          "2": "Mieux contrôler l’UI",
+          "3": "Soutenir Marathon Companion"
+        }
+      },
+      "state": {
+        "notSubscribed": {
+          "title": "Abonnez-vous pour supprimer les pubs"
+        },
+        "subscribed": {
+          "title": "Vous êtes actuellement abonné à"
+        },
+        "loggedInAs": "Connecté en tant que ",
+        "notLoggedIn": "Non connecté à Overwolf, veuillez vous connecter pour continuer",
+        "status": {
+          "title": "Statut de l’abonnement : ",
+          "active": "ACTIF",
+          "cancelled": "RENOUVELLEMENT ANNULÉ"
+        }
+      },
+      "buttons": {
+        "manage": "Gérer",
+        "refresh": "Rafraîchir",
+        "subscribe": "S’abonner"
+      }
+    },
+    "sidePanel": {
+      "search": {
+        "placeholder": "Recherche quêtes - Filtres inactifs"
+      },
+      "filters": {
+        "label": "Filtres",
+        "map": "Filtrer avec la carte",
+        "order": {
+          "trader": "Trier par commerçant",
+          "quest": "Trier par quête"
+        },
+        "kappa": "Kappa seulement"
+      },
+      "button": {
+        "reminder": "Ouvrir le rappel de quêtes",
+        "quest": {
+          "view": "Voir quêtes act. | Touche "
+        }
+      },
+      "ads": {
+        "remove": "Supprimer pubs"
+      }
+    },
+    "settings": {
+      "app": {
+        "label": "Application",
+        "locale": "Sélectionner la langue de l’app",
+        "restart": "Veuillez redémarrer l’app",
+        "monitor": "Préférence second écran",
+        "opacity": "Opacité de la fenêtre en jeu",
+        "sidePanelHotkey": "Raccourci Aff./Masq. des quêtes latérales",
+        "inGameHotkey": {
+          "text": "Raccourci en jeu"
+        },
+        "ingameDesktopHotkey": {
+          "text": "Raccourci bascule jeu/bureau"
+        },
+        "questReminderHotkey": {
+          "text": "Raccourci rappel de quêtes"
+        },
+        "enableQuestReminder": "Activer le rappel de quêtes",
+        "onMatchmaking": "Ouvrir l’application au matchmaking",
+        "desktopOnly": "Mode bureau uniquement",
+        "appCloseOnGameClose": "Fermer l’application à la fermeture du jeu",
+        "externalLinkWarning": "Avertissement lien externe",
+        "inRaidTimer": {
+          "text": "Afficher/Masquer le minuteur en raid",
+          "button": "Aff./Masq."
+        },
+        "uploadLogs": {
+          "text": "Téléverser les journaux de la session",
+          "button": "Envoyer"
+        }
+      },
+      "progression": {
+        "label": "Progression",
+        "automate": "Automatiser la progression des quêtes",
+        "level": "Exiger le niveau",
+        "completedButton": "Double-clic pour terminer une quête",
+        "wipe": {
+          "text": "Effacer toute la progression",
+          "button": {
+            "1": "Effacer",
+            "2": "Effacer PvE"
+          }
+        },
+        "kappa": {
+          "text": "Activer/Désactiver quêtes non-kappa",
+          "button": {
+            "1": "Désactiver",
+            "2": "Activer"
+          }
+        },
+        "save": {
+          "text": "Sauvegarder la progression de l’app sur la machine",
+          "button": "Sauvegarder"
+        },
+        "import": {
+          "text": "Importer la progression de l’app depuis la machine",
+          "button": "Importer"
+        },
+        "questCompletedAutomation": {
+          "text": "Automatisation des quêtes terminées",
+          "button": "Auto terminer"
+        }
+      },
+      "map": {
+        "label": "Carte",
+        "default": "Carte par défaut au démarrage",
+        "zoom": "Sensibilité du zoom de la carte"
+      }
+    }
+  }
+}

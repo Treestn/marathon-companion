@@ -1,0 +1,80 @@
+#markerProperties {
+  height: auto;
+}
+
+.setting-value {
+    order: 1;
+    width: calc(90% - 40px);
+    height: 100%;
+    margin-left: 40px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-dropdown {
+    width: 50%;
+      height: 100%;
+      /* top: 50%; */
+      position: relative;
+      /* transform: translateY(-50%); */
+      display: flex;
+      align-items: center;
+  }
+
+  #form-dropdown {
+    width: 50%;
+  }
+  
+  .select2-container {
+    width: calc(90% - 40px);
+  }
+
+  .select2-results__option {
+    height: 20px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+  }
+
+  .select2-selection__rendered {
+    font-size: 16px;
+  }
+
+  .text-input {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 55%;
+    font-size: 17px;
+  }
+
+  #uploaded-images-wrapper {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .uploaded-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 30px;
+  }
+
+  .uploaded-image-text {
+    width: 90%;
+    text-align: center;
+    color: var(--text-upload);
+    font-size: 16px;
+  }
+
+  .uploaded-image-remove-image {
+    height: 20px;
+    -webkit-user-drag: none;
+  }
+  .uploaded-image-remove-image:hover {
+    cursor: pointer;
+  }

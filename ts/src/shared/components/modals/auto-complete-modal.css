@@ -1,0 +1,100 @@
+.auto-complete-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-overlay-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.auto-complete-backdrop {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.auto-complete-card {
+  position: relative;
+  min-width: 360px;
+  max-width: 520px;
+  width: 45vw;
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: 12px;
+  box-shadow: 0 0 20px var(--black-a35);
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  border: none;
+}
+
+.auto-complete-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.auto-complete-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.auto-complete-close {
+  background: transparent;
+  border: none;
+  color: var(--white-a70);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.auto-complete-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.auto-complete-text {
+  margin: 0;
+  color: var(--white-a80);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.auto-complete-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.auto-complete-button {
+  height: 34px;
+  min-width: 90px;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.auto-complete-cancel {
+  background: var(--bg-settings);
+  color: var(--white-a80);
+}
+
+.auto-complete-confirm {
+  background: var(--main-btn-active-color);
+  color: var(--accent-text-on);
+}
+
+.auto-complete-button:hover {
+  filter: brightness(1.05);
+}

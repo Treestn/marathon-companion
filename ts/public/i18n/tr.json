@@ -1,0 +1,550 @@
+{
+  "meta": {
+    "lang": "en",
+    "version": "2025-08-23T00:00:00Z",
+    "app": "Marathon Companion"
+  },
+  "header": {
+    "overwolf": {
+      "status": {
+        "overall": "Overwolf Durumu",
+        "quest_automation": "Görev otomasyonu",
+        "game_mode": "Oyun modu",
+        "map_selection": "Harita seçimi"
+      }
+    },
+    "hotkey": {
+      "switch": "Ekran değiştirme tuşu",
+      "showHide": "Göster/Gizle tuşu"
+    },
+    "settings": "Ayarlar",
+    "quests": "Görevler"
+  },
+  "nav": {
+    "maps": "Haritalar",
+    "quests": "Görevler",
+    "hideout": "Sığınak",
+    "items": "Gerekli",
+    "ammo": "Mühimmat",
+    "progression": {
+      "level": "Seviye"
+    },
+    "subscription": "Premium",
+    "settings": "Ayarlar",
+    "support": "Destek"
+  },
+  "pages": {
+    "hotkeys": {
+      "title": "Kısayol",
+      "placeholder": "Tuşa bas",
+      "apply": "Uygula"
+    },
+    "questReminder": {
+      "title": "Görev hatırlatıcı",
+      "quests": {
+        "button": "Görevler"
+      },
+      "items": {
+        "button": "Eşyalar",
+        "hideout": {
+          "level": "Seviye"
+        }
+      },
+      "map": "Aktif görevler:"
+    },
+    "reviewAndSubmit": {
+      "title": "Gözden geçir ve gönder",
+      "submit": {
+        "title": "Gönder",
+        "success": "Gönderimin için teşekkürler, yakında inceleyeceğiz. Kapatmak için tıkla",
+        "failure": "Gönderimde sorun oluştu."
+      },
+      "newQuests": "Yeni görevler",
+      "newCrafts": "Yeni üretimler",
+      "modifiedQuests": "Değiştirilen görevler",
+      "modifiedHideout": "Değiştirilen sığınak istasyonları",
+      "modifiedCrafts": "Değiştirilen üretimler",
+      "removedQuests": "Kaldırılan görevler",
+      "addedIcons": "Eklenen harita simgeleri",
+      "removedIcons": "Kaldırılan harita simgeleri",
+      "removedCrafts": "Kaldırılan üretimler",
+      "imageToUplaod": "Yüklenecek görseller",
+      "none": "yok",
+      "crafts": "üretimler",
+      "iconsOn": "simgeler açık",
+      "removed": "kaldırıldı"
+    },
+    "file": {
+      "import": {
+        "title": "Uygulama ilerlemesini içe aktar",
+        "file": "Dosya",
+        "select": "Seç",
+        "warning": {
+          "1": "Yeni bir ilerleme içe aktarınca mevcut ilerlemenin tamamı silinir.",
+          "2": "Gerekliyse, yenisini içe aktarmadan önce mevcut ilerlemeyi kaydet."
+        },
+        "load": "İlerlemeyi yükle"
+      },
+      "save": {
+        "title": "Uygulama ilerlemesini kaydet",
+        "folder": "Klasör",
+        "change": "Değiştir",
+        "filename": "Dosya adı",
+        "save": "Kaydet"
+      }
+    },
+    "externalLinkWarning": {
+      "title": "Harici bağlantı",
+      "disclaimer": "Harici bir bağlantı açmak üzeresin. Devam etmek istiyor musun?",
+      "dontShow": "Tekrar gösterme",
+      "yes": "Evet",
+      "no": "Hayır"
+    },
+    "questReset": {
+      "title": "Görev sıfırlama",
+      "warning": {
+        "1": "Tüm görevleri varsayılana sıfırlayacaksın. Wipe sırasında ilerlemeyi temizlemek için kullanışlıdır.",
+        "2": "Evet’e tıklarsan uygulama yeniden başlayacak. Devam edilsin mi?"
+      },
+      "yes": "Evet",
+      "no": "Hayır"
+    },
+    "questCompletedAutomation": {
+      "title": "Görev tamamlamayı otomatikleştir",
+      "warning": {
+        "1": "Yaptığın fakat izlemediğin görevleri kolayca tamamlar. (Uygulamayı wipe ortasında aldıysan faydalı)",
+        "2": "Sadece seçili ilerleme (PvP veya PvE) için görevleri tamamlar.",
+        "3": "Doğru kullanım için, Arc Raiders’da aktif olan tüm görevlerini uygulamada da etkinleştir. Uygulama yalnız etkinleştirilen görevlerin gereklerini tamamlar.",
+        "4": "Bir yere varmayan görev dalları otomatik tamamlanmaz. Son görevi tamamlandı olarak işaretle ki otomatik tamamlama düzgün çalışsın.",
+        "5": "Örn. Stirrup bir yere bağlanmaz; tamamlandı demezsen önceki görevler otomatik işaretlenmez."
+      },
+      "yes": "Devam et",
+      "no": "Çıkış"
+    },
+    "submissions": {
+      "title": "Gönderim şartları",
+      "rules": {
+        "title": "Gönderim kuralları ve yönergeleri",
+        "1": "<b class='keyword'>Uygunsuz içerik:</b> Yüklenen görseller Overwolf ilkelerine uymalıdır. Uygunsuz görseller Overwolf’a raporlanır.",
+        "2": "<b class='keyword'>Veri toplama:</b> Gönderiminle yalnızca Overwolf kullanıcı adın ve Overwolf ID’n alınır.",
+        "3": "<b class='keyword'>Anonimlik:</b> Gönderimin <b class='keyword'>diğer kullanıcılara anonim</b> olacaktır.",
+        "4": "<b class='keyword'>Kullanım hakları:</b> Görsel göndererek Marathon Companion’a uygulamada kullanma hakkı verirsin.",
+        "5": "<b class='keyword'>Gönderim limitleri:</b> <b class='keyword'>5 dakikada</b> en çok <b class='keyword'>2 gönderim</b>.",
+        "6": "<b class='keyword'>Görsel limitleri:</b> <b class='keyword'>5 dakikada</b> en çok <b class='keyword'>10 görsel</b>.",
+        "7": "<b class='keyword'>Görsel gereksinimleri:</b> <b class='keyword'>16:9 oran</b> ve boyut <b class='keyword'>8 MB’ı aşmamalı</b>.",
+        "8": "<b class='keyword'>İhlaller ve banlar:</b> Kuralları çiğnemek <b class='keyword'>gönderim yasağına</b> yol açar.",
+        "9": "Devam ederek bu koşulları okuduğunu ve kabul ettiğini onaylıyorsun."
+      },
+      "notice": "Düzenleme özelliği, bilgi hatalıysa topluluğun görev ve harita simgelerinde değişiklik önermesine yöneliktir",
+      "yes": "Kabul et ve gönderimi aç",
+      "no": "İptal"
+    },
+    "maps": {
+      "filters": {
+        "maps": "Haritalar",
+        "filter": "Filtre"
+      },
+      "btr": { "guaranteed": "Garantili durak", "yes": "Evet", "no": "Hayır" },
+      "author": "Yazar",
+      "icon": {
+        "add": "Simge ekle"
+      },
+      "edit": {
+        "mode": "Düzenleme modu",
+        "disclaimer": "Düzenleme oturumundaki değişiklikler kaydedilmez",
+        "move": "Simgeyi taşı",
+        "edit": "Simgeyi düzenle",
+        "addOrRemove": "Simge ekle veya kaldır"
+      },
+      "popup": {
+        "title": "Simge özellikleri",
+        "type": "Simge türü",
+        "quest": "Görev seç",
+        "questObjective": "Görev hedefini seç",
+        "description": "Açıklama ekle",
+        "screenshot": {
+          "text": "Ekran görüntüsü ekle",
+          "button": "Dosyadan seç, maks 8MB, 16/9"
+        },
+        "apply": "Uygula"
+      }
+    },
+    "quests": {
+      "filters": {
+        "traders": {
+          "label": "Tüccarlar",
+          "order": {
+            "byTrader": "Tüccara göre sırala",
+            "byName": "Ada göre sırala"
+          }
+        },
+        "type": {
+          "label": "Tür"
+        },
+        "state": {
+          "label": "Durum"
+        },
+        "maps": {
+          "label": "Haritalar"
+        }
+      },
+      "indicator": {
+        "label": "(aktif|tamamlandı|toplam)"
+      },
+      "quest": {
+        "button": {
+          "done": "OK",
+          "active": "Aktif",
+          "completed": "Tamamlandı",
+          "noTracking": "Takibi kapat",
+          "manualTracking": "ELLE ETKİN",
+          "failed": "Başarısız"
+        },
+        "body": {
+          "requirements": {
+            "label": "Gereksinimler",
+            "level": "Seviye",
+            "delay": "Sonra uygun",
+            "hours": "saat",
+            "type": "Yalnız şu modda",
+            "faction": "yalnızca",
+            "edition": "Yalnız şu sürüm",
+            "edit": {
+              "delay": "Açılma gecikmesi (saat)",
+              "type": "İlerleme türü",
+              "faction": "Faksiyon",
+              "edition": "Oyun sürümü"
+            }
+          },
+          "unlockedBy": {
+            "label": "Şuna göre açılır",
+            "edit": {
+              "condition": {
+                "label": "Görev koşulu",
+                "add": "Koşul ekle"
+              }
+            }
+          },
+          "leadsTo": {
+            "label": "Şuna götürür"
+          },
+          "keysRequired": {
+            "label": "Gerekli anahtarlar",
+            "key": "Anahtar"
+          },
+          "itemsNeeded": {
+            "label": "Gerekli eşyalar"
+          },
+          "weapon": {
+            "label": "Silah kurulumu",
+            "view": {
+              "modding": "Modlama görünümü",
+              "inspect": "İnceleme görünümü"
+            },
+            "parts": {
+              "label": "Parçalar"
+            }
+          },
+          "tasks": {
+            "label": "Görevler",
+            "count": "Adet",
+            "maps": "Haritalar",
+            "anyMaps": "Herhangi bir harita",
+            "location": "Konumlar",
+            "find": "Haritada bul",
+            "fir": "Raidde bulundu",
+            "itemInfo": "Eşya bilgisi",
+            "optional": "İsteğe bağlı",
+            "weapon": {
+              "label": "Silah kurulumu",
+              "muzzle": "Ağız",
+              "gasBlock": "Gaz bloğu",
+              "handguard": "El kundağı",
+              "barrel": "Namlu",
+              "rail": "Ray",
+              "attachment": "Aparat",
+              "foregrip": "Ön tutuş",
+              "receiver": "Gövde",
+              "mounts": "Montajlar",
+              "scope": "Dürbün",
+              "magazine": "Şarjör",
+              "pistolGrip": "Kabza",
+              "bolt": "Sürgü",
+              "stock": "Dipçik"
+            },
+            "edit": {
+              "description": "Açıklama",
+              "count": "Adet",
+              "optional": "İsteğe bağlı",
+              "mark": "İşaret eşyası",
+              "item": "Eşya",
+              "fir": "Raidde bulundu",
+              "add": "Görev hedefi"
+            }
+          },
+          "rewards": {
+            "label": "Ödüller",
+            "exp": "Exp",
+            "rep": "Rep",
+            "level": "Seviye",
+            "skill": "Beceriler",
+            "edit": {
+              "exp": "Deneyim",
+              "skills": {
+                "label": "Beceriler",
+                "bonus": "Bonus",
+                "skill": "Beceri"
+              },
+              "standing": {
+                "label": "Tüccar itibarı",
+                "count": "Adet"
+              },
+              "item": {
+                "label": "Eşya ödülü",
+                "item": "Eşya",
+                "count": "Adet"
+              },
+              "unlock": {
+                "label": "Açma ödülü",
+                "item": "Eşya",
+                "rep": "İtibar"
+              },
+              "add": "Ekle"
+            }
+          },
+          "penalties": {
+            "label": "Cezalar",
+            "rep": "Rep",
+            "edit": {
+              "label": "Cezalar",
+              "count": "Adet",
+              "rep": "Ceza",
+              "add": "Ekle"
+            }
+          },
+          "wiki": {
+            "label": "Viki",
+            "link": "Viki bağlantısı"
+          },
+          "kappa": {
+            "label": "Kappa gerekir",
+            "yes": "Evet",
+            "no": "Hayır",
+            "edit": {
+              "button": "Kappa için gerekli"
+            }
+          }
+        }
+      }
+    },
+    "hideout": {
+      "filters": {
+        "inactive": "Pasif",
+        "active": "Aktif",
+        "completed": "Tamamlandı"
+      },
+      "station": {
+        "legend": {
+          "blocked": "Engelli",
+          "tracking": "İzleniyor",
+          "completed": "Tamam./İnşa"
+        },
+        "level": {
+          "label": "Seviye",
+          "required": "Gerekli seviye",
+          "requirement": "Gereksinimler",
+          "craft": "Üretimler",
+          "state": {
+            "blocked": "Engelli",
+            "track": "İzle",
+            "build": "İnşa et"
+          },
+          "requirements": {
+            "button": "Gereksinimleri göster",
+            "edit": {
+              "standing": {
+                "label": "Tüccar itibarı",
+                "rep": "Rep"
+              },
+              "station": {
+                "label": "İstasyon gereksinimleri"
+              },
+              "item": {
+                "label": "Eşya gereksinimleri",
+                "item": "Eşya",
+                "count": "Adet"
+              },
+              "add": "Ekle"
+            }
+          },
+          "crafts": {
+            "button": "Üretimleri göster",
+            "edit": {
+              "item": "Eşya",
+              "count": "Adet",
+              "duration": "Üretim süresi",
+              "hours": "Saat",
+              "minutes": "Dakika",
+              "seconds": "Saniye",
+              "unlock": "Görev ile açılır",
+              "add": "Ekle"
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "filters": {
+        "missing": "Sadece eksik",
+        "quest": "Görevler",
+        "hideout": "Sığınak"
+      },
+      "search": {
+        "placeholder": "İsimle ara"
+      },
+      "overall": "Toplam gereken",
+      "quests": "Görevler",
+      "hideout": "Sığınak istasyonları",
+      "required": "Gerekli"
+    },
+    "ammo": {
+      "body": {
+        "img": "",
+        "name": "Ad",
+        "dmg": "DMG",
+        "pen": "PEN",
+        "frag": "Frag%",
+        "recoil": "Geri tepme",
+        "tier1": "1",
+        "tier2": "2",
+        "tier3": "3",
+        "tier4": "4",
+        "tier5": "5",
+        "tier6": "6"
+      }
+    },
+    "subscription": {
+      "info": {
+        "title": "Marathon Companion yükseltmeleriyle daha iyi deneyim",
+        "description": "Arayüzü daha iyi kontrol et, reklamları kaldır ve projeyi destekle",
+        "perks": {
+          "1": "Reklam kutusunu tamamen kaldır",
+          "2": "UI üzerinde daha çok kontrol",
+          "3": "Marathon Companion'ı destekle"
+        }
+      },
+      "state": {
+        "notSubscribed": {
+          "title": "Reklamları kaldırmak için abone ol"
+        },
+        "subscribed": {
+          "title": "Şuna abonesin"
+        },
+        "loggedInAs": "Şu olarak oturum açık ",
+        "notLoggedIn": "Overwolf'ta oturum yok; devam için giriş yap",
+        "status": {
+          "title": "Abonelik durumu: ",
+          "active": "AKTİF",
+          "cancelled": "YENİLEME İPTAL"
+        }
+      },
+      "buttons": {
+        "manage": "Yönet",
+        "refresh": "Yenile",
+        "subscribe": "Abone ol"
+      }
+    },
+    "sidePanel": {
+      "search": {
+        "placeholder": "Görev arama - filtre kapalı"
+      },
+      "filters": {
+        "label": "Filtreler",
+        "map": "Haritayla filtrele",
+        "order": {
+          "trader": "Tüccara göre",
+          "quest": "Göreve göre"
+        },
+        "kappa": "Yalnız Kappa"
+      },
+      "button": {
+        "reminder": "Görev hatırlatıcıyı aç",
+        "quest": {
+          "view": "Görevler | Tuş "
+        }
+      },
+      "ads": {
+        "remove": "Reklamları kaldır"
+      }
+    },
+    "settings": {
+      "app": {
+        "label": "Uygulama",
+        "locale": "Tercih edilen dili seç",
+        "restart": "Uygulamayı yeniden başlatın",
+        "monitor": "İkinci monitör tercihi",
+        "opacity": "Oyun içi pencere opaklığı",
+        "sidePanelHotkey": "Yan sayfa görevleri tuşu",
+        "inGameHotkey": {
+          "text": "Oyun içi tuş"
+        },
+        "ingameDesktopHotkey": {
+          "text": "Oyun/masaüstü tuşu"
+        },
+        "questReminderHotkey": {
+          "text": "Görev hatırlatıcı tuşu"
+        },
+        "enableQuestReminder": "Görev hatırlatıcıyı aç",
+        "onMatchmaking": "Eşleştirmede uygulamayı aç",
+        "desktopOnly": "Yalnız masaüstü modu",
+        "appCloseOnGameClose": "Oyun kapanınca uygulamayı kapat",
+        "externalLinkWarning": "Harici bağlantı uyarısı",
+        "inRaidTimer": {
+          "text": "Baskın zamanlayıcısını göster/gizle",
+          "button": "Göster/Gizle"
+        },
+        "uploadLogs": {
+          "text": "Geçerli oturum günlüklerini yükle",
+          "button": "Gönder"
+        }
+      },
+      "progression": {
+        "label": "İlerleme",
+        "automate": "Görev ilerlemesini otomatikleştir",
+        "level": "Seviye gerekli",
+        "completedButton": "Görevi tamamlamak için çift tıkla",
+        "wipe": {
+          "text": "Tüm ilerlemeyi temizle",
+          "button": {
+            "1": "yi temizle",
+            "2": "PvE'yi temizle"
+          }
+        },
+        "kappa": {
+          "text": "Kappa olmayan görevleri aç/kapat",
+          "button": {
+            "1": "Kapat",
+            "2": "Aç"
+          }
+        },
+        "save": {
+          "text": "İlerlemeyi cihaza kaydet",
+          "button": "Kaydet"
+        },
+        "import": {
+          "text": "İlerlemeyi cihazdan içe aktar",
+          "button": "İçe aktar"
+        },
+        "questCompletedAutomation": {
+          "text": "Tamamlanan görev otomasyonu",
+          "button": "Oto tamamla"
+        }
+      },
+      "map": {
+        "label": "Harita",
+        "default": "Başlangıçta varsayılan harita",
+        "zoom": "Harita yakınlaştırma hassasiyeti"
+      }
+    }
+  }
+}

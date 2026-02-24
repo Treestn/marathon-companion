@@ -1,0 +1,157 @@
+@import "./common.css";
+
+.frames-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+  }
+
+.page {
+  font-size: 20px;
+  width: 70vw;
+  height: 80vh;
+  /* height: fit-content; */
+  max-width: 90%;
+}
+
+.support-page {
+  height: auto;
+  width: 100%;
+  margin-bottom: auto;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+}
+
+.support-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    margin: 10px;
+}
+
+.solid-line {
+    position: relative;
+    background: var(--text-primary);
+    height: 1px;
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.faq-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.faq-header-button {
+    width: 100%;
+    background-color: var(--header-color);
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.faq-header-button:hover {
+    cursor: pointer;
+}
+
+.dropdown-header {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 1px solid var(--text-inactive);
+    background-color: var(--header-color);;
+    border-radius: 5px;
+}
+
+.dropdown-header {
+    cursor: pointer;
+}
+
+.dropdown-arrow-container {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    rotate: 90deg;
+}
+
+.dropdown-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    color: var(--text-primary);
+}
+
+
+  .arrow {
+    max-width: 17px;
+    max-height: 17px;
+  }
+
+  .dropdown-content {
+    color: var(--text-primary);
+    width: 90%;
+    display: none;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  .faq-content-container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    align-items: center;
+    margin: 5px;
+    line-height: 25px;
+  }
+
+  .link {
+    color: var(--main-btn-active-color);;
+    text-decoration: underline;
+  }
+
+  .link:hover {
+    cursor: pointer;
+  }
+
+  .footer {
+    bottom: 0;
+  }
+
+  .footer-text {
+    color: var(--text-inactive);
+  }
+
+  .footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-section {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }

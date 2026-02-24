@@ -1,0 +1,89 @@
+.hotkey-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-overlay-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.hotkey-modal-card {
+  min-width: 320px;
+  max-width: 420px;
+  width: 40vw;
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: 12px;
+  box-shadow: 0 0 20px var(--black-a35);
+  display: flex;
+  flex-direction: column;
+}
+
+.hotkey-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.hotkey-modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.hotkey-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--white-a70);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.hotkey-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+}
+
+.hotkey-modal-input {
+  background: var(--bg-input);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text-primary);
+  font-size: 16px;
+  text-align: center;
+}
+
+.hotkey-modal-input.has-error {
+  border-color: var(--error);
+}
+
+.hotkey-modal-error {
+  color: var(--error);
+  text-align: center;
+  font-size: 13px;
+}
+
+.hotkey-modal-apply {
+  height: 38px;
+  color: grey;
+  background-color: var(--main-btn-inactive-color);
+  border: 0;
+  border-radius: 8px;
+}
+
+.hotkey-modal-apply:hover:not(:disabled) {
+  cursor: pointer;
+  color: white;
+  background-color: var(--main-btn-active-color);
+}
+
+.hotkey-modal-apply:active:not(:disabled) {
+  transform: scale(0.98);
+}

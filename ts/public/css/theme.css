@@ -1,0 +1,468 @@
+/* ═══════════════════════════════════════════════════════
+   Theme / Design Tokens
+   ═══════════════════════════════════════════════════════
+   This is the SINGLE SOURCE OF TRUTH for every color,
+   font, and visual token used throughout the app.
+
+   To re-skin the app for a different game:
+     1. Copy this file
+     2. Change the values below
+     3. Swap images/icons
+     4. Done -- layout stays the same, look changes completely
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Font ─────────────────────────────────────────── */
+  --app-font-family: terminal;
+
+  /* ── Accent / Brand ───────────────────────────────── */
+  --accent:             #D084E9;
+  --accent-hover:       #c06cd8;
+  --accent-light:       #E0B8ED;
+  --accent-muted:       #c9a8e0;
+  --accent-dark:        #7b5f96;
+  --accent-deeper:      #6b3e7f;
+  --accent-medium:      #9c6ab2;
+  --accent-subtle:      #3a2f4b;
+  --accent-subtle-hover:#5a3d7a;
+  --accent-bg:          #2b2436;
+  --accent-bg-dark:     #2a2230;
+  --accent-bg-muted:    #4C424F;
+  --accent-text-on:     #1a111c;        /* dark text on accent bg  */
+  --accent-text-light:  #E6C7F2;
+  --accent-text-soft:   #d9bfe4;
+  --accent-text-dim:    #c9c1d6;
+  --accent-text-dimmer: #c9c3d1;
+  --accent-text-quest:  #d2ccd8;
+  --accent-text-reward: #b8afc3;
+
+  /* Accent with alpha (used for glows, borders, overlays) */
+  --accent-a00:         rgba(208, 132, 233, 0);
+  --accent-a06:         rgba(208, 132, 233, 0.06);
+  --accent-a10:         rgba(208, 132, 233, 0.1);
+  --accent-a12:         rgba(208, 132, 233, 0.12);
+  --accent-a15:         rgba(208, 132, 233, 0.15);
+  --accent-a20:         rgba(208, 132, 233, 0.2);
+  --accent-a25:         rgba(208, 132, 233, 0.25);
+  --accent-a30:         rgba(208, 132, 233, 0.3);
+  --accent-a35:         rgba(208, 132, 233, 0.35);
+  --accent-a40:         rgba(208, 132, 233, 0.4);
+  --accent-a45:         rgba(208, 132, 233, 0.45);
+  --accent-a50:         rgba(208, 132, 233, 0.5);
+  --accent-a60:         rgba(208, 132, 233, 0.6);
+  --accent-a70:         rgba(208, 132, 233, 0.7);
+  --accent-a85:         rgba(208, 132, 233, 0.85);
+
+  /* Accent-muted with alpha (event indicators etc.) */
+  --accent-muted-a05:   rgba(201, 168, 224, 0.05);
+  --accent-muted-a10:   rgba(201, 168, 224, 0.1);
+  --accent-muted-a15:   rgba(201, 168, 224, 0.15);
+  --accent-muted-a20:   rgba(201, 168, 224, 0.2);
+  --accent-muted-a25:   rgba(201, 168, 224, 0.25);
+  --accent-muted-a30:   rgba(201, 168, 224, 0.3);
+  --accent-muted-a35:   rgba(201, 168, 224, 0.35);
+  --accent-muted-a40:   rgba(201, 168, 224, 0.4);
+  --accent-muted-a50:   rgba(201, 168, 224, 0.5);
+  --accent-muted-a60:   rgba(201, 168, 224, 0.6);
+  --accent-muted-a80:   rgba(201, 168, 224, 0.8);
+
+  /* Accent-dark with alpha (123,95,150 = #7b5f96) */
+  --accent-dark-a10:    rgba(123, 95, 150, 0.1);
+  --accent-dark-a15:    rgba(123, 95, 150, 0.15);
+  --accent-dark-a20:    rgba(123, 95, 150, 0.2);
+  --accent-dark-a30:    rgba(123, 95, 150, 0.3);
+  --accent-dark-a40:    rgba(123, 95, 150, 0.4);
+  --accent-dark-a50:    rgba(123, 95, 150, 0.5);
+  --accent-dark-a60:    rgba(123, 95, 150, 0.6);
+  --accent-dark-a80:    rgba(123, 95, 150, 0.8);
+  --accent-dark-a90:    rgba(123, 95, 150, 0.9);
+  --accent-dark-a95:    rgba(123, 95, 150, 0.95);
+
+  /* Accent-deeper with alpha (109,85,133) */
+  --accent-deeper-a60:  rgba(109, 85, 133, 0.6);
+  --accent-deeper-a85:  rgba(109, 85, 133, 0.85);
+  --accent-deeper-a95:  rgba(109, 85, 133, 0.95);
+
+  /* Accent-medium with alpha (168,137,196 = #a889c4) */
+  --accent-medium-color:#a889c4;
+  --accent-medium-a10:  rgba(168, 137, 196, 0.1);
+  --accent-medium-a20:  rgba(168, 137, 196, 0.2);
+  --accent-medium-a30:  rgba(168, 137, 196, 0.3);
+
+  /* ── Black alpha (shadows, overlays) ─────────────── */
+  --black-a20:          rgba(0, 0, 0, 0.2);
+  --black-a25:          rgba(0, 0, 0, 0.25);
+  --black-a30:          rgba(0, 0, 0, 0.3);
+  --black-a35:          rgba(0, 0, 0, 0.35);
+  --black-a40:          rgba(0, 0, 0, 0.4);
+  --black-a45:          rgba(0, 0, 0, 0.45);
+  --black-a50:          rgba(0, 0, 0, 0.5);
+  --black-a60:          rgba(0, 0, 0, 0.6);
+  --black-a65:          rgba(0, 0, 0, 0.65);
+  --black-a80:          rgba(0, 0, 0, 0.8);
+  --black-a95:          rgba(0, 0, 0, 0.95);
+
+  /* ── White alpha (text, highlights, borders) ────── */
+  --white-a04:          rgba(255, 255, 255, 0.04);
+  --white-a12:          rgba(255, 255, 255, 0.12);
+  --white-a20:          rgba(255, 255, 255, 0.2);
+  --white-a25:          rgba(255, 255, 255, 0.25);
+  --white-a50:          rgba(255, 255, 255, 0.5);
+  --white-a55:          rgba(255, 255, 255, 0.55);
+  --white-a60:          rgba(255, 255, 255, 0.6);
+  --white-a70:          rgba(255, 255, 255, 0.7);
+  --white-a75:          rgba(255, 255, 255, 0.75);
+  --white-a80:          rgba(255, 255, 255, 0.8);
+  --white-a90:          rgba(255, 255, 255, 0.9);
+
+  /* ── Secondary / Teal ─────────────────────────────── */
+  --secondary:          #549188;
+  --secondary-light:    #6bc4b8;
+  --secondary-alt:      #6cb7b2;
+
+  /* Secondary (84,145,136) with alpha */
+  --secondary-a10:      rgba(84, 145, 136, 0.1);
+  --secondary-a15:      rgba(84, 145, 136, 0.15);
+  --secondary-a20:      rgba(84, 145, 136, 0.2);
+  --secondary-a40:      rgba(84, 145, 136, 0.4);
+  --secondary-a50:      rgba(84, 145, 136, 0.5);
+  --secondary-a60:      rgba(84, 145, 136, 0.6);
+  --secondary-a80:      rgba(84, 145, 136, 0.8);
+  --secondary-a90:      rgba(84, 145, 136, 0.9);
+
+  /* Secondary-light (107,196,184) with alpha */
+  --secondary-light-a04:rgba(107, 196, 184, 0.04);
+  --secondary-light-a08:rgba(107, 196, 184, 0.08);
+  --secondary-light-a10:rgba(107, 196, 184, 0.1);
+  --secondary-light-a12:rgba(107, 196, 184, 0.12);
+  --secondary-light-a15:rgba(107, 196, 184, 0.15);
+  --secondary-light-a20:rgba(107, 196, 184, 0.2);
+  --secondary-light-a30:rgba(107, 196, 184, 0.3);
+  --secondary-light-a40:rgba(107, 196, 184, 0.4);
+  --secondary-light-a60:rgba(107, 196, 184, 0.6);
+
+  /* Secondary-alt (108,183,178) with alpha */
+  --secondary-alt-a10:  rgba(108, 183, 178, 0.1);
+  --secondary-alt-a15:  rgba(108, 183, 178, 0.15);
+  --secondary-alt-a20:  rgba(108, 183, 178, 0.2);
+  --secondary-alt-a30:  rgba(108, 183, 178, 0.3);
+  --secondary-alt-a40:  rgba(108, 183, 178, 0.4);
+  --secondary-alt-a50:  rgba(108, 183, 178, 0.5);
+  --secondary-alt-a60:  rgba(108, 183, 178, 0.6);
+  --secondary-alt-a85:  rgba(108, 183, 178, 0.85);
+  --secondary-alt-a90:  rgba(108, 183, 178, 0.9);
+  --secondary-alt-a95:  rgba(108, 183, 178, 0.95);
+
+  /* ── Surfaces / Backgrounds ───────────────────────── */
+  --bg-base:            #0b0d10;
+  --bg-deep:            #0b0b0e;
+  --bg-main:            #0c0d1d;
+  --bg-dark:            #0f0d12;
+  --bg-app:             #121214;
+  --bg-loading:         #121212f7;
+  --bg-sidebar:         #151415;
+  --bg-rarity:          #15121a;
+  --bg-hero:            #15151d;
+  --bg-ads:             #191919;
+  --bg-event-card:      #1a1a22;
+  --bg-control:         #1b2129;
+  --bg-control-hover:   #232a33;
+  --bg-card:            #1F1D20;
+  --bg-input:           #202020;
+  --bg-nav-active:      #211e1e;
+  --bg-second:          #241a2a;
+  --bg-placeholder:     #2a2630;
+  --bg-inset:           #282629;
+  --bg-settings:        #2a252e;
+  --bg-card-elevated:   #302C31;
+  --bg-control-strong:  #4B444D;
+  --bg-control-strong-hover: #5b535f;
+  --bg-overlay:         rgba(10, 10, 12, 0.7);
+  --bg-overlay-dark:    rgba(10, 10, 10, 0.7);
+  --bg-card-alpha:      rgba(30, 29, 34, 0.85);
+  --bg-card-alpha-light:rgba(31, 29, 32, 0.9);
+
+  /* ── Text ─────────────────────────────────────────── */
+  --text-primary:       #ffffff;
+  --text-bright:        #F5F7F9;
+  --text-secondary:     #e6e8eb;
+  --text-secondary-alt: #E8EAEC;
+  --text-muted:         #d6d1dc;
+  --text-muted-legacy:  #d5d5d5;
+  --text-component:     #dddddd;
+  --text-nav:           #cdd3db;
+  --text-tertiary:      #c8c6c8;
+  --text-dim:           #bfb6c8;
+  --text-dim-alt:       #BFC6D2;
+  --text-soft:          #b8b8b8;
+  --text-inactive:      #9c9c9c;
+  --text-placeholder:   #9aa3ad;
+  --text-timezone:      #8f97a3;
+  --text-version:       #8d8d8d;
+  --text-pagination:    #8a868a;
+  --text-map:           #888589;
+  --text-disabled:      #6b636d;
+  --text-submissions:   #b1b1b1;
+  --text-upload:        #d1d1d1;
+
+  /* ── Borders ──────────────────────────────────────── */
+  --border-subtle:      rgba(255, 255, 255, 0.06);
+  --border-default:     rgba(255, 255, 255, 0.08);
+  --border-medium:      rgba(255, 255, 255, 0.1);
+  --border-strong:      rgba(255, 255, 255, 0.12);
+  --border-control:     #2a313a;
+  --border-control-hover:#3a4552;
+  --border-accent:      #3a2f4b;
+  --border-hard:        #4B444D;
+  --border-event-card:  #2a2a36;
+
+  /* ── Semantic / Status ────────────────────────────── */
+  --success:            #89f767;
+  --success-bg:         #80977f;
+  --success-bg-hover:   #5a8359;
+  --error:              #d98484;
+  --error-strong:       #e05555;
+  --error-warning:      #cf7b7b;
+  --error-not-logged:   #f76767;
+  --error-import:       #ffa0a0;
+  --error-bg:           #9b5757;
+  --error-bg-hover:     #9f3a3a;
+  --error-close-bg:     #5d1b1b;
+  --error-close-border: #7a2626;
+  --error-slider:       #752d2d;
+  --info:               #64c8ff;
+  --info-alt:           #5aa9e6;
+
+  /* Error soft (224,96,96) with alpha – quest/component warnings */
+  --error-soft:         #e06060;
+  --error-soft-a10:     rgba(224, 96, 96, 0.1);
+  --error-soft-a15:     rgba(224, 96, 96, 0.15);
+  --error-soft-a30:     rgba(224, 96, 96, 0.3);
+  --error-soft-a40:     rgba(224, 96, 96, 0.4);
+
+  /* Error muted (196,91,91) with alpha */
+  --error-muted:        #c45b5b;
+  --error-muted-a12:    rgba(196, 91, 91, 0.12);
+
+  /* ── Danger / Red (ingame: 251,47,54) ─────────────── */
+  --danger:             #fb2f36;
+  --danger-a10:         rgba(251, 47, 54, 0.1);
+  --danger-a15:         rgba(251, 47, 54, 0.15);
+  --danger-a20:         rgba(251, 47, 54, 0.2);
+  --danger-a30:         rgba(251, 47, 54, 0.3);
+  --danger-a40:         rgba(251, 47, 54, 0.4);
+  --danger-a50:         rgba(251, 47, 54, 0.5);
+  --danger-a60:         rgba(251, 47, 54, 0.6);
+  --danger-a80:         rgba(251, 47, 54, 0.8);
+  --danger-a85:         rgba(251, 47, 54, 0.85);
+  --danger-a90:         rgba(251, 47, 54, 0.9);
+  --danger-a95:         rgba(251, 47, 54, 0.95);
+
+  /* ── Success / Green (ingame: 76,175,80) ──────────── */
+  --success-green:      #4caf50;
+  --success-green-a10:  rgba(76, 175, 80, 0.1);
+  --success-green-a15:  rgba(76, 175, 80, 0.15);
+  --success-green-a20:  rgba(76, 175, 80, 0.2);
+  --success-green-a25:  rgba(76, 175, 80, 0.25);
+  --success-green-a30:  rgba(76, 175, 80, 0.3);
+  --success-green-a40:  rgba(76, 175, 80, 0.4);
+  --success-green-a50:  rgba(76, 175, 80, 0.5);
+  --success-green-a60:  rgba(76, 175, 80, 0.6);
+  --success-green-a80:  rgba(76, 175, 80, 0.8);
+  --success-green-a90:  rgba(76, 175, 80, 0.9);
+
+  /* ── Warning / Orange (ingame: 255,152,0) ─────────── */
+  --warning:            #ff9800;
+  --warning-a10:        rgba(255, 152, 0, 0.1);
+  --warning-a15:        rgba(255, 152, 0, 0.15);
+  --warning-a20:        rgba(255, 152, 0, 0.2);
+  --warning-a30:        rgba(255, 152, 0, 0.3);
+  --warning-a40:        rgba(255, 152, 0, 0.4);
+  --warning-a50:        rgba(255, 152, 0, 0.5);
+  --warning-a60:        rgba(255, 152, 0, 0.6);
+  --warning-a80:        rgba(255, 152, 0, 0.8);
+  --warning-a90:        rgba(255, 152, 0, 0.9);
+
+  /* ── Amber (ingame: 255,193,7) ────────────────────── */
+  --amber:              #ffc107;
+  --amber-a50:          rgba(255, 193, 7, 0.5);
+  --amber-a70:          rgba(255, 193, 7, 0.7);
+  --amber-a80:          rgba(255, 193, 7, 0.8);
+
+  /* Colored-text with alpha (227,174,1) */
+  --colored-text-a40:   rgba(227, 174, 1, 0.4);
+
+  /* ── Indicator pure colors (ingame) ───────────────── */
+  --indicator-red-a08:  rgba(255, 0, 0, 0.08);
+  --indicator-green-a08:rgba(0, 255, 0, 0.08);
+
+  /* ── Neutral gray with alpha (184,184,184) ────────── */
+  --neutral-a10:        rgba(184, 184, 184, 0.1);
+  --neutral-a15:        rgba(184, 184, 184, 0.15);
+  --neutral-a20:        rgba(184, 184, 184, 0.2);
+  --neutral-a30:        rgba(184, 184, 184, 0.3);
+  --neutral-a40:        rgba(184, 184, 184, 0.4);
+  --neutral-a50:        rgba(184, 184, 184, 0.5);
+  --neutral-a60:        rgba(184, 184, 184, 0.6);
+  --neutral-a70:        rgba(184, 184, 184, 0.7);
+  --neutral-a80:        rgba(184, 184, 184, 0.8);
+
+  /* ── Map colors ───────────────────────────────────── */
+  --map-accent:           #6496ff;
+  --map-accent-a00:       rgba(100, 150, 255, 0);
+  --map-accent-a10:       rgba(100, 150, 255, 0.1);
+  --map-accent-a12:       rgba(100, 150, 255, 0.12);
+  --map-accent-a20:       rgba(100, 150, 255, 0.2);
+  --map-accent-a30:       rgba(100, 150, 255, 0.3);
+  --map-accent-a35:       rgba(100, 150, 255, 0.35);
+  --map-accent-a50:       rgba(100, 150, 255, 0.5);
+  --map-accent-a60:       rgba(100, 150, 255, 0.6);
+  --map-accent-a70:       rgba(100, 150, 255, 0.7);
+  --map-accent-a80:       rgba(100, 150, 255, 0.8);
+  --map-accent-a90:       rgba(100, 150, 255, 0.9);
+
+  --map-accent-light:     #78b4ff;
+  --map-accent-light-a18: rgba(120, 180, 255, 0.18);
+  --map-accent-light-a20: rgba(120, 180, 255, 0.2);
+  --map-accent-light-a35: rgba(120, 180, 255, 0.35);
+  --map-accent-light-a55: rgba(120, 180, 255, 0.55);
+  --map-accent-light-a60: rgba(120, 180, 255, 0.6);
+  --map-accent-light-a90: rgba(120, 180, 255, 0.9);
+
+  /* Icon filter for completed quest map icons (purple tint) */
+  --quest-completed-icon-filter: brightness(0) saturate(100%) invert(82%) sepia(9%) saturate(5315%)
+    hue-rotate(217deg) brightness(94%) contrast(90%);
+
+  --map-danger:         #dc3545;
+  --map-danger-a20:     rgba(220, 53, 69, 0.2);
+  --map-danger-a35:     rgba(220, 53, 69, 0.35);
+  --map-danger-a50:     rgba(220, 53, 69, 0.5);
+  --map-danger-a70:     rgba(220, 53, 69, 0.7);
+
+  --map-danger-dark:    #c83c3c;
+  --map-danger-dark-a20:rgba(200, 60, 60, 0.2);
+
+  --map-success:        #2ea043;
+  --map-success-a20:    rgba(46, 160, 67, 0.2);
+
+  --map-warning:        #f0ad4e;
+  --map-warning-a20:    rgba(240, 173, 78, 0.2);
+
+  --map-gold:           #ffd700;
+  --map-gold-a60:       rgba(255, 215, 0, 0.6);
+
+  /* ── Surface alpha variants ───────────────────────── */
+  --surface-dark-a30:   rgba(11, 11, 14, 0.3);
+  --surface-dark-a40:   rgba(11, 11, 14, 0.4);
+  --surface-dark-a50:   rgba(11, 11, 14, 0.5);
+  --surface-dark-a60:   rgba(11, 11, 14, 0.6);
+  --surface-dark-a70:   rgba(11, 11, 14, 0.7);
+  --surface-dark-a80:   rgba(11, 11, 14, 0.8);
+  --surface-dark-a85:   rgba(11, 11, 14, 0.85);
+  --surface-dark-a90:   rgba(11, 11, 14, 0.9);
+  --surface-dark-a95:   rgba(11, 11, 14, 0.95);
+  --surface-dark-a98:   rgba(11, 11, 14, 0.98);
+
+  --bg-sidebar-a70:     rgba(21, 20, 21, 0.7);
+  --bg-sidebar-a95:     rgba(21, 20, 21, 0.95);
+
+  --surface-mid-a60:    rgba(20, 20, 25, 0.6);
+  --surface-mid-a92:    rgba(20, 20, 25, 0.92);
+  --surface-mid-a98:    rgba(20, 20, 25, 0.98);
+
+  --surface-panel-a90:  rgba(10, 12, 18, 0.9);
+  --surface-panel-alt-a90: rgba(12, 12, 14, 0.9);
+  --surface-inset-a96:  rgba(18, 18, 18, 0.96);
+  --surface-card-solid: rgba(31, 29, 32, 1);
+  --surface-elevated-solid: rgba(50, 50, 60, 1);
+  --surface-elevated-a70: rgba(70, 70, 80, 0.7);
+  --surface-dim-a30:    rgba(100, 100, 100, 0.3);
+  --surface-warm-a30:   rgba(167, 167, 146, 0.3);
+
+  /* Ingame-specific surfaces */
+  --ingame-surface-a90: rgba(40, 45, 50, 0.9);
+  --ingame-surface-dark-a80: rgba(42, 42, 42, 0.8);
+  --ingame-quest-bg-a90:rgba(32, 13, 9, 0.9);
+  --ingame-gray-a80:    rgba(128, 128, 128, 0.8);
+
+  /* Header gradient surfaces */
+  --header-grad-dark-a98: rgba(20, 20, 30, 0.98);
+  --header-grad-deep-a98: rgba(11, 11, 14, 0.98);
+  --header-grad-mid-a98:  rgba(30, 30, 40, 0.98);
+  --header-grad-mid-a60:  rgba(30, 30, 40, 0.6);
+  --header-grad-mid-a70:  rgba(30, 30, 40, 0.7);
+  --header-grad-dark-a60: rgba(20, 20, 30, 0.6);
+  --header-grad-dark-a30: rgba(20, 20, 30, 0.3);
+  --header-grad-hover-a70:rgba(40, 40, 50, 0.7);
+
+  /* ── Map semantic colors ──────────────────────────── */
+  --map-canvas-bg:      var(--bg-main);
+  --map-sidebar-bg:     var(--bg-sidebar-a95);
+  --map-sidebar-footer-bg: var(--bg-card);
+  --map-toggle-bg:      var(--bg-card-elevated);
+  --map-edit-bg:        #1a1f2b;
+  --map-edit-border:    #2a3142;
+  --map-badge-bg:       #1c2230;
+  --map-badge-text:     #9aa4ba;
+  --map-edit-text:      #e4e8f5;
+  --map-success-text:   #baf0d1;
+  --map-warning-text:   #f6d28b;
+  --map-error-text:     #f0a0a0;
+  --map-error-text-light: #f0baba;
+  --map-danger-text:    #f2a7b2;
+  --map-meta-text:      #9aa1a9;
+  --map-amber-text:     #d4a04a;
+  --map-warning-icon:   #e8a84c;
+  --map-desc-text:      #939393;
+  --map-shadow:         #7f7f7f;
+  --map-dropdown-bg:    rgba(4, 4, 9, 0.39);
+  --map-filter-border:  #454545;
+  --map-filter-hover-text:   #E6D4FF;
+  --map-filter-active-text:  #EAD7FF;
+  --map-edit-header-text:    #f4e9ff;
+  --map-popup-desc:     #939393;
+  --map-popup-text:     #d9d9d9;
+  --map-dropdown-text:  #cbcbcb;
+  --map-dropdown-meta:  #919191;
+
+  /* ── Scrollbar ────────────────────────────────────── */
+  --scrollbar-thumb:    #4b444d;
+  --scrollbar-track:    #4b444d1a;
+  --scrollbar-outline:  #5c4861;
+
+  /* ── Legacy variables (preserved for backward compat) */
+  --main-btn-inactive-color:  #2a2a2a;
+  --main-btn-inactive-color2: #1a1a1a;
+  --main-blue-color:          #549188;
+  --main-btn-hover-color:     #3e3e2d;
+  --main-btn-active-color:    var(--accent-dark);
+  --main-bg-color:            var(--bg-main);
+  --main-overlay-bg-color:    rgba(0, 0, 0, 0.7);
+  --second-bg-color:          var(--bg-second);
+  --header-color:             var(--bg-deep);
+  --subscription-active-glow: #196e6e;
+  --event-quest-background-color: #200d09;
+  --main-quest-background-color:  #282d32;
+  --loading-background-color: var(--bg-loading);
+  --filter-bg-color:          #040409ed;
+  --filter-hover-bg-color:    #23234eed;
+  --colored-text:             #e3ae01;
+  --colored-line:             #554100;
+  --trader-item-square-width: 69.9px;
+
+  /* Legacy scrollbar aliases */
+  --scrollbar-thumb-color:    var(--scrollbar-thumb);
+  --scrollbar-track-color:    var(--scrollbar-track);
+  --scrollbar-thumb-outline-color: var(--scrollbar-outline);
+
+  /* ── Misc ─────────────────────────────────────────── */
+  --modal-bg:           #949392;
+  --modal-border:       #888;
+  --modal-button-bg:    #525252;
+  --modal-button-text:  #D6D6D6;
+  --desktop-bottom-bg:  #464646;
+  --reminder-button-hover: #35352e;
+  --reminder-button-active: #59594e;
+  --edit-text-color:    #bfbfbf;
+  --confirmation-border:#1a1a1a;
+}

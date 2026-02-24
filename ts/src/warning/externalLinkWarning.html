@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../../css/general.css" />
+    <link rel="stylesheet" href="../../css/modal.css" />
+    <link rel="stylesheet" href="../../css/header.css" />
+    <link rel="stylesheet" href="../../css/externalLink.css" />
+    <link rel="stylesheet" href="../../css/frame.css" />
+  </head>
+  <body class="externalLinkWarning">
+    <!-- --------------------------------- Main -------------------------------- -->
+    <main>
+      <div class="page">
+        <header id="header" class="app-header">
+          <img class="header-logo" src="../../icons/logo-white-blue-side.png" />
+          <h1 id="external-link-warning-frame-title" class="frame-title">External Link</h1>
+          <div class="window-controls-group">
+            <button id="closeButton" class="window-control window-control-close" />
+          </div>
+        </header>
+        <div class="frame-content">
+          <div class="warning-text-container">
+            <p id="external-link-warning-disclaimer" class="text">You are about to open an External Link, are you sure you want to continue?</p>
+          </div>
+          <div id="do-not-show-again" class="show-again-container">
+            <input type="checkbox" class="show-again-input">
+            <p id="external-link-warning-dont-show-again" class="show-again-text">Do not show again</p>
+          </div>
+          <div class="button-container">
+            <div class="button-wrapper">
+                <button type="button" id="yes" class="confirmation-button">Yes</button>
+            </div>
+            <div class="button-wrapper">
+                <button type="button" id="no" class="confirmation-button">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

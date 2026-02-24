@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../../css/general.css" />
+    <link rel="stylesheet" href="../../css/modal.css" />
+    <link rel="stylesheet" href="../../css/header.css" />
+    <link rel="stylesheet" href="../../css/settings.css" />
+    <link rel="stylesheet" href="../../css/dropdownSearch.css" />
+    <link rel="stylesheet" href="../../css/frame.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  </head>
+  <body class="desktop">
+    <!-- --------------------------------- Main -------------------------------- -->
+    <main>
+      <div id="markerProperties" class="page" style="width: 40 vw;">
+        <header id="header" class="app-header">
+          <img class="header-logo" src="../../icons/logo-white-blue-side.png" />
+          <h1 id="marker-frame-title">Icon Properties</h1>
+          <div class="window-controls-group">
+            <button
+              id="closeButton"
+              class="window-control window-control-close"
+            />
+          </div>
+        </header>
+        <div class="settings-page">
+          <div class="setting-component">
+            <div class="setting-title">
+              <div class="component-title-container">
+                <p id="marker-icon-type" class="component-title">Icon Type: </p>
+              </div>
+            </div>
+            <div id="iconSelectDropdown" class="setting-value setting-dropdown-container">
+              <select id="filterPreferenceDropdown" class="setting-dropdown" >
+              </select>  
+            </div>
+          </div>
+          <div id="quest-selector" class="setting-component">
+            <div class="setting-title">
+              <div class="component-title-container">
+                <p id="marker-select-quest" class="component-title">Select the Quest</p>
+              </div>
+            </div>
+            <form id="form-dropdown">
+              <div class="setting-value">
+                <select
+                  id="questSelectorDropdown"
+                  class="centered setting-dropdown"
+                ></select>
+              </div>
+            </form>
+          </div>
+          <div id="quest-objective-selector" class="setting-component">
+            <div class="setting-title">
+              <div class="component-title-container">
+                <p id="marker-select-quest-objective" class="component-title">Select the Quest Objective</p>
+              </div>
+            </div>
+            <form id="form-dropdown">
+              <div class="setting-value setting-dropdown-container">
+                <select
+                  id="questObjectiveSelectorDropdown"
+                  class="setting-dropdown"
+                ></select>
+              </div>
+            </form>
+          </div>
+          <div class="setting-component">
+            <div class="setting-title">
+              <div class="component-title-container">
+                <p id="marker-add-icon-description" class="component-title">Add a description</p>
+              </div>
+            </div>
+            <div class="setting-input">
+              <div class="setting-value">
+                <input
+                  type="text"
+                  id="icon-description-input"
+                  class="text-input"
+                />
+              </div>
+            </div>
+          </div>
+          <div id="iconScreenshotComponent" class="setting-component">
+            <div class="setting-title">
+              <div class="component-title-container">
+                <p id="marker-attach-screenshot" class="component-title">Attach screenshot</p>
+              </div>
+            </div>
+            <div class="setting-input">
+              <div class="setting-value">
+                <button
+                  id="icon-screenshot-button"
+                  class="setting-button">
+                  Select From File, Max 8MB, 16/9
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="uploaded-images-wrapper" class="setting-component">
+            
+          </div>
+          <div class="apply-button-container">
+            <button type="button" id="apply">Apply</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      $(function () {
+        $("#questSelectorDropdown").select2({width: 'resolve'});
+        // $("#questObjectiveSelectorDropdown").select2({width: 'resolve'});
+        // $("#iconSelectDropdown").select2({width: 'resolve'});
+      });
+    </script>
+  </body>
+</html>

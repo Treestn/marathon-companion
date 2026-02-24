@@ -1,0 +1,268 @@
+.quests_reminder {
+    min-height: auto;
+}
+
+#activeMap {
+    color: var(--text-primary);
+    margin-top: 10px;
+    margin-left: 10px;
+    position: relative;
+    display: block;
+    height: 30px;
+}
+
+#scroll {
+    min-height: calc(100vh - 100px);
+    max-height: calc(100vh - 100px);
+}
+
+.reminder-window {
+    min-height: calc(100vh - 30px);
+    max-height: calc(100vh - 30px);
+}
+
+.reminder-container {
+    position: relative;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 10px;
+    background: var(--main-btn-inactive-color2);
+    justify-content: center;
+    border-radius: 10px;
+    color: var(--text-primary);
+}
+
+.reminder-header-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.reminder-trader-image {
+    width: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.reminder-body-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 40px;
+}
+
+.reminder-item-wrapper {
+    border-radius: 5px;
+    background: var(--main-quest-background-color);
+    margin: 5px;
+}
+
+.reminder-key-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.reminder-item-container {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    margin-top: 5px;
+    background: var(--main-quest-background-color);;
+    border-radius: 10px;
+    height: 65px;
+}
+
+.reminder-item-subtask-container {
+    padding: 10px 10px 10px 10px;
+}
+
+.reminder-item-subtask-text {
+    font-size: 18px;
+}
+
+.description-dropwdown-button {
+
+}
+
+.description-dropwdown-button-image {
+    width: 5px;
+    height: 10px;
+    transform: rotate(90deg);
+    margin-left: 5px;
+}
+
+.reminder-item-image {
+    width: 65px;
+    height: auto;
+    object-fit: contain;
+}
+
+.reminder-item-text {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.quest-runner-button-wrapper {
+    min-height: 40px;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    color: var(--text-primary);
+}
+
+.quest-reminder-runner-button {
+    height: 100%;
+    width: 50%;
+    background-color: var(--main-btn-inactive-color2);
+    color: var(--text-primary);
+}
+
+.quest-reminder-runner-button:hover {
+    background-color: var(--reminder-button-hover);
+}
+
+.quest-button-active {
+    background-color: var(--reminder-button-active);
+}
+
+.active-quest-map-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--header-color);
+    padding: 5px;
+}
+
+.active-quest-map-text {
+    color: var(--text-primary);
+}
+
+.item-wrapper {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--header-color);
+    margin: 10px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.reminder-item-quantity-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+}
+
+.reminder-item-quantity {
+    color: var(--text-primary);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.item-image-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    max-width: 150px;
+    align-items: center;
+    justify-content: center;
+}
+
+.reminder-items-image {
+    object-fit: contain;
+    height: 80px;
+    width: 80px;
+}
+
+.reminder-item-name {
+    text-align: center;
+    color: var(--text-primary);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.item-reminder-information-wrapper {
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.item-quest-reminder-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--main-quest-background-color);
+    margin: 5px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.reminder-quantity-wrapper {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+}
+
+.reminder-quantity {
+
+}
+
+.item-information-image-wrapper {
+    height: 50px;
+    width: 50px;
+}
+
+.item-information-image {
+    width: 50px;
+}
+
+.item-information-content-wrapper {
+    width: 100%;
+    text-align: center;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+}
+
+.item-content-information-title {
+    text-align: center;
+    color: var(--text-primary);
+}
+
+.item-hideout-reminder-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--main-quest-background-color);
+    margin: 5px;
+    margin-right: 10px;
+    margin-left: 0px;
+    border-radius: 5px;
+}
+
+.item-content-text {
+
+}
+
+.reminder-map-selector-dropdown {
+    margin-left: 10px;
+    background-color: var(--main-btn-inactive-color2);
+    color: var(--text-primary);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.map-selector-dropdown {
+    margin-left: 10px;
+}

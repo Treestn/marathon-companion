@@ -1,0 +1,550 @@
+{
+  "meta": {
+    "lang": "en",
+    "version": "2025-08-23T00:00:00Z",
+    "app": "Marathon Companion"
+  },
+  "header": {
+    "overwolf": {
+      "status": {
+        "overall": "Overwolf-Status",
+        "quest_automation": "Quest-Automatisierung",
+        "game_mode": "Spielmodus",
+        "map_selection": "Kartenauswahl"
+      }
+    },
+    "hotkey": {
+      "switch": "Hotkey Bildschirmwechsel",
+      "showHide": "Hotkey Anzeigen/Verbergen"
+    },
+    "settings": "Einstellungen",
+    "quests": "Quests"
+  },
+  "nav": {
+    "maps": "Karten",
+    "quests": "Quests",
+    "hideout": "Versteck",
+    "items": "Items nötig",
+    "ammo": "Munition",
+    "progression": {
+      "level": "Stufe"
+    },
+    "subscription": "Premium",
+    "settings": "Optionen",
+    "support": "Support"
+  },
+  "pages": {
+    "hotkeys": {
+      "title": "Hotkey",
+      "placeholder": "Taste drücken",
+      "apply": "Anwenden"
+    },
+    "questReminder": {
+      "title": "Quest-Erinnerung",
+      "quests": {
+        "button": "Quests"
+      },
+      "items": {
+        "button": "Gegenstände",
+        "hideout": {
+          "level": "Stufe"
+        }
+      },
+      "map": "Aktive Quests für"
+    },
+    "reviewAndSubmit": {
+      "title": "Prüfen und Änderung senden",
+      "submit": {
+        "title": "Senden",
+        "success": "Danke für die Einsendung, wir prüfen sie bald. Klicken zum Schließen",
+        "failure": "Beim Senden der Prüfung ist ein Problem aufgetreten."
+      },
+      "newQuests": "Neue Quests",
+      "newCrafts": "Neue Herstellungen",
+      "modifiedQuests": "Geänderte Quests",
+      "modifiedHideout": "Geänderte Versteck-Stationen",
+      "modifiedCrafts": "Geänderte Herstellungen",
+      "removedQuests": "Entfernte Quests",
+      "addedIcons": "Karten-Icons hinzugefügt",
+      "removedIcons": "Karten-Icons entfernt",
+      "removedCrafts": "Herstellungen entfernt",
+      "imageToUplaod": "Bilder zum Hochladen",
+      "none": "keine",
+      "crafts": "herstellungen",
+      "iconsOn": "icons an",
+      "removed": "entfernt"
+    },
+    "file": {
+      "import": {
+        "title": "App-Fortschritt importieren",
+        "file": "Datei",
+        "select": "Auswählen",
+        "warning": {
+          "1": "Durch Import eines neuen Fortschritts löschen Sie Ihren aktuellen Fortschritt.",
+          "2": "Sichern Sie den aktuellen Fortschritt bei Bedarf, bevor Sie einen neuen importieren."
+        },
+        "load": "Fortschritt laden"
+      },
+      "save": {
+        "title": "App-Fortschritt speichern",
+        "folder": "Ordner",
+        "change": "Ändern",
+        "filename": "Dateiname",
+        "save": "Speichern"
+      }
+    },
+    "externalLinkWarning": {
+      "title": "Externer Link",
+      "disclaimer": "Sie sind dabei, einen externen Link zu öffnen. Möchten Sie fortfahren?",
+      "dontShow": "Nicht mehr anzeigen",
+      "yes": "Ja",
+      "no": "Nein"
+    },
+    "questReset": {
+      "title": "Quest-Reset",
+      "warning": {
+        "1": "Sie setzen alle Quests zurück. Alle Quests werden auf Standard gesetzt. Diese Option ist für Wipes, wenn Ihr Fortschritt gelöscht werden muss.",
+        "2": "Die App startet neu, wenn Sie auf Ja klicken. Wirklich fortfahren?"
+      },
+      "yes": "Ja",
+      "no": "Nein"
+    },
+    "questCompletedAutomation": {
+      "title": "Quest-Abschluss automatisieren",
+      "warning": {
+        "1": "Diese Option schließt leicht Quests ab, die Sie bereits erledigt, aber nicht getrackt haben. (Nützlich, wenn Sie die App mitten im Wipe bekommen haben)",
+        "2": "Es werden nur Quests für den aktuell gewählten Fortschritt (PvP oder PvE) abgeschlossen.",
+        "3": "Aktivieren Sie in der App alle Quests, die in Arc Raiders aktuell aktiv sind. Die App erfüllt nur Anforderungen der in der App aktivierten Quests.",
+        "4": "Das Beenden eines Quest-Zweigs, der zu nichts führt, erfolgt nicht automatisch. Markieren Sie die letzte Quest als abgeschlossen, damit Auto-Abschluss korrekt funktioniert.",
+        "5": "Beispiel: Stirrup führt zu nichts; wenn Sie sie nicht als abgeschlossen markieren, werden vorherige Quests nicht automatisch markiert."
+      },
+      "yes": "Weiter",
+      "no": "Beenden"
+    },
+    "submissions": {
+      "title": "Nutzungsbedingungen für Einsendungen",
+      "rules": {
+        "title": "Regeln & Richtlinien für Einsendungen",
+        "1": "<b class='keyword'>Unangemessener Inhalt:</b> Hochgeladene Bilder müssen Overwolfs Inhaltsrichtlinien entsprechen. Unangemessene Einsendungen werden an Overwolf gemeldet.",
+        "2": "<b class='keyword'>Datenerhebung:</b> Erfasst werden nur Ihr Overwolf-Benutzername und Ihre Overwolf-ID.",
+        "3": "<b class='keyword'>Anonymität:</b> Ihre Einsendung ist <b class='keyword'>für andere Nutzer anonym</b>.",
+        "4": "<b class='keyword'>Nutzungsrechte:</b> Mit dem Einsenden erlauben Sie Marathon Companion, das Bild in der App zu verwenden.",
+        "5": "<b class='keyword'>Einsendungs-Limits:</b> Maximal <b class='keyword'>2 Einsendungen</b> pro <b class='keyword'>5 Minuten</b>.",
+        "6": "<b class='keyword'>Bild-Limits:</b> Maximal <b class='keyword'>10 Bilder</b> pro <b class='keyword'>5 Minuten</b>.",
+        "7": "<b class='keyword'>Bildanforderungen:</b> <b class='keyword'>16:9</b>-Seitenverhältnis und <b class='keyword'>max. 8 MB</b>.",
+        "8": "<b class='keyword'>Verstöße & Bans:</b> Regelverstöße führen zu einem <b class='keyword'>Sendeverbot</b>.",
+        "9": "Mit dem Fortfahren bestätigen Sie, dass Sie diese Bedingungen gelesen haben und ihnen zustimmen."
+      },
+      "notice": "Die Bearbeitungsfunktion erlaubt der Community, falsche Quest-Infos und Karten-Icons zu melden",
+      "yes": "Einsendungen akzeptieren & aktivieren",
+      "no": "Abbrechen"
+    },
+    "maps": {
+      "filters": {
+        "maps": "Karten",
+        "filter": "Filter"
+      },
+      "btr": { "guaranteed": "Garantierter Halt", "yes": "Ja", "no": "Nein" },
+      "author": "Autor",
+      "icon": {
+        "add": "Icon hinzufügen"
+      },
+      "edit": {
+        "mode": "Bearbeitungsmodus",
+        "disclaimer": "Änderungen während der Bearbeitung werden nicht gespeichert",
+        "move": "Icon verschieben",
+        "edit": "Icon bearbeiten",
+        "addOrRemove": "Icon hinzufügen oder entfernen"
+      },
+      "popup": {
+        "title": "Icon-Eigenschaften",
+        "type": "Icon-Typ",
+        "quest": "Quest wählen",
+        "questObjective": "Quest-Ziel wählen",
+        "description": "Beschreibung hinzufügen",
+        "screenshot": {
+          "text": "Screenshot anhängen",
+          "button": "Aus Datei wählen, max. 8MB, 16/9"
+        },
+        "apply": "Anwenden"
+      }
+    },
+    "quests": {
+      "filters": {
+        "traders": {
+          "label": "Händler",
+          "order": {
+            "byTrader": "Nach Händler sortieren",
+            "byName": "Nach Name sortieren"
+          }
+        },
+        "type": {
+          "label": "Typ"
+        },
+        "state": {
+          "label": "Status"
+        },
+        "maps": {
+          "label": "Karten"
+        }
+      },
+      "indicator": {
+        "label": "(aktiv|abgeschlossen|gesamt)"
+      },
+      "quest": {
+        "button": {
+          "done": "Abg.",
+          "active": "Aktiv",
+          "completed": "Erledigt",
+          "noTracking": "Tracking deaktiv.",
+          "manualTracking": "MANUELL AKTIVIERT",
+          "failed": "Fehlgeschl."
+        },
+        "body": {
+          "requirements": {
+            "label": "Anforderungen",
+            "level": "Stufe",
+            "delay": "Verfügbar nach",
+            "hours": "Stunden",
+            "type": "Nur verfügbar in",
+            "faction": "nur",
+            "edition": "Nur für",
+            "edit": {
+              "delay": "Freischalt-Verzögerung (Stunden)",
+              "type": "Fortschrittstyp",
+              "faction": "Fraktion",
+              "edition": "Spieledition"
+            }
+          },
+          "unlockedBy": {
+            "label": "Freigeschaltet durch",
+            "edit": {
+              "condition": {
+                "label": "Quest-Bedingung",
+                "add": "Bedingung hinzufügen"
+              }
+            }
+          },
+          "leadsTo": {
+            "label": "Führt zu"
+          },
+          "keysRequired": {
+            "label": "Benötigte Schlüssel",
+            "key": "Schlüssel"
+          },
+          "itemsNeeded": {
+            "label": "Benötigte Gegenstände"
+          },
+          "weapon": {
+            "label": "Waffenaufbau",
+            "view": {
+              "modding": "Modding-Ansicht",
+              "inspect": "Inspektionsansicht"
+            },
+            "parts": {
+              "label": "Teile"
+            }
+          },
+          "tasks": {
+            "label": "Aufgaben",
+            "count": "Anzahl",
+            "maps": "Karten",
+            "anyMaps": "Beliebige Karten",
+            "location": "Orte",
+            "find": "Auf Karte finden",
+            "fir": "Im Raid gefunden",
+            "itemInfo": "Item-Info",
+            "optional": "Optional",
+            "weapon": {
+              "label": "Waffenaufbau",
+              "muzzle": "Mündung",
+              "gasBlock": "Gasblock",
+              "handguard": "Handschutz",
+              "barrel": "Lauf",
+              "rail": "Schiene",
+              "attachment": "Anbau",
+              "foregrip": "Vordergriff",
+              "receiver": "Gehäuse",
+              "mounts": "Montagen",
+              "scope": "Visier",
+              "magazine": "Magazin",
+              "pistolGrip": "Pistolengriff",
+              "bolt": "Verschluss",
+              "stock": "Schaft"
+            },
+            "edit": {
+              "description": "Beschreibung",
+              "count": "Anzahl",
+              "optional": "Optional",
+              "mark": "Markierer",
+              "item": "Gegenstand",
+              "fir": "Im Raid gefunden",
+              "add": "Quest-Ziel"
+            }
+          },
+          "rewards": {
+            "label": "Belohnungen",
+            "exp": "EP",
+            "rep": "Ruf",
+            "level": "Stufe",
+            "skill": "Fertigkeiten",
+            "edit": {
+              "exp": "Erfahrung",
+              "skills": {
+                "label": "Fertigkeiten",
+                "bonus": "Bonus",
+                "skill": "Fertigkeit"
+              },
+              "standing": {
+                "label": "Händler-Ansehen",
+                "count": "Anzahl"
+              },
+              "item": {
+                "label": "Item-Belohnung",
+                "item": "Gegenstand",
+                "count": "Anzahl"
+              },
+              "unlock": {
+                "label": "Freischalt-Belohnung",
+                "item": "Gegenstand",
+                "rep": "Reputation"
+              },
+              "add": "Hinzufügen"
+            }
+          },
+          "penalties": {
+            "label": "Strafen",
+            "rep": "Ruf",
+            "edit": {
+              "label": "Strafen",
+              "count": "Anzahl",
+              "rep": "Strafe",
+              "add": "Hinzufügen"
+            }
+          },
+          "wiki": {
+            "label": "Wiki",
+            "link": "Wiki-Link"
+          },
+          "kappa": {
+            "label": "Für Kappa erforderlich",
+            "yes": "Ja",
+            "no": "Nein",
+            "edit": {
+              "button": "Für Kappa erforderlich"
+            }
+          }
+        }
+      }
+    },
+    "hideout": {
+      "filters": {
+        "inactive": "Inaktiv",
+        "active": "Aktiv",
+        "completed": "Erledigt"
+      },
+      "station": {
+        "legend": {
+          "blocked": "Blockiert",
+          "tracking": "Wird verfolgt",
+          "completed": "Erledigt/Gebaut"
+        },
+        "level": {
+          "label": "Stufe",
+          "required": "Benötigte Stufe",
+          "requirement": "Anforderungen",
+          "craft": "Herstellungen",
+          "state": {
+            "blocked": "Blockiert",
+            "track": "Verfolgen",
+            "build": "Bauen"
+          },
+          "requirements": {
+            "button": "Anforderungen anzeigen",
+            "edit": {
+              "standing": {
+                "label": "Händler-Ansehen",
+                "rep": "Ruf"
+              },
+              "station": {
+                "label": "Stations-Anforderungen"
+              },
+              "item": {
+                "label": "Gegenstands-Anforderungen",
+                "item": "Gegenstand",
+                "count": "Anzahl"
+              },
+              "add": "Hinzufügen"
+            }
+          },
+          "crafts": {
+            "button": "Herstellungen anzeigen",
+            "edit": {
+              "item": "Gegenstand",
+              "count": "Anzahl",
+              "duration": "Herstellungsdauer",
+              "hours": "Stunden",
+              "minutes": "Minuten",
+              "seconds": "Sekunden",
+              "unlock": "Durch Quest freigesch.",
+              "add": "Hinzufügen"
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "filters": {
+        "missing": "Nur fehlende",
+        "quest": "Quests",
+        "hideout": "Versteck"
+      },
+      "search": {
+        "placeholder": "Nach Namen suchen"
+      },
+      "overall": "Gesamt benötigt",
+      "quests": "Quests",
+      "hideout": "Versteck-Stationen",
+      "required": "Benötigt"
+    },
+    "ammo": {
+      "body": {
+        "img": "",
+        "name": "Name",
+        "dmg": "Schad.",
+        "pen": "Durchdr.",
+        "frag": "Frag%",
+        "recoil": "Rückst.",
+        "tier1": "1",
+        "tier2": "2",
+        "tier3": "3",
+        "tier4": "4",
+        "tier5": "5",
+        "tier6": "6"
+      }
+    },
+    "subscription": {
+      "info": {
+        "title": "Bessere Erfahrung mit Marathon Companion Upgrades",
+        "description": "Mehr Kontrolle über die UI, Werbung entfernen und das Projekt unterstützen",
+        "perks": {
+          "1": "Werbe-Container vollständig entfernen",
+          "2": "Bessere UI-Kontrolle",
+          "3": "Marathon Companion unterstützen"
+        }
+      },
+      "state": {
+        "notSubscribed": {
+          "title": "Abonnieren, um Werbung zu entfernen"
+        },
+        "subscribed": {
+          "title": "Sie sind derzeit abonniert für"
+        },
+        "loggedInAs": "Angemeldet als ",
+        "notLoggedIn": "Nicht bei Overwolf angemeldet, bitte zum Fortfahren einloggen",
+        "status": {
+          "title": "Abo-Status: ",
+          "active": "AKTIV",
+          "cancelled": "VERLÄNGERUNG GESTOPPT"
+        }
+      },
+      "buttons": {
+        "manage": "Verwalten",
+        "refresh": "Aktualisieren",
+        "subscribe": "Abonnieren"
+      }
+    },
+    "sidePanel": {
+      "search": {
+        "placeholder": "Quest-Suche - Filter aus"
+      },
+      "filters": {
+        "label": "Filter",
+        "map": "Mit Karte filtern",
+        "order": {
+          "trader": "Nach Händler sortieren",
+          "quest": "Nach Quest sortieren"
+        },
+        "kappa": "Nur Kappa"
+      },
+      "button": {
+        "reminder": "Quest-Erinnerung öffnen",
+        "quest": {
+          "view": "Aktive Quests | Taste "
+        }
+      },
+      "ads": {
+        "remove": "Werbung entfernen"
+      }
+    },
+    "settings": {
+      "app": {
+        "label": "App",
+        "locale": "Bevorzugte App-Sprache wählen",
+        "restart": "Bitte App neu starten",
+        "monitor": "Zweitmonitor-Einstellung",
+        "opacity": "Fenster-Opazität im Spiel",
+        "sidePanelHotkey": "Hotkey Seiten-Quests zeigen/verbergen",
+        "inGameHotkey": {
+          "text": "In-Game-Hotkey"
+        },
+        "ingameDesktopHotkey": {
+          "text": "Hotkey Spiel/Desktop wechseln"
+        },
+        "questReminderHotkey": {
+          "text": "Hotkey Quest-Erinnerung"
+        },
+        "enableQuestReminder": "Quest-Erinnerung aktivieren",
+        "onMatchmaking": "App beim Matchmaking öffnen",
+        "desktopOnly": "Nur Desktop-Modus",
+        "appCloseOnGameClose": "App schließen beim Spielende",
+        "externalLinkWarning": "Warnung externer Link",
+        "inRaidTimer": {
+          "text": "Raid-Timer anzeigen/verbergen",
+          "button": "Anzeigen/Verbergen"
+        },
+        "uploadLogs": {
+          "text": "Logs der Sitzung hochladen",
+          "button": "Senden"
+        }
+      },
+      "progression": {
+        "label": "Postup",
+        "automate": "Quest-Fortschritt automatisieren",
+        "level": "Stufe erforderlich",
+        "completedButton": "Doppelklick: Quest abschließen",
+        "wipe": {
+          "text": "Gesamten Fortschritt löschen",
+          "button": {
+            "1": "löschen",
+            "2": "PvE löschen"
+          }
+        },
+        "kappa": {
+          "text": "Nicht-Kappa-Quests an/aus",
+          "button": {
+            "1": "Deaktivieren",
+            "2": "Aktivieren"
+          }
+        },
+        "save": {
+          "text": "App-Fortschritt lokal speichern",
+          "button": "Speichern"
+        },
+        "import": {
+          "text": "App-Fortschritt lokal importieren",
+          "button": "Importieren"
+        },
+        "questCompletedAutomation": {
+          "text": "Automatisierung erledigter Quests",
+          "button": "Auto abschließen"
+        }
+      },
+      "map": {
+        "label": "Karte",
+        "default": "Standardkarte beim Start",
+        "zoom": "Zoom-Empfindlichkeit Karte"
+      }
+    }
+  }
+}

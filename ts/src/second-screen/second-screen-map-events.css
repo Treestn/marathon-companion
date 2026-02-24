@@ -1,0 +1,181 @@
+.second-screen-map-events {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  align-items: center;
+}
+
+.second-screen-map-events-scroll {
+  height: 100%;
+  padding: 12px 5px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 850px;
+  width: 100%;
+}
+
+.second-screen-map-events-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.second-screen-map-events-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.second-screen-map-events-title {
+  font-size: 18px;
+  margin: 0;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+.second-screen-map-events-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.second-screen-map-events-label {
+  font-size: 14px;
+  color: #b8b8b8;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.second-screen-map-events-select {
+  background: linear-gradient(135deg, rgba(30, 30, 40, 0.9), rgba(20, 20, 30, 0.9));
+  border: 1px solid rgba(201, 168, 224, 0.3);
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  max-width: 275px;
+  outline: none;
+}
+
+.second-screen-map-events-select:hover {
+  border-color: rgba(201, 168, 224, 0.5);
+  box-shadow: 0 2px 8px rgba(201, 168, 224, 0.2);
+}
+
+.second-screen-map-events-select:focus {
+  border-color: rgba(201, 168, 224, 0.6);
+  box-shadow: 0 0 10px rgba(201, 168, 224, 0.3);
+}
+
+.second-screen-map-events-select option {
+  background: rgba(20, 20, 30, 0.95);
+  color: #ffffff;
+  padding: 8px;
+}
+
+.second-screen-map-events-timezone {
+  font-size: 11px;
+  color: #8f97a3;
+}
+
+.second-screen-map-events-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.second-screen-map-events-section-title {
+  font-size: 14px;
+  margin: 0;
+  color: #ffffff;
+}
+
+.second-screen-map-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.second-screen-map-event-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #1a1a22;
+  border: 1px solid #2a2a36;
+}
+
+.second-screen-map-event-card.is-active {
+  border-color: #d084e9;
+  box-shadow: 0 0 12px rgba(208, 132, 233, 0.15);
+}
+
+.second-screen-map-event-card.is-upcoming {
+  border-color: #5aa9e6;
+}
+
+.second-screen-map-event-image {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.second-screen-map-event-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.second-screen-map-event-name {
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.second-screen-map-event-meta {
+  font-size: 11px;
+  color: #9aa3ad;
+}
+
+.second-screen-map-event-countdown {
+  font-size: 12px;
+  color: #ffffff;
+  text-align: right;
+  min-width: 72px;
+}
+
+.second-screen-map-events-empty {
+  font-size: 12px;
+  color: #9aa3ad;
+  padding: 8px 0;
+}
+
+.quest-objective-description-bullet-point {
+    padding-right: 10px;
+    color: #E0B8ED;
+    font-size: 30px;
+}
+
+.quest-objective-description-maps {
+    display: flex;
+    flex-direction: row;
+}
+
+.quest-objective-description-text {
+    font-size: 15px;
+}
+
+.quest-objective-map {
+    font-size: 13px;
+    color: #888589;
+}

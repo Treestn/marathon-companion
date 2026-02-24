@@ -1,0 +1,21 @@
+.ads-control-buttons {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ads-control-button {
+  background: var(--bg-control);
+  border: 1px solid var(--border-control);
+  color: var(--text-secondary);
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.ads-control-button:hover {
+  background: var(--bg-control-hover);
+  border-color: var(--border-control-hover);
+}

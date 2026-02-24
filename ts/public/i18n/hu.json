@@ -1,0 +1,550 @@
+{
+  "meta": {
+    "lang": "en",
+    "version": "2025-08-23T00:00:00Z",
+    "app": "Marathon Companion"
+  },
+  "header": {
+    "overwolf": {
+      "status": {
+        "overall": "Overwolf állapot",
+        "quest_automation": "Küldetés-automat.",
+        "game_mode": "Játékmód",
+        "map_selection": "Térképválasztás"
+      }
+    },
+    "hotkey": {
+      "switch": "Képernyőváltó billentyű",
+      "showHide": "Mutatás/Elrejtés billentyű"
+    },
+    "settings": "Beállítások",
+    "quests": "Küldetések"
+  },
+  "nav": {
+    "maps": "Térképek",
+    "quests": "Küldetések",
+    "hideout": "Rejtekhely",
+    "items": "Kellékek",
+    "ammo": "Lőszer",
+    "progression": {
+      "level": "Szint"
+    },
+    "subscription": "Premium",
+    "settings": "Beállítások",
+    "support": "Támogatás"
+  },
+  "pages": {
+    "hotkeys": {
+      "title": "Gyorsbillentyű",
+      "placeholder": "Gomb lenyomása",
+      "apply": "Alkalmaz"
+    },
+    "questReminder": {
+      "title": "Küldetés-emlékeztető",
+      "quests": {
+        "button": "Küldetések"
+      },
+      "items": {
+        "button": "Tárgyak",
+        "hideout": {
+          "level": "Szint"
+        }
+      },
+      "map": "Aktív küldetések ehhez"
+    },
+    "reviewAndSubmit": {
+      "title": "Ellenőrzés és küldés",
+      "submit": {
+        "title": "Küldés",
+        "success": "Köszönjük a beküldést, hamarosan ellenőrizzük. Kattintson a záráshoz",
+        "failure": "Hiba történt az ellenőrzés beküldésekor."
+      },
+      "newQuests": "Új küldetések",
+      "newCrafts": "Új gyártások",
+      "modifiedQuests": "Módosított küldetések",
+      "modifiedHideout": "Módosított rejtekhely-állomások",
+      "modifiedCrafts": "Módosított gyártások",
+      "removedQuests": "Eltávolított küldetések",
+      "addedIcons": "Hozzáadott térképikonok",
+      "removedIcons": "Eltávolított térképikonok",
+      "removedCrafts": "Eltávolított gyártások",
+      "imageToUplaod": "Feltöltendő képek",
+      "none": "nincs",
+      "crafts": "gyártások",
+      "iconsOn": "ikonok akt.",
+      "removed": "eltávolítva"
+    },
+    "file": {
+      "import": {
+        "title": "App-előrehaladás importálása",
+        "file": "Fájl",
+        "select": "Választ",
+        "warning": {
+          "1": "Új előrehaladás importálásával törli a jelenlegi előrehaladását.",
+          "2": "Import előtt szükség esetén mentse a jelenlegi előrehaladást."
+        },
+        "load": "Előrehaladás betöltése"
+      },
+      "save": {
+        "title": "App-előrehaladás mentése",
+        "folder": "Mappa",
+        "change": "Módosít",
+        "filename": "Fájlnév",
+        "save": "Mentés"
+      }
+    },
+    "externalLinkWarning": {
+      "title": "Külső hivatkozás",
+      "disclaimer": "Külső hivatkozást készül megnyitni, biztosan folytatja?",
+      "dontShow": "Ne jelenjen meg újra",
+      "yes": "Igen",
+      "no": "Nem"
+    },
+    "questReset": {
+      "title": "Küldetések visszaállítása",
+      "warning": {
+        "1": "Minden küldetést alaphelyzetbe állít. Ez a lehetőség wipe esetén hasznos, amikor törölni kell az előrehaladást.",
+        "2": "Az alkalmazás újraindul, ha az Igenre kattint. Biztosan folytatja?"
+      },
+      "yes": "Igen",
+      "no": "Nem"
+    },
+    "questCompletedAutomation": {
+      "title": "Küldetések befejezése automatikusan",
+      "warning": {
+        "1": "Ezzel könnyen befejezheti a már teljesített, de nem követett küldetéseket. (Hasznos, ha wipe közben szerezte be az appot)",
+        "2": "Csak a jelenleg kiválasztott előrehaladáshoz (PvP vagy PvE) tartozó küldetéseket fejezi be.",
+        "3": "Helyes használathoz aktiváljon az appban minden, Arc Raidersban aktív küldetést. Az app csak az appban aktivált küldetések követelményeit teljesíti.",
+        "4": "Egy olyan küldetéság, amely nem vezet sehova, nem fejeződik be automatikusan. Jelölje késznek az utolsó küldetést, hogy az autó-kompletálás megfelelően működjön.",
+        "5": "Példa: Stirrup nem vezet sehova; ha nem jelöli késznek, az előző küldetések sem lesznek automatikusan megjelölve."
+      },
+      "yes": "Folytatás",
+      "no": "Kilépés"
+    },
+    "submissions": {
+      "title": "Beküldések feltételei",
+      "rules": {
+        "title": "Beküldési szabályok és irányelvek",
+        "1": "<b class='keyword'>Nem megfelelő tartalom:</b> A feltöltött képeknek meg kell felelniük az Overwolf tartalmi szabályainak. A szabálytalan képeket jelentjük az Overwolfnak.",
+        "2": "<b class='keyword'>Adatgyűjtés:</b> A beküldéssel csak az Overwolf felhasználónév és Overwolf ID kerül rögzítésre.",
+        "3": "<b class='keyword'>Anonimitás:</b> A beküldés <b class='keyword'>anonim a többi felhasználó számára</b>.",
+        "4": "<b class='keyword'>Felhasználási jogok:</b> Kép beküldésével jogot ad a Marathon Companionnak annak alkalmazáson belüli használatához.",
+        "5": "<b class='keyword'>Beküldési limitek:</b> Legfeljebb <b class='keyword'>2 beküldés</b> / <b class='keyword'>5 perc</b>.",
+        "6": "<b class='keyword'>Képlimitek:</b> Legfeljebb <b class='keyword'>10 kép</b> / <b class='keyword'>5 perc</b>.",
+        "7": "<b class='keyword'>Kép követelmények:</b> <b class='keyword'>16:9 képarány</b> és <b class='keyword'>max. 8 MB</b>.",
+        "8": "<b class='keyword'>Vétségek és tiltások:</b> A szabályszegés <b class='keyword'>tartalom-beküldési tiltáshoz</b> vezet.",
+        "9": "A folytatással megerősíti, hogy elolvasta és elfogadja a feltételeket."
+      },
+      "notice": "A szerkesztés funkció a közösségnek szól, hogy hibás küldetés- és térképikon-információkat javítson",
+      "yes": "Beküldések elfogadása és engedélyezése",
+      "no": "Mégse"
+    },
+    "maps": {
+      "filters": {
+        "maps": "Térképek",
+        "filter": "Szűrő"
+      },
+      "btr": { "guaranteed": "Garantált megálló", "yes": "Igen", "no": "Nem" },
+      "author": "Szerző",
+      "icon": {
+        "add": "Ikon hozzáadása"
+      },
+      "edit": {
+        "mode": "Szerkesztő mód",
+        "disclaimer": "A szerkesztési munkamenet alatti módosítások nem mentődnek",
+        "move": "Ikon mozgatása",
+        "edit": "Ikon szerkesztése",
+        "addOrRemove": "Ikon hozzáadása vagy eltávolítása"
+      },
+      "popup": {
+        "title": "Ikon tulajdonságai",
+        "type": "Ikontípus",
+        "quest": "Küldetés kiválasztása",
+        "questObjective": "Küldetéscél kiválasztása",
+        "description": "Leírás hozzáadása",
+        "screenshot": {
+          "text": "Képernyőkép csatolása",
+          "button": "Választás fájlból, max 8MB, 16/9"
+        },
+        "apply": "Alkalmaz"
+      }
+    },
+    "quests": {
+      "filters": {
+        "traders": {
+          "label": "Kereskedők",
+          "order": {
+            "byTrader": "Rendezés kereskedő szerint",
+            "byName": "Rendezés név szerint"
+          }
+        },
+        "type": {
+          "label": "Típus"
+        },
+        "state": {
+          "label": "Állapot"
+        },
+        "maps": {
+          "label": "Térképek"
+        }
+      },
+      "indicator": {
+        "label": "(aktív|kész|összes)"
+      },
+      "quest": {
+        "button": {
+          "done": "Kész",
+          "active": "Aktív",
+          "completed": "Teljesítve",
+          "noTracking": "Követés kikapcs.",
+          "manualTracking": "KÉZZEL AKTIVÁLVA",
+          "failed": "Sikertelen"
+        },
+        "body": {
+          "requirements": {
+            "label": "Követelmények",
+            "level": "Szint",
+            "delay": "Elérhető ennyi után",
+            "hours": "óra",
+            "type": "Csak itt érhető el",
+            "faction": "csak",
+            "edition": "Csak ehhez",
+            "edit": {
+              "delay": "Feloldási késleltetés (óra)",
+              "type": "Előrehaladás típusa",
+              "faction": "Frakció",
+              "edition": "Játékkiadás"
+            }
+          },
+          "unlockedBy": {
+            "label": "Feloldja",
+            "edit": {
+              "condition": {
+                "label": "Küldetésfeltétel",
+                "add": "Feltétel hozzáadása"
+              }
+            }
+          },
+          "leadsTo": {
+            "label": "Vezet ide"
+          },
+          "keysRequired": {
+            "label": "Szükséges kulcsok",
+            "key": "Kulcs"
+          },
+          "itemsNeeded": {
+            "label": "Szükséges tárgyak"
+          },
+          "weapon": {
+            "label": "Fegyver-összeállítás",
+            "view": {
+              "modding": "Modding nézet",
+              "inspect": "Vizsgálat nézet"
+            },
+            "parts": {
+              "label": "Alkatrészek"
+            }
+          },
+          "tasks": {
+            "label": "Feladatok",
+            "count": "Darab",
+            "maps": "Térképek",
+            "anyMaps": "Bármely térkép",
+            "location": "Helyek",
+            "find": "Keresés a térképen",
+            "fir": "Raidben találva",
+            "itemInfo": "Tárgyinfó",
+            "optional": "Opcionális",
+            "weapon": {
+              "label": "Fegyver-összeállítás",
+              "muzzle": "Csőtorkolat",
+              "gasBlock": "Gázblokk",
+              "handguard": "Kézvédő",
+              "barrel": "Cső",
+              "rail": "Sín",
+              "attachment": "Kiegészítő",
+              "foregrip": "Előmarkolat",
+              "receiver": "Tok",
+              "mounts": "Szerelékek",
+              "scope": "Távcső",
+              "magazine": "Tár",
+              "pistolGrip": "Pisztolymarkolat",
+              "bolt": "Zár",
+              "stock": "Tus"
+            },
+            "edit": {
+              "description": "Leírás",
+              "count": "Darab",
+              "optional": "Opcionális",
+              "mark": "Jelölő tárgy",
+              "item": "Tárgy",
+              "fir": "Raidben találva",
+              "add": "Küldetéscél"
+            }
+          },
+          "rewards": {
+            "label": "Jutalmak",
+            "exp": "Exp",
+            "rep": "Rep",
+            "level": "Szint",
+            "skill": "Készségek",
+            "edit": {
+              "exp": "Tapasztalat",
+              "skills": {
+                "label": "Készségek",
+                "bonus": "Bónusz",
+                "skill": "Készség"
+              },
+              "standing": {
+                "label": "Kereskedői hírnév",
+                "count": "Darab"
+              },
+              "item": {
+                "label": "Tárgyjutalom",
+                "item": "Tárgy",
+                "count": "Darab"
+              },
+              "unlock": {
+                "label": "Tárgyfeloldás jutalom",
+                "item": "Tárgy",
+                "rep": "Hírnév"
+              },
+              "add": "Hozzáadás"
+            }
+          },
+          "penalties": {
+            "label": "Büntetések",
+            "rep": "Rep",
+            "edit": {
+              "label": "Büntetések",
+              "count": "Darab",
+              "rep": "Büntetés",
+              "add": "Hozzáadás"
+            }
+          },
+          "wiki": {
+            "label": "Wiki",
+            "link": "Wiki-hivatkozás"
+          },
+          "kappa": {
+            "label": "Kappa-hoz szükséges",
+            "yes": "Igen",
+            "no": "Nem",
+            "edit": {
+              "button": "Kappa-hoz szükséges"
+            }
+          }
+        }
+      }
+    },
+    "hideout": {
+      "filters": {
+        "inactive": "Inaktív",
+        "active": "Aktív",
+        "completed": "Kész"
+      },
+      "station": {
+        "legend": {
+          "blocked": "Blokkolva",
+          "tracking": "Követés alatt",
+          "completed": "Kész/Megépítve"
+        },
+        "level": {
+          "label": "Szint",
+          "required": "Szükséges szint",
+          "requirement": "Követelmények",
+          "craft": "Gyártások",
+          "state": {
+            "blocked": "Blokkolva",
+            "track": "Követés",
+            "build": "Építés"
+          },
+          "requirements": {
+            "button": "Követelmények megj.",
+            "edit": {
+              "standing": {
+                "label": "Kereskedői hírnév",
+                "rep": "Rep"
+              },
+              "station": {
+                "label": "Állomáskövetelmények"
+              },
+              "item": {
+                "label": "Tárgykövetelmények",
+                "item": "Tárgy",
+                "count": "Darab"
+              },
+              "add": "Hozzáadás"
+            }
+          },
+          "crafts": {
+            "button": "Gyártások megj.",
+            "edit": {
+              "item": "Tárgy",
+              "count": "Darab",
+              "duration": "Gyártási idő",
+              "hours": "Óra",
+              "minutes": "Perc",
+              "seconds": "Másodperc",
+              "unlock": "Küldetés nyitja",
+              "add": "Hozzáadás"
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "filters": {
+        "missing": "Csak hiányzók",
+        "quest": "Küldetések",
+        "hideout": "Rejtekhely"
+      },
+      "search": {
+        "placeholder": "Keresés név szerint"
+      },
+      "overall": "Összes kell",
+      "quests": "Küldetések",
+      "hideout": "Rejtekhely állomások",
+      "required": "Szükséges"
+    },
+    "ammo": {
+      "body": {
+        "img": "",
+        "name": "Név",
+        "dmg": "Sebz.",
+        "pen": "Pen",
+        "frag": "Frag%",
+        "recoil": "Visszar.",
+        "tier1": "1",
+        "tier2": "2",
+        "tier3": "3",
+        "tier4": "4",
+        "tier5": "5",
+        "tier6": "6"
+      }
+    },
+    "subscription": {
+      "info": {
+        "title": "Jobb élmény a Marathon Companion fejlesztéseivel",
+        "description": "Jobb UI-vezérlés, reklámok eltávolítása és a projekt támogatása",
+        "perks": {
+          "1": "Reklámkonténer teljes eltávolítása",
+          "2": "Jobb UI-vezérlés",
+          "3": "Marathon Companion támogatása"
+        }
+      },
+      "state": {
+        "notSubscribed": {
+          "title": "Iratkozz fel a reklámokhoz"
+        },
+        "subscribed": {
+          "title": "Jelenleg előfizető vagy:"
+        },
+        "loggedInAs": "Bejelentkezve mint ",
+        "notLoggedIn": "Nem vagy bejelentkezve Overwolfba, jelentkezz be a folytatáshoz",
+        "status": {
+          "title": "Előfizetés állapota: ",
+          "active": "AKTÍV",
+          "cancelled": "MEGÚJÍTÁS LEÁLLÍTVA"
+        }
+      },
+      "buttons": {
+        "manage": "Kezelés",
+        "refresh": "Frissítés",
+        "subscribe": "Előfizetés"
+      }
+    },
+    "sidePanel": {
+      "search": {
+        "placeholder": "Küldetés keresés - Szűrők inaktív"
+      },
+      "filters": {
+        "label": "Szűrők",
+        "map": "Szűrés térképpel",
+        "order": {
+          "trader": "Rendezés kereskedő szerint",
+          "quest": "Rendezés küldetés szerint"
+        },
+        "kappa": "Csak Kappa"
+      },
+      "button": {
+        "reminder": "Küldetés-emlékeztető megnyitása",
+        "quest": {
+          "view": "Aktív küldetések | Gomb "
+        }
+      },
+      "ads": {
+        "remove": "Reklám eltávolítása"
+      }
+    },
+    "settings": {
+      "app": {
+        "label": "Alkalmazás",
+        "locale": "Válaszd ki az app nyelvét",
+        "restart": "Kérlek indítsd újra az appot",
+        "monitor": "Második monitor beállítás",
+        "opacity": "Ablak opacitás játékban",
+        "sidePanelHotkey": "Oldalsó küldetések billentyű",
+        "inGameHotkey": {
+          "text": "Játékbeli gyorsbillentyű"
+        },
+        "ingameDesktopHotkey": {
+          "text": "Váltás játék/asztal billentyű"
+        },
+        "questReminderHotkey": {
+          "text": "Küldetés-emlékeztető billentyű"
+        },
+        "enableQuestReminder": "Küldetés-emlékeztető engedélyezése",
+        "onMatchmaking": "App megnyitása matchmakingkor",
+        "desktopOnly": "Csak asztali mód",
+        "appCloseOnGameClose": "App bezárása játék zárásakor",
+        "externalLinkWarning": "Külső link figyelmeztetés",
+        "inRaidTimer": {
+          "text": "Raididőzítő megj./elrejtése",
+          "button": "Mut/Rejt"
+        },
+        "uploadLogs": {
+          "text": "Aktuális naplók feltöltése",
+          "button": "Küldés"
+        }
+      },
+      "progression": {
+        "label": "Előrehaladás",
+        "automate": "Küldetésprog. automatizálása",
+        "level": "Szint megkövetelése",
+        "completedButton": "Dupla katt: küldetés kész",
+        "wipe": {
+          "text": "Minden előrehaladás törlése",
+          "button": {
+            "1": "törlés",
+            "2": "PvE törlés"
+          }
+        },
+        "kappa": {
+          "text": "Nem-kappa küldetések be/ki",
+          "button": {
+            "1": "Kikapcsol",
+            "2": "Bekapcsol"
+          }
+        },
+        "save": {
+          "text": "App-előrehaladás mentése gépre",
+          "button": "Mentés"
+        },
+        "import": {
+          "text": "App-előrehaladás import gépről",
+          "button": "Import"
+        },
+        "questCompletedAutomation": {
+          "text": "Kész küldetések automatizálása",
+          "button": "Auto kész"
+        }
+      },
+      "map": {
+        "label": "Térkép",
+        "default": "Alap térkép induláskor",
+        "zoom": "Térkép zoom érzékenység"
+      }
+    }
+  }
+}

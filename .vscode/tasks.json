@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "prod",
+			"path": "ts",
+			"problemMatcher": [],
+			"label": "npm: prod - ts",
+			"detail": "webpack --watch --mode=production"
+		},
+		{
+			"type": "npm",
+			"script": "dev",
+			"path": "ts",
+			"problemMatcher": [],
+			"label": "npm: dev - ts",
+			"detail": "webpack --watch --mode=development"
+		}
+	]
+}

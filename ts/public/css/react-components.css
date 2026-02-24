@@ -1,0 +1,17 @@
+/* React component container styles */
+#react-window-control-minimize,
+#react-window-control-maximize,
+#react-window-control-close {
+  display: contents !important;
+}
+
+#react-navigation-bar {
+  display: contents !important;
+  pointer-events: auto !important;
+}
+
+/* Ensure navigation items are clickable */
+#react-navigation-bar .page-icon-container {
+  pointer-events: auto !important;
+}
+

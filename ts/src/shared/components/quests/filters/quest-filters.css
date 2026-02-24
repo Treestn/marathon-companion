@@ -1,0 +1,135 @@
+.quest-filters {
+display: flex;
+gap: 12px;
+flex-direction: row;
+}
+
+.quest-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  width: 150px;
+}
+
+.quest-filter-label {
+  font-size: 12px;
+  color: var(--white-a75);
+  letter-spacing: 0.3px;
+}
+
+.quest-filter-trigger {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-sidebar);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.quest-filter.is-active .quest-filter-label {
+  color: var(--text-primary);
+}
+
+.quest-filter.is-active .quest-filter-count {
+  background: var(--accent);
+  color: var(--accent-text-on);
+}
+
+.quest-filter-trigger:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-a25);
+}
+
+.quest-filter-trigger-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quest-filter-trigger-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.quest-filter-count {
+  min-width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--bg-placeholder);
+  color: var(--text-primary);
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quest-filter-arrow {
+  font-size: 12px;
+  color: var(--white-a70);
+}
+
+.quest-filter-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  opacity: 0.7;
+}
+
+.quest-filter-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 5;
+  width: 100%;
+}
+
+.quest-filter-option {
+  width: 100%;
+  text-align: left;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.quest-filter-option:hover {
+  background: var(--accent-a20);
+}
+
+.quest-filter-option.is-selected {
+  background: var(--accent-a35);
+}
+
+.quest-filter-option-label {
+  font-size: 13px;
+}
+
+@media (max-width: 1100px) {
+  .quest-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .quest-filters {
+    grid-template-columns: 1fr;
+  }
+}

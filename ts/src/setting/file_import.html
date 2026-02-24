@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../../css/general.css" />
+    <link rel="stylesheet" href="../../css/modal.css" />
+    <link rel="stylesheet" href="../../css/header.css" />
+    <link rel="stylesheet" href="../../css/settings.css" />
+    <link rel="stylesheet" href="../../css/fileSave.css" />
+    <link rel="stylesheet" href="../../css/frame.css" />
+  </head>
+  <body class="desktop">
+    <!-- --------------------------------- Main -------------------------------- -->
+    <main>
+      <div id="file-page" class="page">
+        <header id="header" class="app-header">
+          <img class="header-logo" src="../../icons/logo-white-blue-side.png" alt=""/>
+          <h1 id="file-import-frame-title" class="frame-title">Import App Progression</h1>
+          <div class="window-controls-group">
+            <button id="closeButton" class="window-control window-control-close" />
+          </div>
+        </header>
+        <div class="file-saver-page">
+            <div class="file-saver-body">
+                <div class="folder-selector-wrapper">
+                    <div class="side-text-wrapper">
+                        <p id="file-import-file-path" class="side-text">File:</p>
+                    </div>
+                    <div class="folder-selector-input-wrapper">
+                        <input id="folder-selector-input" class="folder-selector-input" disabled/>
+                    </div>
+                    <div class="folder-selector-button-wrapper">
+                        <button id="file-import-folder-selector-button" class="folder-selector-button">Select</button>
+                    </div>
+                </div>
+                <div class="progression-import-warning-wrapper">
+                    <p id="file-import-warning-1" class="progression-warning">By importing a new progression, you will erase all of your current progression.</p>
+                    <p id="file-import-warning-2" class="progression-warning">Make sure to save the current progression if needed before importing a new one.</p>
+                </div>
+            </div>
+            <div class="apply-button-container">
+                <button type="button" id="apply">Load Progression</button>
+            </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

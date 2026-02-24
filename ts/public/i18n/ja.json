@@ -1,0 +1,550 @@
+{
+  "meta": {
+    "lang": "en",
+    "version": "2025-08-23T00:00:00Z",
+    "app": "Marathon Companion"
+  },
+  "header": {
+    "overwolf": {
+      "status": {
+        "overall": "Overwolfステータス",
+        "quest_automation": "クエスト自動化",
+        "game_mode": "ゲームモード",
+        "map_selection": "マップ選択"
+      }
+    },
+    "hotkey": {
+      "switch": "画面切替ホットキー",
+      "showHide": "表示/非表示ホットキー"
+    },
+    "settings": "設定",
+    "quests": "クエスト"
+  },
+  "nav": {
+    "maps": "地図",
+    "quests": "クエスト",
+    "hideout": "隠れ家",
+    "items": "必要アイテム",
+    "ammo": "弾薬表",
+    "progression": {
+      "level": "レベル"
+    },
+    "subscription": "Premium",
+    "settings": "設定",
+    "support": "サポート"
+  },
+  "pages": {
+    "hotkeys": {
+      "title": "ホットキー",
+      "placeholder": "キーを押す",
+      "apply": "適用"
+    },
+    "questReminder": {
+      "title": "クエストリマインダー",
+      "quests": {
+        "button": "クエスト"
+      },
+      "items": {
+        "button": "アイテム",
+        "hideout": {
+          "level": "レベル"
+        }
+      },
+      "map": "アクティブクエスト:"
+    },
+    "reviewAndSubmit": {
+      "title": "確認して送信",
+      "submit": {
+        "title": "送信",
+        "success": "送信ありがとうございます。まもなく確認します。クリックで閉じる",
+        "failure": "レビューの送信中に問題が発生しました。"
+      },
+      "newQuests": "新規クエスト",
+      "newCrafts": "新規クラフト",
+      "modifiedQuests": "変更されたクエスト",
+      "modifiedHideout": "変更された隠れ家ステーション",
+      "modifiedCrafts": "変更されたクラフト",
+      "removedQuests": "削除されたクエスト",
+      "addedIcons": "追加されたマップアイコン",
+      "removedIcons": "削除されたマップアイコン",
+      "removedCrafts": "削除されたクラフト",
+      "imageToUplaod": "アップロード画像",
+      "none": "なし",
+      "crafts": "クラフト",
+      "iconsOn": "アイコンON",
+      "removed": "削除済み"
+    },
+    "file": {
+      "import": {
+        "title": "アプリ進行度のインポート",
+        "file": "ファイル",
+        "select": "選択",
+        "warning": {
+          "1": "新しい進行度をインポートすると、現在の進行度はすべて消去されます。",
+          "2": "新しい進行度をインポートする前に、必要なら現在の進行度を保存してください。"
+        },
+        "load": "進行度を読み込み"
+      },
+      "save": {
+        "title": "アプリ進行度の保存",
+        "folder": "フォルダー",
+        "change": "変更",
+        "filename": "ファイル名",
+        "save": "保存"
+      }
+    },
+    "externalLinkWarning": {
+      "title": "外部リンク",
+      "disclaimer": "外部リンクを開こうとしています。続行しますか？",
+      "dontShow": "今後表示しない",
+      "yes": "はい",
+      "no": "いいえ"
+    },
+    "questReset": {
+      "title": "クエストリセット",
+      "warning": {
+        "1": "すべてのクエストを初期化します。ワイプ時に進行度を消去するためのオプションです。",
+        "2": "「はい」をクリックするとアプリが再起動します。続行してよろしいですか？"
+      },
+      "yes": "はい",
+      "no": "いいえ"
+    },
+    "questCompletedAutomation": {
+      "title": "クエスト完了を自動化",
+      "warning": {
+        "1": "既に完了したが追跡していないクエストを簡単に完了扱いにします。（ワイプ途中でアプリを入れた場合に有用）",
+        "2": "現在選択中の進行（PvP または PvE）のクエストのみ対象です。",
+        "3": "正しく使うには、Arc Raidersで現在アクティブなクエストをアプリ内でもアクティブにしてください。アプリで有効なクエストの要件のみが完了します。",
+        "4": "何にも繋がらない分岐の終端は自動では完了しません。最後のクエストを手動で完了にすると自動完了が正しく動きます。",
+        "5": "例：Stirrup は先に繋がらないため、完了にしないと前段のクエストも自動で完了になりません。"
+      },
+      "yes": "続行",
+      "no": "終了"
+    },
+    "submissions": {
+      "title": "投稿利用規約",
+      "rules": {
+        "title": "投稿ルール & ガイドライン",
+        "1": "<b class='keyword'>不適切なコンテンツ:</b> アップロード画像はOverwolfのポリシーに従う必要があります。不適切な投稿はOverwolfへ報告されます。",
+        "2": "<b class='keyword'>データ収集:</b> 収集するのはあなたのOverwolfユーザー名とOverwolf IDのみです。",
+        "3": "<b class='keyword'>匿名性:</b> あなたの投稿は<b class='keyword'>他のユーザーには匿名</b>です。",
+        "4": "<b class='keyword'>使用権:</b> 画像を投稿すると、アプリ内での使用をMarathon Companionに許諾したことになります。",
+        "5": "<b class='keyword'>投稿制限:</b> <b class='keyword'>5分</b>につき<b class='keyword'>最大2件</b>。",
+        "6": "<b class='keyword'>画像投稿制限:</b> <b class='keyword'>5分</b>につき<b class='keyword'>最大10枚</b>。",
+        "7": "<b class='keyword'>画像要件:</b> <b class='keyword'>16:9</b>のアスペクト比、ファイルサイズは<b class='keyword'>8 MB以下</b>。",
+        "8": "<b class='keyword'>違反とBAN:</b> ルール違反は<b class='keyword'>投稿BAN</b>の対象です。",
+        "9": "続行により、上記条件を読み同意したものとみなされます。"
+      },
+      "notice": "編集機能は、誤ったクエスト情報やマップアイコンをコミュニティが修正提案できるようにするためのものです",
+      "yes": "投稿を承認して有効化",
+      "no": "キャンセル"
+    },
+    "maps": {
+      "filters": {
+        "maps": "地図",
+        "filter": "フィルタ"
+      },
+      "btr": { "guaranteed": "確定停車", "yes": "はい", "no": "いいえ" },
+      "author": "作者",
+      "icon": {
+        "add": "アイコン追加"
+      },
+      "edit": {
+        "mode": "編集モード",
+        "disclaimer": "編集中の変更は保存されません",
+        "move": "アイコンを移動",
+        "edit": "アイコンを編集",
+        "addOrRemove": "アイコン追加/削除"
+      },
+      "popup": {
+        "title": "アイコンのプロパティ",
+        "type": "アイコン種別",
+        "quest": "クエストを選択",
+        "questObjective": "クエスト目標を選択",
+        "description": "説明を追加",
+        "screenshot": {
+          "text": "スクリーンショットを添付",
+          "button": "ファイルから選択、最大8MB、16/9"
+        },
+        "apply": "適用"
+      }
+    },
+    "quests": {
+      "filters": {
+        "traders": {
+          "label": "トレーダー",
+          "order": {
+            "byTrader": "トレーダー順",
+            "byName": "名前順"
+          }
+        },
+        "type": {
+          "label": "種類"
+        },
+        "state": {
+          "label": "状態"
+        },
+        "maps": {
+          "label": "地図"
+        }
+      },
+      "indicator": {
+        "label": "(アクティブ|完了|合計)"
+      },
+      "quest": {
+        "button": {
+          "done": "完了",
+          "active": "アクティブ",
+          "completed": "達成",
+          "noTracking": "追跡を無効",
+          "manualTracking": "手動有効",
+          "failed": "失敗"
+        },
+        "body": {
+          "requirements": {
+            "label": "要件",
+            "level": "レベル",
+            "delay": "利用可能まで",
+            "hours": "時間",
+            "type": "利用可能: ",
+            "faction": "のみ",
+            "edition": "対象: ",
+            "edit": {
+              "delay": "解除遅延（時間）",
+              "type": "進行タイプ",
+              "faction": "陣営",
+              "edition": "ゲーム版"
+            }
+          },
+          "unlockedBy": {
+            "label": "解除条件",
+            "edit": {
+              "condition": {
+                "label": "クエスト条件",
+                "add": "条件を追加"
+              }
+            }
+          },
+          "leadsTo": {
+            "label": "次へ"
+          },
+          "keysRequired": {
+            "label": "必要な鍵",
+            "key": "鍵"
+          },
+          "itemsNeeded": {
+            "label": "必要アイテム"
+          },
+          "weapon": {
+            "label": "武器ビルド",
+            "view": {
+              "modding": "改造ビュー",
+              "inspect": "検査ビュー"
+            },
+            "parts": {
+              "label": "パーツ"
+            }
+          },
+          "tasks": {
+            "label": "タスク",
+            "count": "数",
+            "maps": "地図",
+            "anyMaps": "任意の地図",
+            "location": "場所",
+            "find": "地図で探す",
+            "fir": "レイド入手",
+            "itemInfo": "アイテム情報",
+            "optional": "任意",
+            "weapon": {
+              "label": "武器ビルド",
+              "muzzle": "マズル",
+              "gasBlock": "ガスブロック",
+              "handguard": "ハンドガード",
+              "barrel": "バレル",
+              "rail": "レール",
+              "attachment": "アタッチメント",
+              "foregrip": "フォアグリップ",
+              "receiver": "レシーバー",
+              "mounts": "マウント",
+              "scope": "スコープ",
+              "magazine": "マガジン",
+              "pistolGrip": "グリップ",
+              "bolt": "ボルト",
+              "stock": "ストック"
+            },
+            "edit": {
+              "description": "説明",
+              "count": "数",
+              "optional": "任意",
+              "mark": "マーカーアイテム",
+              "item": "アイテム",
+              "fir": "レイド入手",
+              "add": "クエスト目標"
+            }
+          },
+          "rewards": {
+            "label": "報酬",
+            "exp": "Exp",
+            "rep": "評判",
+            "level": "レベル",
+            "skill": "スキル",
+            "edit": {
+              "exp": "経験値",
+              "skills": {
+                "label": "スキル",
+                "bonus": "ボーナス",
+                "skill": "スキル"
+              },
+              "standing": {
+                "label": "トレーダー評価",
+                "count": "数"
+              },
+              "item": {
+                "label": "アイテム報酬",
+                "item": "アイテム",
+                "count": "数"
+              },
+              "unlock": {
+                "label": "アイテム解除報酬",
+                "item": "アイテム",
+                "rep": "評判"
+              },
+              "add": "追加"
+            }
+          },
+          "penalties": {
+            "label": "ペナルティ",
+            "rep": "評判",
+            "edit": {
+              "label": "ペナルティ",
+              "count": "数",
+              "rep": "減少",
+              "add": "追加"
+            }
+          },
+          "wiki": {
+            "label": "Wiki",
+            "link": "Wikiリンク"
+          },
+          "kappa": {
+            "label": "Kappa要件",
+            "yes": "はい",
+            "no": "いいえ",
+            "edit": {
+              "button": "Kappa要件"
+            }
+          }
+        }
+      }
+    },
+    "hideout": {
+      "filters": {
+        "inactive": "非アクティブ",
+        "active": "アクティブ",
+        "completed": "完了"
+      },
+      "station": {
+        "legend": {
+          "blocked": "ブロック中",
+          "tracking": "追跡中",
+          "completed": "完了/建設済み"
+        },
+        "level": {
+          "label": "レベル",
+          "required": "必要レベル",
+          "requirement": "要件",
+          "craft": "クラフト",
+          "state": {
+            "blocked": "ブロック中",
+            "track": "追跡",
+            "build": "建設"
+          },
+          "requirements": {
+            "button": "要件を表示",
+            "edit": {
+              "standing": {
+                "label": "トレーダー評価",
+                "rep": "評判"
+              },
+              "station": {
+                "label": "ステーション要件"
+              },
+              "item": {
+                "label": "アイテム要件",
+                "item": "アイテム",
+                "count": "数"
+              },
+              "add": "追加"
+            }
+          },
+          "crafts": {
+            "button": "クラフトを表示",
+            "edit": {
+              "item": "アイテム",
+              "count": "数",
+              "duration": "クラフト時間",
+              "hours": "時間",
+              "minutes": "分",
+              "seconds": "秒",
+              "unlock": "クエスト解除",
+              "add": "追加"
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "filters": {
+        "missing": "不足のみ",
+        "quest": "クエスト",
+        "hideout": "隠れ家"
+      },
+      "search": {
+        "placeholder": "名前で検索"
+      },
+      "overall": "合計必要数",
+      "quests": "クエスト",
+      "hideout": "隠れ家ステーション",
+      "required": "必須"
+    },
+    "ammo": {
+      "body": {
+        "img": "",
+        "name": "名前",
+        "dmg": "DMG",
+        "pen": "PEN",
+        "frag": "Frag%",
+        "recoil": "反動",
+        "tier1": "1",
+        "tier2": "2",
+        "tier3": "3",
+        "tier4": "4",
+        "tier5": "5",
+        "tier6": "6"
+      }
+    },
+    "subscription": {
+      "info": {
+        "title": "Marathon Companion アップグレードで体験向上",
+        "description": "UIをより細かく制御し、広告を削除してプロジェクトを支援",
+        "perks": {
+          "1": "広告コンテナを完全に削除",
+          "2": "より良いUI制御",
+          "3": "Marathon Companionを支援"
+        }
+      },
+      "state": {
+        "notSubscribed": {
+          "title": "広告を消すには購読"
+        },
+        "subscribed": {
+          "title": "現在の購読:"
+        },
+        "loggedInAs": "ログイン中: ",
+        "notLoggedIn": "Overwolfに未ログインです。続行するにはログインしてください",
+        "status": {
+          "title": "購読ステータス: ",
+          "active": "有効",
+          "cancelled": "更新停止"
+        }
+      },
+      "buttons": {
+        "manage": "管理",
+        "refresh": "更新",
+        "subscribe": "購読"
+      }
+    },
+    "sidePanel": {
+      "search": {
+        "placeholder": "クエスト検索 - フィルタ無効"
+      },
+      "filters": {
+        "label": "フィルタ",
+        "map": "マップで絞り込み",
+        "order": {
+          "trader": "トレーダー順",
+          "quest": "クエスト順"
+        },
+        "kappa": "Kappaのみ"
+      },
+      "button": {
+        "reminder": "クエストリマインダーを開く",
+        "quest": {
+          "view": "アクティブクエスト | キー "
+        }
+      },
+      "ads": {
+        "remove": "広告を削除"
+      }
+    },
+    "settings": {
+      "app": {
+        "label": "アプリ",
+        "locale": "アプリ言語を選択",
+        "restart": "アプリを再起動してください",
+        "monitor": "サブモニター設定",
+        "opacity": "ゲーム内ウィンドウ不透明度",
+        "sidePanelHotkey": "サイドのクエスト表示/非表示キー",
+        "inGameHotkey": {
+          "text": "ゲーム内ホットキー"
+        },
+        "ingameDesktopHotkey": {
+          "text": "ゲーム/デスクトップ切替キー"
+        },
+        "questReminderHotkey": {
+          "text": "クエストリマインダーキー"
+        },
+        "enableQuestReminder": "クエストリマインダーを有効化",
+        "onMatchmaking": "マッチメイキングでアプリを開く",
+        "desktopOnly": "デスクトップのみ",
+        "appCloseOnGameClose": "ゲーム終了でアプリを閉じる",
+        "externalLinkWarning": "外部リンク警告",
+        "inRaidTimer": {
+          "text": "レイドタイマー表示/非表示",
+          "button": "表示/非表示"
+        },
+        "uploadLogs": {
+          "text": "現在のセッションログをアップロード",
+          "button": "送信"
+        }
+      },
+      "progression": {
+        "label": "進行状況",
+        "automate": "クエスト進行を自動化",
+        "level": "必要レベルを有効",
+        "completedButton": "ダブルクリックで完了",
+        "wipe": {
+          "text": "進行度を全消去",
+          "button": {
+            "1": "消去",
+            "2": "PvE消去"
+          }
+        },
+        "kappa": {
+          "text": "非Kappaクエストの表示切替",
+          "button": {
+            "1": "無効",
+            "2": "有効"
+          }
+        },
+        "save": {
+          "text": "進行度を端末に保存",
+          "button": "保存"
+        },
+        "import": {
+          "text": "進行度を端末から読み込み",
+          "button": "インポート"
+        },
+        "questCompletedAutomation": {
+          "text": "完了クエストの自動化",
+          "button": "自動完了"
+        }
+      },
+      "map": {
+        "label": "マップ",
+        "default": "起動時のデフォルトマップ",
+        "zoom": "マップのズーム感度"
+      }
+    }
+  }
+}

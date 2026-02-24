@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../../css/general.css" />
+    <link rel="stylesheet" href="../../css/header.css" />
+    <link rel="stylesheet" href="../../css/ingame.css" />
+    <link rel="stylesheet" href="../../css/modal.css" />
+    <link rel="stylesheet" href="../../css/questsReminder.css" />
+    <title>Marathon Companion</title>
+  </head>
+  <body id="quests_reminder" class="quests_reminder">
+    <!-- -------------------------------- Header ------------------------------- -->
+
+    <header id="header" class="app-header">
+      <img class="header-logo" src="../../icons/logo-white-blue-side.png" />
+      <h1 id="quest-reminder-title">Quests Reminder</h1>
+      <h1 id="showHideAppHotkey" class="hotkey-text">
+        Show/Hide Hotkey:
+        <kbd id="hotkeyQuestReminder" class="hotkey-bind-text"></kbd>
+      </h1>
+      <div class="window-controls-group">
+        <button id="closeButton" class="window-control window-control-close close-reminder" />
+      </div>
+    </header>
+
+    <!-- --------------------------------- Main -------------------------------- -->
+    <main id="main-window" class="reminder-window">
+      <div id="runner-button-wrapper" class="quest-runner-button-wrapper">
+        <button id="quest-runner-button" class="quest-reminder-runner-button">Quests</button>
+        <button id="items-runner-button" class="quest-reminder-runner-button">Items</button>
+      </div>
+      <div id="runner" class="quest_reminder_runner">
+        <div>
+          <b id="activeMap">Active Quests for: </b>
+        </div>
+        <div id="scroll" class="scroll-div">
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

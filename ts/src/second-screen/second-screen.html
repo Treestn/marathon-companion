@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../../css/second-screen.css" />
+    <link rel="stylesheet" href="../../css/header.css" />
+    <title>Marathon Companion - Second Screen</title>
+  </head>
+  <body class="second-screen">
+    <div id="react-root"></div>
+  </body>
+  <script defer>
+      function onAdsSDKNotLoaded() {
+          console.log("Ad Loader: Couldn't load owads.min.js!");
+      }
+
+      function onAdsSDKReady() {
+          globalThis.owAdsReady = true;
+          console.log("Ad Loader: OwAd SDK ready");
+      }
+  </script>
+  <script id="owad-script" src="https://content.overwolf.com/libs/ads/latest/owads.min.js" async onerror="onAdsSDKNotLoaded()" onload="onAdsSDKReady()"></script>
+</html>

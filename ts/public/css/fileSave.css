@@ -1,0 +1,102 @@
+#file-page {
+    height: fit-content;
+}
+
+.file-saver-page {
+    width: 100%;
+}
+
+.file-saver-body {
+    margin: 10px;
+}
+
+.folder-selector-wrapper {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+.folder-selector-input-wrapper {
+    display: flex;
+    width: 80%;
+    justify-content: center;
+    align-items: center;
+}
+
+.folder-selector-input {
+    width: 80%;
+    height: 30px;
+    color: darkgrey;
+    background-color: var(--main-btn-inactive-color2);
+    font-size: 16px;
+    user-select: none;
+}
+
+.folder-selector-input::selection {
+    background-color:transparent;
+}
+
+.folder-selector-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.folder-selector-button {
+    height: 35px;
+    width: 100px;
+    background-color: var(--main-btn-inactive-color);
+    font-size: 18px;
+    color: grey;
+}
+
+.folder-selector-button:hover {
+    cursor: pointer;
+    background-color: var(--main-btn-active-color);
+    color: var(--text-primary);
+}
+
+.file-name-selector-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.folder-selector-input-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-name-input {
+    width: 60%;
+    height: 30px;
+    color: var(--text-primary);
+    background-color: var(--main-btn-inactive-color2);
+    font-size: 16px;
+}
+
+.file-name-input:focus {
+    outline: none;
+}
+
+.file-name-input:hover {
+    cursor: pointer;
+}
+
+.side-text {
+    font-size: 16px;
+    color: var(--text-primary);
+}
+
+.progression-import-warning-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--error-import);
+}
+
+.progression-warning {
+    margin: 5px;
+    font-size: 16px;
+}

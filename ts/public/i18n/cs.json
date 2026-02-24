@@ -1,0 +1,550 @@
+{
+  "meta": {
+    "lang": "en",
+    "version": "2025-08-23T00:00:00Z",
+    "app": "Marathon Companion"
+  },
+  "header": {
+    "overwolf": {
+      "status": {
+        "overall": "Stav Overwolfu",
+        "quest_automation": "Automatizace úkolů",
+        "game_mode": "Herní režim",
+        "map_selection": "Výběr mapy"
+      }
+    },
+    "hotkey": {
+      "switch": "Zkratka přepnutí obrazovky",
+      "showHide": "Zkratka Zobrazit/Skrýt"
+    },
+    "settings": "Nastavení",
+    "quests": "Úkoly"
+  },
+  "nav": {
+    "maps": "Mapy",
+    "quests": "Úkoly",
+    "hideout": "Úkryt",
+    "items": "Potř. věci",
+    "ammo": "Munice",
+    "progression": {
+      "level": "Úroveň"
+    },
+    "subscription": "Premium",
+    "settings": "Nastavení",
+    "support": "Podpora"
+  },
+  "pages": {
+    "hotkeys": {
+      "title": "Zkratka",
+      "placeholder": "Stisk klávesy",
+      "apply": "Použít"
+    },
+    "questReminder": {
+      "title": "Připomínka úkolů",
+      "quests": {
+        "button": "Úkoly"
+      },
+      "items": {
+        "button": "Předměty",
+        "hideout": {
+          "level": "Úroveň"
+        }
+      },
+      "map": "Aktivní úkoly pro"
+    },
+    "reviewAndSubmit": {
+      "title": "Zkontrolovat a odeslat úpravu",
+      "submit": {
+        "title": "Odeslat",
+        "success": "Děkujeme za odeslání, brzy jej zkontrolujeme. Kliknutím zavřete",
+        "failure": "Při odesílání revize došlo k problému."
+      },
+      "newQuests": "Nové úkoly",
+      "newCrafts": "Nové výroby",
+      "modifiedQuests": "Upravené úkoly",
+      "modifiedHideout": "Upravené stanice úkrytu",
+      "modifiedCrafts": "Upravené výroby",
+      "removedQuests": "Odebrané úkoly",
+      "addedIcons": "Přidané ikony mapy",
+      "removedIcons": "Odebrané ikony mapy",
+      "removedCrafts": "Odebrané výroby",
+      "imageToUplaod": "Obrázky k nahrání",
+      "none": "žádné",
+      "crafts": "výroby",
+      "iconsOn": "ikony zap.",
+      "removed": "odebráno"
+    },
+    "file": {
+      "import": {
+        "title": "Importovat postup aplikace",
+        "file": "Soubor",
+        "select": "Vybrat",
+        "warning": {
+          "1": "Importem nového postupu smažete veškerý svůj současný postup.",
+          "2": "Před importem nového postupu si aktuální postup v případě potřeby uložte."
+        },
+        "load": "Načíst postup"
+      },
+      "save": {
+        "title": "Uložit postup aplikace",
+        "folder": "Složka",
+        "change": "Změnit",
+        "filename": "Název souboru",
+        "save": "Uložit"
+      }
+    },
+    "externalLinkWarning": {
+      "title": "Externí odkaz",
+      "disclaimer": "Chystáte se otevřít externí odkaz, chcete pokračovat?",
+      "dontShow": "Nezobrazovat znovu",
+      "yes": "Ano",
+      "no": "Ne"
+    },
+    "questReset": {
+      "title": "Reset úkolů",
+      "warning": {
+        "1": "Chystáte se resetovat všechny úkoly. Vše bude vráceno na výchozí. Tato volba je pro wipe, kdy je potřeba smazat veškerý postup.",
+        "2": "Aplikace se po kliknutí na Ano restartuje. Opravdu chcete pokračovat?"
+      },
+      "yes": "Ano",
+      "no": "Ne"
+    },
+    "questCompletedAutomation": {
+      "title": "Automatické dokončení úkolů",
+      "warning": {
+        "1": "Tato volba snadno dokončí úkoly, které už máte splněné, ale nesledované. (Užitečné, pokud jste aplikaci získali uprostřed wipe)",
+        "2": "Dokončí pouze úkoly pro aktuálně vybraný postup (PvP nebo PvE).",
+        "3": "Pro správné použití aktivujte v aplikaci všechny úkoly, které nyní v Arc Raidersu máte aktivní. Aplikace pak dokončí požadavky jen u těchto aktivovaných úkolů.",
+        "4": "Vezměte na vědomí, že větev úkolů, která k ničemu nevede, nebude dokončena automaticky. Označte poslední úkol jako splněný, aby auto-dokončení fungovalo správně.",
+        "5": "Příklad: Stirrup – tato mise k ničemu nevede, takže pokud ji neoznačíte jako dokončenou, předchozí úkoly nebudou označeny automaticky."
+      },
+      "yes": "Pokračovat",
+      "no": "Ukončit"
+    },
+    "submissions": {
+      "title": "Podmínky odesílání",
+      "rules": {
+        "title": "Pravidla a pokyny pro odesílání",
+        "1": "<b class='keyword'>Nevhodný obsah:</b> Všechny nahrané obrázky musí odpovídat zásadám obsahu Overwolfu. Odeslání nevhodných obrázků povede k nahlášení Overwolfu.",
+        "2": "<b class='keyword'>Sběr dat:</b> S vaším odesláním se sbírá pouze vaše uživatelské jméno Overwolf a Overwolf ID.",
+        "3": "<b class='keyword'>Anonymita:</b> Vaše odeslání bude <b class='keyword'>anonymní pro ostatní uživatele</b>.",
+        "4": "<b class='keyword'>Práva užití:</b> Odesláním obrázku udělujete Marathon Companion právo použít jej v aplikaci.",
+        "5": "<b class='keyword'>Limity odeslání:</b> Maximálně <b class='keyword'>2 odeslání</b> za <b class='keyword'>5 minut</b>.",
+        "6": "<b class='keyword'>Limity obrázků:</b> Maximálně <b class='keyword'>10 obrázků</b> za <b class='keyword'>5 minut</b>.",
+        "7": "<b class='keyword'>Požadavky na obrázek:</b> Poměr stran <b class='keyword'>16:9</b> a <b class='keyword'>nepřesáhnout 8 MB</b>.",
+        "8": "<b class='keyword'>Porušení a bany:</b> Porušení těchto pravidel povede k <b class='keyword'>banu odesílání obsahu</b>.",
+        "9": "Pokračováním potvrzujete, že jste si tyto podmínky přečetli a souhlasíte s nimi."
+      },
+      "notice": "Funkce úprav slouží komunitě k nahlášení oprav u úkolů a ikon mapy, pokud jsou informace chybné",
+      "yes": "Přijmout a povolit odesílání",
+      "no": "Zrušit"
+    },
+    "maps": {
+      "filters": {
+        "maps": "Mapy",
+        "filter": "Filtr"
+      },
+      "btr": { "guaranteed": "Zaručená zastávka", "yes": "Ano", "no": "Ne" },
+      "author": "Autor",
+      "icon": {
+        "add": "Přidat ikonu"
+      },
+      "edit": {
+        "mode": "Režim úprav",
+        "disclaimer": "Změny provedené během relace úprav se neukládají",
+        "move": "Přesunout ikonu",
+        "edit": "Upravit ikonu",
+        "addOrRemove": "Přidat nebo odebrat ikonu"
+      },
+      "popup": {
+        "title": "Vlastnosti ikony",
+        "type": "Typ ikony",
+        "quest": "Vybrat úkol",
+        "questObjective": "Vybrat cíl úkolu",
+        "description": "Přidat popis",
+        "screenshot": {
+          "text": "Přiložit snímek",
+          "button": "Vybrat ze souboru, max 8MB, 16/9"
+        },
+        "apply": "Použít"
+      }
+    },
+    "quests": {
+      "filters": {
+        "traders": {
+          "label": "Obchodníci",
+          "order": {
+            "byTrader": "Řadit podle obchodníka",
+            "byName": "Řadit podle názvu"
+          }
+        },
+        "type": {
+          "label": "Typ"
+        },
+        "state": {
+          "label": "Stav"
+        },
+        "maps": {
+          "label": "Mapy"
+        }
+      },
+      "indicator": {
+        "label": "(aktivní|dokončené|celkem)"
+      },
+      "quest": {
+        "button": {
+          "done": "Hot.",
+          "active": "Aktivní",
+          "completed": "Dokončeno",
+          "noTracking": "Vypnout sledování",
+          "manualTracking": "RUČNĚ AKTIVOVÁNO",
+          "failed": "Selhalo"
+        },
+        "body": {
+          "requirements": {
+            "label": "Požadavky",
+            "level": "Úroveň",
+            "delay": "Dostupné po",
+            "hours": "hodin",
+            "type": "Dostupné pouze v",
+            "faction": "pouze",
+            "edition": "Pouze pro",
+            "edit": {
+              "delay": "Zpoždění odemčení (hodiny)",
+              "type": "Typ postupu",
+              "faction": "Frakce",
+              "edition": "Edice hry"
+            }
+          },
+          "unlockedBy": {
+            "label": "Odemčeno po",
+            "edit": {
+              "condition": {
+                "label": "Podmínka úkolu",
+                "add": "Přidat podmínku"
+              }
+            }
+          },
+          "leadsTo": {
+            "label": "Vede k"
+          },
+          "keysRequired": {
+            "label": "Vyžadované klíče",
+            "key": "Klíč"
+          },
+          "itemsNeeded": {
+            "label": "Potřebné předměty"
+          },
+          "weapon": {
+            "label": "Sestava zbraně",
+            "view": {
+              "modding": "Pohled úprav",
+              "inspect": "Pohled inspekce"
+            },
+            "parts": {
+              "label": "Díly"
+            }
+          },
+          "tasks": {
+            "label": "Úkoly",
+            "count": "Počet",
+            "maps": "Mapy",
+            "anyMaps": "Libovolné mapy",
+            "location": "Lokace",
+            "find": "Najít na mapě",
+            "fir": "Nalezeno v raidu",
+            "itemInfo": "Info o předmětu",
+            "optional": "Volitelné",
+            "weapon": {
+              "label": "Sestava zbraně",
+              "muzzle": "Ústí",
+              "gasBlock": "Plynový blok",
+              "handguard": "Předpažbí",
+              "barrel": "Hlaveň",
+              "rail": "Lišta",
+              "attachment": "Příslušenství",
+              "foregrip": "Přední rukojeť",
+              "receiver": "Pouzdro",
+              "mounts": "Montáže",
+              "scope": "Optika",
+              "magazine": "Zásobník",
+              "pistolGrip": "Rukojeť",
+              "bolt": "Závěr",
+              "stock": "Pažba"
+            },
+            "edit": {
+              "description": "Popis",
+              "count": "Počet",
+              "optional": "Volitelné",
+              "mark": "Značkovací předmět",
+              "item": "Předmět",
+              "fir": "Nalezeno v raidu",
+              "add": "Cíl úkolu"
+            }
+          },
+          "rewards": {
+            "label": "Odměny",
+            "exp": "Zk.",
+            "rep": "Rep",
+            "level": "Úroveň",
+            "skill": "Dovednosti",
+            "edit": {
+              "exp": "Zkušenosti",
+              "skills": {
+                "label": "Dovednosti",
+                "bonus": "Bonus",
+                "skill": "Dovednost"
+              },
+              "standing": {
+                "label": "Pověst u obchodníka",
+                "count": "Počet"
+              },
+              "item": {
+                "label": "Odměna předmětem",
+                "item": "Předmět",
+                "count": "Počet"
+              },
+              "unlock": {
+                "label": "Odměna za odemčení předmětu",
+                "item": "Předmět",
+                "rep": "Reputace"
+              },
+              "add": "Přidat"
+            }
+          },
+          "penalties": {
+            "label": "Postihy",
+            "rep": "Rep",
+            "edit": {
+              "label": "Postihy",
+              "count": "Počet",
+              "rep": "Postih",
+              "add": "Přidat"
+            }
+          },
+          "wiki": {
+            "label": "Wiki",
+            "link": "Odkaz na Wiki"
+          },
+          "kappa": {
+            "label": "Vyžadováno pro Kappa",
+            "yes": "Ano",
+            "no": "Ne",
+            "edit": {
+              "button": "Vyžadováno pro Kappa"
+            }
+          }
+        }
+      }
+    },
+    "hideout": {
+      "filters": {
+        "inactive": "Neaktivní",
+        "active": "Aktivní",
+        "completed": "Dokončeno"
+      },
+      "station": {
+        "legend": {
+          "blocked": "Zablokováno",
+          "tracking": "Aktuálně sledováno",
+          "completed": "Dokončeno/Postaveno"
+        },
+        "level": {
+          "label": "Úroveň",
+          "required": "Požadovaná úroveň",
+          "requirement": "Požadavky",
+          "craft": "Výroby",
+          "state": {
+            "blocked": "Zablokováno",
+            "track": "Sledovat",
+            "build": "Postavit"
+          },
+          "requirements": {
+            "button": "Zobrazit požadavky",
+            "edit": {
+              "standing": {
+                "label": "Pověst u obchodníka",
+                "rep": "Rep"
+              },
+              "station": {
+                "label": "Požadavky stanice"
+              },
+              "item": {
+                "label": "Požadavky na předměty",
+                "item": "Předmět",
+                "count": "Počet"
+              },
+              "add": "Přidat"
+            }
+          },
+          "crafts": {
+            "button": "Zobrazit výroby",
+            "edit": {
+              "item": "Předmět",
+              "count": "Počet",
+              "duration": "Doba výroby",
+              "hours": "Hodiny",
+              "minutes": "Minuty",
+              "seconds": "Sekundy",
+              "unlock": "Odemčeno úkolem",
+              "add": "Přidat"
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "filters": {
+        "missing": "Jen chybějící",
+        "quest": "Úkoly",
+        "hideout": "Úkryt"
+      },
+      "search": {
+        "placeholder": "Hledat podle názvu"
+      },
+      "overall": "Celkem potřeba",
+      "quests": "Úkoly",
+      "hideout": "Stanice úkrytu",
+      "required": "Vyžadováno"
+    },
+    "ammo": {
+      "body": {
+        "img": "",
+        "name": "Název",
+        "dmg": "Pošk.",
+        "pen": "Průraz",
+        "frag": "Frag%",
+        "recoil": "Zpětný ráz",
+        "tier1": "1",
+        "tier2": "2",
+        "tier3": "3",
+        "tier4": "4",
+        "tier5": "5",
+        "tier6": "6"
+      }
+    },
+    "subscription": {
+      "info": {
+        "title": "Získejte lepší zážitek s rozšířeními Marathon Companion",
+        "description": "Získejte lepší kontrolu nad UI, odstraňte reklamy a podpořte projekt",
+        "perks": {
+          "1": "Zcela odstranit kontejner reklam",
+          "2": "Lepší kontrola nad UI",
+          "3": "Podpořit Marathon Companion"
+        }
+      },
+      "state": {
+        "notSubscribed": {
+          "title": "Předplaťte si odstranění reklam"
+        },
+        "subscribed": {
+          "title": "Aktuálně jste předplatitelem"
+        },
+        "loggedInAs": "Přihlášen jako ",
+        "notLoggedIn": "Nejste přihlášeni do Overwolfu, přihlaste se pro pokračování",
+        "status": {
+          "title": "Stav předplatného: ",
+          "active": "AKTIVNÍ",
+          "cancelled": "OBNOVENÍ ZRUŠENO"
+        }
+      },
+      "buttons": {
+        "manage": "Spravovat",
+        "refresh": "Obnovit",
+        "subscribe": "Předplatit"
+      }
+    },
+    "sidePanel": {
+      "search": {
+        "placeholder": "Hledání úkolů - Filtry neplatí"
+      },
+      "filters": {
+        "label": "Filtry",
+        "map": "Filtrovat mapou",
+        "order": {
+          "trader": "Řadit podle obchodníka",
+          "quest": "Řadit podle úkolu"
+        },
+        "kappa": "Jen Kappa"
+      },
+      "button": {
+        "reminder": "Otevřít připomínku úkolů",
+        "quest": {
+          "view": "Zobraz. úkoly | Kláv. "
+        }
+      },
+      "ads": {
+        "remove": "Odstranit reklamy"
+      }
+    },
+    "settings": {
+      "app": {
+        "label": "Aplikace",
+        "locale": "Vyberte preferovaný jazyk aplikace",
+        "restart": "Restartujte aplikaci",
+        "monitor": "Přednost druhého monitoru",
+        "opacity": "Průhlednost okna ve hře",
+        "sidePanelHotkey": "Zkratka zobrazení/skrytí bočních úkolů",
+        "inGameHotkey": {
+          "text": "Zkratka ve hře"
+        },
+        "ingameDesktopHotkey": {
+          "text": "Zkratka přepnutí hra/desktop"
+        },
+        "questReminderHotkey": {
+          "text": "Zkratka připomínky úkolů"
+        },
+        "enableQuestReminder": "Povolit připomínku úkolů",
+        "onMatchmaking": "Otevřít aplikaci při matchmakingu",
+        "desktopOnly": "Pouze režim desktop",
+        "appCloseOnGameClose": "Zavřít aplikaci při ukončení hry",
+        "externalLinkWarning": "Upozornění na externí odkaz",
+        "inRaidTimer": {
+          "text": "Zobrazit/Skrýt časovač v raidu",
+          "button": "Zobrazit/Skrýt"
+        },
+        "uploadLogs": {
+          "text": "Nahrát logy aktuální relace",
+          "button": "Odeslat"
+        }
+      },
+      "progression": {
+        "label": "Postup",
+        "automate": "Automatizovat postup úkolů",
+        "level": "Vyžadovat úroveň",
+        "completedButton": "Dvojklik pro dokončení úkolu",
+        "wipe": {
+          "text": "Smazat veškerý postup",
+          "button": {
+            "1": "Smazat",
+            "2": "Smazat PvE"
+          }
+        },
+        "kappa": {
+          "text": "Povolit/Zakázat ne-kappa úkoly",
+          "button": {
+            "1": "Zakázat",
+            "2": "Povolit"
+          }
+        },
+        "save": {
+          "text": "Uložit postup aplikace na počítač",
+          "button": "Uložit"
+        },
+        "import": {
+          "text": "Importovat postup aplikace z počítače",
+          "button": "Importovat"
+        },
+        "questCompletedAutomation": {
+          "text": "Automatizace dokončených úkolů",
+          "button": "Auto dokončit"
+        }
+      },
+      "map": {
+        "label": "Mapa",
+        "default": "Výchozí mapa při startu",
+        "zoom": "Citlivost zoomu mapy"
+      }
+    }
+  }
+}

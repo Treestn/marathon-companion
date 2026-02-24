@@ -1,0 +1,153 @@
+{
+  "manifest_version": 1,
+  "type": "WebApp",
+  "meta": {
+    "name": "Marathon Companion",
+    "author": "Treestn Dev",
+    "author_display": "Treestn Dev",
+    "version": "1.0.0",
+    "minimum-overwolf-version": "0.240.0.5",
+    "description": "This app will help you through your journey on Marathon",
+    "dock_button_title": "ARC",
+    "icon": "icons/logo-white-256-blue-side.png",
+    "icon_gray": "icons/logo-greyscale.png",
+    "launcher_icon": "icons/logo-white-blue-side.ico",
+    "window_icon": "icons/logo-white-256-blue-side.png"
+  },
+  "permissions": [
+    "Hotkeys",
+    "GameInfo",
+    "Extensions",
+    "Streaming",
+    "Profile",
+    "DesktopStreaming",
+    "FileSystem"
+  ],
+  "data": {
+    "start_window": "background",
+    "hotkeys": {
+      "showHideToggle": {
+        "title": "Show/Hide Main App Window",
+        "action-type": "toggle",
+        "default": "Alt+X"
+      },
+      "switchScreenToggle": {
+        "title": "Switch Screen",
+        "action-type": "toggle",
+        "default": "Alt+C"
+      },
+      "secondScreenToggle": {
+        "title": "Toggle Second Screen",
+        "action-type": "toggle",
+        "default": "Alt+V"
+      }
+    },
+    "protocol_override_domains": {
+      "googlesyndication": "http"
+    },
+    "url_protocol": {
+      "schemes": [
+        "tebex-subs-sample-purchased",
+        "tebex-arc-raiders-companion-subs"
+      ]
+    },
+    "externally_connectable": {
+      "matches": [
+        "http://*.overwolf.com",
+        "https://*.overwolf.com",
+        "https://*.google-analytics.com",
+        "http://*.google-analytics.com",
+        "https://www.googleapis.com",
+        "https://*.tebex.io"
+      ]
+    },
+    "force_browser": "user",
+    "windows": {
+      "background": {
+        "file": "background.html",
+        "background_optimization": true,
+        "is_background_page": true
+      },
+      "desktop": {
+        "file": "desktop.html",
+        "block_top_window_navigation": true,
+        "popup_blocker": true,
+        "mute": true,
+        "desktop_only": true,
+        "native_window": true,
+        "resizable": true,
+        "transparent": true,
+        "override_on_update": true,
+        "size": {
+          "width": 1423,
+          "height": 730
+        },
+        "min_size": {
+          "width": 1280,
+          "height": 730
+        }
+      },
+      "second_screen": {
+        "file": "second-screen.html",
+        "block_top_window_navigation": true,
+        "popup_blocker": true,
+        "mute": true,
+        "desktop_only": true,
+        "native_window": true,
+        "resizable": true,
+        "transparent": true,
+        "override_on_update": true,
+        "disable_hardware_acceleration": false,
+        "size": {
+          "width": 1000,
+          "height": 800
+        },
+        "min_size": {
+          "width": 1000,
+          "height": 800
+        }
+      },
+      "in_game": {
+        "file": "in_game.html",
+        "block_top_window_navigation": true,
+        "popup_blocker": true,
+        "mute": true,
+        "in_game_only": true,
+        "focus_game_takeover": "ReleaseOnHidden",
+        "focus_game_takeover_release_hotkey": "showHideToggle",
+        "resizable": true,
+        "transparent": true,
+        "override_on_update": true,
+        "optimize_accelerate_rendering": true,
+        "disable_hardware_acceleration": false,
+        "size": {
+          "width": 1423,
+          "height": 730
+        },
+        "min_size": {
+          "width": 1280,
+          "height": 730
+        }
+      }
+    },
+    "game_targeting": {
+      "type": "dedicated",
+      "game_ids": [27168]
+    },
+    "game_events": [27168],
+    "launch_events": [
+      {
+        "event": "GameLaunch",
+        "event_data": {
+          "game_ids": [27168]
+        },
+        "start_minimized": true
+      }
+    ],
+    "developer": {
+      "enable_auto_refresh": true,
+      "reload_delay": 1000,
+      "filter": "*.*"
+    }
+  }
+}

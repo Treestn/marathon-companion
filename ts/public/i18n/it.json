@@ -1,0 +1,550 @@
+{
+  "meta": {
+    "lang": "en",
+    "version": "2025-08-23T00:00:00Z",
+    "app": "Marathon Companion"
+  },
+  "header": {
+    "overwolf": {
+      "status": {
+        "overall": "Stato Overwolf",
+        "quest_automation": "Automaz. missioni",
+        "game_mode": "Modalità di gioco",
+        "map_selection": "Selezione mappa"
+      }
+    },
+    "hotkey": {
+      "switch": "Hotkey cambio schermo",
+      "showHide": "Hotkey Mostra/Nascondi"
+    },
+    "settings": "Impostazioni",
+    "quests": "Missioni"
+  },
+  "nav": {
+    "maps": "Mappe",
+    "quests": "Missioni",
+    "hideout": "Nascondiglio",
+    "items": "Oggetti req.",
+    "ammo": "Munizioni",
+    "progression": {
+      "level": "Livello"
+    },
+    "subscription": "Premium",
+    "settings": "Impostazioni",
+    "support": "Supporto"
+  },
+  "pages": {
+    "hotkeys": {
+      "title": "Hotkey",
+      "placeholder": "Premi un tasto",
+      "apply": "Applica"
+    },
+    "questReminder": {
+      "title": "Promemoria missioni",
+      "quests": {
+        "button": "Missioni"
+      },
+      "items": {
+        "button": "Oggetti",
+        "hideout": {
+          "level": "Livello"
+        }
+      },
+      "map": "Missioni attive per"
+    },
+    "reviewAndSubmit": {
+      "title": "Rivedi e invia modifica",
+      "submit": {
+        "title": "Invia",
+        "success": "Grazie per l’invio, lo esamineremo presto. Clic per chiudere",
+        "failure": "Si è verificato un problema durante l’invio della revisione."
+      },
+      "newQuests": "Nuove missioni",
+      "newCrafts": "Nuove lavorazioni",
+      "modifiedQuests": "Missioni modificate",
+      "modifiedHideout": "Stazioni nascondiglio modificate",
+      "modifiedCrafts": "Lavorazioni modificate",
+      "removedQuests": "Missioni rimosse",
+      "addedIcons": "Icone mappa aggiunte",
+      "removedIcons": "Icone mappa rimosse",
+      "removedCrafts": "Lavorazioni rimosse",
+      "imageToUplaod": "Immagini da caricare",
+      "none": "nessuno",
+      "crafts": "lavorazioni",
+      "iconsOn": "icone att.",
+      "removed": "rimosso"
+    },
+    "file": {
+      "import": {
+        "title": "Importa progressi app",
+        "file": "File",
+        "select": "Seleziona",
+        "warning": {
+          "1": "Importando nuovi progressi, cancellerai tutti quelli attuali.",
+          "2": "Assicurati di salvare i progressi attuali, se necessario, prima di importarne di nuovi."
+        },
+        "load": "Carica progressi"
+      },
+      "save": {
+        "title": "Salva progressi app",
+        "folder": "Cartella",
+        "change": "Cambia",
+        "filename": "Nome file",
+        "save": "Salva"
+      }
+    },
+    "externalLinkWarning": {
+      "title": "Link esterno",
+      "disclaimer": "Stai per aprire un link esterno, vuoi continuare?",
+      "dontShow": "Non mostrare più",
+      "yes": "Sì",
+      "no": "No"
+    },
+    "questReset": {
+      "title": "Reset missioni",
+      "warning": {
+        "1": "Stai per reimpostare tutte le missioni ai valori predefiniti. Opzione pensata per i wipe quando serve azzerare i progressi.",
+        "2": "L’app si riavvierà se clicchi Sì. Confermi di voler continuare?"
+      },
+      "yes": "Sì",
+      "no": "No"
+    },
+    "questCompletedAutomation": {
+      "title": "Automatizza completamento missioni",
+      "warning": {
+        "1": "Questa opzione completa facilmente le missioni già fatte ma non tracciate. (Utile se hai ottenuto l’app a metà wipe)",
+        "2": "Completerà solo le missioni per la progressione selezionata (PvP o PvE).",
+        "3": "Per usarla correttamente, attiva nell’app tutte le missioni che hai attive in Arc Raiders. L’app completerà solo i requisiti delle missioni attivate nell’app.",
+        "4": "Nota che un ramo di missioni che non porta a nulla non verrà completato automaticamente. Segna l’ultima missione come completata affinché l’auto-completamento funzioni bene.",
+        "5": "Esempio: Stirrup non porta a nulla; se non la segni completata, le missioni precedenti non verranno marcate automaticamente."
+      },
+      "yes": "Continua",
+      "no": "Esci"
+    },
+    "submissions": {
+      "title": "Termini di invio",
+      "rules": {
+        "title": "Regole e linee guida per l’invio",
+        "1": "<b class='keyword'>Contenuti inappropriati:</b> Le immagini caricate devono rispettare le policy di Overwolf. L’invio di immagini inadeguate verrà segnalato a Overwolf.",
+        "2": "<b class='keyword'>Raccolta dati:</b> Con il tuo invio si raccolgono solo il nome utente Overwolf e l’ID Overwolf.",
+        "3": "<b class='keyword'>Anonimato:</b> Il tuo invio sarà <b class='keyword'>anonimo per gli altri utenti</b>.",
+        "4": "<b class='keyword'>Diritti d’uso:</b> Inviando un’immagine concedi a Marathon Companion il diritto di usarla nell’app.",
+        "5": "<b class='keyword'>Limiti di invio:</b> Massimo <b class='keyword'>2 invii</b> ogni <b class='keyword'>5 minuti</b>.",
+        "6": "<b class='keyword'>Limiti immagini:</b> Massimo <b class='keyword'>10 immagini</b> ogni <b class='keyword'>5 minuti</b>.",
+        "7": "<b class='keyword'>Requisiti immagine:</b> Rapporto <b class='keyword'>16:9</b> e <b class='keyword'>non oltre 8 MB</b>.",
+        "8": "<b class='keyword'>Violazioni e ban:</b> Violare queste regole comporta un <b class='keyword'>ban all’invio di contenuti</b>.",
+        "9": "Continuando confermi di aver letto e accettato queste condizioni."
+      },
+      "notice": "La funzione di modifica consente alla community di inviare correzioni a missioni e icone mappa se le info sono errate",
+      "yes": "Accetta e abilita invii",
+      "no": "Annulla"
+    },
+    "maps": {
+      "filters": {
+        "maps": "Mappe",
+        "filter": "Filtro"
+      },
+      "btr": { "guaranteed": "Fermata garantita", "yes": "Sì", "no": "No" },
+      "author": "Autore",
+      "icon": {
+        "add": "Aggiungi icona"
+      },
+      "edit": {
+        "mode": "Modalità modifica",
+        "disclaimer": "Le modifiche fatte durante la sessione non vengono salvate",
+        "move": "Sposta icona",
+        "edit": "Modifica icona",
+        "addOrRemove": "Aggiungi o rimuovi icona"
+      },
+      "popup": {
+        "title": "Proprietà icona",
+        "type": "Tipo di icona",
+        "quest": "Seleziona missione",
+        "questObjective": "Seleziona obiettivo missione",
+        "description": "Aggiungi descrizione",
+        "screenshot": {
+          "text": "Allega screenshot",
+          "button": "Seleziona da file, max 8MB, 16/9"
+        },
+        "apply": "Applica"
+      }
+    },
+    "quests": {
+      "filters": {
+        "traders": {
+          "label": "Commercianti",
+          "order": {
+            "byTrader": "Ordina per commerciante",
+            "byName": "Ordina per nome"
+          }
+        },
+        "type": {
+          "label": "Tipo"
+        },
+        "state": {
+          "label": "Stato"
+        },
+        "maps": {
+          "label": "Mappe"
+        }
+      },
+      "indicator": {
+        "label": "(attive|completate|totale)"
+      },
+      "quest": {
+        "button": {
+          "done": "Fin.",
+          "active": "Attiva",
+          "completed": "Completata",
+          "noTracking": "Disattiva tracking",
+          "manualTracking": "ATTIVATO MANUALMENTE",
+          "failed": "Fallita"
+        },
+        "body": {
+          "requirements": {
+            "label": "Requisiti",
+            "level": "Livello",
+            "delay": "Disponibile dopo",
+            "hours": "ore",
+            "type": "Disponibile solo in",
+            "faction": "solo",
+            "edition": "Solo per",
+            "edit": {
+              "delay": "Ritardo sblocco (ore)",
+              "type": "Tipo di progressione",
+              "faction": "Fazione",
+              "edition": "Edizione di gioco"
+            }
+          },
+          "unlockedBy": {
+            "label": "Sbloccata da",
+            "edit": {
+              "condition": {
+                "label": "Condizione missione",
+                "add": "Aggiungi condizione"
+              }
+            }
+          },
+          "leadsTo": {
+            "label": "Conduce a"
+          },
+          "keysRequired": {
+            "label": "Chiavi richieste",
+            "key": "Chiave"
+          },
+          "itemsNeeded": {
+            "label": "Oggetti necessari"
+          },
+          "weapon": {
+            "label": "Configurazione arma",
+            "view": {
+              "modding": "Vista modding",
+              "inspect": "Vista ispezione"
+            },
+            "parts": {
+              "label": "Parti"
+            }
+          },
+          "tasks": {
+            "label": "Compiti",
+            "count": "Quantità",
+            "maps": "Mappe",
+            "anyMaps": "Qualsiasi mappa",
+            "location": "Posizioni",
+            "find": "Trova sulla mappa",
+            "fir": "Trovato in raid",
+            "itemInfo": "Info oggetto",
+            "optional": "Opzionale",
+            "weapon": {
+              "label": "Configurazione arma",
+              "muzzle": "Volata",
+              "gasBlock": "Gas block",
+              "handguard": "Paramano",
+              "barrel": "Canna",
+              "rail": "Slitta",
+              "attachment": "Accessorio",
+              "foregrip": "Impugnatura ant.",
+              "receiver": "Castello",
+              "mounts": "Attacchi",
+              "scope": "Ottica",
+              "magazine": "Caricatore",
+              "pistolGrip": "Impugnatura",
+              "bolt": "Otturatore",
+              "stock": "Calcio"
+            },
+            "edit": {
+              "description": "Descrizione",
+              "count": "Quantità",
+              "optional": "Opzionale",
+              "mark": "Oggetto marcatore",
+              "item": "Oggetto",
+              "fir": "Trovato in raid",
+              "add": "Obiettivo missione"
+            }
+          },
+          "rewards": {
+            "label": "Ricompense",
+            "exp": "Exp",
+            "rep": "Rep",
+            "level": "Livello",
+            "skill": "Abilità",
+            "edit": {
+              "exp": "Esperienza",
+              "skills": {
+                "label": "Abilità",
+                "bonus": "Bonus",
+                "skill": "Abilità"
+              },
+              "standing": {
+                "label": "Reputazione commerciante",
+                "count": "Quantità"
+              },
+              "item": {
+                "label": "Ricompensa oggetto",
+                "item": "Oggetto",
+                "count": "Quantità"
+              },
+              "unlock": {
+                "label": "Ricompensa sblocco oggetto",
+                "item": "Oggetto",
+                "rep": "Reputazione"
+              },
+              "add": "Aggiungi"
+            }
+          },
+          "penalties": {
+            "label": "Penalità",
+            "rep": "Rep",
+            "edit": {
+              "label": "Penalità",
+              "count": "Quantità",
+              "rep": "Penalità",
+              "add": "Aggiungi"
+            }
+          },
+          "wiki": {
+            "label": "Wiki",
+            "link": "Link Wiki"
+          },
+          "kappa": {
+            "label": "Richiesto per Kappa",
+            "yes": "Sì",
+            "no": "No",
+            "edit": {
+              "button": "Richiesto per Kappa"
+            }
+          }
+        }
+      }
+    },
+    "hideout": {
+      "filters": {
+        "inactive": "Inattivo",
+        "active": "Attivo",
+        "completed": "Completato"
+      },
+      "station": {
+        "legend": {
+          "blocked": "Bloccato",
+          "tracking": "In tracciamento",
+          "completed": "Completato/Costruito"
+        },
+        "level": {
+          "label": "Livello",
+          "required": "Livello richiesto",
+          "requirement": "Requisiti",
+          "craft": "Lavorazioni",
+          "state": {
+            "blocked": "Bloccato",
+            "track": "Traccia",
+            "build": "Costruisci"
+          },
+          "requirements": {
+            "button": "Mostra requisiti",
+            "edit": {
+              "standing": {
+                "label": "Reputazione commerciante",
+                "rep": "Rep"
+              },
+              "station": {
+                "label": "Requisiti stazione"
+              },
+              "item": {
+                "label": "Requisiti oggetti",
+                "item": "Oggetto",
+                "count": "Quantità"
+              },
+              "add": "Aggiungi"
+            }
+          },
+          "crafts": {
+            "button": "Mostra lavorazioni",
+            "edit": {
+              "item": "Oggetto",
+              "count": "Quantità",
+              "duration": "Durata lavorazione",
+              "hours": "Ore",
+              "minutes": "Minuti",
+              "seconds": "Secondi",
+              "unlock": "Sblocco da missione",
+              "add": "Aggiungi"
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "filters": {
+        "missing": "Solo mancanti",
+        "quest": "Missioni",
+        "hideout": "Nascondiglio"
+      },
+      "search": {
+        "placeholder": "Cerca per nome"
+      },
+      "overall": "Totale necessario",
+      "quests": "Missioni",
+      "hideout": "Stazioni nascondiglio",
+      "required": "Richiesto"
+    },
+    "ammo": {
+      "body": {
+        "img": "",
+        "name": "Nome",
+        "dmg": "Dmg",
+        "pen": "Pen",
+        "frag": "Frag%",
+        "recoil": "Rinculo",
+        "tier1": "1",
+        "tier2": "2",
+        "tier3": "3",
+        "tier4": "4",
+        "tier5": "5",
+        "tier6": "6"
+      }
+    },
+    "subscription": {
+      "info": {
+        "title": "Migliora l’esperienza con gli upgrade di Marathon Companion",
+        "description": "Più controllo sulla UI, rimuovi le pubblicità e supporta il progetto",
+        "perks": {
+          "1": "Rimuovi del tutto il contenitore annunci",
+          "2": "Maggior controllo della UI",
+          "3": "Supporta Marathon Companion"
+        }
+      },
+      "state": {
+        "notSubscribed": {
+          "title": "Abbonati per togliere gli annunci"
+        },
+        "subscribed": {
+          "title": "Sei attualmente abbonato a"
+        },
+        "loggedInAs": "Connesso come ",
+        "notLoggedIn": "Non connesso a Overwolf, accedi per continuare",
+        "status": {
+          "title": "Stato abbonamento: ",
+          "active": "ATTIVO",
+          "cancelled": "RINNOVO ANNULLATO"
+        }
+      },
+      "buttons": {
+        "manage": "Gestisci",
+        "refresh": "Aggiorna",
+        "subscribe": "Abbonati"
+      }
+    },
+    "sidePanel": {
+      "search": {
+        "placeholder": "Ricerca missioni - filtri off"
+      },
+      "filters": {
+        "label": "Filtri",
+        "map": "Filtra con mappa",
+        "order": {
+          "trader": "Ordina per commerciante",
+          "quest": "Ordina per missione"
+        },
+        "kappa": "Solo Kappa"
+      },
+      "button": {
+        "reminder": "Apri promemoria missioni",
+        "quest": {
+          "view": "Vedi missioni att. | Tasto "
+        }
+      },
+      "ads": {
+        "remove": "Rimuovi annunci"
+      }
+    },
+    "settings": {
+      "app": {
+        "label": "App",
+        "locale": "Seleziona lingua app preferita",
+        "restart": "Riavvia l’app",
+        "monitor": "Preferenza secondo monitor",
+        "opacity": "Opacità finestra in-game",
+        "sidePanelHotkey": "Hotkey mostra/nascondi missioni laterali",
+        "inGameHotkey": {
+          "text": "Hotkey in-game"
+        },
+        "ingameDesktopHotkey": {
+          "text": "Hotkey gioco/desktop"
+        },
+        "questReminderHotkey": {
+          "text": "Hotkey promemoria missioni"
+        },
+        "enableQuestReminder": "Abilita promemoria missioni",
+        "onMatchmaking": "Apri l’app durante matchmaking",
+        "desktopOnly": "Solo modalità desktop",
+        "appCloseOnGameClose": "Chiudi l’app alla chiusura del gioco",
+        "externalLinkWarning": "Avviso link esterno",
+        "inRaidTimer": {
+          "text": "Mostra/Nascondi timer raid",
+          "button": "Mostra/Nascondi"
+        },
+        "uploadLogs": {
+          "text": "Carica log della sessione",
+          "button": "Invia"
+        }
+      },
+      "progression": {
+        "label": "Progressione",
+        "automate": "Automatizza progresso missioni",
+        "level": "Richiedi livello",
+        "completedButton": "Doppio clic: completa missione",
+        "wipe": {
+          "text": "Cancella tutti i progressi",
+          "button": {
+            "1": "Wipe",
+            "2": "Wipe PvE"
+          }
+        },
+        "kappa": {
+          "text": "Abilita/Disabilita missioni non-Kappa",
+          "button": {
+            "1": "Disabilita",
+            "2": "Abilita"
+          }
+        },
+        "save": {
+          "text": "Salva progressi app sul PC",
+          "button": "Salva"
+        },
+        "import": {
+          "text": "Importa progressi app dal PC",
+          "button": "Importa"
+        },
+        "questCompletedAutomation": {
+          "text": "Automazione missioni completate",
+          "button": "Auto completa"
+        }
+      },
+      "map": {
+        "label": "Mappa",
+        "default": "Mappa predefinita all’avvio",
+        "zoom": "Sensibilità zoom mappa"
+      }
+    }
+  }
+}

@@ -1,0 +1,550 @@
+{
+  "meta": {
+    "lang": "en",
+    "version": "2025-08-23T00:00:00Z",
+    "app": "Marathon Companion"
+  },
+  "header": {
+    "overwolf": {
+      "status": {
+        "overall": "Stav Overwolf",
+        "quest_automation": "Automatizácia úloh",
+        "game_mode": "Herný režim",
+        "map_selection": "Výber mapy"
+      }
+    },
+    "hotkey": {
+      "switch": "Kláves zmeny obrazovky",
+      "showHide": "Kláves Zobraziť/Skryť"
+    },
+    "settings": "Nastavenia",
+    "quests": "Úlohy"
+  },
+  "nav": {
+    "maps": "Mapy",
+    "quests": "Úlohy",
+    "hideout": "Úkryt",
+    "items": "Potrebné",
+    "ammo": "Munícia",
+    "progression": {
+      "level": "Úroveň"
+    },
+    "subscription": "Premium",
+    "settings": "Nastavenia",
+    "support": "Podpora"
+  },
+  "pages": {
+    "hotkeys": {
+      "title": "Skratka",
+      "placeholder": "Stlač skratku",
+      "apply": "Použiť"
+    },
+    "questReminder": {
+      "title": "Pripomienka úloh",
+      "quests": {
+        "button": "Úlohy"
+      },
+      "items": {
+        "button": "Predmety",
+        "hideout": {
+          "level": "Úroveň"
+        }
+      },
+      "map": "Aktívne úlohy pre"
+    },
+    "reviewAndSubmit": {
+      "title": "Kontrola a odoslanie",
+      "submit": {
+        "title": "Odoslať",
+        "success": "Ďakujeme za odoslanie, čoskoro to skontrolujeme. Klikni na zatvorenie",
+        "failure": "Pri odoslaní recenzie nastal problém."
+      },
+      "newQuests": "Nové úlohy",
+      "newCrafts": "Nové výroby",
+      "modifiedQuests": "Upravené úlohy",
+      "modifiedHideout": "Upravené stanice úkrytu",
+      "modifiedCrafts": "Upravené výroby",
+      "removedQuests": "Odstránené úlohy",
+      "addedIcons": "Pridané ikony mapy",
+      "removedIcons": "Odstránené ikony mapy",
+      "removedCrafts": "Odstránené výroby",
+      "imageToUplaod": "Obrázky na nahratie",
+      "none": "žiadne",
+      "crafts": "výroby",
+      "iconsOn": "ikony zap.",
+      "removed": "odstránené"
+    },
+    "file": {
+      "import": {
+        "title": "Import postupu aplikácie",
+        "file": "Súbor",
+        "select": "Vybrať",
+        "warning": {
+          "1": "Importom nového postupu vymažeš celý aktuálny postup.",
+          "2": "Pred importom si v prípade potreby ulož aktuálny postup."
+        },
+        "load": "Načítať postup"
+      },
+      "save": {
+        "title": "Uloženie postupu aplikácie",
+        "folder": "Priečinok",
+        "change": "Zmeniť",
+        "filename": "Názov súboru",
+        "save": "Uložiť"
+      }
+    },
+    "externalLinkWarning": {
+      "title": "Externý odkaz",
+      "disclaimer": "Chystáš sa otvoriť externý odkaz. Chceš pokračovať?",
+      "dontShow": "Nezobrazovať znova",
+      "yes": "Áno",
+      "no": "Nie"
+    },
+    "questReset": {
+      "title": "Reset úloh",
+      "warning": {
+        "1": "Resetuješ všetky úlohy na predvolené. Užitočné pri wipe, keď treba vyčistiť postup.",
+        "2": "Aplikácia sa po kliknutí na Áno reštartuje. Pokračovať?"
+      },
+      "yes": "Áno",
+      "no": "Nie"
+    },
+    "questCompletedAutomation": {
+      "title": "Automatizovať dokončenie",
+      "warning": {
+        "1": "Označí ako splnené úlohy, ktoré si spravil, no nesledoval. (Užitočné, ak si app pridal uprostred wipe)",
+        "2": "Dokončí len úlohy pre aktuálne zvolený postup (PvP alebo PvE).",
+        "3": "Pre správnu funkciu aktivuj v app všetky úlohy, ktoré máš aktívne v Arc Raiderse. App splní iba požiadavky úloh aktívnych v app.",
+        "4": "Dokončenie vetvy, ktorá nikam nevedie, sa neoznačí automaticky. Označ poslednú úlohu ako dokončenú, aby auto-dokončenie fungovalo správne.",
+        "5": "Príklad: Stirrup nikam nevedie; ak ju neoznačíš ako dokončenú, predchádzajúce úlohy sa neoznačia automaticky."
+      },
+      "yes": "Pokračuj",
+      "no": "Ukončiť"
+    },
+    "submissions": {
+      "title": "Podmienky odosielania",
+      "rules": {
+        "title": "Pravidlá a pokyny odosielania",
+        "1": "<b class='keyword'>Nevhodný obsah:</b> Nahrané obrázky musia spĺňať zásady Overwolfu. Nevhodné obrázky budú nahlásené Overwolfu.",
+        "2": "<b class='keyword'>Zber dát:</b> Z tvojho odoslania zbierame len používateľské meno Overwolf a Overwolf ID.",
+        "3": "<b class='keyword'>Anonymita:</b> Tvoje odoslanie bude <b class='keyword'>anonymné pre iných používateľov</b>.",
+        "4": "<b class='keyword'>Práva použitia:</b> Odoslaním dávaš Marathon Companion právo použiť obrázok v aplikácii.",
+        "5": "<b class='keyword'>Limity odoslania:</b> Max. <b class='keyword'>2 odoslania</b> za <b class='keyword'>5 minút</b>.",
+        "6": "<b class='keyword'>Limity obrázkov:</b> Max. <b class='keyword'>10 obrázkov</b> za <b class='keyword'>5 minút</b>.",
+        "7": "<b class='keyword'>Požiadavky na obrázok:</b> Pomer strán <b class='keyword'>16:9</b> a <b class='keyword'>do 8 MB</b>.",
+        "8": "<b class='keyword'>Porušenia a bany:</b> Porušenie pravidiel môže viesť k <b class='keyword'>banu odosielania</b>.",
+        "9": "Pokračovaním potvrdzuješ, že si prečítal a súhlasíš s týmito podmienkami."
+      },
+      "notice": "Funkcia úprav umožňuje komunite navrhovať zmeny úloh a ikon mapy, ak sú informácie nesprávne",
+      "yes": "Prijať a povoliť odosielanie",
+      "no": "Zrušiť"
+    },
+    "maps": {
+      "filters": {
+        "maps": "Mapy",
+        "filter": "Filter"
+      },
+      "btr": { "guaranteed": "Zaručená zastávka", "yes": "Áno", "no": "Nie" },
+      "author": "Autor",
+      "icon": {
+        "add": "Pridať ikonu"
+      },
+      "edit": {
+        "mode": "Režim úprav",
+        "disclaimer": "Zmeny vykonané počas úprav sa neukladajú",
+        "move": "Presunúť ikonu",
+        "edit": "Upraviť ikonu",
+        "addOrRemove": "Pridať alebo odstrániť ikonu"
+      },
+      "popup": {
+        "title": "Vlastnosti ikony",
+        "type": "Typ ikony",
+        "quest": "Vyber úlohu",
+        "questObjective": "Vyber cieľ úlohy",
+        "description": "Pridaj popis",
+        "screenshot": {
+          "text": "Pripoj snímku obrazovky",
+          "button": "Vybrať zo súboru, max 8MB, 16/9"
+        },
+        "apply": "Použiť"
+      }
+    },
+    "quests": {
+      "filters": {
+        "traders": {
+          "label": "Obchodníci",
+          "order": {
+            "byTrader": "Triediť podľa obchodníka",
+            "byName": "Triediť podľa mena"
+          }
+        },
+        "type": {
+          "label": "Typ"
+        },
+        "state": {
+          "label": "Stav"
+        },
+        "maps": {
+          "label": "Mapy"
+        }
+      },
+      "indicator": {
+        "label": "(aktívne|dokončené|spolu)"
+      },
+      "quest": {
+        "button": {
+          "done": "OK",
+          "active": "Aktívne",
+          "completed": "Dokončené",
+          "noTracking": "Vypnúť sledovanie",
+          "manualTracking": "RUČNE AKTIV.",
+          "failed": "Zlyhalo"
+        },
+        "body": {
+          "requirements": {
+            "label": "Požiadavky",
+            "level": "Úroveň",
+            "delay": "Dostupné po",
+            "hours": "hod.",
+            "type": "Dostupné len v",
+            "faction": "iba",
+            "edition": "Len pre",
+            "edit": {
+              "delay": "Oneskorenie odomkn. (hod.)",
+              "type": "Typ postupu",
+              "faction": "Frakcia",
+              "edition": "Edícia hry"
+            }
+          },
+          "unlockedBy": {
+            "label": "Odomknuté pomocou",
+            "edit": {
+              "condition": {
+                "label": "Podmienka úlohy",
+                "add": "Pridať podmienku"
+              }
+            }
+          },
+          "leadsTo": {
+            "label": "Vedie k"
+          },
+          "keysRequired": {
+            "label": "Potrebné kľúče",
+            "key": "Kľúč"
+          },
+          "itemsNeeded": {
+            "label": "Potrebné predmety"
+          },
+          "weapon": {
+            "label": "Konfigurácia zbrane",
+            "view": {
+              "modding": "Modding pohľad",
+              "inspect": "Inšpekčný pohľad"
+            },
+            "parts": {
+              "label": "Časti"
+            }
+          },
+          "tasks": {
+            "label": "Úlohy",
+            "count": "Počet",
+            "maps": "Mapy",
+            "anyMaps": "Ľubovoľné mapy",
+            "location": "Lokality",
+            "find": "Nájsť na mape",
+            "fir": "Nájdené v raide",
+            "itemInfo": "Info o predmete",
+            "optional": "Voliteľné",
+            "weapon": {
+              "label": "Konfigurácia zbrane",
+              "muzzle": "Ústie",
+              "gasBlock": "Plynový blok",
+              "handguard": "Predpažbie",
+              "barrel": "Hlavň",
+              "rail": "Lišta",
+              "attachment": "Doplnok",
+              "foregrip": "Predná rukoväť",
+              "receiver": "Telo zbrane",
+              "mounts": "Montáže",
+              "scope": "Zameriavač",
+              "magazine": "Zásobník",
+              "pistolGrip": "Pistolová ruk.",
+              "bolt": "Záver",
+              "stock": "Opierka"
+            },
+            "edit": {
+              "description": "Popis",
+              "count": "Počet",
+              "optional": "Voliteľné",
+              "mark": "Značkovací predmet",
+              "item": "Predmet",
+              "fir": "Nájdené v raide",
+              "add": "Cieľ úlohy"
+            }
+          },
+          "rewards": {
+            "label": "Odmeny",
+            "exp": "Exp",
+            "rep": "Rep",
+            "level": "Úroveň",
+            "skill": "Zručnosti",
+            "edit": {
+              "exp": "Skúsenosti",
+              "skills": {
+                "label": "Zručnosti",
+                "bonus": "Bonus",
+                "skill": "Zručnosť"
+              },
+              "standing": {
+                "label": "Povesť u obchodníka",
+                "count": "Počet"
+              },
+              "item": {
+                "label": "Odmena – predmet",
+                "item": "Predmet",
+                "count": "Počet"
+              },
+              "unlock": {
+                "label": "Odmena – odomknutie",
+                "item": "Predmet",
+                "rep": "Reputácia"
+              },
+              "add": "Pridať"
+            }
+          },
+          "penalties": {
+            "label": "Tresty",
+            "rep": "Rep",
+            "edit": {
+              "label": "Tresty",
+              "count": "Počet",
+              "rep": "Trest",
+              "add": "Pridať"
+            }
+          },
+          "wiki": {
+            "label": "Wiki",
+            "link": "Odkaz na Wiki"
+          },
+          "kappa": {
+            "label": "Vyžaduje Kappa",
+            "yes": "Áno",
+            "no": "Nie",
+            "edit": {
+              "button": "Vyžadované pre Kappa"
+            }
+          }
+        }
+      }
+    },
+    "hideout": {
+      "filters": {
+        "inactive": "Neaktívne",
+        "active": "Aktívne",
+        "completed": "Dokončené"
+      },
+      "station": {
+        "legend": {
+          "blocked": "Blokované",
+          "tracking": "Sledované",
+          "completed": "Dokonč./Postav."
+        },
+        "level": {
+          "label": "Úroveň",
+          "required": "Vyžadovaná úroveň",
+          "requirement": "Požiadavky",
+          "craft": "Výroby",
+          "state": {
+            "blocked": "Blokované",
+            "track": "Sledovať",
+            "build": "Stavať"
+          },
+          "requirements": {
+            "button": "Zobraziť požiadavky",
+            "edit": {
+              "standing": {
+                "label": "Povesť u obchodníka",
+                "rep": "Rep"
+              },
+              "station": {
+                "label": "Požiadavky stanice"
+              },
+              "item": {
+                "label": "Požiadavky predmetov",
+                "item": "Predmet",
+                "count": "Počet"
+              },
+              "add": "Pridať"
+            }
+          },
+          "crafts": {
+            "button": "Zobraziť výroby",
+            "edit": {
+              "item": "Predmet",
+              "count": "Počet",
+              "duration": "Dĺžka výroby",
+              "hours": "Hodiny",
+              "minutes": "Minúty",
+              "seconds": "Sekundy",
+              "unlock": "Odomkne úloha",
+              "add": "Pridať"
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "filters": {
+        "missing": "Len chýbajúce",
+        "quest": "Úlohy",
+        "hideout": "Úkryt"
+      },
+      "search": {
+        "placeholder": "Hľadať podľa názvu"
+      },
+      "overall": "Spolu potrebné",
+      "quests": "Úlohy",
+      "hideout": "Stanice úkrytu",
+      "required": "Vyžadované"
+    },
+    "ammo": {
+      "body": {
+        "img": "",
+        "name": "Názov",
+        "dmg": "DMG",
+        "pen": "PEN",
+        "frag": "Frag%",
+        "recoil": "Spätný ráz",
+        "tier1": "1",
+        "tier2": "2",
+        "tier3": "3",
+        "tier4": "4",
+        "tier5": "5",
+        "tier6": "6"
+      }
+    },
+    "subscription": {
+      "info": {
+        "title": "Lepší zážitok s vylepšeniami Marathon Companion",
+        "description": "Lepšia kontrola UI, bez reklám a podpora projektu",
+        "perks": {
+          "1": "Úplné odstránenie kontajnera reklám",
+          "2": "Lepšia kontrola nad UI",
+          "3": "Podpor Marathon Companion"
+        }
+      },
+      "state": {
+        "notSubscribed": {
+          "title": "Predplať si, aby si odstránil reklamy"
+        },
+        "subscribed": {
+          "title": "Momentálne máš predplatné"
+        },
+        "loggedInAs": "Prihlásený ako ",
+        "notLoggedIn": "Neprihlásený do Overwolfu, prihlás sa pre pokračovanie",
+        "status": {
+          "title": "Stav predplatného: ",
+          "active": "AKTÍVNE",
+          "cancelled": "OBNOVA ZRUŠENÁ"
+        }
+      },
+      "buttons": {
+        "manage": "Spravovať",
+        "refresh": "Obnoviť",
+        "subscribe": "Predplatiť"
+      }
+    },
+    "sidePanel": {
+      "search": {
+        "placeholder": "Hľadanie úloh - filtre vyp."
+      },
+      "filters": {
+        "label": "Filtre",
+        "map": "Filtrovať mapou",
+        "order": {
+          "trader": "Podľa obchodníka",
+          "quest": "Podľa úlohy"
+        },
+        "kappa": "Len Kappa"
+      },
+      "button": {
+        "reminder": "Otvoriť pripomienku úloh",
+        "quest": {
+          "view": "Aktívne úlohy | Kláves "
+        }
+      },
+      "ads": {
+        "remove": "Odstrániť reklamy"
+      }
+    },
+    "settings": {
+      "app": {
+        "label": "Aplikácia",
+        "locale": "Vyber jazyk aplikácie",
+        "restart": "Reštartujte aplikáciu",
+        "monitor": "Predvoľba druhého monitora",
+        "opacity": "Priehľadnosť okna v hre",
+        "sidePanelHotkey": "Kláves bočných úloh",
+        "inGameHotkey": {
+          "text": "Kláves v hre"
+        },
+        "ingameDesktopHotkey": {
+          "text": "Prepínač hra/desktop"
+        },
+        "questReminderHotkey": {
+          "text": "Kláves pripomienky úloh"
+        },
+        "enableQuestReminder": "Povoliť pripomienky úloh",
+        "onMatchmaking": "Otvoriť aplikáciu pri matchmakingu",
+        "desktopOnly": "Len desktopový režim",
+        "appCloseOnGameClose": "Zatvoriť aplikáciu pri ukončení hry",
+        "externalLinkWarning": "Upozornenie na externý odkaz",
+        "inRaidTimer": {
+          "text": "Zobraziť/Skryť časovač raidu",
+          "button": "Zobraziť/Skryť"
+        },
+        "uploadLogs": {
+          "text": "Odoslať logy aktuálnej relácie",
+          "button": "Odoslať"
+        }
+      },
+      "progression": {
+        "label": "Postup",
+        "automate": "Automatizovať postup úloh",
+        "level": "Vyžadovať úroveň",
+        "completedButton": "Dvojklik: dokončiť úlohu",
+        "wipe": {
+          "text": "Vymazať celý postup",
+          "button": {
+            "1": "Vymazať",
+            "2": "Vymazať PvE"
+          }
+        },
+        "kappa": {
+          "text": "Zapnúť/Vypnúť ne-Kappa úlohy",
+          "button": {
+            "1": "Vypnúť",
+            "2": "Zapnúť"
+          }
+        },
+        "save": {
+          "text": "Uložiť postup na zariadení",
+          "button": "Uložiť"
+        },
+        "import": {
+          "text": "Importovať postup zo zariadenia",
+          "button": "Importovať"
+        },
+        "questCompletedAutomation": {
+          "text": "Automatizácia dokončených úloh",
+          "button": "Auto dokončiť"
+        }
+      },
+      "map": {
+        "label": "Mapa",
+        "default": "Predvolená mapa pri štarte",
+        "zoom": "Citlivosť priblíženia mapy"
+      }
+    }
+  }
+}

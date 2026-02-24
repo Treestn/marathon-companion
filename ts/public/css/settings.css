@@ -1,0 +1,355 @@
+
+.frames-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+}
+
+.page {
+    width: 50vw;
+    height: 540px;
+}
+
+.settings-page {
+  height: auto;
+  width: 100%;
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.setting-component {
+  width: 100%;
+  min-height: 40px;
+  display: flex;
+  flex-direction: row;
+}
+
+.setting-title {
+  order: 0;
+  width: 50%;
+  height: 100%;
+  margin-right: 5px;
+}
+
+.setting-value {
+  order: 1;
+  width: calc(50% - 40px);
+  height: 100%;
+  margin-left: 40px;
+}
+
+.setting-button {
+  color: var(--text-primary);
+  background-color: var(--main-btn-inactive-color);
+  width: calc(70% - 40px);
+  height: 90%;
+  margin-top: 5px;
+}
+
+.multiple-button {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.setting-button:hover {
+  background-color: var(--main-btn-active-color);
+  cursor: pointer;
+  box-shadow: inset -9px -9px 14px -12px black;
+}
+
+.setting-restart-app-text {
+  display: flex;
+  transform: translate(0px, 7px);
+  color: var(--error-warning);
+  font-size: 16px;
+}
+
+#filterPreferenceDropdown {
+  top: 50%;
+  transform: translate(0, 50%);
+}
+
+#iconSelectDropdown {
+  width: calc(50% - 40px);
+}
+
+.setting-dropdown {
+  position: relative;
+  width: 88%;
+  height: 60%;
+  font-size: 18px;
+}
+
+.component-title-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.component-title {
+  position: absolute;
+  color: var(--text-component);
+  right: 0;
+  /* top: 50%; */
+  transform: translate(0, -30%);
+  margin-left: 5px;
+  text-align: end;
+}
+
+.centered {
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.setting-checkbox {
+  position: absolute;
+}
+
+.checkbox-container {
+  position: relative;
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+}
+
+.setting-checkbox[type=checkbox] {
+  visibility: hidden;
+}
+
+.setting-checkbox[type=checkbox]:checked ~ .checkmark{
+  background-image: url(../img/checkmark-icon-small.png);
+  width: 25px;
+  height: 25px;
+  position: absolute;
+}
+
+.checkmark {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  z-index: 10;
+}
+
+.setting-checkbox-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.multiple-button-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.setting-button-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.apply-button-container {
+  width: 100%;
+  bottom: 0;
+}
+
+#apply {
+  height: 40px;
+  width: 100%;
+  background-color: var(--main-btn-inactive-color);
+  font-size: 18px;
+  color: grey;
+}
+
+#apply:hover:not([disabled]) {
+  cursor: pointer;
+  color: var(--text-primary);
+  background-color: var(--main-btn-active-color);
+}
+
+#apply:active:not([disabled]) {
+  transform: scale(0.95); /* Scale the button down when clicked */
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--text-primary);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--main-btn-active-color);
+}
+
+input:checked + .red{
+  background-color: var(--error-slider);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--main-btn-active-color);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.setting-input {
+  width: 50%;
+}
+
+.setting-value-text {
+  right: auto;
+  margin-left: 40px;
+}
+
+.select2 {
+  width: 100% !important;
+}
+
+/* .bigdrop {
+  width: calc(100% + 100px) !important;
+} */
+
+/* .select2-container.select2-dropdown-open {
+  width: calc(100% + 100px) !important;
+} */
+
+.select2-container--default .select2-dropdown {
+  width: calc(350px) !important;
+}
+
+.slidecontainer {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.setting-slider {
+  -webkit-appearance: none;
+  appearance: none; 
+  background: #ccc; /* Grey background */
+  cursor: pointer;
+  outline: none;
+  /*  slider progress trick  */
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 15px;
+  background: #ccc;
+  border-radius: 16px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  /* removing default appearance */
+  -webkit-appearance: none;
+  appearance: none; 
+  /* creating a custom design */
+  height: 15px;
+  width: 15px;
+  background-color: var(--text-primary);
+  border-radius: 50%;
+  border: 2px solid var(--main-btn-active-color);
+  /*  slider progress trick  */
+  box-shadow: -407px 0 0 400px var(--main-btn-active-color);
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 15px;
+  width: 15px;
+  background-color: #ccc;
+  border-radius: 50%;
+  border: 1px solid var(--main-btn-active-color);
+  /*  slider progress trick  */
+  box-shadow: -407px 0 0 400px var(--main-btn-active-color);
+}
+
+.setting-slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+input:checked + .setting-slider {
+  background-color: var(--main-btn-active-color);
+}
+
+.opacity-slider-text-value {
+  color: var(--text-primary);
+  font-size: 20px;
+  margin-left: 50px;
+}
+
+.settings-options {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-page-button {
+  width: -webkit-fill-available;
+  height: 30px;
+  color: grey;
+  background-color: var(--main-btn-inactive-color);
+  filter: drop-shadow(2px -2px 3px black);
+}
+
+.settings-page-button:hover {
+  background-color: var(--main-btn-active-color);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.setting-page-button-active {
+  color: var(--text-primary);
+  background-color: var(--main-btn-active-color);
+}

@@ -1,0 +1,550 @@
+{
+  "meta": {
+    "lang": "en",
+    "version": "2025-08-23T00:00:00Z",
+    "app": "Marathon Companion"
+  },
+  "header": {
+    "overwolf": {
+      "status": {
+        "overall": "Overwolf 상태",
+        "quest_automation": "퀘스트 자동화",
+        "game_mode": "게임 모드",
+        "map_selection": "맵 선택"
+      }
+    },
+    "hotkey": {
+      "switch": "화면 전환 키",
+      "showHide": "표시/숨김 키"
+    },
+    "settings": "설정",
+    "quests": "퀘스트"
+  },
+  "nav": {
+    "maps": "지도",
+    "quests": "퀘스트",
+    "hideout": "은신처",
+    "items": "필요 아이템",
+    "ammo": "탄약표",
+    "progression": {
+      "level": "레벨"
+    },
+    "subscription": "Premium",
+    "settings": "설정",
+    "support": "지원"
+  },
+  "pages": {
+    "hotkeys": {
+      "title": "핫키",
+      "placeholder": "키 입력",
+      "apply": "적용"
+    },
+    "questReminder": {
+      "title": "퀘스트 알림",
+      "quests": {
+        "button": "퀘스트"
+      },
+      "items": {
+        "button": "아이템",
+        "hideout": {
+          "level": "레벨"
+        }
+      },
+      "map": "활성 퀘스트:"
+    },
+    "reviewAndSubmit": {
+      "title": "검토 후 제출",
+      "submit": {
+        "title": "제출",
+        "success": "제출해 주셔서 감사합니다. 곧 검토합니다. 클릭하여 닫기",
+        "failure": "검토 전송에 문제가 발생했습니다."
+      },
+      "newQuests": "새 퀘스트",
+      "newCrafts": "새 제작",
+      "modifiedQuests": "수정된 퀘스트",
+      "modifiedHideout": "수정된 은신처 스테이션",
+      "modifiedCrafts": "수정된 제작",
+      "removedQuests": "삭제된 퀘스트",
+      "addedIcons": "추가된 맵 아이콘",
+      "removedIcons": "삭제된 맵 아이콘",
+      "removedCrafts": "삭제된 제작",
+      "imageToUplaod": "업로드할 이미지",
+      "none": "없음",
+      "crafts": "제작",
+      "iconsOn": "아이콘 ON",
+      "removed": "삭제됨"
+    },
+    "file": {
+      "import": {
+        "title": "앱 진행도 가져오기",
+        "file": "파일",
+        "select": "선택",
+        "warning": {
+          "1": "새 진행도를 가져오면 현재 진행도가 모두 지워집니다.",
+          "2": "가져오기 전에 필요한 경우 현재 진행도를 저장하세요."
+        },
+        "load": "진행도 불러오기"
+      },
+      "save": {
+        "title": "앱 진행도 저장",
+        "folder": "폴더",
+        "change": "변경",
+        "filename": "파일명",
+        "save": "저장"
+      }
+    },
+    "externalLinkWarning": {
+      "title": "외부 링크",
+      "disclaimer": "외부 링크를 열려고 합니다. 계속하시겠습니까?",
+      "dontShow": "다시 표시하지 않기",
+      "yes": "예",
+      "no": "아니오"
+    },
+    "questReset": {
+      "title": "퀘스트 초기화",
+      "warning": {
+        "1": "모든 퀘스트를 기본값으로 초기화합니다. 와이프 때 진행도를 지울 때 사용합니다.",
+        "2": "예를 클릭하면 앱이 재시작됩니다. 계속하시겠습니까?"
+      },
+      "yes": "예",
+      "no": "아니오"
+    },
+    "questCompletedAutomation": {
+      "title": "퀘스트 완료 자동화",
+      "warning": {
+        "1": "이미 완료했지만 추적하지 않은 퀘스트를 쉽게 완료 처리합니다. (와이프 중간에 앱을 설치한 경우 유용)",
+        "2": "현재 선택된 진행(PvP 또는 PvE)만 완료됩니다.",
+        "3": "올바르게 사용하려면 Arc Raiders에서 활성인 퀘스트를 앱에서도 모두 활성화하세요. 앱에서 활성화된 퀘스트의 요구 사항만 완료됩니다.",
+        "4": "어디에도 이어지지 않는 분기 끝은 자동 완료되지 않습니다. 마지막 퀘스트를 완료로 표시하면 자동완료가 올바르게 작동합니다.",
+        "5": "예: Stirrup은 다음으로 이어지지 않으므로 완료로 표시하지 않으면 이전 퀘스트도 자동으로 완료되지 않습니다."
+      },
+      "yes": "계속",
+      "no": "종료"
+    },
+    "submissions": {
+      "title": "제출 이용 약관",
+      "rules": {
+        "title": "제출 규칙 & 지침",
+        "1": "<b class='keyword'>부적절한 콘텐츠:</b> 업로드 이미지는 Overwolf의 정책을 따라야 합니다. 부적절한 이미지는 Overwolf에 신고됩니다.",
+        "2": "<b class='keyword'>데이터 수집:</b> 제출 시 수집되는 정보는 Overwolf 사용자명과 Overwolf ID뿐입니다.",
+        "3": "<b class='keyword'>익명성:</b> 제출물은 <b class='keyword'>다른 사용자에게 익명</b>으로 표시됩니다.",
+        "4": "<b class='keyword'>사용 권한:</b> 이미지를 제출하면 Marathon Companion에 앱 내 사용 권한을 부여합니다.",
+        "5": "<b class='keyword'>제출 제한:</b> <b class='keyword'>5분</b>당 <b class='keyword'>최대 2회</b>.",
+        "6": "<b class='keyword'>이미지 제출 제한:</b> <b class='keyword'>5분</b>당 <b class='keyword'>최대 10장</b>.",
+        "7": "<b class='keyword'>이미지 요건:</b> <b class='keyword'>16:9 화면비</b>, 파일 크기는 <b class='keyword'>8 MB 이하</b>.",
+        "8": "<b class='keyword'>위반 & 차단:</b> 규칙 위반 시 <b class='keyword'>콘텐츠 제출 차단</b>될 수 있습니다.",
+        "9": "계속하면 위 조건을 읽고 동의한 것으로 간주됩니다."
+      },
+      "notice": "편집 기능은 정보가 잘못된 경우 커뮤니티가 퀘스트와 맵 아이콘 수정을 제출할 수 있도록 하기 위한 것입니다",
+      "yes": "제출 동의 및 활성화",
+      "no": "취소"
+    },
+    "maps": {
+      "filters": {
+        "maps": "지도",
+        "filter": "필터"
+      },
+      "btr": { "guaranteed": "보장된 정차", "yes": "예", "no": "아니오" },
+      "author": "작성자",
+      "icon": {
+        "add": "아이콘 추가"
+      },
+      "edit": {
+        "mode": "편집 모드",
+        "disclaimer": "편집 세션 중 변경 사항은 저장되지 않습니다",
+        "move": "アイ콘 이동",
+        "edit": "아이콘 편집",
+        "addOrRemove": "아이콘 추가/제거"
+      },
+      "popup": {
+        "title": "아이콘 속성",
+        "type": "아이콘 유형",
+        "quest": "퀘스트 선택",
+        "questObjective": "퀘스트 목표 선택",
+        "description": "설명 추가",
+        "screenshot": {
+          "text": "스크린샷 첨부",
+          "button": "파일에서 선택, 최대 8MB, 16/9"
+        },
+        "apply": "적용"
+      }
+    },
+    "quests": {
+      "filters": {
+        "traders": {
+          "label": "상인",
+          "order": {
+            "byTrader": "상인순",
+            "byName": "이름순"
+          }
+        },
+        "type": {
+          "label": "종류"
+        },
+        "state": {
+          "label": "상태"
+        },
+        "maps": {
+          "label": "지도"
+        }
+      },
+      "indicator": {
+        "label": "(활성|완료|합계)"
+      },
+      "quest": {
+        "button": {
+          "done": "완료",
+          "active": "활성",
+          "completed": "완료됨",
+          "noTracking": "추적 끄기",
+          "manualTracking": "수동 활성",
+          "failed": "실패"
+        },
+        "body": {
+          "requirements": {
+            "label": "요구 사항",
+            "level": "레벨",
+            "delay": "이후 사용 가능",
+            "hours": "시간",
+            "type": "다음에서만",
+            "faction": "전용",
+            "edition": "전용",
+            "edit": {
+              "delay": "해제 지연(시간)",
+              "type": "진행 유형",
+              "faction": "진영",
+              "edition": "게임 에디션"
+            }
+          },
+          "unlockedBy": {
+            "label": "해제 조건",
+            "edit": {
+              "condition": {
+                "label": "퀘스트 조건",
+                "add": "조건 추가"
+              }
+            }
+          },
+          "leadsTo": {
+            "label": "다음으로 연결"
+          },
+          "keysRequired": {
+            "label": "필요 키",
+            "key": "키"
+          },
+          "itemsNeeded": {
+            "label": "필요 아이템"
+          },
+          "weapon": {
+            "label": "무기 빌드",
+            "view": {
+              "modding": "모딩 보기",
+              "inspect": "검사 보기"
+            },
+            "parts": {
+              "label": "부품"
+            }
+          },
+          "tasks": {
+            "label": "작업",
+            "count": "개수",
+            "maps": "지도",
+            "anyMaps": "모든 지도",
+            "location": "위치",
+            "find": "맵에서 찾기",
+            "fir": "레이드 획득",
+            "itemInfo": "아이템 정보",
+            "optional": "선택",
+            "weapon": {
+              "label": "무기 빌드",
+              "muzzle": "머즐",
+              "gasBlock": "가스 블록",
+              "handguard": "핸드가드",
+              "barrel": "배럴",
+              "rail": "레일",
+              "attachment": "부착물",
+              "foregrip": "포어그립",
+              "receiver": "리시버",
+              "mounts": "마운트",
+              "scope": "스코프",
+              "magazine": "탄창",
+              "pistolGrip": "그립",
+              "bolt": "볼트",
+              "stock": "스톡"
+            },
+            "edit": {
+              "description": "설명",
+              "count": "개수",
+              "optional": "선택",
+              "mark": "표식 아이템",
+              "item": "아이템",
+              "fir": "레이드 획득",
+              "add": "퀘스트 목표"
+            }
+          },
+          "rewards": {
+            "label": "보상",
+            "exp": "Exp",
+            "rep": "Rep",
+            "level": "레벨",
+            "skill": "스킬",
+            "edit": {
+              "exp": "경험치",
+              "skills": {
+                "label": "스킬",
+                "bonus": "보너스",
+                "skill": "스킬"
+              },
+              "standing": {
+                "label": "상인 평판",
+                "count": "개수"
+              },
+              "item": {
+                "label": "아이템 보상",
+                "item": "아이템",
+                "count": "개수"
+              },
+              "unlock": {
+                "label": "아이템 해제 보상",
+                "item": "아이템",
+                "rep": "평판"
+              },
+              "add": "추가"
+            }
+          },
+          "penalties": {
+            "label": "패널티",
+            "rep": "Rep",
+            "edit": {
+              "label": "패널티",
+              "count": "개수",
+              "rep": "감점",
+              "add": "추가"
+            }
+          },
+          "wiki": {
+            "label": "위키",
+            "link": "위키 링크"
+          },
+          "kappa": {
+            "label": "Kappa 필요",
+            "yes": "예",
+            "no": "아니오",
+            "edit": {
+              "button": "Kappa 필요"
+            }
+          }
+        }
+      }
+    },
+    "hideout": {
+      "filters": {
+        "inactive": "비활성",
+        "active": "활성",
+        "completed": "완료"
+      },
+      "station": {
+        "legend": {
+          "blocked": "차단됨",
+          "tracking": "추적 중",
+          "completed": "완료/건설됨"
+        },
+        "level": {
+          "label": "레벨",
+          "required": "필요 레벨",
+          "requirement": "요구 사항",
+          "craft": "제작",
+          "state": {
+            "blocked": "차단됨",
+            "track": "추적",
+            "build": "건설"
+          },
+          "requirements": {
+            "button": "요구 사항 표시",
+            "edit": {
+              "standing": {
+                "label": "상인 평판",
+                "rep": "Rep"
+              },
+              "station": {
+                "label": "스테이션 요구 사항"
+              },
+              "item": {
+                "label": "아이템 요구 사항",
+                "item": "아이템",
+                "count": "개수"
+              },
+              "add": "추가"
+            }
+          },
+          "crafts": {
+            "button": "제작 표시",
+            "edit": {
+              "item": "아이템",
+              "count": "개수",
+              "duration": "제작 시간",
+              "hours": "시간",
+              "minutes": "분",
+              "seconds": "초",
+              "unlock": "퀘스트 해제",
+              "add": "추가"
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "filters": {
+        "missing": "미보유만",
+        "quest": "퀘스트",
+        "hideout": "은신처"
+      },
+      "search": {
+        "placeholder": "이름으로 검색"
+      },
+      "overall": "총 필요",
+      "quests": "퀘스트",
+      "hideout": "은신처 스테이션",
+      "required": "필요"
+    },
+    "ammo": {
+      "body": {
+        "img": "",
+        "name": "이름",
+        "dmg": "DMG",
+        "pen": "PEN",
+        "frag": "Frag%",
+        "recoil": "반동",
+        "tier1": "1",
+        "tier2": "2",
+        "tier3": "3",
+        "tier4": "4",
+        "tier5": "5",
+        "tier6": "6"
+      }
+    },
+    "subscription": {
+      "info": {
+        "title": "Marathon Companion 업그레이드로 더 나은 경험",
+        "description": "UI 제어 향상, 광고 제거, 프로젝트 지원",
+        "perks": {
+          "1": "광고 컨테이너 완전 제거",
+          "2": "더 나은 UI 제어",
+          "3": "Marathon Companion 지원"
+        }
+      },
+      "state": {
+        "notSubscribed": {
+          "title": "광고 제거를 위해 구독"
+        },
+        "subscribed": {
+          "title": "현재 구독:"
+        },
+        "loggedInAs": "현재 로그인: ",
+        "notLoggedIn": "Overwolf에 로그인되지 않았습니다. 계속하려면 로그인하세요",
+        "status": {
+          "title": "구독 상태: ",
+          "active": "활성",
+          "cancelled": "갱신 취소"
+        }
+      },
+      "buttons": {
+        "manage": "관리",
+        "refresh": "새로고침",
+        "subscribe": "구독"
+      }
+    },
+    "sidePanel": {
+      "search": {
+        "placeholder": "퀘스트 검색 - 필터 미적용"
+      },
+      "filters": {
+        "label": "필터",
+        "map": "맵으로 필터",
+        "order": {
+          "trader": "상인순",
+          "quest": "퀘스트순"
+        },
+        "kappa": "Kappa만"
+      },
+      "button": {
+        "reminder": "퀘스트 알림 열기",
+        "quest": {
+          "view": "활성 퀘스트 | 키 "
+        }
+      },
+      "ads": {
+        "remove": "광고 제거"
+      }
+    },
+    "settings": {
+      "app": {
+        "label": "앱",
+        "locale": "선호 앱 언어 선택",
+        "restart": "앱을 재시작하세요",
+        "monitor": "세컨드 모니터 설정",
+        "opacity": "인게임 창 불투명도",
+        "sidePanelHotkey": "사이드 퀘스트 표시/숨김 키",
+        "inGameHotkey": {
+          "text": "인게임 핫키"
+        },
+        "ingameDesktopHotkey": {
+          "text": "인게임/데스크톱 전환 키"
+        },
+        "questReminderHotkey": {
+          "text": "퀘스트 알림 키"
+        },
+        "enableQuestReminder": "퀘스트 알림 활성화",
+        "onMatchmaking": "매치메이킹 시 앱 열기",
+        "desktopOnly": "데스크톱 전용 모드",
+        "appCloseOnGameClose": "게임 종료 시 앱 닫기",
+        "externalLinkWarning": "외부 링크 경고",
+        "inRaidTimer": {
+          "text": "레이드 타이머 표시/숨김",
+          "button": "표시/숨김"
+        },
+        "uploadLogs": {
+          "text": "현재 세션 로그 업로드",
+          "button": "제출"
+        }
+      },
+      "progression": {
+        "label": "진행도",
+        "automate": "퀘스트 진행 자동화",
+        "level": "필요 레벨 사용",
+        "completedButton": "더블클릭으로 완료",
+        "wipe": {
+          "text": "모든 진행도 초기화",
+          "button": {
+            "1": "초기화",
+            "2": "PvE 초기화"
+          }
+        },
+        "kappa": {
+          "text": "비-Kappa 퀘스트 표시/해제",
+          "button": {
+            "1": "비활성화",
+            "2": "활성화"
+          }
+        },
+        "save": {
+          "text": "앱 진행도를 기기에 저장",
+          "button": "저장"
+        },
+        "import": {
+          "text": "기기에서 앱 진행도 가져오기",
+          "button": "가져오기"
+        },
+        "questCompletedAutomation": {
+          "text": "완료 퀘스트 자동화",
+          "button": "자동 완료"
+        }
+      },
+      "map": {
+        "label": "맵",
+        "default": "시작 시 기본 맵",
+        "zoom": "맵 줌 감도"
+      }
+    }
+  }
+}

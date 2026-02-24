@@ -1,0 +1,99 @@
+@import "./common.css";
+
+* {
+  font-size: 15px;
+}
+
+main {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-overlay);
+    backdrop-filter: blur(5px);
+}
+
+.iframe {
+    position: absolute;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    max-width: -webkit-fill-available;
+    border: 0;
+    z-index: 10;
+    top: 0;
+    left: 0;
+}
+
+
+body {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    /*
+      Introduced in Internet Explorer 10.
+      See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+    */
+    -ms-user-select: none;
+    user-select: none;
+
+    font-family: terminal;
+    /* background-color: black; */
+    /* margin: 0px; */
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    min-height: 687px;
+    overflow: hidden;
+}
+
+#icon-screenshot-button {
+    width: 100%;
+    height: auto;
+    min-height: 70%;
+}
+
+.header-logo {
+    width: 19px;
+    height: 19px;
+    -webkit-user-drag: none;
+}
+
+.background {
+    position: absolute;
+    background-color: var(--bg-base);
+    opacity: 70%;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    height: 100vh;
+    z-index: 1;
+}
+
+.page {
+    position: relative;
+    flex-direction: column;
+    display: flex;
+    background-color: var(--header-color);
+    opacity: 100%;
+    z-index: 2;
+    min-width: 800px;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    align-items: center;
+    justify-content: center;
+}
+
+#quest-completion-automation-frame {
+    height: auto;
+    width: fit-content;
+}

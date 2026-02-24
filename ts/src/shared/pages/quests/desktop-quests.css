@@ -1,0 +1,130 @@
+.desktop-quests-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.desktop-quests {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: -webkit-fill-available;
+  max-width: 900px;
+  height: 100%;
+  padding: 20px 20px 0px 20px;
+  box-sizing: border-box;
+  color: var(--text-primary);
+}
+
+.desktop-quests-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.desktop-quests-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.desktop-quests-header-right {
+  display: flex;
+  align-items: center;
+}
+
+.desktop-quests-title {
+  font-size: 22px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.desktop-quests-title-logo {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.desktop-quests-title-text {
+  display: inline-block;
+}
+
+.desktop-quests-subtitle {
+  font-size: 13px;
+  color: var(--white-a70);
+}
+
+.desktop-quests-search {
+    width: 240px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--bg-control-strong);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 13px;
+}
+
+.desktop-quests-search input:disabled[type=text] {
+    color: var(--bg-control-strong);
+}
+
+.desktop-quests-search:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-a25);
+}
+
+.desktop-quests-filters {
+  background: var(--bg-sidebar);
+  border-radius: 10px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.desktop-quests-order {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.desktop-quests-order-button {
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  padding: 8px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.desktop-quests-order-button.is-active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-a25);
+}
+
+.desktop-quests-edit-toggle {
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+.desktop-quests-edit-toggle:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1100px) {
+  .desktop-quests-filters {
+    flex-direction: column;
+  }
+  .desktop-quests-order {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
