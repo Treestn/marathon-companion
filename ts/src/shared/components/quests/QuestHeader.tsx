@@ -4,6 +4,7 @@ import { I18nHelper } from '../../../locale/I18nHelper';
 import { TraderMapper } from '../../../adapter/TraderMapper';
 import { TraderList } from '../../../escape-from-tarkov/constant/TraderConst';
 import { ProgressionStateService } from '../../services/ProgressionStateService';
+import { FACTIONS_DATA } from '../../../model/faction/IFactionsElements';
 
 type TraderOption = {
   id: string;
@@ -30,6 +31,10 @@ const traderOptions: TraderOption[] = TraderList.map((t) => ({
   name: t.name,
   src: t.src,
 }));
+
+const getFactionColor = (traderId: string): string =>
+  FACTIONS_DATA.find((faction) => faction.factionId === traderId)?.colorSurface ??
+  'var(--accent)';
 
 // ---------------------------------------------------------------------------
 // Sub-components for each header mode
@@ -125,10 +130,10 @@ type EditHeaderProps = {
   isActive: boolean;
   traderImageSrc: string | null;
   traderAlt: string;
+  factionColor: string;
   currentTraderId: string;
   displayTitle: string;
   onToggle: () => void;
-  onToggleActive: () => void;
   onTraderChange?: (traderId: string, traderName: string) => void;
   onQuestNameChange?: (name: string) => void;
   onDeleteQuest?: () => void;
@@ -140,10 +145,10 @@ const EditHeader: React.FC<EditHeaderProps> = ({
   isActive,
   traderImageSrc,
   traderAlt,
+  factionColor,
   currentTraderId,
   displayTitle,
   onToggle,
-  onToggleActive,
   onTraderChange,
   onQuestNameChange,
   onDeleteQuest,
@@ -172,6 +177,7 @@ const EditHeader: React.FC<EditHeaderProps> = ({
       className={`quest-header quest-header-edit${isOpen ? ' quest-header-open' : ''}${
         isCompleted ? ' quest-header-completed' : ''
       }`}
+      style={{ '--quest-faction-color': factionColor } as React.CSSProperties}
     >
       <div className="quest-header-edit-left">
         {/* Trader dropdown */}
@@ -185,11 +191,25 @@ const EditHeader: React.FC<EditHeaderProps> = ({
             }}
             title="Change trader"
           >
-            <img
-              src={traderImageSrc ?? undefined}
-              alt={traderAlt}
-              className="quest-trader-image"
-            />
+            {traderImageSrc ? (
+              <span
+                className="quest-trader-image quest-trader-image-active"
+                role="img"
+                aria-label={traderAlt}
+                style={
+                  {
+                    '--quest-faction-color': factionColor,
+                    '--quest-trader-icon-mask': `url("${traderImageSrc}")`,
+                  } as React.CSSProperties
+                }
+              />
+            ) : (
+              <img
+                src={traderImageSrc ?? undefined}
+                alt={traderAlt}
+                className="quest-trader-image"
+              />
+            )}
             <span className="quest-header-trader-caret">▾</span>
           </button>
           {isTraderDropdownOpen && (
@@ -206,7 +226,17 @@ const EditHeader: React.FC<EditHeaderProps> = ({
                     handleTraderSelect(trader);
                   }}
                 >
-                  <img src={trader.src} alt={trader.name} className="quest-header-trader-option-image" />
+                  <span
+                    className="quest-header-trader-option-image quest-trader-image-active"
+                    role="img"
+                    aria-label={trader.name}
+                    style={
+                      {
+                        '--quest-faction-color': getFactionColor(trader.id),
+                        '--quest-trader-icon-mask': `url("${trader.src}")`,
+                      } as React.CSSProperties
+                    }
+                  />
                   <span>{trader.name}</span>
                 </button>
               ))}
@@ -238,24 +268,7 @@ const EditHeader: React.FC<EditHeaderProps> = ({
             <span className="quest-header-completed-check">✓</span>
             <span className="quest-header-completed-text">Completed</span>
           </div>
-        ) : (
-          <>
-            <span className="quest-header-status-text">
-              {isActive ? 'Active' : 'Inactive'}
-            </span>
-            <button
-              type="button"
-              className={`quest-header-switch${isActive ? ' is-active' : ''}`}
-              onClick={(event) => {
-                event.stopPropagation();
-                onToggleActive();
-              }}
-              aria-pressed={isActive}
-            >
-              <span className="quest-header-switch-thumb" />
-            </button>
-          </>
-        )}
+        ) : null}
         <button
           type="button"
           className="quest-header-delete-button"
@@ -295,6 +308,7 @@ export const QuestHeader = React.memo<QuestHeaderProps>(({
   const currentTraderId = (quest.trader as { id?: string })?.id ?? '';
   const traderImageSrc = TraderMapper.getImageFromTraderId(currentTraderId);
   const traderAlt = (quest.trader as { name?: string })?.name ?? '';
+  const factionColor = getFactionColor(currentTraderId);
 
   const [isActive, setIsActive] = useState(
     ProgressionStateService.isQuestActive(quest.id)
@@ -354,10 +368,10 @@ export const QuestHeader = React.memo<QuestHeaderProps>(({
         isActive={isActive}
         traderImageSrc={traderImageSrc}
         traderAlt={traderAlt}
+        factionColor={factionColor}
         currentTraderId={currentTraderId}
         displayTitle={displayTitle}
         onToggle={onToggle}
-        onToggleActive={toggleActive}
         onTraderChange={onTraderChange}
         onQuestNameChange={onQuestNameChange}
         onDeleteQuest={onDeleteQuest}
@@ -370,13 +384,28 @@ export const QuestHeader = React.memo<QuestHeaderProps>(({
       className={`quest-header${isOpen ? ' quest-header-open' : ''}${
         isCompleted ? ' quest-header-completed' : ''
       }`}
+      style={{ '--quest-faction-color': factionColor } as React.CSSProperties}
     >
       <button type="button" className="quest-header-toggle" onClick={onToggle}>
-        <img
-          src={TraderMapper.getImageFromTraderId((quest.trader as { id?: string })?.id ?? '')}
-          alt={(quest.trader as { name?: string })?.name ?? ''}
-          className="quest-trader-image"
-        />
+        {isActive && traderImageSrc ? (
+          <span
+            className="quest-trader-image quest-trader-image-active"
+            role="img"
+            aria-label={traderAlt}
+            style={
+              {
+                '--quest-faction-color': factionColor,
+                '--quest-trader-icon-mask': `url("${traderImageSrc}")`,
+              } as React.CSSProperties
+            }
+          />
+        ) : (
+          <img
+            src={traderImageSrc}
+            alt={traderAlt}
+            className="quest-trader-image"
+          />
+        )}
         <span className="quest-title">{displayTitle}</span>
       </button>
       <StatusArea

@@ -420,6 +420,9 @@
   --map-filter-hover-text:   #E6D4FF;
   --map-filter-active-text:  #EAD7FF;
   --map-edit-header-text:    #f4e9ff;
+  --important-button-color:  #F7F7F7;
+  --important-button-text-color: #000000;
+  --important-button-strip-color: #CFCFCF;
   --map-popup-desc:     #939393;
   --map-popup-text:     #d9d9d9;
   --map-dropdown-text:  #cbcbcb;

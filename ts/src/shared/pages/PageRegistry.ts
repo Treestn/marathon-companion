@@ -29,7 +29,7 @@ export const PAGE_REGISTRY: PageConfig[] = [
   },
   {
     id: 'quests',
-    name: 'Quests',
+    name: 'Contracts',
     path: '/quests',
     navigationId: 'quests-navigation',
     icon: '../img/side-nav-quest-icon.png',
@@ -52,6 +52,33 @@ export const PAGE_REGISTRY: PageConfig[] = [
     navigationId: 'items-needed-navigation',
     icon: './img/items-needed.png',
     i18nKey: 'pages.questReminder.items.button',
+    enabled: true
+  },
+  {
+    id: 'weapons',
+    name: 'Weapons',
+    path: '/weapons',
+    navigationId: 'weapons-navigation',
+    icon: './img/side-nav-quest-icon.png',
+    i18nKey: 'nav.weapons',
+    enabled: true
+  },
+  {
+    id: 'runners',
+    name: 'Runners',
+    path: '/runners',
+    navigationId: 'runners-navigation',
+    icon: './img/pvp_icon.png',
+    i18nKey: 'nav.runners',
+    enabled: true
+  },
+  {
+    id: 'factions',
+    name: 'Factions',
+    path: '/factions',
+    navigationId: 'factions-navigation',
+    icon: './img/side-nav-quest-icon.png',
+    i18nKey: 'nav.factions',
     enabled: true
   },
   {

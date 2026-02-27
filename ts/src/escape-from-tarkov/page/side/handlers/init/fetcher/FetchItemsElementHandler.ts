@@ -2,7 +2,7 @@ import { BackgroundHelper } from "../../../../../../background/BackgroundHelper"
 import { apiState } from "../../../../../../consts";
 import { PopupHelper } from "../../../../../../popup/PopupHelper";
 import { AppPopupMessagesConst } from "../../../../../constant/AppPopupMessages";
-import { ItemsV2Object } from "../../../../../../model/items/IItemsElements";
+import { ItemsModel } from "../../../../../../model/items/IItemsElements";
 import endpoints from "../../../../../service/tarkov-companion-api/config/endpoint";
 import { TarkovCompanionService } from "../../../../../service/tarkov-companion-api/handler/TarkovCompanionService";
 import { AbstractChainHandler } from "../../../../../types/abstract/AbstractChainHandler";
@@ -24,7 +24,7 @@ export class FetchItemsElementHandler extends AbstractChainHandler {
                 }
                         
                 if(response.length > 0) {
-                    let data:ItemsV2Object = JSON.parse(response)
+                    let data:ItemsModel = JSON.parse(response)
                     if(data) {
                         request.itemsElement = data;
                         // // request.itemsElement.items = new Map(Object.entries(JSON.parse(JSON.stringify(request.itemsElement.items))))

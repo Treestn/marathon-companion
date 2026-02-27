@@ -1,9 +1,9 @@
-const hostname = "https://companions-api.treestn-dev.ca";
+// const hostname = "https://companions-api.treestn-dev.ca";
 const submissionHostname = "https://companions-submissions.treestn-dev.ca";
-// const hostname = "http://localhost:8080";
+const hostname = "http://localhost:8080";
 // const submissionHostname = "http://localhost:8080";
 
-const RESOURCE_GAME = "arc-raiders";
+const RESOURCE_GAME = "marathon";
 const GAME_NAMESPACE_ID = "2a412452-9b3a-48c4-bc73-4daaf89cfd9a";
 const resourceBase = `${hostname}/v1/resources/${RESOURCE_GAME}`;
 

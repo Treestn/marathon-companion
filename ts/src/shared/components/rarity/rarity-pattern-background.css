@@ -1,0 +1,13 @@
+.rarity-pattern-background {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.rarity-pattern-background-cell {
+  width: 100%;
+  height: 100%;
+}
+

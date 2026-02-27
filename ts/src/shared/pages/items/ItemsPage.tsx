@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { ItemsV2Object, ItemV2 } from "../../../model/items/IItemsElements";
+import { Item, ItemsModel } from "../../../model/items/IItemsElements";
 import { ItemsElementUtils } from "../../../escape-from-tarkov/utils/ItemsElementUtils";
-import { rarityToColor } from "../../../escape-from-tarkov/utils/RarityColorUtils";
+import { rarityToColor, rarityToLabel } from "../../../escape-from-tarkov/utils/RarityColorUtils";
 import { ItemRarityImage } from "../../components/items/ItemRarityImage";
+import { RarityPatternBackground } from "../../components/rarity/RarityPatternBackground";
 import { ProgressionUpdatesService } from "../../services/ProgressionUpdatesService";
 import { ItemRequirementTooltip } from "../../components/items/ItemRequirementTooltip";
 import { NavigationTarget } from "../../services/NavigationEvents";
@@ -13,6 +14,8 @@ type ItemsPageProps = {
   onNavigationHandled?: () => void;
 };
 
+type ItemCategoryKey = "general" | "cores" | "implants" | "weapons" | "mods";
+
 const resolveBridge = () =>
   (overwolf?.windows?.getMainWindow?.() as any)?.backgroundBridge;
 
@@ -20,15 +23,21 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
   navigationTarget,
   onNavigationHandled,
 }) => {
-  const [itemsData, setItemsData] = useState<ItemsV2Object | null>(null);
+  const [itemsData, setItemsData] = useState<ItemsModel | null>(null);
   const [requiredCounts, setRequiredCounts] = useState<Record<string, number>>({});
   const [trackedRequiredCounts, setTrackedRequiredCounts] = useState<Record<string, number>>({});
   const [trackedItemIds, setTrackedItemIds] = useState<string[]>([]);
   const [itemQuantities, setItemQuantities] = useState<Record<string, number>>({});
   const [trackingOnly, setTrackingOnly] = useState(false);
   const [missingOnly, setMissingOnly] = useState(false);
-  const [includeQuests, setIncludeQuests] = useState(true);
-  const [includeHideout, setIncludeHideout] = useState(true);
+  const [includeQuests, setIncludeQuests] = useState(false);
+  const [categoryFilters, setCategoryFilters] = useState<Record<ItemCategoryKey, boolean>>({
+    general: true,
+    cores: true,
+    implants: true,
+    weapons: true,
+    mods: true,
+  });
   const [forcedItemId, setForcedItemId] = useState<string | null>(null);
   const [highlightedItemId, setHighlightedItemId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -56,7 +65,6 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
       await Promise.all([
         bridge.waitForItemsData?.(),
         bridge.waitForQuestData?.(),
-        bridge.waitForHideoutData?.(),
       ]);
 
       if (!isMounted) {
@@ -64,8 +72,8 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
       }
 
       // Retrieve all data in one go
-      const data = bridge.getItemsData?.() as ItemsV2Object | undefined;
-      if (data?.items?.length) {
+      const data = bridge.getItemsData?.() as ItemsModel | undefined;
+      if (data?.items) {
         ItemsElementUtils.setItemsMap(data);
         setItemsData(data);
       }
@@ -76,16 +84,16 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
 
       // Get required counts
       const counts = bridge.getItemRequiredCounts?.({
-        includeQuests: true,
-        includeHideout: true,
+        includeQuests: false,
+        includeHideout: false,
       }) as Record<string, number> | undefined;
       const trackedCounts = bridge.getTrackedItemRequiredCounts?.({
-        includeQuests: true,
-        includeHideout: true,
+        includeQuests: false,
+        includeHideout: false,
       }) as Record<string, number> | undefined;
       const tracked = bridge.getTrackedItemIds?.({
-        includeQuests: true,
-        includeHideout: true,
+        includeQuests: false,
+        includeHideout: false,
       }) as string[] | undefined;
 
       setRequiredCounts(counts ?? {});
@@ -101,7 +109,7 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
     };
   }, []);
 
-  // Refresh counts when quest/hideout filter toggles change (after initial load)
+  // Refresh counts when quest filter toggles change (after initial load)
   useEffect(() => {
     if (!hasLoadedOnce.current) {
       return;
@@ -112,22 +120,59 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
     }
     const counts = bridge.getItemRequiredCounts?.({
       includeQuests,
-      includeHideout,
+      includeHideout: false,
     }) as Record<string, number> | undefined;
     const trackedCounts = bridge.getTrackedItemRequiredCounts?.({
       includeQuests,
-      includeHideout,
+      includeHideout: false,
     }) as Record<string, number> | undefined;
     const tracked = bridge.getTrackedItemIds?.({
       includeQuests,
-      includeHideout,
+      includeHideout: false,
     }) as string[] | undefined;
     setRequiredCounts(counts ?? {});
     setTrackedRequiredCounts(trackedCounts ?? {});
     setTrackedItemIds(tracked ?? []);
-  }, [includeQuests, includeHideout]);
+  }, [includeQuests]);
 
-  const items = useMemo<ItemV2[]>(() => itemsData?.items ?? [], [itemsData]);
+  const categorizedItems = useMemo<Record<ItemCategoryKey, Item[]>>(() => {
+    if (!itemsData?.items) {
+      return {
+        general: [],
+        cores: [],
+        implants: [],
+        weapons: [],
+        mods: [],
+      };
+    }
+
+    return {
+      general: itemsData.items.items ?? [],
+      cores: itemsData.items.cores ?? [],
+      implants: itemsData.items.implants ?? [],
+      weapons: itemsData.items.weapons ?? [],
+      mods: itemsData.items.mods ?? [],
+    };
+  }, [itemsData]);
+
+  const items = useMemo<Item[]>(() => {
+    const seenIds = new Set<string>();
+    const selectedItems = [
+      ...(categoryFilters.general ? categorizedItems.general : []),
+      ...(categoryFilters.cores ? categorizedItems.cores : []),
+      ...(categoryFilters.implants ? categorizedItems.implants : []),
+      ...(categoryFilters.weapons ? categorizedItems.weapons : []),
+      ...(categoryFilters.mods ? categorizedItems.mods : []),
+    ];
+
+    return selectedItems.filter((item) => {
+        if (!item?.id || seenIds.has(item.id)) {
+          return false;
+        }
+        seenIds.add(item.id);
+        return true;
+      });
+  }, [categoryFilters, categorizedItems]);
 
   // Subscribe to live progression updates
   useEffect(() => {
@@ -165,9 +210,6 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
     if (typeof filters?.includeQuests === "boolean") {
       setIncludeQuests(filters.includeQuests);
     }
-    if (typeof filters?.includeHideout === "boolean") {
-      setIncludeHideout(filters.includeHideout);
-    }
     if (navigationTarget.itemId) {
       setForcedItemId(navigationTarget.itemId);
       setHighlightedItemId(navigationTarget.itemId);
@@ -177,7 +219,7 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
   // Reset to page 1 whenever filters or search change
   useEffect(() => {
     setCurrentPage(1);
-  }, [trackingOnly, missingOnly, includeQuests, includeHideout, searchTerm]);
+  }, [trackingOnly, missingOnly, includeQuests, searchTerm, categoryFilters]);
 
   const effectiveCounts = trackingOnly ? trackedRequiredCounts : requiredCounts;
 
@@ -188,12 +230,11 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
       const total = effectiveCounts[item.id] ?? 0;
       if (normalizedSearch) {
         const itemName = item.name?.toLowerCase() ?? "";
-        const itemShortName = item.shortname?.toLowerCase() ?? "";
-        if (!itemName.includes(normalizedSearch) && !itemShortName.includes(normalizedSearch)) {
+        if (!itemName.includes(normalizedSearch)) {
           return false;
         }
       }
-      if ((includeQuests || includeHideout) && total === 0) {
+      if (includeQuests && total === 0) {
         return false;
       }
       if (trackingOnly && !trackedSet.has(item.id)) {
@@ -223,7 +264,6 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
     itemQuantities,
     trackedItemIds,
     includeQuests,
-    includeHideout,
     forcedItemId,
     searchTerm,
   ]);
@@ -248,10 +288,23 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
 
   const getRarityLabel = (itemId: string) => {
     const rarity = ItemsElementUtils.getItemRarity(itemId);
-    if (!rarity) {
-      return "Unknown";
+    return rarityToLabel(rarity);
+  };
+
+  const getItemDescription = (item: Item) => {
+    const description = (item as { description?: string }).description;
+    if (!description?.trim()) {
+      return "No description available.";
     }
-    return rarity.charAt(0).toUpperCase() + rarity.slice(1);
+    return description.trim();
+  };
+
+  const getItemValue = (item: Item) => {
+    const value = (item as { value?: number | null }).value;
+    if (typeof value !== "number") {
+      return "N/A";
+    }
+    return value.toLocaleString();
   };
 
   useEffect(() => {
@@ -347,10 +400,48 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
           </button>
           <button
             type="button"
-            className={`items-filter-label${includeHideout ? " is-active" : ""}`}
-            onClick={() => setIncludeHideout((prev) => !prev)}
+            className={`items-filter-label${categoryFilters.general ? " is-active" : ""}`}
+            onClick={() =>
+              setCategoryFilters((prev) => ({ ...prev, general: !prev.general }))
+            }
           >
-            Hideout Only
+            General
+          </button>
+          <button
+            type="button"
+            className={`items-filter-label${categoryFilters.cores ? " is-active" : ""}`}
+            onClick={() =>
+              setCategoryFilters((prev) => ({ ...prev, cores: !prev.cores }))
+            }
+          >
+            Cores
+          </button>
+          <button
+            type="button"
+            className={`items-filter-label${categoryFilters.implants ? " is-active" : ""}`}
+            onClick={() =>
+              setCategoryFilters((prev) => ({ ...prev, implants: !prev.implants }))
+            }
+          >
+            Implants
+          </button>
+          <button
+            type="button"
+            className={`items-filter-label${categoryFilters.weapons ? " is-active" : ""}`}
+            onClick={() =>
+              setCategoryFilters((prev) => ({ ...prev, weapons: !prev.weapons }))
+            }
+          >
+            Weapons
+          </button>
+          <button
+            type="button"
+            className={`items-filter-label${categoryFilters.mods ? " is-active" : ""}`}
+            onClick={() =>
+              setCategoryFilters((prev) => ({ ...prev, mods: !prev.mods }))
+            }
+          >
+            Mods
           </button>
         </div>
         <div className="items-grid scroll-div">
@@ -420,10 +511,14 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
               </div>
               )}
               <div className="items-image">
+                <RarityPatternBackground
+                  rarity={ItemsElementUtils.getItemRarity(item.id)}
+                  className="items-image-pattern"
+                />
                 <ItemRequirementTooltip
                   itemId={item.id}
                   includeQuests={includeQuests}
-                  includeHideout={includeHideout}
+                  includeHideout={false}
                 >
                   <div className="item-requirement-trigger">
                     <ItemRarityImage itemId={item.id} size={75} />
@@ -432,6 +527,8 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
               </div>
               <div className="items-info">
                 <div className="items-name">{item.name}</div>
+                <div className="items-description">{getItemDescription(item)}</div>
+                <div className="items-meta-row">
                 <div
                   className={`items-total-count${
                     current >= total && total > 0 ? " is-complete" : ""
@@ -439,11 +536,18 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
                 >
                   Total: {total}
                 </div>
+                </div>
+              </div>
+              <div className="items-card-overlays">
                 <div
                   className="items-rarity-label"
                   style={getRarityStyle(item.id)}
                 >
                   {getRarityLabel(item.id)}
+                </div>
+                <div className="items-cost-badge">
+                  <span className="items-cost-badge-label">Cost</span>
+                  <span className="items-cost-badge-value">{getItemValue(item)}</span>
                 </div>
               </div>
             </div>

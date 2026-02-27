@@ -1,4 +1,4 @@
-import React, { useCallback, useDeferredValue, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { QuestFilters } from "../../components/quests/filters/QuestFilters";
 import { QuestHeader } from "../../components/quests/QuestHeader";
 import { QuestBody } from "../../components/quests/QuestBody";
@@ -17,9 +17,11 @@ import { useOptionalEditModeContext } from "../../context/EditModeContext";
 import { useOptionalQuestSubmissionContext, type QuestEditEntry } from "../../context/QuestSubmissionContext";
 import { I18nHelper } from "../../../locale/I18nHelper";
 import { MapAdapter } from "../../../adapter/MapAdapter";
-import type { Quest } from "../../../model/quest/IQuestsElements";
+import { QuestImpl, type Quest } from "../../../model/quest/IQuestsElements";
 import { QuestObjective } from "../../../model/quest/IQuestsElements";
 import type { ProgressionUpdateOp } from "../../services/ProgressionUpdatesService";
+import { QuestType } from "../../../escape-from-tarkov/constant/QuestConst";
+import { TraderList } from "../../../escape-from-tarkov/constant/TraderConst";
 
 // ---------------------------------------------------------------------------
 // QuestCard — extracted + memoized so only the changed card re-renders
@@ -28,32 +30,42 @@ import type { ProgressionUpdateOp } from "../../services/ProgressionUpdatesServi
 type QuestCardProps = {
   /** The effective quest (edits already applied if they exist). */
   quest: Quest;
+  leadsToRequirements: EditTaskRequirement[];
+  linkQuestOptions: Quest[];
   isOpen: boolean;
   isEditMode: boolean;
   isRemoved: boolean;
+  isNewQuest: boolean;
   isCompleted: boolean;
   toggleQuest: (questId: string) => void;
   sendProgressionUpdate: (payload: ProgressionUpdateOp) => void;
   upsertQuest: (quest: Quest) => void;
+  getQuestById: (questId: string) => Quest | undefined;
   addRemovedQuest: (questId: string) => void;
+  removeQuestEntry: (questId: string) => void;
   cancelRemovedQuest: (questId: string) => void;
 };
 
+const EMPTY_LEADS_TO_REQUIREMENTS: EditTaskRequirement[] = [];
+const EMPTY_LINK_QUEST_OPTIONS: Quest[] = [];
+
 const QuestCard = React.memo<QuestCardProps>(({
   quest,
+  leadsToRequirements,
+  linkQuestOptions,
   isOpen,
   isEditMode,
   isRemoved,
+  isNewQuest,
   isCompleted,
   toggleQuest,
   sendProgressionUpdate,
   upsertQuest,
+  getQuestById,
   addRemovedQuest,
+  removeQuestEntry,
   cancelRemovedQuest,
 }) => {
-  const questName =
-    quest.locales?.[I18nHelper.currentLocale()] ?? quest.name ?? "Quest";
-
   // --- Stable callbacks ---
 
   const onToggle = useCallback(() => {
@@ -88,8 +100,14 @@ const QuestCard = React.memo<QuestCardProps>(({
   );
 
   const onDeleteQuest = useCallback(
-    () => addRemovedQuest(quest.id),
-    [addRemovedQuest, quest.id],
+    () => {
+      if (isNewQuest) {
+        removeQuestEntry(quest.id);
+        return;
+      }
+      addRemovedQuest(quest.id);
+    },
+    [addRemovedQuest, isNewQuest, quest.id, removeQuestEntry],
   );
 
   const onCancelDelete = useCallback(
@@ -222,6 +240,45 @@ const QuestCard = React.memo<QuestCardProps>(({
     [quest, upsertQuest],
   );
 
+  const onAddLeadsToRequirement = useCallback(
+    (targetQuestId: string, status: string) => {
+      if (!targetQuestId || targetQuestId === quest.id) return;
+      const targetQuest = getQuestById(targetQuestId);
+      if (!targetQuest) return;
+
+      const modifiedTarget = structuredClone(targetQuest);
+      const nextTaskRequirements = [...(modifiedTarget.taskRequirements ?? [])];
+      const alreadyLinked = nextTaskRequirements.some((req) => {
+        const reqStatus = req.status?.[0] ?? "complete";
+        return req.task.id === quest.id && reqStatus === status;
+      });
+      if (alreadyLinked) return;
+
+      nextTaskRequirements.push({
+        task: { id: quest.id },
+        status: [status],
+      });
+      modifiedTarget.taskRequirements = nextTaskRequirements;
+      upsertQuest(modifiedTarget);
+    },
+    [getQuestById, quest.id, upsertQuest],
+  );
+
+  const onRemoveLeadsToRequirement = useCallback(
+    (targetQuestId: string, status: string) => {
+      const targetQuest = getQuestById(targetQuestId);
+      if (!targetQuest) return;
+
+      const modifiedTarget = structuredClone(targetQuest);
+      modifiedTarget.taskRequirements = (modifiedTarget.taskRequirements ?? []).filter((req) => {
+        const reqStatus = req.status?.[0] ?? "complete";
+        return !(req.task.id === quest.id && reqStatus === status);
+      });
+      upsertQuest(modifiedTarget);
+    },
+    [getQuestById, quest.id, upsertQuest],
+  );
+
   const onQuestCompletedChange = useCallback(
     (questId: string, isCompletedNext: boolean) => {
       sendProgressionUpdate({ type: "quest-completed", questId, isCompleted: isCompletedNext });
@@ -277,6 +334,10 @@ const QuestCard = React.memo<QuestCardProps>(({
                 quest={quest}
                 onLevelChange={onLevelChange}
                 onTaskRequirementsChange={onTaskRequirementsChange}
+                leadsToRequirements={leadsToRequirements}
+                linkQuestOptions={linkQuestOptions}
+                onAddLeadsToRequirement={onAddLeadsToRequirement}
+                onRemoveLeadsToRequirement={onRemoveLeadsToRequirement}
                 onObjectiveMetaChange={onObjectiveMetaChange}
                 onAddObjective={onAddObjective}
                 onRemoveObjective={onRemoveObjective}
@@ -321,8 +382,10 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
     questEdits,
     removedQuestIds,
     upsertQuest,
+    removeQuestEntry,
     addRemovedQuest,
     cancelRemovedQuest,
+    clearQuestEdits,
   } = useOptionalQuestSubmissionContext();
   let editButtonTitle = "Submit changes";
   if (!canEdit) {
@@ -350,22 +413,42 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
     setMapValue,
   } = useQuestFilters();
   const { quests, sendProgressionUpdate } = useQuestList();
-  const { searchTerm, setSearchTerm, searchResults } = useQuestSearch(quests);
+
+  const editableQuests = useMemo(() => {
+    if (!isEditMode) {
+      return quests;
+    }
+
+    const editedById = new Map<string, QuestEditEntry>();
+    for (const entry of questEdits) {
+      editedById.set(entry.quest.id, entry);
+    }
+
+    const merged = quests.map((quest) => editedById.get(quest.id)?.quest ?? quest);
+
+    const newQuests = questEdits
+      .filter((entry) => entry.isNew && !merged.some((q) => q.id === entry.quest.id))
+      .map((entry) => entry.quest);
+
+    return [...merged, ...newQuests];
+  }, [isEditMode, questEdits, quests]);
+
+  const { searchTerm, setSearchTerm, searchResults } = useQuestSearch(editableQuests);
 
   const filteredQuests = useMemo(() => {
-    return filterQuests(quests, {
+    return filterQuests(editableQuests, {
       stateValue,
       typeValue,
       traderValue,
       mapValue,
     });
-  }, [quests, stateValue, typeValue, traderValue, mapValue]);
+  }, [editableQuests, stateValue, typeValue, traderValue, mapValue]);
 
   const visibleQuests = useMemo(() => {
     const baseList = searchResults.length > 0 ? searchResults : filteredQuests;
     let next = [...baseList];
     if (forcedQuestId) {
-      const targetQuest = quests.find((quest) => quest.id === forcedQuestId);
+      const targetQuest = editableQuests.find((quest) => quest.id === forcedQuestId);
       if (targetQuest && !next.some((quest) => quest.id === forcedQuestId)) {
         next = [targetQuest, ...next];
       }
@@ -377,10 +460,24 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
     orderByTrader,
     orderByQuestName,
     forcedQuestId,
-    quests,
+    editableQuests,
   ]);
   const deferredVisibleQuests = useDeferredValue(visibleQuests);
-  const isFiltering = deferredVisibleQuests !== visibleQuests;
+  // In edit mode, render the current list immediately so field edits do not
+  // show the global loading overlay and feel like a full-page refresh.
+  const renderedVisibleQuests = isEditMode ? visibleQuests : deferredVisibleQuests;
+  const isFiltering = !isEditMode && deferredVisibleQuests !== visibleQuests;
+  const editableQuestsMap = useMemo(() => {
+    const map = new Map<string, Quest>();
+    for (const quest of editableQuests) {
+      map.set(quest.id, quest);
+    }
+    return map;
+  }, [editableQuests]);
+  const editableQuestsMapRef = useRef(editableQuestsMap);
+  useEffect(() => {
+    editableQuestsMapRef.current = editableQuestsMap;
+  }, [editableQuestsMap]);
 
   // O(1) lookup map for quest edits
   const questEditsMap = useMemo(() => {
@@ -406,6 +503,15 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
     });
   }, []);
 
+  // Clear pending quest edits when edit mode is turned off.
+  const prevEditModeRef = useRef(isEditMode);
+  useEffect(() => {
+    if (prevEditModeRef.current && !isEditMode) {
+      clearQuestEdits();
+    }
+    prevEditModeRef.current = isEditMode;
+  }, [isEditMode, clearQuestEdits]);
+
   useEffect(() => {
     if (navigationTarget?.pageId !== "quests" || !navigationTarget.questId) {
       return;
@@ -429,6 +535,7 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
       const element = document.getElementById(`quest-card-${forcedQuestId}`);
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "start" });
+        setForcedQuestId(null);
         onNavigationHandled?.();
         return;
       }
@@ -439,15 +546,73 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
     };
     const handle = globalThis.requestAnimationFrame(tryScroll);
     return () => globalThis.cancelAnimationFrame(handle);
-  }, [forcedQuestId, onNavigationHandled, isFiltering, deferredVisibleQuests]);
+  }, [forcedQuestId, onNavigationHandled, isFiltering, renderedVisibleQuests]);
 
-  /** Get the effective quest: if an edit exists, use the edited version. */
-  const getEffectiveQuest = useCallback(
-    (original: Quest): Quest => {
-      if (!isEditMode) return original;
-      return questEditsMap.get(original.id)?.quest ?? original;
+  const handleAddQuest = useCallback(() => {
+    const newQuest = new QuestImpl();
+    const localizedDefaultName = "New Quest";
+    const defaultTrader = TraderList[0];
+
+    newQuest.name = localizedDefaultName;
+    newQuest.locales = {
+      [I18nHelper.currentLocale()]: localizedDefaultName,
+    };
+    newQuest.normalizedName = localizedDefaultName.toLowerCase();
+    newQuest.questType = QuestType.SIDE_QUEST;
+    newQuest.active = false;
+    newQuest.completed = false;
+    newQuest.tarkovDataId = Date.now();
+    newQuest.trader = {
+      id: defaultTrader.id,
+      name: defaultTrader.name,
+      normalizedName: defaultTrader.normalizedName,
+    };
+    newQuest.factionName = "Any";
+    newQuest.objectives = [];
+
+    upsertQuest(newQuest, true);
+    setOpenQuestIds((prev) => {
+      const next = new Set(prev);
+      next.add(newQuest.id);
+      return next;
+    });
+    setForcedQuestId(newQuest.id);
+  }, [upsertQuest]);
+
+  const isNewQuest = useCallback(
+    (questId: string): boolean => {
+      return questEditsMap.get(questId)?.isNew ?? false;
     },
-    [isEditMode, questEditsMap],
+    [questEditsMap],
+  );
+
+  const getQuestById = useCallback(
+    (questId: string): Quest | undefined => editableQuestsMapRef.current.get(questId),
+    [],
+  );
+
+  const getLeadsToRequirements = useCallback(
+    (sourceQuestId: string): EditTaskRequirement[] => {
+      const list: EditTaskRequirement[] = [];
+      for (const targetQuest of editableQuests) {
+        if (targetQuest.id === sourceQuestId) continue;
+        for (const requirement of targetQuest.taskRequirements ?? []) {
+          if (requirement.task.id !== sourceQuestId) continue;
+          const status = requirement.status?.[0] ?? "complete";
+          const targetName =
+            targetQuest.locales?.[I18nHelper.currentLocale()] ??
+            targetQuest.name ??
+            targetQuest.id;
+          list.push({
+            questId: targetQuest.id,
+            questName: targetName,
+            status,
+          });
+        }
+      }
+      return list;
+    },
+    [editableQuests],
   );
 
   return (
@@ -461,7 +626,7 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
                             src="../img/side-nav-quest-icon.png"
                             alt=""
                         />
-                        <span className="desktop-quests-title-text">Quests</span>
+                        <span className="desktop-quests-title-text">Contracts</span>
                     </div>
                 </div>
                 <div className="desktop-quests-header-right">
@@ -473,6 +638,16 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
                         onChange={(event) => setSearchTerm(event.target.value)}
                         onInput={(event) => setSearchTerm((event.target as HTMLInputElement).value)}
                     />
+                    {isAvailable && canEdit && isEditMode && (
+                      <button
+                        type="button"
+                        className="desktop-quests-order-button desktop-quests-edit-toggle"
+                        onClick={handleAddQuest}
+                        title="Add a new quest"
+                      >
+                        Add Quest
+                      </button>
+                    )}
                     {isAvailable && canEdit && (
                         <button
                             type="button"
@@ -535,24 +710,41 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
                   <div className="quests-loading-text">Loading quests...</div>
                 </div>
               )}
-              {deferredVisibleQuests.length === 0 ? (
+              {renderedVisibleQuests.length === 0 ? (
                   <div className="active-quests-empty">No quests match the current filters.</div>
               ) : (
                   <div className="active-quests-page scroll-div">
-                  {deferredVisibleQuests.map((quest) => (
+                  {renderedVisibleQuests.map((quest) => (
+                    (() => {
+                      const isOpen = openQuestIds.has(quest.id);
+                      const isCardEditMode = isEditMode;
+                      const leadsToRequirements = isCardEditMode && isOpen
+                        ? getLeadsToRequirements(quest.id)
+                        : EMPTY_LEADS_TO_REQUIREMENTS;
+                      const linkQuestOptions = isCardEditMode && isOpen
+                        ? editableQuests
+                        : EMPTY_LINK_QUEST_OPTIONS;
+                      return (
                     <QuestCard
                       key={quest.id}
-                      quest={getEffectiveQuest(quest)}
-                      isOpen={openQuestIds.has(quest.id)}
-                      isEditMode={isEditMode}
+                      quest={quest}
+                      leadsToRequirements={leadsToRequirements}
+                      linkQuestOptions={linkQuestOptions}
+                      isOpen={isOpen}
+                      isEditMode={isCardEditMode}
                       isRemoved={isEditMode && removedQuestSet.has(quest.id)}
+                      isNewQuest={isEditMode && isNewQuest(quest.id)}
                       isCompleted={ProgressionStateService.isQuestCompleted(quest.id)}
                       toggleQuest={toggleQuest}
                       sendProgressionUpdate={sendProgressionUpdate}
                       upsertQuest={upsertQuest}
+                      getQuestById={getQuestById}
                       addRemovedQuest={addRemovedQuest}
+                      removeQuestEntry={removeQuestEntry}
                       cancelRemovedQuest={cancelRemovedQuest}
                     />
+                      );
+                    })()
                   ))}
                   </div>
               )}

@@ -86,6 +86,10 @@ type QuestEditBodyProps = {
   quest: Quest;
   onLevelChange?: (level: number | null) => void;
   onTaskRequirementsChange?: (requirements: EditTaskRequirement[]) => void;
+  leadsToRequirements?: EditTaskRequirement[];
+  linkQuestOptions?: Quest[];
+  onAddLeadsToRequirement?: (targetQuestId: string, status: string) => void;
+  onRemoveLeadsToRequirement?: (targetQuestId: string, status: string) => void;
   onObjectiveMetaChange?: (payload: UpsertObjectiveMetaPayload) => void;
   onAddObjective?: (questId: string, questName: string) => string;
   onRemoveObjective?: (questId: string, questName: string, objectiveId: string) => void;
@@ -101,6 +105,10 @@ export const QuestEditBody = React.memo<QuestEditBodyProps>(({
   quest,
   onLevelChange,
   onTaskRequirementsChange,
+  leadsToRequirements = [],
+  linkQuestOptions = [],
+  onAddLeadsToRequirement,
+  onRemoveLeadsToRequirement,
   onObjectiveMetaChange,
   onAddObjective,
   onRemoveObjective,
@@ -246,6 +254,48 @@ export const QuestEditBody = React.memo<QuestEditBodyProps>(({
     setNewReqQuestId(null);
     setNewReqQuestName('');
   }, [currentTaskRequirements, newReqQuestId, newReqQuestName, newReqStatus, onTaskRequirementsChange]);
+
+  // -------------------------------------------------------------------------
+  // Leads-to (cross-quest task requirement editor)
+  // -------------------------------------------------------------------------
+
+  const [newLeadStatus, setNewLeadStatus] = useState('complete');
+  const [newLeadQuestQuery, setNewLeadQuestQuery] = useState('');
+  const [newLeadQuestId, setNewLeadQuestId] = useState<string | null>(null);
+  const [newLeadQuestName, setNewLeadQuestName] = useState('');
+  const [isLeadDropdownOpen, setIsLeadDropdownOpen] = useState(false);
+
+  const leadQuestSearchResults = useMemo(() => {
+    const source = linkQuestOptions.length > 0
+      ? linkQuestOptions
+      : QuestDataStore.getStoredQuestList();
+    if (!newLeadQuestQuery.trim()) return [];
+    const query = newLeadQuestQuery.toLowerCase();
+    return source
+      .filter((q) => {
+        if (q.id === quest.id) return false;
+        const name = q.locales?.[I18nHelper.currentLocale()] ?? q.name ?? '';
+        return name.toLowerCase().includes(query);
+      })
+      .slice(0, 20);
+  }, [linkQuestOptions, newLeadQuestQuery, quest.id]);
+
+  const handleSelectNewLeadQuest = useCallback((q: Quest) => {
+    const name = q.locales?.[I18nHelper.currentLocale()] ?? q.name;
+    setNewLeadQuestId(q.id);
+    setNewLeadQuestName(name);
+    setNewLeadQuestQuery(name);
+    setIsLeadDropdownOpen(false);
+  }, []);
+
+  const handleAddLeadRequirement = useCallback(() => {
+    if (!newLeadQuestId) return;
+    onAddLeadsToRequirement?.(newLeadQuestId, newLeadStatus);
+    setNewLeadStatus('complete');
+    setNewLeadQuestQuery('');
+    setNewLeadQuestId(null);
+    setNewLeadQuestName('');
+  }, [newLeadQuestId, newLeadStatus, onAddLeadsToRequirement]);
 
   // -------------------------------------------------------------------------
   // Objectives – editable data (filtered + ordered)
@@ -611,6 +661,96 @@ export const QuestEditBody = React.memo<QuestEditBodyProps>(({
             </div>
           </div>
         </div>
+
+        {/* Leads to */}
+        <div className="quest-summary-box">
+          <div className="quest-summary-label">Leads to</div>
+          <div className="quest-edit-unlocked-by">
+            {leadsToRequirements.length === 0 && (
+              <div className="quest-edit-unlocked-by-empty">None</div>
+            )}
+            {leadsToRequirements.map((lead, index) => (
+              <div key={`${lead.questId}-${lead.status}-${index}`} className="quest-edit-unlock-row">
+                <span className="quest-edit-unlock-status">
+                  {UNLOCK_STATUS_OPTIONS.find((o) => o.value === lead.status)?.label ?? lead.status}
+                </span>
+                <span className="quest-edit-unlock-quest-name" title={lead.questName}>
+                  {lead.questName}
+                </span>
+                <button
+                  type="button"
+                  className="quest-edit-unlock-remove-button"
+                  aria-label={`Remove leads-to condition: ${lead.questName}`}
+                  onClick={() => onRemoveLeadsToRequirement?.(lead.questId, lead.status)}
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+
+            <div className="quest-edit-unlock-add-row">
+              <select
+                className="quest-edit-unlock-status-select"
+                value={newLeadStatus}
+                onChange={(e) => setNewLeadStatus(e.target.value)}
+              >
+                {UNLOCK_STATUS_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+
+              <div className="quest-edit-unlock-quest-search">
+                <input
+                  type="text"
+                  className="quest-edit-unlock-quest-input"
+                  placeholder="Search quest..."
+                  value={newLeadQuestQuery}
+                  onChange={(e) => {
+                    setNewLeadQuestQuery(e.target.value);
+                    setNewLeadQuestId(null);
+                    setIsLeadDropdownOpen(true);
+                  }}
+                  onFocus={() => {
+                    if (newLeadQuestQuery.trim()) setIsLeadDropdownOpen(true);
+                  }}
+                  onBlur={() => {
+                    setTimeout(() => setIsLeadDropdownOpen(false), 200);
+                  }}
+                />
+                {isLeadDropdownOpen && leadQuestSearchResults.length > 0 && (
+                  <div className="quest-edit-unlock-quest-dropdown">
+                    {leadQuestSearchResults.map((q) => {
+                      const name = q.locales?.[I18nHelper.currentLocale()] ?? q.name;
+                      return (
+                        <button
+                          key={q.id}
+                          type="button"
+                          className="quest-edit-unlock-quest-dropdown-item"
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => handleSelectNewLeadQuest(q)}
+                        >
+                          {name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              <button
+                type="button"
+                className="quest-edit-unlock-add-button"
+                disabled={!newLeadQuestId}
+                onClick={handleAddLeadRequirement}
+                title={newLeadQuestName ? `Add relation to ${newLeadQuestName}` : 'Select a quest first'}
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="quest-divider" />
@@ -767,14 +907,13 @@ const EditableObjectiveRow: React.FC<{
 
   const filteredItemResults = useMemo(() => {
     if (!isItemType) return [];
-    const data = ItemsElementUtils.getData();
-    if (!data?.items) return [];
+    const data = ItemsElementUtils.getAllItems();
+    if (!data.length) return [];
     const query = itemSearchQuery.trim().toLowerCase();
-    if (!query) return data.items.slice(0, 30);
-    return data.items.filter((item) => {
+    if (!query) return data.slice(0, 30);
+    return data.filter((item) => {
       const name = item.name?.toLowerCase() ?? '';
-      const shortname = item.shortname?.toLowerCase() ?? '';
-      return name.includes(query) || shortname.includes(query);
+      return name.includes(query);
     }).slice(0, 30);
   }, [isItemType, itemSearchQuery]);
 
@@ -784,17 +923,16 @@ const EditableObjectiveRow: React.FC<{
   );
 
   const filteredKeyResults = useMemo(() => {
-    const data = ItemsElementUtils.getData();
-    if (!data?.items) return [];
+    const data = ItemsElementUtils.getAllItems();
+    if (!data.length) return [];
     const query = keySearchQuery.trim().toLowerCase();
-    return data.items
+    return data
       .filter((item) => {
         const id = item.id?.toLowerCase() ?? '';
         const name = item.name?.toLowerCase() ?? '';
-        const shortname = item.shortname?.toLowerCase() ?? '';
         if (!id.includes('key')) return false;
         if (!query) return true;
-        return id.includes(query) || name.includes(query) || shortname.includes(query);
+        return id.includes(query) || name.includes(query);
       })
       .slice(0, 30);
   }, [keySearchQuery]);
@@ -976,17 +1114,14 @@ const EditableObjectiveRow: React.FC<{
                           setIsItemDropdownOpen(false);
                         }}
                       >
-                        {item.imageLink && (
+                        {item.url && (
                           <img
-                            src={item.imageLink}
-                            alt={item.shortname}
+                            src={item.url}
+                            alt={item.name}
                             className="quest-edit-objective-item-image"
                           />
                         )}
                         <span className="quest-edit-objective-item-name">{item.name}</span>
-                        {item.shortname && (
-                          <span className="quest-edit-objective-item-shortname">{item.shortname}</span>
-                        )}
                       </button>
                     ))}
                   </div>
@@ -1191,14 +1326,13 @@ const EditableRewardRow: React.FC<{
   }, [reward.itemName]);
 
   const filteredItems = useMemo(() => {
-    const data = ItemsElementUtils.getData();
-    if (!data?.items) return [];
+    const data = ItemsElementUtils.getAllItems();
+    if (!data.length) return [];
     const query = searchQuery.trim().toLowerCase();
-    if (!query) return data.items.slice(0, 30);
-    return data.items.filter((item) => {
+    if (!query) return data.slice(0, 30);
+    return data.filter((item) => {
       const name = item.name?.toLowerCase() ?? '';
-      const shortname = item.shortname?.toLowerCase() ?? '';
-      return name.includes(query) || shortname.includes(query);
+      return name.includes(query);
     }).slice(0, 30);
   }, [searchQuery]);
 
@@ -1290,17 +1424,14 @@ const EditableRewardRow: React.FC<{
                     setIsDropdownOpen(false);
                   }}
                 >
-                  {item.imageLink && (
+                  {item.url && (
                     <img
-                      src={item.imageLink}
-                      alt={item.shortname}
+                      src={item.url}
+                      alt={item.name}
                       className="quest-edit-objective-item-image"
                     />
                   )}
                   <span className="quest-edit-objective-item-name">{item.name}</span>
-                  {item.shortname && (
-                    <span className="quest-edit-objective-item-shortname">{item.shortname}</span>
-                  )}
                 </button>
               ))}
             </div>

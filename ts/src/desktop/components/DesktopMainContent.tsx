@@ -4,6 +4,9 @@ import { MapPage } from "../../shared/pages/MapPage";
 import { SubscriptionPage } from "../../shared/pages/subscription/SubscriptionPage";
 import { QuestsPage } from "../../shared/pages/quests/QuestsPage";
 import { ItemsPage } from "../../shared/pages/items/ItemsPage";
+import { FactionsPage } from "../../shared/pages/FactionsPage";
+import { WeaponsPage } from "../../shared/pages/WeaponsPage";
+import { RunnersPage } from "../../shared/pages/RunnersPage";
 import { SettingsPage } from "../../shared/pages/settings/SettingsPage";
 import { AdRunnerContainer } from "../../shared/components/ads/AdRunnerContainer";
 import { SubscribedSidePanel } from "../../shared/components/ads/SubscribedSidePanel";
@@ -82,6 +85,9 @@ export const DesktopMainContent: React.FC<DesktopMainContentProps> = ({
               onNavigationHandled={onNavigationHandled}
             />
           )}
+          {activePageId === "weapons" && <WeaponsPage />}
+          {activePageId === "runners" && <RunnersPage />}
+          {activePageId === "factions" && <FactionsPage />}
           {activePageId === "subscription" && <SubscriptionPage />}
           {activePageId === "settings" && (
             <SettingsPage onClose={() => onSelectPage("interactive-map")} />

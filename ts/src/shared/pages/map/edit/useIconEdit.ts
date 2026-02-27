@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ItemsElementUtils } from "../../../../escape-from-tarkov/utils/ItemsElementUtils";
 import { FileUtils } from "../../../../escape-from-tarkov/utils/FileUtils";
 import { createImageBlobFromFile, revokeObjectUrl } from "../../../utils/imageBlob";
-import { ItemV2 } from "../../../../model/items/IItemsElements";
+import { Item } from "../../../../model/items/IItemsElements";
 import { CorrelationMeta, FeatureProps } from "../../../../model/map/FeatureProps";
 import { MapGeoDocument } from "../../../../model/map/MapGeoDocument";
 import type { EditMapDocument, EditLayer, UpsertGeometryElementPayload, UpsertIconElementPayload } from "./useMapEditSession";
@@ -346,7 +346,7 @@ export const useIconEdit = ({
   const [isIconDropdownOpen, setIsIconDropdownOpen] = useState(false);
   const iconDropdownRef = useRef<HTMLDivElement | null>(null);
   const [iconDescription, setIconDescription] = useState("");
-  const [itemsData, setItemsData] = useState<ItemV2[]>([]);
+  const [itemsData, setItemsData] = useState<Item[]>([]);
   const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
   const [itemInputValue, setItemInputValue] = useState("");
   const [itemQuery, setItemQuery] = useState("");
@@ -1014,7 +1014,7 @@ export const useIconEdit = ({
     });
   }, [placementLocation]);
 
-  const isItem = (item: ItemV2 | undefined): item is ItemV2 => item !== undefined;
+  const isItem = (item: Item | undefined): item is Item => item !== undefined;
 
   const selectedItems = useMemo(() => {
     if (!itemsData.length || selectedItemIds.length === 0) return [];
@@ -1032,8 +1032,7 @@ export const useIconEdit = ({
       if (!item?.id || selectedSet.has(item.id)) return false;
       if (!searchLower) return true;
       const name = item.name?.toLowerCase() ?? "";
-      const shortname = item.shortname?.toLowerCase() ?? "";
-      return name.includes(searchLower) || shortname.includes(searchLower);
+      return name.includes(searchLower);
     });
   }, [itemsData, itemQuery, selectedItemIds]);
 
@@ -1100,9 +1099,9 @@ export const useIconEdit = ({
     if (!ItemsElementUtils.exists()) {
       ItemsElementUtils.initFromStorage();
     }
-    const data = ItemsElementUtils.getData();
-    if (data?.items?.length) {
-      const validItems = data.items.filter((item) => item?.id && item?.name);
+    const data = ItemsElementUtils.getAllItems();
+    if (data.length) {
+      const validItems = data.filter((item) => item?.id && item?.name);
       setItemsData(validItems);
     }
   }, []);

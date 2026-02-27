@@ -12,6 +12,65 @@ export type OriginalMapState = {
   padding: { top: number; bottom: number; left: number; right: number } | number | null;
 };
 
+const GRID_DIVISIONS = 24;
+const GRID_MAJOR_EVERY = 6;
+
+const buildGridFeatureCollection = (
+  bottomLeft: [number, number],
+  topRight: [number, number]
+) => {
+  const [minLng, minLat] = bottomLeft;
+  const [maxLng, maxLat] = topRight;
+
+  const lngStep = (maxLng - minLng) / GRID_DIVISIONS;
+  const latStep = (maxLat - minLat) / GRID_DIVISIONS;
+
+  const features: Array<{
+    type: "Feature";
+    geometry: {
+      type: "LineString";
+      coordinates: [number, number][];
+    };
+    properties: { major: boolean };
+  }> = [];
+
+  // Skip outer edges so the grid does not create a visible rectangular border.
+  for (let i = 1; i < GRID_DIVISIONS; i += 1) {
+    const lng = minLng + lngStep * i;
+    features.push({
+      type: "Feature",
+      geometry: {
+        type: "LineString",
+        coordinates: [
+          [lng, minLat],
+          [lng, maxLat],
+        ],
+      },
+      properties: { major: i % GRID_MAJOR_EVERY === 0 },
+    });
+  }
+
+  for (let j = 1; j < GRID_DIVISIONS; j += 1) {
+    const lat = minLat + latStep * j;
+    features.push({
+      type: "Feature",
+      geometry: {
+        type: "LineString",
+        coordinates: [
+          [minLng, lat],
+          [maxLng, lat],
+        ],
+      },
+      properties: { major: j % GRID_MAJOR_EVERY === 0 },
+    });
+  }
+
+  return {
+    type: "FeatureCollection" as const,
+    features,
+  };
+};
+
 const calculateMapCoordinates = (mapDoc: MapGeoDocument) => {
   const mapWidth = mapDoc.raster.width;
   const mapHeight = mapDoc.raster.height;
@@ -136,10 +195,21 @@ export const useMapImageLayer = (
       try {
         const coords = calculateMapCoordinates(mapDoc);
 
-        // Remove old source and layer if they exist
-        if (mapInstance.getSource("map-image")) {
+        // Remove old sources/layers before re-adding in a stable order.
+        if (mapInstance.getLayer("map-image-layer")) {
           mapInstance.removeLayer("map-image-layer");
+        }
+        if (mapInstance.getSource("map-image")) {
           mapInstance.removeSource("map-image");
+        }
+        if (mapInstance.getLayer("map-grid-minor-layer")) {
+          mapInstance.removeLayer("map-grid-minor-layer");
+        }
+        if (mapInstance.getLayer("map-grid-major-layer")) {
+          mapInstance.removeLayer("map-grid-major-layer");
+        }
+        if (mapInstance.getSource("map-grid")) {
+          mapInstance.removeSource("map-grid");
         }
 
         // Add the image source
@@ -162,7 +232,7 @@ export const useMapImageLayer = (
           type: "raster",
           source: "map-image",
           paint: {
-            "raster-opacity": 1,
+            "raster-opacity": 0.8,
           },
         });
 
@@ -188,6 +258,34 @@ export const useMapImageLayer = (
         expandedBottomLeft[1] = Math.max(-90, expandedBottomLeft[1]);
         expandedTopRight[0] = Math.min(180, expandedTopRight[0]);
         expandedTopRight[1] = Math.min(90, expandedTopRight[1]);
+
+        // Build grid against the full interactive map extent so it fills the map stage.
+        mapInstance.addSource("map-grid", {
+          type: "geojson",
+          data: buildGridFeatureCollection(expandedBottomLeft, expandedTopRight),
+        });
+
+        mapInstance.addLayer({
+          id: "map-grid-minor-layer",
+          type: "line",
+          source: "map-grid",
+          filter: ["==", ["get", "major"], false],
+          paint: {
+            "line-color": "#cfd6dd44",
+            "line-width": 0.5,
+          },
+        }, "map-image-layer");
+
+        mapInstance.addLayer({
+          id: "map-grid-major-layer",
+          type: "line",
+          source: "map-grid",
+          filter: ["==", ["get", "major"], true],
+          paint: {
+            "line-color": "#c4ccd6aa",
+            "line-width": 0.6,
+          },
+        }, "map-image-layer");
 
         const expandedBounds = new maplibregl.LngLatBounds(expandedBottomLeft, expandedTopRight);
         mapInstance.setMaxBounds(expandedBounds);

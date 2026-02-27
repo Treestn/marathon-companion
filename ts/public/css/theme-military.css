@@ -415,6 +415,9 @@
   --map-filter-hover-text:   var(--accent-text-light);
   --map-filter-active-text:  var(--accent-text-light);
   --map-edit-header-text:    var(--accent-text-light);
+  --important-button-color:  #F7F7F7;
+  --important-button-text-color: #000000;
+  --important-button-strip-color: #CFCFCF;
   --map-popup-desc:     #808078;
   --map-popup-text:     #C8C8C0;
   --map-dropdown-text:  #B8B8B0;

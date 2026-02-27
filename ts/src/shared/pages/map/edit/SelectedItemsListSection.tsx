@@ -1,9 +1,9 @@
 import React from "react";
 
-import { ItemV2 } from "../../../../model/items/IItemsElements";
+import { Item } from "../../../../model/items/IItemsElements";
 
 type SelectedItemsListProps = {
-  selectedItems: ItemV2[];
+  selectedItems: Item[];
   isDisabled?: boolean;
   onRemove: (id: string) => void;
   onMoveUp: (id: string) => void;
@@ -20,9 +20,9 @@ export const SelectedItemsList: React.FC<SelectedItemsListProps> = ({
   <div className="map-edit-selected-items">
     {selectedItems.map((item, index) => (
       <div key={item.id} className="map-edit-selected-item">
-        {item.imageLink && (
+        {item.url && (
           <img
-            src={item.imageLink}
+            src={item.url}
             alt={item.name}
             className="map-edit-selected-item-image"
             onError={(event) => {

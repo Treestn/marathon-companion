@@ -274,17 +274,21 @@ html.maximized .resize {
   object-fit: contain;
   height: 35px;
   width: 35px;
-  border-radius: 2px;
 }
 
 .page-icon-image-container.page-icon-image-container-active {
-  background-color: var(--bg-nav-active);
+  background-color: #fff;
 }
 .page-icon-image {
   object-fit: contain;
   width: 22px;
   height: 28px;
   -webkit-user-drag: none;
+}
+
+.page-icon-container-active .page-icon-image,
+.page-icon-image-container-active .page-icon-image {
+  filter: brightness(0) saturate(100%);
 }
 
 .icon-text-container {

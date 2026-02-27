@@ -1,6 +1,6 @@
 import { progressionTypes, settingsKeys } from "../consts";
 import { I18nHelper } from "../locale/I18nHelper";
-import { Maps } from "../escape-from-tarkov/constant/MapsConst";
+import { Maps, MapsList } from "../escape-from-tarkov/constant/MapsConst";
 import { AppConfigUtils } from "../escape-from-tarkov/utils/AppConfigUtils";
 import { MessageStoredImpl, MessageStoredObject } from "./message/IMessageStored";
 
@@ -203,7 +203,7 @@ export class UserSettings implements IUserSettings {
             this.setProgressionType(progressionTypes.pvp);
         }
         if(!this.mapDefaultPreference) {
-            this.setMapDefaultPreference(Maps.DAM_BATTLEGROUNDS.id);
+            this.setMapDefaultPreference(MapsList[0].id);
         }
         if(!this.openWindowOnMatchmaking) {
             this.setOpenWindowOnMatchmaking("true");

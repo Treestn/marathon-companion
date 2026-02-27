@@ -17,6 +17,7 @@ import { TradingPage } from './TradingPage';
 import { ExpeditionPage } from './ExpeditionPage';
 import { MapEventsPage } from './MapEventsPage';
 import { MapPage } from './MapPage';
+import { RunnersPage } from './RunnersPage';
 import { SubscriptionPage } from './subscription/SubscriptionPage';
 import React from 'react';
 import { createRoot, Root } from 'react-dom/client';
@@ -419,6 +420,58 @@ export const registerPageLoaders = (mediators: PageLoaderMediators) => {
       );
     }
     
+    updateSidePageQuests(mediators);
+  });
+
+  // Register Runners page (React-based)
+  let runnersPageRoot: Root | null = null;
+
+  pageLoader.register('runners', async () => {
+    NavigationUtils.removeiFrames();
+    NavigationUtils.saveActivePage();
+
+    hideInteractiveMapContainer();
+
+    if (runnersPageRoot) {
+      runnersPageRoot.unmount();
+      runnersPageRoot = null;
+    }
+
+    const existingContainer = document.getElementById('runners-runner');
+    if (existingContainer) {
+      existingContainer.remove();
+    }
+
+    const runner = document.getElementById('runner-container');
+    if (runner) {
+      const existingRunners = document.getElementsByClassName('main-runner-container');
+      Array.from(existingRunners).forEach(runnerEl => {
+        if (runnerEl.id !== 'interactive-map-runner') {
+          runnerEl.remove();
+        }
+      });
+
+      const runnersDiv = document.createElement('div');
+      runnersDiv.id = 'runners-runner';
+      runnersDiv.className = 'runners-container main-runner-container';
+      runnersDiv.style.width = '100%';
+      runnersDiv.style.height = '100%';
+
+      const sidePageContainer = document.getElementsByClassName('side-page-container')[0];
+      if (sidePageContainer) {
+        runner.insertBefore(runnersDiv, sidePageContainer);
+      } else {
+        runner.appendChild(runnersDiv);
+      }
+
+      runnersPageRoot = createRoot(runnersDiv);
+      runnersPageRoot.render(
+        React.createElement(React.StrictMode, null,
+          React.createElement(RunnersPage)
+        )
+      );
+    }
+
     updateSidePageQuests(mediators);
   });
 

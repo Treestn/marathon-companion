@@ -1,9 +1,8 @@
-import { I18nHelper } from "../locale/I18nHelper";
 import { MapsList } from "../escape-from-tarkov/constant/MapsConst";
 
 export class MapAdapter {
 
-    private mapAdapter: Map<string, {normalizedName:string, name:string, id:string, owName:string}> = new Map();
+    private readonly mapAdapter: Map<string, {normalizedName:string, name:string, id:string, owName:string}> = new Map();
 
     private static _instance:MapAdapter;
 
@@ -14,21 +13,21 @@ export class MapAdapter {
     }
 
     public static getMapFromId(id: string): string {
-        if(this._instance == null) {
-            this._instance = new MapAdapter();
-        }
+        this._instance ??= new MapAdapter();
         return this._instance.mapAdapter.get(id).normalizedName;
     }
 
+    public static getMapNameFromId(id: string): string {
+        this._instance ??= new MapAdapter();
+        return this._instance.mapAdapter.get(id).name;
+    }
+
     public static getLocalizedMap(id: string): string {
-        const mapName = this.getMapFromId(id).toUpperCase().replace(" ", "_")
-        return MapLocaleConst[mapName]?.[I18nHelper.currentLocale()] ?? MapLocaleConst[mapName]?.[I18nHelper.defaultLocale];
+        return this.getMapNameFromId(id);
     }
 
     public static getIdFromMap(map:string) {
-        if(this._instance == null) {
-            this._instance = new MapAdapter();
-        }
+        this._instance ??= new MapAdapter();
         for (const [key, value] of this._instance.mapAdapter.entries()) {
             if (value.normalizedName.toLocaleLowerCase() === map.toLocaleLowerCase()) {
                 return key;
@@ -109,38 +108,5 @@ export const MapLocaleConst = {
         sk: "Practice Range",
         tr: "Practice Range",
         zh: "Practice Range"
-    },
-    BLUE_GATE: {
-        en: "Blue Gate",
-        cs: "Blue Gate",
-        de: "Blue Gate",
-        es: "Blue Gate",
-        fr: "Blue Gate",
-        hu: "Blue Gate",
-        it: "Blue Gate",
-        ja: "Blue Gate",
-        ko: "Blue Gate",
-        pl: "Blue Gate",
-        pt: "Blue Gate",
-        ro: "Blue Gate",
-        sk: "Blue Gate",
-        tr: "Blue Gate",
-        zh: "Blue Gate"
-    },
-    STELLA_MONTIS: {
-        en: "Stella Montis",
-        cs: "Stella Montis",
-        de: "Stella Montis",
-        es: "Stella Montis",
-        fr: "Stella Montis",
-        hu: "Stella Montis",
-        it: "Stella Montis",
-        ja: "Stella Montis",
-        ko: "Stella Montis",
-        pt: "Stella Montis",
-        ro: "Stella Montis",
-        sk: "Stella Montis",
-        tr: "Stella Montis",
-        zh: "Stella Montis"
     }
 }

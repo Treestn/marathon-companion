@@ -39,7 +39,6 @@ export const MapFilterSidebar: React.FC<MapFilterSidebarProps> = ({
   const [defaultMapId, setDefaultMapId] = useState<string | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
-  const STAR_COLOR = "var(--accent)";
   let editButtonTitle = 'Submit changes';
   if (!canEdit) {
     editButtonTitle = 'Connect to Overwolf to enable edit mode';
@@ -280,7 +279,7 @@ export const MapFilterSidebar: React.FC<MapFilterSidebarProps> = ({
             <div ref={dropdownRef} className="map-filter-dropdown">
               {/* Custom Dropdown Button */}
               <div
-                className="map-filter-dropdown-button"
+                className={`map-filter-dropdown-button ${isDropdownOpen ? 'is-open' : ''}`}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
                 <span>{MapAdapter.getLocalizedMap(currentMapId)}</span>
@@ -294,7 +293,6 @@ export const MapFilterSidebar: React.FC<MapFilterSidebarProps> = ({
                     }
                   }}
                   title={defaultMapId === currentMapId ? 'Default map' : 'Set as default map'}
-                  style={{ color: STAR_COLOR }}
                 >
                   {defaultMapId === currentMapId ? '★' : '☆'}
                 </span>
@@ -333,7 +331,6 @@ export const MapFilterSidebar: React.FC<MapFilterSidebarProps> = ({
                           }
                         }}
                         title={isMapDefault ? 'Default map' : 'Set as default map'}
-                        style={{ color: STAR_COLOR }}
                       >
                         {isMapDefault ? '★' : '☆'}
                       </span>

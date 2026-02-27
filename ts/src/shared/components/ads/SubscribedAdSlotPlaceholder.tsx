@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Quest } from '../../../model/quest/IQuestsElements';
+import { FACTIONS_DATA } from '../../../model/faction/IFactionsElements';
 import { I18nHelper } from '../../../locale/I18nHelper';
 import { QuestDataStore } from '../../services/QuestDataStore';
 import { ProgressionStateService } from '../../services/ProgressionStateService';
@@ -134,11 +135,21 @@ export const SubscribedSidePanel: React.FC<SubscribedSidePanel> = ({
             {orderedQuests.map((quest) => {
               const objective = questObjectives.get(quest.id);
               const isOpen = openQuestIds.has(quest.id);
+              const traderId = quest.trader?.id ?? '';
+              const traderImageSrc = TraderMapper.getImageFromTraderId(traderId);
+              const traderAlt = quest.trader?.name ?? 'Trader';
+              const questFactionColor =
+                FACTIONS_DATA.find((faction) => faction.factionId === traderId)?.colorSurface ??
+                'var(--accent)';
               return (
-                <div key={quest.id} className="quest-card subscribed-quest-card">
+                <div
+                  key={quest.id}
+                  className="quest-card subscribed-quest-card"
+                  style={{ '--quest-faction-color': questFactionColor } as React.CSSProperties}
+                >
                   <button
                     type="button"
-                    className="subscribed-quest-header"
+                    className={`subscribed-quest-header${isOpen ? ' subscribed-quest-header-open' : ''}`}
                     onClick={(event) => {
                       const target = event.target as HTMLElement | null;
                       const isTitleClick = target?.closest('.subscribed-quest-title');
@@ -149,10 +160,16 @@ export const SubscribedSidePanel: React.FC<SubscribedSidePanel> = ({
                       toggleQuest(quest.id);
                     }}
                   >
-                    <img
-                      className="quest-trader-image subscribed-quest-trader-image"
-                      src={TraderMapper.getImageFromTraderId(quest.trader.id)}
-                      alt={quest.trader.name}
+                    <span
+                      className="quest-trader-image quest-trader-image-active subscribed-quest-trader-image"
+                      role="img"
+                      aria-label={traderAlt}
+                      style={
+                        {
+                          '--quest-faction-color': questFactionColor,
+                          '--quest-trader-icon-mask': `url("${traderImageSrc}")`,
+                        } as React.CSSProperties
+                      }
                     />
                     <span
                       className={`quest-title subscribed-quest-title${

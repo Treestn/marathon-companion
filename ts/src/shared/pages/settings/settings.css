@@ -6,6 +6,7 @@
   padding: 12px 16px 16px;
   box-sizing: border-box;
   align-items: center;
+  background: var(--bg-base);
 }
 
 .settings-page {
@@ -17,11 +18,17 @@
   max-width: 900px;
 }
 
+.settings-container,
+.settings-container *,
+.settings-container *::before,
+.settings-container *::after {
+  border-radius: 0 !important;
+}
+
 .settings-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 12px;
   padding: 10px 14px;
 }
 
@@ -46,17 +53,16 @@
 .settings-content {
   flex: 1 1 auto;
   min-height: 0;
-  border-radius: 12px;
-  padding: 14px;
+  border: 1px solid var(--border-hard);
+  background: var(--bg-card);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--white-a04) 40%, transparent);
 }
 
 .settings-options {
   display: flex;
-  width: 100%;
+  width: -webkit-fill-available;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
-  padding: 6px;
   gap: 6px;
 }
 
@@ -64,37 +70,48 @@
   flex: 1 1 0;
   height: 32px;
   color: var(--text-inactive);
-  background-color: var(--bg-settings);
-  border: 1px solid var(--border-subtle);
-  border-radius: 8px;
+  background-color: var(--bg-card-elevated);
+  border: 1px solid var(--border-medium);
   font-weight: 600;
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
 .settings-page-button:hover {
-  background-color: var(--main-btn-active-color);
+  background-color: color-mix(in srgb, var(--accent-a20) 45%, var(--bg-card-elevated) 55%);
+  border-color: var(--border-hard);
   color: var(--text-primary);
   cursor: pointer;
 }
 
 .setting-page-button-active {
   color: var(--text-primary);
-  background-color: var(--main-btn-active-color);
-  border-color: var(--border-strong);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent-a30) 55%, var(--bg-card-elevated) 45%),
+    color-mix(in srgb, var(--accent-a15) 40%, var(--bg-card-elevated) 60%)
+  );
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border-hard) 65%);
 }
 
 .settings-section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
 .setting-component {
-  width: 100%;
-  min-height: 40px;
+  width: -webkit-fill-available;
+  min-height: 48px;
   display: flex;
   align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border-subtle);
+  padding: 10px 12px;
+  border: 1px solid var(--border-subtle);
+  background: 
+color-mix(in srgb, var(--white-a04) 20%, var(--bg-card-elevated) 80%);
+}
+
+.setting-component:hover {
+  border-color: var(--border-medium);
+  background: color-mix(in srgb, var(--accent-a10) 18%, var(--bg-card-elevated) 82%);
 }
 
 .setting-title {
@@ -131,7 +148,6 @@
   color: var(--text-primary);
   background: var(--bg-settings);
   border: 1px solid var(--border-medium);
-  border-radius: 8px;
   padding: 0 8px;
 }
 
@@ -141,17 +157,18 @@
 
 .setting-button {
   color: var(--text-primary);
-  background-color: var(--main-btn-inactive-color);
+  background-color: var(--bg-control-strong);
   width: calc(70% - 40px);
   height: 32px;
-  border: 0;
-  border-radius: 8px;
+  border: 1px solid var(--border-hard);
+  transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
 }
 
 .setting-button:hover {
-  background-color: var(--main-btn-active-color);
+  background-color: var(--bg-control-strong-hover);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border-hard) 65%);
   cursor: pointer;
-  box-shadow: inset -9px -9px 14px -12px var(--black-a60);
+  transform: translateY(-1px);
 }
 
 .multiple-button {
@@ -195,7 +212,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: var(--bg-placeholder);
+  border: 1px solid var(--border-medium);
   transition: 0.4s;
 }
 
@@ -204,30 +222,32 @@
   content: "";
   height: 12px;
   width: 12px;
-  left: 4px;
+  left: 3px;
   bottom: 4px;
-  background-color: var(--text-primary);
+  background-color: var(--text-muted);
   transition: 0.4s;
 }
 
 .switch input:checked + .slider {
-  background-color: var(--main-btn-active-color);
+  background-color: var(--accent-a25);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border-medium) 55%);
 }
 
 .switch input:focus + .slider {
-  box-shadow: 0 0 1px var(--main-btn-active-color);
+  box-shadow: inset 0 0 0 1px var(--accent-a30);
 }
 
 .switch input:checked + .slider:before {
+  background-color: var(--accent);
   transform: translateX(26px);
 }
 
 .slider.round {
-  border-radius: 34px;
+  border-radius: 0;
 }
 
 .slider.round:before {
-  border-radius: 50%;
+  border-radius: 0;
 }
 
 .slidecontainer {
@@ -238,11 +258,11 @@
 
 .setting-slider {
   appearance: none;
-  background: #ccc;
+  background: var(--bg-placeholder);
   cursor: pointer;
   outline: none;
   overflow: hidden;
-  border-radius: 16px;
+  border: 1px solid var(--border-medium);
   height: 14px;
   flex: 1 1 auto;
 }
@@ -251,8 +271,8 @@
   appearance: none;
   height: 14px;
   width: 14px;
-  background: var(--main-btn-active-color);
-  border-radius: 50%;
+  background: var(--accent);
+  border-radius: 0;
   border: 2px solid var(--text-primary);
 }
 
@@ -270,17 +290,16 @@
 #apply {
   height: 40px;
   width: 100%;
-  background-color: var(--main-btn-inactive-color);
+  background-color: var(--bg-control-strong);
   font-size: 18px;
   color: var(--text-inactive);
-  border: 0;
-  border-radius: 10px;
+  border: 1px solid var(--border-hard);
 }
 
 #apply:hover:not([disabled]) {
   cursor: pointer;
   color: var(--text-primary);
-  background-color: var(--main-btn-active-color);
+  background-color: var(--bg-control-strong-hover);
 }
 
 #apply:active:not([disabled]) {

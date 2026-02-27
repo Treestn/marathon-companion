@@ -13,6 +13,7 @@ import { ProgressionStateService } from '../../../services/ProgressionStateServi
 import { dispatchDesktopNavigation } from '../../../services/NavigationEvents';
 import { createImageBlobFromFile, revokeObjectUrl } from '../../../utils/imageBlob';
 import { useOptionalQuestSubmissionContext } from '../../../context/QuestSubmissionContext';
+import { FACTIONS_DATA } from '../../../../model/faction/IFactionsElements';
 import '../map.css';
 
 interface IconPopupProps {
@@ -237,6 +238,27 @@ export const IconPopup: React.FC<IconPopupProps> = ({
     return null;
   }, [isQuestIcon, questEditEntry?.quest, quest?.trader]);
 
+  const currentTraderId = React.useMemo(() => {
+    const editQuest = questEditEntry?.quest;
+    if (editQuest?.trader) {
+      return (editQuest.trader as { id?: string })?.id ?? '';
+    }
+    if (quest?.trader) {
+      return (quest.trader as { id?: string })?.id ?? '';
+    }
+    return '';
+  }, [questEditEntry?.quest, quest?.trader]);
+
+  const questFactionColor = React.useMemo(() => {
+    if (!currentTraderId) {
+      return 'var(--accent)';
+    }
+    return (
+      FACTIONS_DATA.find((faction) => faction.factionId === currentTraderId)?.colorSurface ??
+      'var(--accent)'
+    );
+  }, [currentTraderId]);
+
   // Get element name (localized if available)
   // For quest icons: edit context name > original quest name; otherwise element name
   const elementName = React.useMemo(() => {
@@ -452,6 +474,7 @@ export const IconPopup: React.FC<IconPopupProps> = ({
         transform: popupPlacement === 'below' 
           ? 'translate(-50%, 0)' // Position below icon
           : 'translate(-50%, calc(-100% - 2px))', // Position above icon
+        '--quest-faction-color': questFactionColor,
       }}
       onMouseEnter={(e) => {
         // Keep popup visible when hovering over it (for quest icons)
@@ -483,7 +506,7 @@ export const IconPopup: React.FC<IconPopupProps> = ({
               <div className="popup-trader-image-loading" />
             )}
             <img
-              className={`popup-image popup-trader-image ${traderImageLoading ? 'popup-image-loading popup-image-hidden' : 'popup-image-loaded'}`}
+              className="popup-trader-image-preload"
               src={traderImageSrc}
               alt={(questEditEntry?.quest.trader as { name?: string })?.name ?? (quest?.trader as { name?: string })?.name ?? 'Trader'}
               onLoad={() => {
@@ -494,6 +517,14 @@ export const IconPopup: React.FC<IconPopupProps> = ({
                 setTraderImageLoading(false);
               }}
             />
+            {!traderImageLoading && (
+              <div
+                className="popup-trader-image popup-trader-image-colorized"
+                style={{ '--popup-faction-icon-mask': `url("${traderImageSrc}")` } as React.CSSProperties}
+                role="img"
+                aria-label={(questEditEntry?.quest.trader as { name?: string })?.name ?? (quest?.trader as { name?: string })?.name ?? 'Trader'}
+              />
+            )}
           </div>
         )}
         {/* Title div - use quest-title-div for quest icons, title-div for regular icons */}

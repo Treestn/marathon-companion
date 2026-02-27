@@ -2,7 +2,7 @@ import React from 'react';
 import { getEnabledPages, PageConfig } from '../../pages/PageRegistry';
 import './main-navigation-bar.css';
 
-const getIconPath = (iconPath: string, isActive: boolean): string => {
+const getIconPath = (iconPath: string): string => {
   if (!iconPath) {
     return iconPath;
   }
@@ -11,12 +11,6 @@ const getIconPath = (iconPath: string, isActive: boolean): string => {
     normalized = normalized.replace('../', './');
   } else if (!normalized.startsWith('./')) {
     normalized = `./${normalized}`;
-  }
-  if (isActive && !normalized.includes('-active.png')) {
-    return normalized.replace('.png', '-active.png');
-  }
-  if (!isActive && normalized.includes('-active.png')) {
-    return normalized.replace('-active.png', '.png');
   }
   return normalized;
 };
@@ -53,7 +47,7 @@ export const MainNavigationBar: React.FC<MainNavigationBarProps> = ({
             <div className="page-icon-image-container">
               <img
                 className="page-icon-image"
-                src={getIconPath(page.icon, isActive)}
+                src={getIconPath(page.icon)}
                 alt={page.name}
               />
             </div>
@@ -96,7 +90,7 @@ export const MainNavigationBar: React.FC<MainNavigationBarProps> = ({
             <div className="page-icon-image-container">
               <img
                 className="page-icon-image"
-                src={getIconPath(settingsPage.icon, activePageId === settingsPage.id)}
+                src={getIconPath(settingsPage.icon)}
                 alt={settingsPage.name}
               />
             </div>

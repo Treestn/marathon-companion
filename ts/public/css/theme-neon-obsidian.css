@@ -4,7 +4,7 @@
    - Background: #080809
    - Header: #0B0B0B
    - Sections: #0D0D0F
-   - Accent: #02FE03
+  - Accent: #F7F6F7
    - Button base: #F7F6F7
 */
 
@@ -20,78 +20,78 @@ body {
   --app-font-family: "Exo 2", terminal, sans-serif;
 
   /* Accent / Brand */
-  --accent:             #02FE03;
-  --accent-hover:       #01D902;
-  --accent-light:       #6CFF6D;
-  --accent-muted:       #52D652;
-  --accent-dark:        #00B502;
-  --accent-deeper:      #008A01;
-  --accent-medium:      #2FDF30;
-  --accent-subtle:      #103110;
-  --accent-subtle-hover:#184718;
-  --accent-bg:          #0E1F0E;
-  --accent-bg-dark:     #0A160A;
-  --accent-bg-muted:    #1B351B;
-  --accent-text-on:     #031003;
-  --accent-text-light:  #D8FFD8;
-  --accent-text-soft:   #B9F7B9;
-  --accent-text-dim:    #A5E8A5;
-  --accent-text-dimmer: #97D697;
-  --accent-text-quest:  #B4E9B4;
-  --accent-text-reward: #94C794;
+  --accent:             #F7F6F7;
+  --accent-hover:       #FFFFFF;
+  --accent-light:       #FFFFFF;
+  --accent-muted:       #D8D6DB;
+  --accent-dark:        #B8B4BF;
+  --accent-deeper:      #9893A1;
+  --accent-medium:      #CECAD3;
+  --accent-subtle:      #2A2A31;
+  --accent-subtle-hover:#34343C;
+  --accent-bg:          #1A1A22;
+  --accent-bg-dark:     #14141B;
+  --accent-bg-muted:    #2A2A33;
+  --accent-text-on:     #080809;
+  --accent-text-light:  #FFFFFF;
+  --accent-text-soft:   #F0EFF2;
+  --accent-text-dim:    #DFDCE3;
+  --accent-text-dimmer: #D0CCD6;
+  --accent-text-quest:  #E3E0E7;
+  --accent-text-reward: #C4C0CB;
 
-  /* Accent alpha (2,254,3) */
-  --accent-a00:         rgba(2, 254, 3, 0);
-  --accent-a06:         rgba(2, 254, 3, 0.06);
-  --accent-a10:         rgba(2, 254, 3, 0.1);
-  --accent-a12:         rgba(2, 254, 3, 0.12);
-  --accent-a15:         rgba(2, 254, 3, 0.15);
-  --accent-a20:         rgba(2, 254, 3, 0.2);
-  --accent-a25:         rgba(2, 254, 3, 0.25);
-  --accent-a30:         rgba(2, 254, 3, 0.3);
-  --accent-a35:         rgba(2, 254, 3, 0.35);
-  --accent-a40:         rgba(2, 254, 3, 0.4);
-  --accent-a45:         rgba(2, 254, 3, 0.45);
-  --accent-a50:         rgba(2, 254, 3, 0.5);
-  --accent-a60:         rgba(2, 254, 3, 0.6);
-  --accent-a70:         rgba(2, 254, 3, 0.7);
-  --accent-a85:         rgba(2, 254, 3, 0.85);
+  /* Accent alpha (247,246,247) */
+  --accent-a00:         rgba(247, 246, 247, 0);
+  --accent-a06:         rgba(247, 246, 247, 0.06);
+  --accent-a10:         rgba(247, 246, 247, 0.1);
+  --accent-a12:         rgba(247, 246, 247, 0.12);
+  --accent-a15:         rgba(247, 246, 247, 0.15);
+  --accent-a20:         rgba(247, 246, 247, 0.2);
+  --accent-a25:         rgba(247, 246, 247, 0.25);
+  --accent-a30:         rgba(247, 246, 247, 0.3);
+  --accent-a35:         rgba(247, 246, 247, 0.35);
+  --accent-a40:         rgba(247, 246, 247, 0.4);
+  --accent-a45:         rgba(247, 246, 247, 0.45);
+  --accent-a50:         rgba(247, 246, 247, 0.5);
+  --accent-a60:         rgba(247, 246, 247, 0.6);
+  --accent-a70:         rgba(247, 246, 247, 0.7);
+  --accent-a85:         rgba(247, 246, 247, 0.85);
 
-  /* Accent-muted alpha (82,214,82) */
-  --accent-muted-a05:   rgba(82, 214, 82, 0.05);
-  --accent-muted-a10:   rgba(82, 214, 82, 0.1);
-  --accent-muted-a15:   rgba(82, 214, 82, 0.15);
-  --accent-muted-a20:   rgba(82, 214, 82, 0.2);
-  --accent-muted-a25:   rgba(82, 214, 82, 0.25);
-  --accent-muted-a30:   rgba(82, 214, 82, 0.3);
-  --accent-muted-a35:   rgba(82, 214, 82, 0.35);
-  --accent-muted-a40:   rgba(82, 214, 82, 0.4);
-  --accent-muted-a50:   rgba(82, 214, 82, 0.5);
-  --accent-muted-a60:   rgba(82, 214, 82, 0.6);
-  --accent-muted-a80:   rgba(82, 214, 82, 0.8);
+  /* Accent-muted alpha (216,214,219) */
+  --accent-muted-a05:   rgba(216, 214, 219, 0.05);
+  --accent-muted-a10:   rgba(216, 214, 219, 0.1);
+  --accent-muted-a15:   rgba(216, 214, 219, 0.15);
+  --accent-muted-a20:   rgba(216, 214, 219, 0.2);
+  --accent-muted-a25:   rgba(216, 214, 219, 0.25);
+  --accent-muted-a30:   rgba(216, 214, 219, 0.3);
+  --accent-muted-a35:   rgba(216, 214, 219, 0.35);
+  --accent-muted-a40:   rgba(216, 214, 219, 0.4);
+  --accent-muted-a50:   rgba(216, 214, 219, 0.5);
+  --accent-muted-a60:   rgba(216, 214, 219, 0.6);
+  --accent-muted-a80:   rgba(216, 214, 219, 0.8);
 
-  /* Accent-dark alpha (0,181,2) */
-  --accent-dark-a10:    rgba(0, 181, 2, 0.1);
-  --accent-dark-a15:    rgba(0, 181, 2, 0.15);
-  --accent-dark-a20:    rgba(0, 181, 2, 0.2);
-  --accent-dark-a30:    rgba(0, 181, 2, 0.3);
-  --accent-dark-a40:    rgba(0, 181, 2, 0.4);
-  --accent-dark-a50:    rgba(0, 181, 2, 0.5);
-  --accent-dark-a60:    rgba(0, 181, 2, 0.6);
-  --accent-dark-a80:    rgba(0, 181, 2, 0.8);
-  --accent-dark-a90:    rgba(0, 181, 2, 0.9);
-  --accent-dark-a95:    rgba(0, 181, 2, 0.95);
+  /* Accent-dark alpha (184,180,191) */
+  --accent-dark-a10:    rgba(184, 180, 191, 0.1);
+  --accent-dark-a15:    rgba(184, 180, 191, 0.15);
+  --accent-dark-a20:    rgba(184, 180, 191, 0.2);
+  --accent-dark-a30:    rgba(184, 180, 191, 0.3);
+  --accent-dark-a40:    rgba(184, 180, 191, 0.4);
+  --accent-dark-a50:    rgba(184, 180, 191, 0.5);
+  --accent-dark-a60:    rgba(184, 180, 191, 0.6);
+  --accent-dark-a80:    rgba(184, 180, 191, 0.8);
+  --accent-dark-a90:    rgba(184, 180, 191, 0.9);
+  --accent-dark-a95:    rgba(184, 180, 191, 0.95);
 
-  /* Accent-deeper alpha (0,138,1) */
-  --accent-deeper-a60:  rgba(0, 138, 1, 0.6);
-  --accent-deeper-a85:  rgba(0, 138, 1, 0.85);
-  --accent-deeper-a95:  rgba(0, 138, 1, 0.95);
+  /* Accent-deeper alpha (152,147,161) */
+  --accent-deeper-a60:  rgba(152, 147, 161, 0.6);
+  --accent-deeper-a85:  rgba(152, 147, 161, 0.85);
+  --accent-deeper-a95:  rgba(152, 147, 161, 0.95);
 
-  /* Accent-medium alpha (47,223,48) */
-  --accent-medium-color:#2FDF30;
-  --accent-medium-a10:  rgba(47, 223, 48, 0.1);
-  --accent-medium-a20:  rgba(47, 223, 48, 0.2);
-  --accent-medium-a30:  rgba(47, 223, 48, 0.3);
+  /* Accent-medium alpha (206,202,211) */
+  --accent-medium-color:#CECAD3;
+  --accent-medium-a10:  rgba(206, 202, 211, 0.1);
+  --accent-medium-a20:  rgba(206, 202, 211, 0.2);
+  --accent-medium-a30:  rgba(206, 202, 211, 0.3);
 
   /* Black alpha */
   --black-a20:          rgba(0, 0, 0, 0.2);
@@ -175,7 +175,7 @@ body {
   --bg-placeholder:     #1A1A21;
   --bg-inset:           #1e211e;
   --bg-settings:        #111116;
-  --bg-card-elevated:   #171720;
+  --bg-card-elevated:   #18181d;
   --bg-control-strong:  #2A2A33;
   --bg-control-strong-hover: #343440;
   --bg-overlay:         rgba(8, 8, 9, 0.7);
@@ -213,7 +213,7 @@ body {
   --border-strong:      rgba(247, 246, 247, 0.12);
   --border-control:     #26262F;
   --border-control-hover:#353542;
-  --border-accent:      #02FE03;
+  --border-accent:      #F7F6F7;
   --border-hard:        #3A3A47;
   --border-event-card:  #1E1E27;
 
@@ -288,7 +288,7 @@ body {
   --amber-a70:          rgba(255, 193, 7, 0.7);
   --amber-a80:          rgba(255, 193, 7, 0.8);
 
-  --colored-text-a40:   rgba(2, 254, 3, 0.4);
+  --colored-text-a40:   rgba(247, 246, 247, 0.4);
 
   /* Indicator colors */
   --indicator-red-a08:  rgba(255, 0, 0, 0.08);
@@ -306,20 +306,20 @@ body {
   --neutral-a80:        rgba(184, 184, 184, 0.8);
 
   /* Map colors */
-  --map-accent:           #02FE03;
-  --map-accent-a00:       rgba(2, 254, 3, 0);
-  --map-accent-a10:       rgba(2, 254, 3, 0.1);
-  --map-accent-a12:       rgba(2, 254, 3, 0.12);
-  --map-accent-a20:       rgba(2, 254, 3, 0.2);
-  --map-accent-a30:       rgba(2, 254, 3, 0.3);
-  --map-accent-a35:       rgba(2, 254, 3, 0.35);
-  --map-accent-a50:       rgba(2, 254, 3, 0.5);
-  --map-accent-a60:       rgba(2, 254, 3, 0.6);
-  --map-accent-a70:       rgba(2, 254, 3, 0.7);
-  --map-accent-a80:       rgba(2, 254, 3, 0.8);
-  --map-accent-a90:       rgba(2, 254, 3, 0.9);
+  --map-accent:           #F7F6F7;
+  --map-accent-a00:       rgba(247, 246, 247, 0);
+  --map-accent-a10:       rgba(247, 246, 247, 0.1);
+  --map-accent-a12:       rgba(247, 246, 247, 0.12);
+  --map-accent-a20:       rgba(247, 246, 247, 0.2);
+  --map-accent-a30:       rgba(247, 246, 247, 0.3);
+  --map-accent-a35:       rgba(247, 246, 247, 0.35);
+  --map-accent-a50:       rgba(247, 246, 247, 0.5);
+  --map-accent-a60:       rgba(247, 246, 247, 0.6);
+  --map-accent-a70:       rgba(247, 246, 247, 0.7);
+  --map-accent-a80:       rgba(247, 246, 247, 0.8);
+  --map-accent-a90:       rgba(247, 246, 247, 0.9);
 
-  --map-accent-light:     #6CFF6D;
+  --map-accent-light:     #FFFFFF;
   --map-accent-light-a18: rgba(108, 255, 109, 0.18);
   --map-accent-light-a20: rgba(108, 255, 109, 0.2);
   --map-accent-light-a35: rgba(108, 255, 109, 0.35);
@@ -417,6 +417,9 @@ body {
   --map-filter-hover-text:   #D8FFD8;
   --map-filter-active-text:  #E8FFE8;
   --map-edit-header-text:    #E8FFE8;
+  --important-button-color:  #F7F7F7;
+  --important-button-text-color: #000000;
+  --important-button-strip-color: #CFCFCF;
   --map-popup-desc:     #9A9AA5;
   --map-popup-text:     #D9D9E0;
   --map-dropdown-text:  #CBCBD2;
@@ -437,13 +440,13 @@ body {
   --main-overlay-bg-color:    rgba(0, 0, 0, 0.7);
   --second-bg-color:          #0D0D0F;
   --header-color:             #0B0B0B;
-  --subscription-active-glow: #02FE03;
+  --subscription-active-glow: #F7F6F7;
   --event-quest-background-color: #0E1A0E;
   --main-quest-background-color:  #0D0D0F;
   --loading-background-color: #080809f7;
   --filter-bg-color:          #080809ED;
   --filter-hover-bg-color:    #123012ED;
-  --colored-text:             #02FE03;
+  --colored-text:             #F7F6F7;
   --colored-line:             #016601;
   --trader-item-square-width: 69.9px;
 

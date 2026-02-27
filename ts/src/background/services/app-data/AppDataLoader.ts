@@ -1,5 +1,5 @@
 import { AppConfigUtils } from "../../../escape-from-tarkov/utils/AppConfigUtils";
-import { ItemsV2Object } from "../../../model/items/IItemsElements";
+import { ItemsModel } from "../../../model/items/IItemsElements";
 import { QuestsObject } from "../../../model/quest/IQuestsElements";
 import endpoints from "../../../escape-from-tarkov/service/tarkov-companion-api/config/endpoint";
 import { TarkovCompanionService } from "../../../escape-from-tarkov/service/tarkov-companion-api/handler/TarkovCompanionService";
@@ -94,14 +94,12 @@ export class AppDataLoader {
     return stored;
   }
 
-  public static async loadItems(): Promise<ItemsV2Object | null> {
-    const stored = safeParse<ItemsV2Object>(ItemsElementUtils.getStoredData());
+  public static async loadItems(): Promise<ItemsModel | null> {
+    const stored = safeParse<ItemsModel>(ItemsElementUtils.getStoredData());
     const version = stored?.version ?? "0.0.0";
-    const currentLocale =
-      stored?.locale ?? AppConfigUtils.getAppConfig().userSettings.getLocalePreference();
     const locale = AppConfigUtils.getAppConfig().userSettings.getLocalePreference();
 
-    let fetched: ItemsV2Object | null = null;
+    let fetched: ItemsModel | null = null;
     try {
       const response = await TarkovCompanionService.getConfig(
         endpoints.items_v2_config(locale, version),

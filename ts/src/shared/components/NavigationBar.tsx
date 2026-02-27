@@ -13,17 +13,10 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({ windowType = 'desk
   const [activePageId, setActivePageId] = useState<string | null>(null);
   const [i18nReady, setI18nReady] = useState<boolean>(false);
 
-  // Get the active icon path (with -active suffix if active)
-  const getIconPath = (page: { id: string; icon: string }, isActive: boolean): string => {
+  // Keep using the base icon and style it by state in CSS.
+  const getIconPath = (page: { id: string; icon: string }): string => {
     let iconPath = page.icon;
-    
-    // Apply active suffix if active
-    if (isActive && !iconPath.includes('-active.png')) {
-      iconPath = iconPath.replace('.png', '-active.png');
-    } else if (!isActive && iconPath.includes('-active.png')) {
-      iconPath = iconPath.replace('-active.png', '.png');
-    }
-    
+
     // Fix icon path based on window type
     if (windowType === 'ingame' && !iconPath.startsWith('../')) {
       iconPath = '../' + iconPath.replace('./', '');
@@ -148,7 +141,7 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({ windowType = 'desk
     <>
       {pages.map(page => {
         const isActive = activePageId === page.id;
-        const iconPath = getIconPath(page, isActive);
+        const iconPath = getIconPath(page);
         
         return (
           <button
@@ -175,11 +168,6 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({ windowType = 'desk
                 className="page-icon-image"
                 src={iconPath}
                 alt={page.name}
-                style={{
-                  filter: isActive
-                    ? 'drop-shadow(0 0 1.25rem var(--main-btn-active-color))'
-                    : 'none',
-                }}
               />
             </div>
             <div className="icon-text-container">

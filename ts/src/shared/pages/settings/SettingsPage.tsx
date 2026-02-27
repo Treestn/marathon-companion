@@ -46,7 +46,6 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ onClose }) => {
   const [desktopOnly, setDesktopOnly] = useState(false);
   const [minimizeOnGameClose, setMinimizeOnGameClose] = useState(false);
   const [externalLinkWarning, setExternalLinkWarning] = useState(false);
-  const [enableSecondScreenWindow, setEnableSecondScreenWindow] = useState(true);
 
   const [levelRequired, setLevelRequired] = useState(false);
   const [doubleClickCompleteQuest, setDoubleClickCompleteQuest] = useState(false);
@@ -101,7 +100,6 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ onClose }) => {
     setDesktopOnly(userSettings.desktopOnly === "true");
     setMinimizeOnGameClose(toBool(userSettings.minimizeOnGameClose));
     setExternalLinkWarning(toBool(userSettings.externalLinkWarning));
-    setEnableSecondScreenWindow(userSettings.enableSecondScreenWindow !== "false");
     setLevelRequired(userSettings.levelRequired === "true");
     setDoubleClickCompleteQuest(toBool(userSettings.doubleClickCompleteQuest));
     MapUtils.setScaler(userSettings.mapZoomSensitivity || MapUtils.getScaler());
@@ -254,58 +252,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ onClose }) => {
                 </div>
               </div>
 
-              {monitors.length > 1 && (
-                <div className="setting-component">
-                  <div className="setting-title">
-                    <div className="component-title-container">
-                      <span className="component-title centered">
-                        {t(
-                          "pages.settings.app.secondScreenEnabled",
-                          "Enable In-Game Second Screen",
-                        )}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="setting-value">
-                    <div className="setting-checkbox-container">
-                      <label
-                        className="switch centered checkbox-container"
-                        aria-label={t(
-                          "pages.settings.app.secondScreenEnabled",
-                          "Enable In-Game Second Screen",
-                        )}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={enableSecondScreenWindow}
-                          onChange={(event) => {
-                            const next = event.target.checked;
-                            setEnableSecondScreenWindow(next);
-                            updateUserSettings({
-                              enableSecondScreenWindow: next ? "true" : "false",
-                            });
-                            if (!next) {
-                              WindowsService.close(kWindowNames.secondScreen).catch(() => {});
-                              return;
-                            }
-                            BackgroundHelper.getIsGameRunning().then((isRunning) => {
-                              if (!isRunning) {
-                                return;
-                              }
-                              WindowsService.restore(kWindowNames.secondScreen)
-                                .then(() => WindowsService.setToSecondMonitor(kWindowNames.secondScreen))
-                                .catch(() => {});
-                            });
-                          }}
-                        />
-                        <span className="slider round" />
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-    <div className="setting-component">
+              <div className="setting-component">
                 <div className="setting-title">
                   <div className="component-title-container">
                     <span className="component-title centered">

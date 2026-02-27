@@ -7,7 +7,7 @@ type NavPage = {
 
 const NAV_PAGES: NavPage[] = [
   { id: 'maps', label: 'Maps' },
-  { id: 'quests', label: 'Active Quests' },
+  { id: 'quests', label: 'Active Contracts' },
 ];
 
 type SecondScreenNavigationBarProps = {

@@ -1,5 +1,5 @@
 import { HideoutObject } from "../../../../../model/HideoutObject";
-import { ItemsV2Object } from "../../../../../model/items/IItemsElements";
+import { ItemsModel } from "../../../../../model/items/IItemsElements";
 import { QuestsObject } from "../../../../../model/quest/IQuestsElements";
 import { WeaponImagesElements } from "../../../../../model/IWeaponImage";
 import { IRequest } from "../../../../types/IRequest";
@@ -24,8 +24,8 @@ export class SidePageInitQuestRequest implements IRequest {
     quests: QuestsObject;
     storedQuests: QuestsObject;
 
-    itemsElement:ItemsV2Object;
-    storedItemsElement:ItemsV2Object;
+    itemsElement:ItemsModel;
+    storedItemsElement:ItemsModel;
 
     weaponImage:WeaponImagesElements;
     storedWeaponImage:WeaponImagesElements;

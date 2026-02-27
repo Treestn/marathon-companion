@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ItemsElementUtils } from '../../../escape-from-tarkov/utils/ItemsElementUtils';
-import { ItemV2 } from '../../../model/items/IItemsElements';
+import { Item } from '../../../model/items/IItemsElements';
 
 interface ItemSelectorProps {
   value: string; // item id
-  onChange: (itemId: string, itemName: string, imageLink: string) => void;
+  onChange: (itemId: string, itemName: string, imageUrl: string) => void;
   placeholder?: string;
   disabled?: boolean;
 }
@@ -15,20 +15,20 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({
   placeholder = 'Search for an item...',
   disabled = false
 }) => {
-  const [items, setItems] = useState<ItemV2[]>([]);
-  const [filteredItems, setFilteredItems] = useState<ItemV2[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
+  const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<ItemV2 | null>(null);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Load items from ItemsElementUtils
   useEffect(() => {
-    const itemsData = ItemsElementUtils.getData();
-    if (itemsData && itemsData.items) {
+    const itemsData = ItemsElementUtils.getAllItems();
+    if (itemsData.length > 0) {
       // Filter out items without names or IDs
-      const validItems = itemsData.items.filter(item => 
+      const validItems = itemsData.filter(item =>
         item && item.id && item.name
       );
       setItems(validItems);
@@ -59,8 +59,7 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({
 
     const searchLower = searchTerm.toLowerCase();
     const filtered = items.filter(item =>
-      (item.name && item.name.toLowerCase().includes(searchLower)) ||
-      (item.shortname && item.shortname.toLowerCase().includes(searchLower))
+      item.name && item.name.toLowerCase().includes(searchLower)
     );
     setFilteredItems(filtered);
   }, [searchTerm, items]);
@@ -88,7 +87,7 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({
     }
   };
 
-  const handleItemSelect = (item: ItemV2) => {
+  const handleItemSelect = (item: Item) => {
     if (!item || !item.id || !item.name) {
       console.error('Invalid item selected:', item);
       return;
@@ -96,7 +95,7 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({
     setSelectedItem(item);
     setSearchTerm(item.name);
     setIsOpen(false);
-    onChange(item.id, item.name, item.imageLink || '');
+    onChange(item.id, item.name, item.url || '');
   };
 
   const handleInputFocus = () => {
@@ -115,9 +114,9 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({
   return (
     <div className="trading-item-selector" ref={dropdownRef}>
       <div className="trading-item-selector-input-wrapper">
-        {selectedItem && selectedItem.imageLink && (
+        {selectedItem && selectedItem.url && (
           <img
-            src={selectedItem.imageLink}
+            src={selectedItem.url}
             alt={selectedItem.name}
             className="trading-item-selector-image"
             onError={(e) => {
@@ -150,9 +149,9 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({
                 className={`trading-item-selector-option ${selectedItem?.id === item.id ? 'selected' : ''}`}
                 onClick={() => handleItemSelect(item)}
               >
-                {item.imageLink && (
+                {item.url && (
                   <img
-                    src={item.imageLink}
+                    src={item.url}
                     alt={item.name}
                     className="trading-item-selector-option-image"
                     onError={(e) => {
@@ -161,9 +160,6 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({
                   />
                 )}
                 <span className="trading-item-selector-option-name">{item.name}</span>
-                {item.shortname && item.shortname !== item.name && (
-                  <span className="trading-item-selector-option-shortname">({item.shortname})</span>
-                )}
               </div>
             );
           })}

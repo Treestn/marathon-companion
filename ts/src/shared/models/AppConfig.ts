@@ -1,6 +1,6 @@
 import { progressionTypes } from "../../consts";
 import { I18nHelper } from "../../locale/I18nHelper";
-import { Maps } from "../../escape-from-tarkov/constant/MapsConst";
+import { Maps, MapsList } from "../../escape-from-tarkov/constant/MapsConst";
 import { MessageStoredImpl, MessageStoredObject } from "../../model/message/IMessageStored";
 
 export type UserSettingsConfig = {
@@ -52,7 +52,7 @@ export const createDefaultAppConfig = (): AppConfig => ({
     secondMonitorPreference: "",
     enableSecondScreenWindow: "true",
     progressionType: progressionTypes.pvp,
-    mapDefaultPreference: Maps.DAM_BATTLEGROUNDS.id,
+    mapDefaultPreference: MapsList[0].id,
     openWindowOnMatchmaking: "true",
     openQuestReminderPreference: "true",
     desktopOnly: "false",

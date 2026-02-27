@@ -1,0 +1,435 @@
+.factions-page-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.factions-page-content-wrapper {
+  width: 100%;
+  max-width: 980px;
+  height: 100%;
+  min-width: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  box-sizing: border-box;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--bg-base) 92%, #0b0f14 8%), var(--bg-base));
+}
+
+.factions-header {
+  border: 1px solid var(--border-default);
+  border-radius: 0;
+  background: var(--bg-card);
+  padding: 18px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.factions-kicker {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  margin-bottom: 8px;
+}
+
+.factions-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.factions-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 0;
+  border: 1px solid var(--border-default);
+  background-color: var(--faction-color, var(--accent));
+  -webkit-mask-image: var(--faction-icon-mask);
+  mask-image: var(--faction-icon-mask);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  flex-shrink: 0;
+}
+
+.factions-title {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.1;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.factions-subtitle {
+  margin: 2px 0 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.factions-agent {
+  margin: 2px 0 0;
+  color: var(--text-tertiary);
+  font-size: 12px;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.factions-description {
+  margin: 14px 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.factions-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.factions-stats span {
+  border: 1px solid var(--bg-control-strong);
+  background: var(--bg-card-elevated);
+  padding: 6px 10px;
+  border-radius: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.factions-stats .factions-id {
+  color: var(--text-tertiary);
+  font-family: monospace;
+}
+
+.factions-section-header {
+  border-radius: 0;
+  padding: 12px 0;
+  min-width: 0;
+}
+
+.factions-section {
+  border: 1px solid var(--border-default);
+  border-radius: 0;
+  background: var(--bg-card);
+  padding: 16px;
+  min-width: 0;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
+}
+
+.factions-section-title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  letter-spacing: 0.01em;
+}
+
+.factions-perks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  min-width: 0;
+}
+
+.factions-perk-card {
+  border: 1px solid var(--bg-control-strong);
+  border-left-width: 5px;
+  border-radius: 0;
+  background: var(--bg-card-elevated);
+  padding: 13px 13px 13px 14px;
+  min-width: 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.factions-perk-card h3 {
+  margin: 0 0 7px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.factions-perk-card p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--text-tertiary);
+}
+
+.factions-muted {
+  margin: 0;
+  color: var(--text-tertiary);
+}
+
+.factions-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  max-width: 100%;
+  gap: 10px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  padding-bottom: 4px;
+  min-width: 0;
+}
+
+.factions-card {
+  border: 1px solid var(--bg-control-strong);
+  border-radius: 0;
+  background: var(--bg-card-elevated);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  cursor: pointer;
+  min-width: 0;
+  flex: 1 1 0;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.factions-card img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.factions-card span {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.factions-card.is-active {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--faction-color) 88%, #ffffff 12%),
+    color-mix(in srgb, var(--faction-color) 68%, #000000 32%)
+  );
+  border-color: color-mix(in srgb, var(--faction-color) 72%, #ffffff 28%);
+  color: var(--faction-on-color);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--faction-color) 45%, transparent),
+    0 6px 18px color-mix(in srgb, var(--faction-color) 32%, transparent),
+    inset 0 1px 0 color-mix(in srgb, #ffffff 25%, transparent);
+  transform: translateY(-1px);
+}
+
+.factions-card:hover {
+  transform: translateY(-1px);
+}
+
+/* Reusable RGB glitch utility:
+   - Apply `.glitch-rgb` on the container
+   - Apply `.glitch-rgb__target` on the element to distort (img/icon/etc) */
+.glitch-rgb {
+  position: relative;
+  overflow: hidden;
+}
+
+.glitch-rgb::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 40, 80, 0.28),
+    rgba(255, 40, 80, 0.12)
+  );
+  mix-blend-mode: screen;
+  opacity: 0.38;
+  pointer-events: none;
+  animation: factions-red-channel-shift 0.95s steps(2, end) infinite;
+}
+
+.glitch-rgb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    270deg,
+    rgba(35, 210, 255, 0.28),
+    rgba(35, 210, 255, 0.12)
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: factions-blue-channel-shift 0.95s steps(2, end) infinite;
+}
+
+.glitch-rgb .glitch-rgb__target {
+  filter:
+    drop-shadow(2px 0 0 rgba(255, 40, 80, 0.7))
+    drop-shadow(-2px 0 0 rgba(35, 210, 255, 0.7))
+    drop-shadow(0 2px 6px color-mix(in srgb, var(--faction-color) 45%, transparent));
+  animation: factions-icon-rgb-glitch 0.95s steps(2, end) infinite;
+}
+
+.factions-card.is-active span {
+  color: var(--faction-on-color);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes factions-red-channel-shift {
+  0% {
+    transform: translateX(0);
+    clip-path: inset(0 0 0 0);
+    opacity: 0.35;
+  }
+  12% {
+    transform: translateX(-1px);
+    clip-path: inset(8% 0 72% 0);
+    opacity: 0.7;
+  }
+  18% {
+    transform: translateX(2px);
+    clip-path: inset(42% 0 34% 0);
+  }
+  20% {
+    transform: translateX(0);
+    clip-path: inset(0 0 0 0);
+    opacity: 0.4;
+  }
+  58% {
+    transform: translateX(-1px);
+    clip-path: inset(68% 0 14% 0);
+    opacity: 0.68;
+  }
+  62% {
+    transform: translateX(1px);
+    clip-path: inset(18% 0 58% 0);
+  }
+  64% {
+    transform: translateX(0);
+    clip-path: inset(0 0 0 0);
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateX(0);
+    clip-path: inset(0 0 0 0);
+    opacity: 0.4;
+  }
+}
+
+@keyframes factions-blue-channel-shift {
+  0% {
+    transform: translateX(0);
+    clip-path: inset(0 0 0 0);
+    opacity: 0.35;
+  }
+  10% {
+    transform: translateX(1px);
+    clip-path: inset(74% 0 8% 0);
+    opacity: 0.7;
+  }
+  16% {
+    transform: translateX(-2px);
+    clip-path: inset(30% 0 44% 0);
+  }
+  20% {
+    transform: translateX(0);
+    clip-path: inset(0 0 0 0);
+    opacity: 0.4;
+  }
+  52% {
+    transform: translateX(1px);
+    clip-path: inset(14% 0 64% 0);
+    opacity: 0.68;
+  }
+  56% {
+    transform: translateX(-1px);
+    clip-path: inset(58% 0 20% 0);
+  }
+  60% {
+    transform: translateX(0);
+    clip-path: inset(0 0 0 0);
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateX(0);
+    clip-path: inset(0 0 0 0);
+    opacity: 0.4;
+  }
+}
+
+@keyframes factions-icon-rgb-glitch {
+  0%,
+  100% {
+    transform: translateX(0);
+    filter:
+      drop-shadow(2px 0 0 rgba(255, 40, 80, 0.7))
+      drop-shadow(-2px 0 0 rgba(35, 210, 255, 0.7))
+      drop-shadow(0 2px 6px color-mix(in srgb, var(--faction-color) 45%, transparent));
+  }
+  16% {
+    transform: translateX(-1px);
+    filter:
+      drop-shadow(3px 0 0 rgba(255, 40, 80, 0.85))
+      drop-shadow(-1px 0 0 rgba(35, 210, 255, 0.55))
+      drop-shadow(0 2px 6px color-mix(in srgb, var(--faction-color) 45%, transparent));
+  }
+  22% {
+    transform: translateX(1px);
+    filter:
+      drop-shadow(1px 0 0 rgba(255, 40, 80, 0.55))
+      drop-shadow(-3px 0 0 rgba(35, 210, 255, 0.85))
+      drop-shadow(0 2px 6px color-mix(in srgb, var(--faction-color) 45%, transparent));
+  }
+  26% {
+    transform: translateX(0);
+  }
+  58% {
+    transform: translateX(1px);
+    filter:
+      drop-shadow(2px 0 0 rgba(255, 40, 80, 0.75))
+      drop-shadow(-2px 0 0 rgba(35, 210, 255, 0.75))
+      drop-shadow(0 2px 6px color-mix(in srgb, var(--faction-color) 45%, transparent));
+  }
+  64% {
+    transform: translateX(0);
+  }
+}
+
+.factions-empty {
+  color: var(--text-tertiary);
+  padding: 20px;
+}
+
+@media (max-width: 900px) {
+  .factions-perks-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,33 +1,62 @@
 import { BucketConst } from "../constant/BucketConst";
-import { ItemsV2Object } from "../../model/items/IItemsElements";
-import { Item, ItemData } from "../service/consumer/TarkovDevConsumer";
+import { Item as MarathonItem, ItemsModel } from "../../model/items/IItemsElements";
+import { Item as TarkovDevItem, ItemData } from "../service/consumer/TarkovDevConsumer";
 import { StorageHelper } from "../service/helper/StorageHelper";
 
 export class ItemsElementUtils {
 
     private static localStorageKey = "itemsMap";
-    private static itemsData:ItemsV2Object;
+    private static itemsData:ItemsModel;
     private static itemsNameMap:Map<string, string> = new Map();
     private static itemsShortnameMap:Map<string, string> = new Map();
     private static itemsImageLinkMap:Map<string, string> = new Map();
     private static itemsRarityMap:Map<string, string> = new Map();
     private static itemsValueMap:Map<string, number> = new Map();
 
-    static setItemsMap(object:ItemsV2Object) {
+    private static flattenItems(object: ItemsModel): MarathonItem[] {
+        if (!object?.items) {
+            return [];
+        }
+        const all = [
+            ...(object.items.items ?? []),
+            ...(object.items.weapons ?? []),
+            ...(object.items.cores ?? []),
+            ...(object.items.implants ?? []),
+            ...(object.items.mods ?? []),
+        ];
+        const seen = new Set<string>();
+        return all.filter((item) => {
+            if (!item?.id || seen.has(item.id)) {
+                return false;
+            }
+            seen.add(item.id);
+            return true;
+        });
+    }
+
+    static setItemsMap(object:ItemsModel) {
         if(!this.itemsData) {
             this.itemsData = object;
-            for(const itemV2 of object.items) {
-                this.itemsNameMap.set(itemV2.id, itemV2.name);
-                this.itemsShortnameMap.set(itemV2.id, itemV2.shortname);
-                this.itemsImageLinkMap.set(itemV2.id, itemV2.imageLink);
-                this.itemsRarityMap.set(itemV2.id, itemV2.rarity);
-                this.itemsValueMap.set(itemV2.id, itemV2.value);
+            const items = this.flattenItems(object);
+            for(const item of items) {
+                this.itemsNameMap.set(item.id, item.name);
+                this.itemsShortnameMap.set(item.id, item.name);
+                this.itemsImageLinkMap.set(item.id, item.url ?? "");
+                this.itemsRarityMap.set(item.id, item.rarity ?? "unknown");
+                this.itemsValueMap.set(item.id, item.value ?? 0);
             }
         }
     }
 
-    static getData():ItemsV2Object {
+    static getData():ItemsModel {
         return this.itemsData
+    }
+
+    static getAllItems(): MarathonItem[] {
+        if (!this.itemsData) {
+            return [];
+        }
+        return this.flattenItems(this.itemsData);
     }
 
     static getNameData() {
@@ -54,8 +83,8 @@ export class ItemsElementUtils {
             return false;
         }
         try {
-            const parsed = JSON.parse(stored) as ItemsV2Object;
-            if (parsed?.items?.length) {
+            const parsed = JSON.parse(stored) as ItemsModel;
+            if (parsed?.items) {
                 this.setItemsMap(parsed);
                 return true;
             }
@@ -143,8 +172,8 @@ export class ItemsElementUtils {
         return this.itemsRarityMap.get(id);
     }
 
-    static async getItemInformation(id:string): Promise<Item> {
-        let item:Item = new ItemData()
+    static async getItemInformation(id:string): Promise<TarkovDevItem> {
+        let item:TarkovDevItem = new ItemData()
         item.baseImageLink = this.itemsImageLinkMap.get(id)
         item.name = this.itemsNameMap.get(id);
         item.shortName = this.itemsShortnameMap.get(id);

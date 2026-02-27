@@ -1,24 +1,19 @@
-import { I18nHelper } from "../locale/I18nHelper";
-import { TraderConst, TraderList } from "../escape-from-tarkov/constant/TraderConst";
+import { TraderList } from "../escape-from-tarkov/constant/TraderConst";
 
 export class TraderMapper {
 
-    private traderMap: Map<string, string> = new Map();
+    private readonly traderMap: Map<string, string> = new Map();
 
     private static _instance:TraderMapper;
 
     private constructor() {
-        this.traderMap.set("8bbf4232-5efa-40fb-8e1a-c028c32f7603", TraderConst.TIAN_WEN.name)
-        this.traderMap.set("527934bd-be82-4703-b8e6-6a4d19aaa13a", TraderConst.APOLLO.name)
-        this.traderMap.set("3402355f-f58d-48fe-85f3-a30a90b55bef", TraderConst.SHANI.name)
-        this.traderMap.set("0f8897a8-a83c-4f16-8fdc-274f36e9bf67", TraderConst.LANCE.name)
-        this.traderMap.set("04156977-2894-440b-9394-00259dbf4ceb", TraderConst.CELESTE.name)
+        for (const trader of TraderList) {
+            this.traderMap.set(trader.id, trader.name);
+        }
     }
 
     public static getTraderFromId(id: string): string {
-        if(this._instance == null) {
-            this._instance = new TraderMapper();
-        }
+        this._instance ??= new TraderMapper();
         return this._instance.traderMap.get(id);
     }
 
@@ -29,9 +24,7 @@ export class TraderMapper {
     }
 
     public static getIdFromTrader(traderName:string) {
-        if(this._instance == null) {
-            this._instance = new TraderMapper();
-        }
+        this._instance ??= new TraderMapper();
         for (const [key, value] of this._instance.traderMap.entries()) {
             if (value.toLocaleLowerCase() === traderName.toLocaleLowerCase()) {
                 return key;
@@ -41,9 +34,7 @@ export class TraderMapper {
     }
 
     public static getImageFromTraderId(traderId:string) {
-        if(this._instance == null) {
-            this._instance = new TraderMapper();
-        }
+        this._instance ??= new TraderMapper();
         for (const traderInfo of TraderList) {
             if (traderInfo.id === traderId) {
                 return traderInfo.src;
@@ -53,9 +44,7 @@ export class TraderMapper {
     }
 
     public static getImageFromTraderName(traderName:string) {
-        if(this._instance == null) {
-            this._instance = new TraderMapper();
-        }
+        this._instance ??= new TraderMapper();
         for (const traderInfo of TraderList) {
             if (traderInfo.name.toLocaleLowerCase() === traderName.toLocaleLowerCase()) {
                 return traderInfo.src;

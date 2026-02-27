@@ -112,6 +112,67 @@
 .desktop-quests-edit-toggle {
   margin-left: 8px;
   white-space: nowrap;
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  overflow: visible;
+  background: repeating-linear-gradient(180deg, #ffffff 0 2px, #f7f7f7 2px 3px);
+  border: 1px solid #f4f4f4;
+  color: #0d1117;
+  border-radius: 0;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(180, 180, 180, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.desktop-quests-edit-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(170, 170, 170, 0.35),
+    0 6px 10px rgba(0, 0, 0, 0.24);
+  animation: quest-complete-button-shake 1.9s steps(2, end) infinite;
+}
+
+.desktop-quests-edit-toggle:hover::before,
+.desktop-quests-edit-toggle:hover::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.desktop-quests-edit-toggle:hover::before {
+  background:
+    linear-gradient(90deg, rgba(255, 40, 80, 0.24), rgba(255, 40, 80, 0.02)),
+    linear-gradient(180deg, rgba(255, 40, 80, 0.12), rgba(255, 40, 80, 0));
+  mix-blend-mode: normal;
+  filter: blur(4px);
+  box-shadow:
+    0 0 12px rgba(255, 40, 80, 0.26),
+    0 0 24px rgba(255, 40, 80, 0.16);
+  animation: quest-complete-button-red-channel 1.9s steps(2, end) infinite;
+}
+
+.desktop-quests-edit-toggle:hover::after {
+  background:
+    linear-gradient(270deg, rgba(35, 210, 255, 0.24), rgba(35, 210, 255, 0.02)),
+    linear-gradient(180deg, rgba(35, 210, 255, 0.12), rgba(35, 210, 255, 0));
+  mix-blend-mode: normal;
+  filter: blur(4px);
+  box-shadow:
+    0 0 12px rgba(35, 210, 255, 0.26),
+    0 0 24px rgba(35, 210, 255, 0.16);
+  animation: quest-complete-button-blue-channel 1.9s steps(2, end) infinite;
+}
+
+.desktop-quests-edit-toggle.is-active {
+  border-color: #f4f4f4;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(180, 180, 180, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.35);
 }
 
 .desktop-quests-edit-toggle:disabled {

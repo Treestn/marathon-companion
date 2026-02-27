@@ -4,7 +4,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    background: var(--bg-ads);
+    background: var(--bg-card-elevated);
     height: calc(100% - 12px);
     margin-right: 12px;
     position: relative;
@@ -85,7 +85,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    border-radius: 8px;
+    border-radius: 0;
     padding: 10px;
     flex: 1 1 0;
     min-height: 0;
@@ -106,6 +106,26 @@
     gap: 8px;
   }
 
+/* Match quest-page filter styling in side panel, but keep square corners. */
+.subscribed-ad-slot .quest-filter {
+    width: 150px;
+  }
+
+.subscribed-ad-slot .quest-filter-trigger {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg-sidebar);
+    color: var(--text-primary);
+    border-radius: 0;
+  }
+
+.subscribed-ad-slot .quest-filter-menu,
+.subscribed-ad-slot .quest-filter-option,
+.subscribed-ad-slot .quest-filter-count {
+    border-radius: 0;
+  }
+
 .subscribed-slot-empty {
     color: var(--text-placeholder);
     font-size: 12px;
@@ -120,7 +140,10 @@
     min-height: 0;
   }
 
-.subscribed-quest-card {
+.quest-card.subscribed-quest-card {
+    background: var(--bg-card);
+    border-radius: 0;
+    border: 1px solid transparent;
     width: -webkit-fill-available;
     max-width: none;
   }
@@ -128,14 +151,36 @@
 .subscribed-quest-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
+    gap: 12px;
+    padding: 10px 12px;
     cursor: pointer;
-    background: transparent;
-    border: none;
-    color: inherit;
+    background: var(--bg-card);
+    border: 1px solid transparent;
+    border-radius: 0;
+    color: var(--text-primary);
     text-align: left;
     width: 100%;
+    position: relative;
+  }
+
+.subscribed-quest-header:is(:hover, .subscribed-quest-header-open) {
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--quest-faction-color, var(--accent)) 14%, var(--bg-card) 86%),
+      color-mix(in srgb, var(--quest-faction-color, var(--accent)) 5%, var(--bg-card) 95%)
+    );
+    border-color: color-mix(in srgb, var(--quest-faction-color, var(--accent)) 42%, var(--border-hard) 58%);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--quest-faction-color, var(--accent)) 20%, transparent),
+      0 3px 10px color-mix(in srgb, var(--quest-faction-color, var(--accent)) 10%, transparent);
+  }
+
+.subscribed-quest-header:is(:hover, .subscribed-quest-header-open) .quest-trader-image,
+.subscribed-quest-header:is(:hover, .subscribed-quest-header-open) .subscribed-quest-title {
+    filter:
+      drop-shadow(1px 0 0 rgba(255, 40, 80, 0.26))
+      drop-shadow(-1px 0 0 rgba(35, 210, 255, 0.26));
+    animation: quest-header-target-rgb-glitch 0.95s steps(2, end) infinite;
   }
 
 .subscribed-quest-chevron {
@@ -149,11 +194,10 @@
   }
 
 .subscribed-quest-title {
-    background: transparent;
     color: var(--text-primary);
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
-    padding: 0;
+    padding: 10px 20px;
     text-align: left;
   }
 
@@ -169,6 +213,12 @@
 .subscribed-quest-body {
     padding-top: 0;
 }
+
+/* Keep quest side panel content fully square (cards, objectives, controls, etc.). */
+.subscribed-ad-slot .quest-card,
+.subscribed-ad-slot .quest-card :is(*, *::before, *::after) {
+    border-radius: 0;
+  }
 
 .side-panel-overlay {
     position: absolute;

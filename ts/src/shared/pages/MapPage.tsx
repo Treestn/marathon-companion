@@ -11,7 +11,7 @@ import { useOptionalMapEditPlacementContext } from "../context/MapEditPlacementC
 import { useOptionalEditModeContext } from "../context/EditModeContext";
 import { useOptionalMapSubmissionContext } from "../context/MapSubmissionContext";
 
-import { Maps } from "../../escape-from-tarkov/constant/MapsConst";
+import { Maps, MapsList } from "../../escape-from-tarkov/constant/MapsConst";
 import { MapAdapter } from "../../adapter/MapAdapter";
 import { FilterConst } from "../../escape-from-tarkov/constant/FilterConst";
 import { QuestDataStore } from "../services/QuestDataStore";
@@ -23,8 +23,7 @@ import type { IconDatum } from "./map/deck/builder/icon.builder";
 
 const getInitialMapId = (): string => {
   const mapDefault =
-    AppConfigClient.getConfig()?.userSettings?.mapDefaultPreference ??
-    Maps.DAM_BATTLEGROUNDS.id;
+    AppConfigClient.getConfig()?.userSettings?.mapDefaultPreference ?? MapsList[0].id;
   const mapIdFromPreference = MapAdapter.getIdFromMap(mapDefault);
 
   if (mapIdFromPreference) {
@@ -33,7 +32,7 @@ const getInitialMapId = (): string => {
     });
     return mapIdFromPreference;
   }
-  return mapDefault || Maps.DAM_BATTLEGROUNDS.id;
+  return mapDefault || MapsList[0].id;
 };
 
 // ---------------------------------------------------------------------------

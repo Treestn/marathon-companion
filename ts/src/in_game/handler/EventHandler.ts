@@ -397,11 +397,11 @@ export class EventHandler {
 
     private static getIdFromMapEvent(map):string {
         switch(map) {
-            case "": return Maps.ACERRA_SPACEPORT.id;
-            case "" : return Maps.BURIED_CITY.id;
-            case "" : return Maps.DAM_BATTLEGROUNDS.id;
-            case "" : return Maps.PRACTICE_RANGE.id;
-            case "" : return Maps.BLUE_GATE.id;
+            // case "": return Maps.ACERRA_SPACEPORT.id;
+            // case "" : return Maps.BURIED_CITY.id;
+            // case "" : return Maps.DAM_BATTLEGROUNDS.id;
+            // case "" : return Maps.PRACTICE_RANGE.id;
+            // case "" : return Maps.BLUE_GATE.id;
             default: return null;
         }
     }

@@ -16,22 +16,6 @@ export const ItemRarityImage: React.FC<ItemRarityImageProps> = ({ itemId, size =
   const [currentSrc, setCurrentSrc] = useState<string>(LogoPathConst.LOGO_WHITE_256_BLUE_SIDE);
   const wrapperClassName = className ? `item-rarity-image ${className}` : 'item-rarity-image';
 
-  const rarityStyle = useMemo(() => {
-    const rarity = ItemsElementUtils.getItemRarity(itemId);
-    if (!rarity) {
-      return {};
-    }
-    const color = rarityToColor(rarity);
-    if (!color || color === 'black') {
-      return {};
-    }
-    return {
-      borderColor: color,
-      borderStyle: 'solid' as const,
-      borderWidth: '2px',
-    };
-  }, [itemId]);
-
   const imageSrc = useMemo(() => {
     const fallback = LogoPathConst.LOGO_WHITE_256_BLUE_SIDE;
     const direct = ItemsElementUtils.getImagePath(itemId);
@@ -49,7 +33,7 @@ export const ItemRarityImage: React.FC<ItemRarityImageProps> = ({ itemId, size =
   return (
     <div
       className={wrapperClassName}
-      style={{ ...rarityStyle, padding: 5, maxHeight: size - 6, maxWidth: size - 6 }}
+      style={{ padding: 5, maxHeight: size - 6, maxWidth: size - 6 }}
     >
       {imageState === 'loading' && (
         <div className="item-rarity-image-loading">

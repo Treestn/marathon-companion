@@ -1,9 +1,9 @@
 import React from "react";
 
-import { ItemV2 } from "../../../../model/items/IItemsElements";
+import { Item } from "../../../../model/items/IItemsElements";
 
 type ItemSelectorProps = {
-  filteredItems: ItemV2[];
+  filteredItems: Item[];
   isItemDropdownOpen: boolean;
   isDisabled?: boolean;
   itemDropdownRef: React.RefObject<HTMLDivElement>;
@@ -66,9 +66,9 @@ export const ItemSelector: React.FC<ItemSelectorProps> = ({
               setIsItemDropdownOpen(true);
             }}
           >
-            {item.imageLink && (
+            {item.url && (
               <img
-                src={item.imageLink}
+                src={item.url}
                 alt={item.name}
                 className="map-edit-item-selector-option-image"
                 onError={(event) => {

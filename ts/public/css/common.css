@@ -94,8 +94,6 @@ img[data-clickable] {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  background: var(--bg-rarity);
   border: 2px solid transparent;
   overflow: hidden;
 }
