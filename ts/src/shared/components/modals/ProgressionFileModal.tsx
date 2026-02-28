@@ -46,7 +46,7 @@ const SaveProgressionContent: React.FC<SaveContentProps> = ({
   onClose,
 }) => {
   const [folderPath, setFolderPath] = useState(overwolf.io.paths.documents);
-  const [fileName, setFileName] = useState("ArcRaidersCompanionProgression");
+  const [fileName, setFileName] = useState("MarathonCompanionProgression");
   const [isFileNameValid, setIsFileNameValid] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -55,7 +55,7 @@ const SaveProgressionContent: React.FC<SaveContentProps> = ({
       return;
     }
     setFolderPath(overwolf.io.paths.documents);
-    setFileName("ArcRaidersCompanionProgression");
+    setFileName("MarathonCompanionProgression");
     setIsFileNameValid(true);
   }, [isOpen]);
 

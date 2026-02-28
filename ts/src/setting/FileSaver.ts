@@ -24,7 +24,7 @@ export class FileSaver extends IFrame {
 
         const fileNameInput:HTMLInputElement = this.frame.contentWindow.document.getElementById("file-name-input") as HTMLInputElement;
         if(fileNameInput) {
-            fileNameInput.value = "ArcRaidersCompanionProgression";
+            fileNameInput.value = "MarathonCompanionProgression";
             fileNameInput.style.borderColor = "green";
         }
     }

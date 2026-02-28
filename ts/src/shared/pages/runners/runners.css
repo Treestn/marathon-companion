@@ -54,6 +54,26 @@
   gap: 10px;
 }
 
+.runners-dev-button {
+  border: 1px solid var(--bg-control-strong);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 12px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.runners-dev-button.is-active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.runners-dev-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .runners-search {
   width: 300px;
   padding: 8px 12px;
@@ -410,6 +430,42 @@
   margin: 0;
   font-size: 12px;
   color: var(--text-soft);
+}
+
+.runner-dev-edit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  gap: 8px;
+}
+
+.runner-dev-edit-input,
+.runner-dev-edit-textarea,
+.runner-dev-stat-input {
+  border: 1px solid var(--bg-control-strong);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 12px;
+  padding: 7px 9px;
+}
+
+.runner-dev-edit-input:focus,
+.runner-dev-edit-textarea:focus,
+.runner-dev-stat-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-a25);
+}
+
+.runner-dev-edit-textarea {
+  grid-column: 1 / -1;
+  min-height: 72px;
+  resize: vertical;
+}
+
+.runner-dev-stat-input {
+  width: 84px;
+  text-align: right;
+  font-weight: 700;
 }
 
 .runner-builder-controls {
@@ -1088,6 +1144,10 @@
   .runner-detail-title-row {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .runner-dev-edit-grid {
+    grid-template-columns: 1fr;
   }
 
   .runner-stats-two-column {

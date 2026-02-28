@@ -5,8 +5,15 @@ import { QuestFilterSelect } from "../components/quests/filters/QuestFilterSelec
 import "../components/quests/filters/quest-filters.css";
 import { WeaponDetailSubPage } from "./weapons/WeaponDetailSubPage";
 import { RarityPatternBackground } from "../components/rarity/RarityPatternBackground";
+import { ALL_RARITY_OPTIONS } from "../../escape-from-tarkov/utils/RarityColorUtils";
+import {
+  ensureItemsEditSessionConsoleApi,
+  isItemsEditSessionEnabled,
+  subscribeItemsEditSessionEnabled,
+} from "../services/ItemsEditSessionGate";
 
 const FALLBACK_WEAPON_ICON = "./img/side-nav-quest-icon.png";
+const DEV_EDIT_STORAGE_KEY = "weaponsMapDevEdited";
 const CATEGORY_ORDER = [
   "Assault Rifles",
   "Machine Guns",
@@ -62,8 +69,39 @@ type AmmoLookupEntry = {
   url?: string;
 };
 
+const cloneWeapons = (data: WeaponItem[]): WeaponItem[] => structuredClone(data);
+const normalizeWeaponIdFromName = (name: string): string => {
+  const source = name.trim().toLowerCase();
+  let normalized = "";
+  let lastWasDash = false;
+  for (const char of source) {
+    const isAlphaNumeric =
+      (char >= "a" && char <= "z") || (char >= "0" && char <= "9");
+    const shouldBeDash = char === " " || char === "_" || char === "-";
+    if (isAlphaNumeric) {
+      normalized += char;
+      lastWasDash = false;
+      continue;
+    }
+    if (shouldBeDash && !lastWasDash && normalized.length > 0) {
+      normalized += "-";
+      lastWasDash = true;
+    }
+  }
+  if (normalized.endsWith("-")) {
+    return normalized.slice(0, -1);
+  }
+  return normalized;
+};
+
 export const WeaponsPage: React.FC = () => {
+  const [isSessionEditEnabled, setIsSessionEditEnabled] = useState(() =>
+    isItemsEditSessionEnabled(),
+  );
   const [weapons, setWeapons] = useState<WeaponItem[]>([]);
+  const [draftWeapons, setDraftWeapons] = useState<WeaponItem[]>([]);
+  const [isEditingEnabled, setIsEditingEnabled] = useState(false);
+  const [saveMessage, setSaveMessage] = useState("");
   const [generalItems, setGeneralItems] = useState<
     Array<{ id: string; name?: string; url?: string }>
   >([]);
@@ -91,7 +129,11 @@ export const WeaponsPage: React.FC = () => {
       }
 
       const data = bridge.getItemsData?.() as ItemsModel | undefined;
-      setWeapons(data?.items?.weapons ?? []);
+      const loadedWeapons = data?.items?.weapons ?? [];
+      setWeapons(loadedWeapons);
+      if (isSessionEditEnabled) {
+        setDraftWeapons(cloneWeapons(loadedWeapons));
+      }
       setGeneralItems(
         (data?.items?.items ?? []) as Array<{ id: string; name?: string; url?: string }>,
       );
@@ -103,7 +145,24 @@ export const WeaponsPage: React.FC = () => {
     return () => {
       isMounted = false;
     };
+  }, [isSessionEditEnabled]);
+
+  useEffect(() => {
+    ensureItemsEditSessionConsoleApi();
+    return subscribeItemsEditSessionEnabled(setIsSessionEditEnabled);
   }, []);
+
+  useEffect(() => {
+    if (!isSessionEditEnabled && isEditingEnabled) {
+      setIsEditingEnabled(false);
+      return;
+    }
+    if (isSessionEditEnabled && draftWeapons.length === 0 && weapons.length > 0) {
+      setDraftWeapons(cloneWeapons(weapons));
+    }
+  }, [draftWeapons.length, isEditingEnabled, isSessionEditEnabled, weapons]);
+
+  const renderedWeapons = isSessionEditEnabled && isEditingEnabled ? draftWeapons : weapons;
 
   const ammoLookup = useMemo(() => {
     return generalItems.reduce<Record<string, AmmoLookupEntry>>(
@@ -153,7 +212,7 @@ export const WeaponsPage: React.FC = () => {
   const categories = useMemo(() => {
     const unique = Array.from(
       new Set(
-        weapons
+        renderedWeapons
           .map((weapon) => weapon.category?.trim())
           .filter((category): category is string => Boolean(category)),
       ),
@@ -164,14 +223,14 @@ export const WeaponsPage: React.FC = () => {
       .filter((category) => !CATEGORY_ORDER.includes(category))
       .sort((a, b) => a.localeCompare(b));
     return [...known, ...custom];
-  }, [weapons]);
+  }, [renderedWeapons]);
 
   const ammoNamesByWeaponId = useMemo(() => {
-    return weapons.reduce<Record<string, string>>((acc, weapon) => {
+    return renderedWeapons.reduce<Record<string, string>>((acc, weapon) => {
       acc[weapon.id] = resolveAmmo(weapon).name ?? "Unknown ammo";
       return acc;
     }, {});
-  }, [ammoLookup, weapons]);
+  }, [ammoLookup, renderedWeapons]);
 
   const allAmmoTypes = useMemo(() => {
     return Array.from(new Set(Object.values(ammoNamesByWeaponId))).sort((a, b) =>
@@ -198,7 +257,7 @@ export const WeaponsPage: React.FC = () => {
   const categoryCounts = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
     const selectedAmmoTypes = new Set(activeAmmoTypes);
-    return weapons.reduce<Record<string, number>>((acc, weapon) => {
+    return renderedWeapons.reduce<Record<string, number>>((acc, weapon) => {
       const category = weapon.category?.trim() || "Uncategorized";
       const ammoName = ammoNamesByWeaponId[weapon.id] ?? "Unknown ammo";
       if (selectedAmmoTypes.size > 0 && !selectedAmmoTypes.has(ammoName)) {
@@ -210,7 +269,7 @@ export const WeaponsPage: React.FC = () => {
       acc[category] = (acc[category] ?? 0) + 1;
       return acc;
     }, {});
-  }, [activeAmmoTypes, ammoNamesByWeaponId, searchTerm, weapons]);
+  }, [activeAmmoTypes, ammoNamesByWeaponId, renderedWeapons, searchTerm]);
 
   const categoryOptions = useMemo(
     () =>
@@ -224,7 +283,7 @@ export const WeaponsPage: React.FC = () => {
   const ammoTypeCounts = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
     const selectedCategories = new Set(activeCategories);
-    return weapons.reduce<Record<string, number>>((acc, weapon) => {
+    return renderedWeapons.reduce<Record<string, number>>((acc, weapon) => {
       const category = weapon.category?.trim() || "Uncategorized";
       const ammoName = ammoNamesByWeaponId[weapon.id] ?? "Unknown ammo";
       if (selectedCategories.size > 0 && !selectedCategories.has(category)) {
@@ -236,7 +295,7 @@ export const WeaponsPage: React.FC = () => {
       acc[ammoName] = (acc[ammoName] ?? 0) + 1;
       return acc;
     }, {});
-  }, [activeCategories, ammoNamesByWeaponId, searchTerm, weapons]);
+  }, [activeCategories, ammoNamesByWeaponId, renderedWeapons, searchTerm]);
 
   const ammoTypeOptions = useMemo(
     () =>
@@ -251,7 +310,7 @@ export const WeaponsPage: React.FC = () => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
     const selectedCategories = new Set(activeCategories);
     const selectedAmmoTypes = new Set(activeAmmoTypes);
-    return weapons.filter((weapon) => {
+    return renderedWeapons.filter((weapon) => {
       const category = weapon.category?.trim() || "Uncategorized";
       const ammoName = ammoNamesByWeaponId[weapon.id] ?? "Unknown ammo";
       if (selectedCategories.size > 0 && !selectedCategories.has(category)) {
@@ -262,7 +321,7 @@ export const WeaponsPage: React.FC = () => {
       }
       return matchesSearch(weapon, ammoName, normalizedSearch);
     });
-  }, [activeAmmoTypes, activeCategories, ammoNamesByWeaponId, searchTerm, weapons]);
+  }, [activeAmmoTypes, activeCategories, ammoNamesByWeaponId, renderedWeapons, searchTerm]);
 
   const groupedWeapons = useMemo(() => {
     return categories.map((category) => ({
@@ -274,9 +333,223 @@ export const WeaponsPage: React.FC = () => {
   }, [categories, filteredWeapons]);
 
   const selectedWeapon = useMemo(
-    () => weapons.find((weapon) => weapon.id === selectedWeaponId) ?? null,
-    [selectedWeaponId, weapons],
+    () => renderedWeapons.find((weapon) => weapon.id === selectedWeaponId) ?? null,
+    [renderedWeapons, selectedWeaponId],
   );
+
+  const rarityOptions = useMemo(() => {
+    const values = new Set<string>(ALL_RARITY_OPTIONS);
+    renderedWeapons.forEach((weapon) => {
+      const rarity = weapon.rarity?.trim();
+      if (rarity) {
+        values.add(rarity);
+      }
+    });
+    return Array.from(values).sort((a, b) => a.localeCompare(b));
+  }, [renderedWeapons]);
+
+  const categoryTypeOptions = useMemo(() => {
+    const values = new Set<string>();
+    renderedWeapons.forEach((weapon) => {
+      const category = weapon.category?.trim();
+      if (category) {
+        values.add(category);
+      }
+    });
+    return Array.from(values).sort((a, b) => a.localeCompare(b));
+  }, [renderedWeapons]);
+
+  const modTypeOptions = useMemo(() => {
+    const values = new Set<string>();
+    mods.forEach((mod) => {
+      const type = mod.type?.trim();
+      if (type) {
+        values.add(type);
+      }
+    });
+    return Array.from(values).sort((a, b) => a.localeCompare(b));
+  }, [mods]);
+
+  const updateDraftWeapon = (weaponId: string, updater: (weapon: WeaponItem) => void) => {
+    setDraftWeapons((previous) => {
+      if (previous.length === 0) {
+        return previous;
+      }
+      const next = cloneWeapons(previous);
+      const index = next.findIndex((entry) => entry.id === weaponId);
+      if (index < 0) {
+        return previous;
+      }
+      updater(next[index]);
+      return next;
+    });
+  };
+
+  const updateDraftWeaponTextField = (
+    weaponId: string,
+    field: "name" | "description" | "rarity" | "category",
+    value: string,
+  ) => {
+    updateDraftWeapon(weaponId, (weapon) => {
+      weapon[field] = value;
+    });
+  };
+
+  const updateDraftWeaponCost = (weaponId: string, rawValue: string) => {
+    updateDraftWeapon(weaponId, (weapon) => {
+      const nextValue = rawValue.trim().replace(",", ".");
+      if (!nextValue) {
+        weapon.value = 0;
+        return;
+      }
+      const parsed = Number.parseFloat(nextValue);
+      if (!Number.isNaN(parsed)) {
+        weapon.value = parsed;
+      }
+    });
+  };
+
+  const updateDraftWeaponStat = (weaponId: string, statKey: string, rawValue: string) => {
+    updateDraftWeapon(weaponId, (weapon) => {
+      if (!weapon.stats || typeof weapon.stats !== "object") {
+        weapon.stats = {};
+      }
+      const nextValue = rawValue.trim().replace(",", ".");
+      if (!nextValue) {
+        delete weapon.stats[statKey];
+        return;
+      }
+      const parsed = Number.parseFloat(nextValue);
+      if (!Number.isNaN(parsed)) {
+        weapon.stats[statKey] = parsed;
+      }
+    });
+  };
+
+  const updateDraftWeaponTtk = (
+    weaponId: string,
+    ttkKey: "none" | "green" | "blue" | "purple",
+    rawValue: string,
+  ) => {
+    updateDraftWeapon(weaponId, (weapon) => {
+      if (!weapon.stats || typeof weapon.stats !== "object") {
+        weapon.stats = {};
+      }
+      const nextValue = rawValue.trim().replace(",", ".");
+      if (!weapon.stats.ttk || typeof weapon.stats.ttk !== "object") {
+        weapon.stats.ttk = {
+          none: null,
+          green: null,
+          blue: null,
+          purple: null,
+        };
+      }
+      if (!nextValue) {
+        weapon.stats.ttk[ttkKey] = null;
+        return;
+      }
+      const parsed = Number.parseFloat(nextValue);
+      if (!Number.isNaN(parsed)) {
+        weapon.stats.ttk[ttkKey] = parsed;
+      }
+    });
+  };
+
+  const toggleDraftWeaponModType = (weaponId: string, modType: string) => {
+    updateDraftWeapon(weaponId, (weapon) => {
+      const normalized = modType.trim();
+      if (!normalized) {
+        return;
+      }
+      const current = Array.isArray(weapon.modTypes) ? weapon.modTypes : [];
+      const exists = current.some((value) => value.trim().toLowerCase() === normalized.toLowerCase());
+      if (exists) {
+        weapon.modTypes = current.filter(
+          (value) => value.trim().toLowerCase() !== normalized.toLowerCase(),
+        );
+        return;
+      }
+      weapon.modTypes = [...current, normalized];
+    });
+  };
+
+  const handleSaveDraft = () => {
+    if (!isEditingEnabled) {
+      return;
+    }
+    localStorage.setItem(DEV_EDIT_STORAGE_KEY, JSON.stringify(draftWeapons, null, 2));
+    setSaveMessage(`Saved to localStorage key "${DEV_EDIT_STORAGE_KEY}"`);
+  };
+
+  const handleResetDraft = () => {
+    if (!isEditingEnabled) {
+      return;
+    }
+    setDraftWeapons(cloneWeapons(weapons));
+    localStorage.removeItem(DEV_EDIT_STORAGE_KEY);
+    setSelectedWeaponId(null);
+    setSaveMessage(`Reset edits and cleared localStorage key "${DEV_EDIT_STORAGE_KEY}"`);
+  };
+
+  const createUniqueDraftWeaponId = (name: string, sourceWeapons: WeaponItem[]): string => {
+    const existingIds = new Set(sourceWeapons.map((weapon) => weapon.id));
+    const base = normalizeWeaponIdFromName(name) || "new-weapon";
+    if (!existingIds.has(base)) {
+      return base;
+    }
+    let suffix = 2;
+    let candidate = `${base}-${suffix}`;
+    while (existingIds.has(candidate)) {
+      suffix += 1;
+      candidate = `${base}-${suffix}`;
+    }
+    return candidate;
+  };
+
+  const addDraftWeapon = () => {
+    let createdId = "";
+    setDraftWeapons((previous) => {
+      const next = cloneWeapons(previous);
+      const newWeaponName = "New Weapon";
+      const newWeaponId = createUniqueDraftWeaponId(newWeaponName, next);
+      const defaultRarity = rarityOptions[0] ?? "Common";
+      const defaultCategory = categoryTypeOptions[0] ?? "Assault Rifles";
+      const newWeapon: WeaponItem = {
+        id: newWeaponId,
+        name: newWeaponName,
+        description: "",
+        rarity: defaultRarity,
+        category: defaultCategory,
+        fireMode: "",
+        ammoId: "",
+        modTypes: [],
+        attributes: [],
+        stats: {
+          ttk: {
+            none: null,
+            green: null,
+            blue: null,
+            purple: null,
+          },
+        },
+        value: 0,
+        url: "",
+      };
+      next.unshift(newWeapon);
+      createdId = newWeaponId;
+      return next;
+    });
+    if (createdId) {
+      setSelectedWeaponId(createdId);
+    }
+    setSaveMessage("");
+  };
+
+  const removeDraftWeapon = (weaponId: string) => {
+    setDraftWeapons((previous) => previous.filter((weapon) => weapon.id !== weaponId));
+    setSelectedWeaponId((current) => (current === weaponId ? null : current));
+    setSaveMessage("");
+  };
 
   let weaponsContent: React.ReactNode;
   if (selectedWeapon) {
@@ -287,6 +560,16 @@ export const WeaponsPage: React.FC = () => {
         ammoId={selectedWeapon.ammoId}
         generalItems={generalItems}
         mods={mods}
+        isEditingEnabled={isSessionEditEnabled && isEditingEnabled}
+        rarityOptions={rarityOptions}
+        categoryOptions={categoryTypeOptions}
+        modTypeOptions={modTypeOptions}
+        onUpdateTextField={updateDraftWeaponTextField}
+        onUpdateCost={updateDraftWeaponCost}
+        onUpdateStat={updateDraftWeaponStat}
+        onUpdateTtk={updateDraftWeaponTtk}
+        onToggleModType={toggleDraftWeaponModType}
+        onRemoveWeapon={removeDraftWeapon}
         fallbackWeaponIcon={FALLBACK_WEAPON_ICON}
         onBack={() => setSelectedWeaponId(null)}
       />
@@ -375,6 +658,24 @@ export const WeaponsPage: React.FC = () => {
               </p>
             </div>
             <div className="weapons-header-actions">
+              {isSessionEditEnabled && (
+                <button
+                  type="button"
+                  className={`weapons-dev-button${isEditingEnabled ? " is-active" : ""}`}
+                  onClick={() => {
+                    setIsEditingEnabled((previous) => {
+                      const next = !previous;
+                      if (next && draftWeapons.length === 0 && weapons.length > 0) {
+                        setDraftWeapons(cloneWeapons(weapons));
+                      }
+                      return next;
+                    });
+                    setSaveMessage("");
+                  }}
+                >
+                  {isEditingEnabled ? "Editing Enabled" : "Enable Editing"}
+                </button>
+              )}
               <input
                 className="weapons-search"
                 type="search"
@@ -384,6 +685,32 @@ export const WeaponsPage: React.FC = () => {
               />
             </div>
           </header>
+        )}
+
+        {isSessionEditEnabled && isEditingEnabled && (
+          <div className="weapons-dev-toolbar">
+            <button
+              type="button"
+              className="weapons-dev-button"
+              onClick={addDraftWeapon}
+            >
+              Add Weapon
+            </button>
+            <button
+              type="button"
+              className="weapons-dev-button"
+              onClick={handleResetDraft}
+            >
+              Reset Edits
+            </button>
+            <button
+              type="button"
+              className="weapons-dev-button"
+              onClick={handleSaveDraft}
+            >
+              Save
+            </button>
+          </div>
         )}
 
         {!selectedWeapon && (
@@ -419,6 +746,9 @@ export const WeaponsPage: React.FC = () => {
         )}
 
         <div className="weapons-content scroll-div">{weaponsContent}</div>
+        {isSessionEditEnabled && saveMessage && (
+          <div className="weapons-dev-save-message">{saveMessage}</div>
+        )}
       </section>
     </div>
   );

@@ -1,5 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Item, ItemsModel } from "../../../model/items/IItemsElements";
+import {
+  CoreItem,
+  ImplantItem,
+  Item,
+  ItemsModel,
+  ModItem,
+  WeaponItem,
+} from "../../../model/items/IItemsElements";
 import { ItemsElementUtils } from "../../../escape-from-tarkov/utils/ItemsElementUtils";
 import { rarityToColor, rarityToLabel } from "../../../escape-from-tarkov/utils/RarityColorUtils";
 import { ItemRarityImage } from "../../components/items/ItemRarityImage";
@@ -7,6 +14,11 @@ import { RarityPatternBackground } from "../../components/rarity/RarityPatternBa
 import { ProgressionUpdatesService } from "../../services/ProgressionUpdatesService";
 import { ItemRequirementTooltip } from "../../components/items/ItemRequirementTooltip";
 import { NavigationTarget } from "../../services/NavigationEvents";
+import {
+  ensureItemsEditSessionConsoleApi,
+  isItemsEditSessionEnabled,
+  subscribeItemsEditSessionEnabled,
+} from "../../services/ItemsEditSessionGate";
 import "./items.css";
 
 type ItemsPageProps = {
@@ -15,6 +27,36 @@ type ItemsPageProps = {
 };
 
 type ItemCategoryKey = "general" | "cores" | "implants" | "weapons" | "mods";
+const DEV_EDIT_STORAGE_KEY = "itemsMapDevEdited";
+
+const cloneItemsModel = (data: ItemsModel): ItemsModel =>
+  structuredClone(data);
+
+const normalizeItemIdFromName = (name: string): string => {
+  const source = name.trim().toLowerCase();
+  let normalized = "";
+  let lastWasDash = false;
+
+  for (const char of source) {
+    const isAlphaNumeric =
+      (char >= "a" && char <= "z") || (char >= "0" && char <= "9");
+    const shouldBeDash = char === " " || char === "_" || char === "-";
+    if (isAlphaNumeric) {
+      normalized += char;
+      lastWasDash = false;
+      continue;
+    }
+    if (shouldBeDash && !lastWasDash && normalized.length > 0) {
+      normalized += "-";
+      lastWasDash = true;
+    }
+  }
+
+  if (normalized.endsWith("-")) {
+    return normalized.slice(0, -1);
+  }
+  return normalized;
+};
 
 const resolveBridge = () =>
   (overwolf?.windows?.getMainWindow?.() as any)?.backgroundBridge;
@@ -23,7 +65,14 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
   navigationTarget,
   onNavigationHandled,
 }) => {
+  const [isSessionEditEnabled, setIsSessionEditEnabled] = useState(() =>
+    isItemsEditSessionEnabled(),
+  );
   const [itemsData, setItemsData] = useState<ItemsModel | null>(null);
+  const [draftItemsData, setDraftItemsData] = useState<ItemsModel | null>(null);
+  const [isEditingEnabled, setIsEditingEnabled] = useState(false);
+  const [newItemCategory, setNewItemCategory] = useState<ItemCategoryKey>("general");
+  const [saveMessage, setSaveMessage] = useState("");
   const [requiredCounts, setRequiredCounts] = useState<Record<string, number>>({});
   const [trackedRequiredCounts, setTrackedRequiredCounts] = useState<Record<string, number>>({});
   const [trackedItemIds, setTrackedItemIds] = useState<string[]>([]);
@@ -76,6 +125,9 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
       if (data?.items) {
         ItemsElementUtils.setItemsMap(data);
         setItemsData(data);
+        if (isSessionEditEnabled) {
+          setDraftItemsData(cloneItemsModel(data));
+        }
       }
 
       // Get all quantities in a single bulk call instead of N individual calls
@@ -107,7 +159,21 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
     return () => {
       isMounted = false;
     };
+  }, [isSessionEditEnabled]);
+
+  useEffect(() => {
+    ensureItemsEditSessionConsoleApi();
+    return subscribeItemsEditSessionEnabled(setIsSessionEditEnabled);
   }, []);
+
+  useEffect(() => {
+    if (!isSessionEditEnabled && isEditingEnabled) {
+      setIsEditingEnabled(false);
+    }
+    if (isSessionEditEnabled && !draftItemsData && itemsData) {
+      setDraftItemsData(cloneItemsModel(itemsData));
+    }
+  }, [draftItemsData, isEditingEnabled, isSessionEditEnabled, itemsData]);
 
   // Refresh counts when quest filter toggles change (after initial load)
   useEffect(() => {
@@ -136,7 +202,9 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
   }, [includeQuests]);
 
   const categorizedItems = useMemo<Record<ItemCategoryKey, Item[]>>(() => {
-    if (!itemsData?.items) {
+    const renderedData =
+      isSessionEditEnabled && isEditingEnabled && draftItemsData ? draftItemsData : itemsData;
+    if (!renderedData?.items) {
       return {
         general: [],
         cores: [],
@@ -147,13 +215,13 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
     }
 
     return {
-      general: itemsData.items.items ?? [],
-      cores: itemsData.items.cores ?? [],
-      implants: itemsData.items.implants ?? [],
-      weapons: itemsData.items.weapons ?? [],
-      mods: itemsData.items.mods ?? [],
+      general: renderedData.items.items ?? [],
+      cores: renderedData.items.cores ?? [],
+      implants: renderedData.items.implants ?? [],
+      weapons: renderedData.items.weapons ?? [],
+      mods: renderedData.items.mods ?? [],
     };
-  }, [itemsData]);
+  }, [draftItemsData, isEditingEnabled, isSessionEditEnabled, itemsData]);
 
   const items = useMemo<Item[]>(() => {
     const seenIds = new Set<string>();
@@ -173,6 +241,40 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
         return true;
       });
   }, [categoryFilters, categorizedItems]);
+
+  const rarityOptions = useMemo<string[]>(() => {
+    const values = new Set<string>();
+    for (const item of items) {
+      const rarity = (item as { rarity?: string }).rarity?.trim();
+      if (rarity) {
+        values.add(rarity);
+      }
+    }
+    return Array.from(values).sort((a, b) => a.localeCompare(b));
+  }, [items]);
+
+  const typeOptions = useMemo<string[]>(() => {
+    const add = (set: Set<string>, maybeValue?: string | null) => {
+      const next = maybeValue?.trim();
+      if (next) {
+        set.add(next);
+      }
+    };
+
+    const values = new Set<string>();
+    for (const item of items) {
+      add(values, (item as { type?: string }).type);
+      add(values, (item as { slotType?: string }).slotType);
+      add(values, (item as { category?: string }).category);
+      const runnerType = (item as { runnerType?: string[] }).runnerType;
+      if (Array.isArray(runnerType)) {
+        for (const value of runnerType) {
+          add(values, value);
+        }
+      }
+    }
+    return Array.from(values).sort((a, b) => a.localeCompare(b));
+  }, [items]);
 
   // Subscribe to live progression updates
   useEffect(() => {
@@ -274,8 +376,16 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
     return visibleItems.slice(start, start + PAGE_SIZE);
   }, [visibleItems, currentPage]);
 
-  const getRarityColor = (itemId: string) => {
-    const rarity = ItemsElementUtils.getItemRarity(itemId);
+  const getRarity = (item: Item) => {
+    const itemRarity = (item as { rarity?: string }).rarity;
+    if (itemRarity?.trim()) {
+      return itemRarity.trim();
+    }
+    return ItemsElementUtils.getItemRarity(item.id);
+  };
+
+  const getRarityColor = (item: Item) => {
+    const rarity = getRarity(item);
     if (!rarity) {
       return "#545e6c";
     }
@@ -286,10 +396,7 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
     return color;
   };
 
-  const getRarityLabel = (itemId: string) => {
-    const rarity = ItemsElementUtils.getItemRarity(itemId);
-    return rarityToLabel(rarity);
-  };
+  const getRarityLabel = (item: Item) => rarityToLabel(getRarity(item));
 
   const getItemDescription = (item: Item) => {
     const description = (item as { description?: string }).description;
@@ -325,6 +432,229 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
       return runnerType.filter(Boolean).join(" / ");
     }
     return "Item";
+  };
+
+  const getEditableDescription = (item: Item) =>
+    ((item as { description?: string }).description ?? "").trim();
+
+  const getEditableType = (item: Item) => {
+    const explicitType = (item as { type?: string }).type;
+    if (explicitType?.trim()) {
+      return explicitType;
+    }
+    return getItemTypeLabel(item);
+  };
+
+  const updateDraftItem = (itemId: string, updater: (item: Record<string, unknown>) => void) => {
+    setDraftItemsData((prev) => {
+      if (!prev?.items) {
+        return prev;
+      }
+      const next = cloneItemsModel(prev);
+      const sections = [
+        next.items.items,
+        next.items.cores,
+        next.items.implants,
+        next.items.weapons,
+        next.items.mods,
+      ];
+      for (const section of sections) {
+        const editableTarget = section.find((entry) => entry.id === itemId) as unknown as
+          | Record<string, unknown>
+          | undefined;
+        if (!editableTarget) {
+          continue;
+        }
+        updater(editableTarget);
+        break;
+      }
+      return next;
+    });
+  };
+
+  const updateDraftTextField = (
+    itemId: string,
+    field: "name" | "description" | "rarity" | "type",
+    value: string,
+  ) => {
+    updateDraftItem(itemId, (item) => {
+      item[field] = value;
+    });
+  };
+
+  const updateDraftCost = (itemId: string, rawValue: string) => {
+    updateDraftItem(itemId, (item) => {
+      const nextValue = rawValue.trim().replace(",", ".");
+      if (!nextValue) {
+        item.value = null;
+        return;
+      }
+      const parsed = Number.parseFloat(nextValue);
+      item.value = Number.isNaN(parsed) ? item.value : parsed;
+    });
+  };
+
+  const removeDraftItem = (itemId: string) => {
+    setDraftItemsData((prev) => {
+      if (!prev?.items) {
+        return prev;
+      }
+      const next = cloneItemsModel(prev);
+      next.items.items = next.items.items.filter((entry) => entry.id !== itemId);
+      next.items.cores = next.items.cores.filter((entry) => entry.id !== itemId);
+      next.items.implants = next.items.implants.filter((entry) => entry.id !== itemId);
+      next.items.weapons = next.items.weapons.filter((entry) => entry.id !== itemId);
+      next.items.mods = next.items.mods.filter((entry) => entry.id !== itemId);
+      return next;
+    });
+  };
+
+  const createUniqueDraftItemId = (name: string, data: ItemsModel): string => {
+    const existingIds = new Set<string>();
+    const categories = [
+      data.items.items,
+      data.items.cores,
+      data.items.implants,
+      data.items.weapons,
+      data.items.mods,
+    ];
+    for (const category of categories) {
+      for (const item of category) {
+        existingIds.add(item.id);
+      }
+    }
+
+    const base = normalizeItemIdFromName(name) || "new-item";
+    if (!existingIds.has(base)) {
+      return base;
+    }
+    let suffix = 2;
+    let candidate = `${base}-${suffix}`;
+    while (existingIds.has(candidate)) {
+      suffix += 1;
+      candidate = `${base}-${suffix}`;
+    }
+    return candidate;
+  };
+
+  const createNewItemForCategory = (
+    category: ItemCategoryKey,
+    newId: string,
+    itemName: string,
+  ): Item => {
+    const defaultRarity = rarityOptions[0] ?? "common";
+    const defaultType = typeOptions[0] ?? "General";
+    if (category === "weapons") {
+      const weapon: WeaponItem = {
+        id: newId,
+        name: itemName,
+        description: "",
+        rarity: defaultRarity,
+        category: defaultType,
+        fireMode: "",
+        ammoId: "",
+        modTypes: [],
+        attributes: [],
+        stats: {},
+        value: 0,
+        url: "",
+      };
+      return weapon;
+    }
+    if (category === "implants") {
+      const implant: ImplantItem = {
+        id: newId,
+        name: itemName,
+        description: "",
+        slotType: defaultType,
+        rarity: defaultRarity,
+        url: "",
+        value: 0,
+        stats: [],
+      };
+      return implant;
+    }
+    if (category === "cores") {
+      const core: CoreItem = {
+        id: newId,
+        name: itemName,
+        runnerType: [],
+        rarity: defaultRarity,
+        description: "",
+        url: "",
+        value: null,
+        active: null,
+        passive: null,
+        triggerCondition: null,
+        enhancesAbility: [],
+        attributes: null,
+        foundLocations: [],
+        effects: [],
+        tags: [],
+      };
+      return core;
+    }
+    const mod: ModItem = {
+      id: newId,
+      name: itemName,
+      type: defaultType,
+      rarity: defaultRarity,
+      description: "",
+      url: "",
+      value: 0,
+      damageType: "",
+      effects: [],
+    };
+    return mod;
+  };
+
+  const addDraftItem = () => {
+    let createdId = "";
+    setDraftItemsData((prev) => {
+      if (!prev?.items) {
+        return prev;
+      }
+      const next = cloneItemsModel(prev);
+      const newItemName = "New Item";
+      const newItemId = createUniqueDraftItemId(newItemName, next);
+      const newItem = createNewItemForCategory(newItemCategory, newItemId, newItemName);
+      createdId = newItem.id;
+      if (newItemCategory === "general") {
+        next.items.items = [newItem, ...next.items.items];
+      } else if (newItemCategory === "cores") {
+        next.items.cores = [newItem as CoreItem, ...next.items.cores];
+      } else if (newItemCategory === "implants") {
+        next.items.implants = [newItem as ImplantItem, ...next.items.implants];
+      } else if (newItemCategory === "weapons") {
+        next.items.weapons = [newItem as WeaponItem, ...next.items.weapons];
+      } else {
+        next.items.mods = [newItem as ModItem, ...next.items.mods];
+      }
+      return next;
+    });
+    if (createdId) {
+      setForcedItemId(createdId);
+      setHighlightedItemId(createdId);
+    }
+  };
+
+  const handleSaveDraft = () => {
+    if (!draftItemsData) {
+      return;
+    }
+    localStorage.setItem(DEV_EDIT_STORAGE_KEY, JSON.stringify(draftItemsData, null, 2));
+    setSaveMessage(`Saved to localStorage key "${DEV_EDIT_STORAGE_KEY}"`);
+  };
+
+  const handleResetDraft = () => {
+    if (!isEditingEnabled) {
+      return;
+    }
+    if (itemsData) {
+      setDraftItemsData(cloneItemsModel(itemsData));
+    }
+    localStorage.removeItem(DEV_EDIT_STORAGE_KEY);
+    setSaveMessage(`Reset edits and cleared localStorage key "${DEV_EDIT_STORAGE_KEY}"`);
   };
 
   useEffect(() => {
@@ -384,6 +714,64 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
             <span className="items-title-text">Items</span>
           </div>
           <div className="items-header-right">
+            {isSessionEditEnabled && (
+              <>
+                <button
+                  type="button"
+                  className={`items-dev-button${isEditingEnabled ? " is-active" : ""}`}
+                  onClick={() => {
+                    setIsEditingEnabled((prev) => {
+                      const next = !prev;
+                      if (next && itemsData && !draftItemsData) {
+                        setDraftItemsData(cloneItemsModel(itemsData));
+                      }
+                      return next;
+                    });
+                    setSaveMessage("");
+                  }}
+                >
+                  {isEditingEnabled ? "Editing Enabled" : "Enable Editing"}
+                </button>
+                {isEditingEnabled && (
+                  <>
+                    <select
+                      className="items-edit-input items-dev-select"
+                      value={newItemCategory}
+                      onChange={(event) =>
+                        setNewItemCategory(event.target.value as ItemCategoryKey)
+                      }
+                    >
+                      <option value="general">General</option>
+                      <option value="cores">Cores</option>
+                      <option value="implants">Implants</option>
+                      <option value="weapons">Weapons</option>
+                      <option value="mods">Mods</option>
+                    </select>
+                    <button
+                      type="button"
+                      className="items-dev-button"
+                      onClick={addDraftItem}
+                    >
+                      Add Item
+                    </button>
+                    <button
+                      type="button"
+                      className="items-dev-button"
+                      onClick={handleResetDraft}
+                    >
+                      Reset Edits
+                    </button>
+                    <button
+                      type="button"
+                      className="items-dev-button"
+                      onClick={handleSaveDraft}
+                    >
+                      Save
+                    </button>
+                  </>
+                )}
+              </>
+            )}
             <input
               className="items-search"
               type="search"
@@ -469,26 +857,34 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
             const total = effectiveCounts[item.id] ?? 0;
             const current = Math.max(0, itemQuantities[item.id] ?? 0);
             const controlsEnabled = total >= 1;
-            return (
-            <div
-              key={item.id}
-              className={`items-card${
-                highlightedItemId === item.id ? " is-highlighted" : ""
-              }`}
-              id={`items-card-${item.id}`}
-            >
-              {controlsEnabled ? (
-              <div className="items-controls">
+            const isEditingItem = isSessionEditEnabled && isEditingEnabled;
+            const itemCostValue = (item as { value?: number | null }).value;
+            let leftAction: React.ReactNode;
+            if (isEditingItem) {
+              leftAction = (
                 <button
                   type="button"
-                  className="items-control-button"
-                  onClick={() => {
-                    const bridge = resolveBridge();
-                    bridge?.increaseItemQuantity?.(item.id, 1);
-                  }}
+                  className="items-remove-x-button"
+                  onClick={() => removeDraftItem(item.id)}
+                  aria-label={`Remove ${item.name}`}
+                  title="Remove item"
                 >
-                  +
+                  ×
                 </button>
+              );
+            } else if (controlsEnabled) {
+              leftAction = (
+                <div className="items-controls">
+                  <button
+                    type="button"
+                    className="items-control-button"
+                    onClick={() => {
+                      const bridge = resolveBridge();
+                      bridge?.increaseItemQuantity?.(item.id, 1);
+                    }}
+                  >
+                    +
+                  </button>
                   <div className="items-control-amount">
                     <input
                       className="items-control-input"
@@ -514,22 +910,34 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
                       aria-label="Item quantity"
                     />
                   </div>
-                <button
-                  type="button"
-                  className="items-control-button"
-                  onClick={() => {
-                    const bridge = resolveBridge();
-                    bridge?.decreaseItemQuantity?.(item.id, 1);
-                  }}
-                >
-                  −
-                </button>
-              </div>
-              ) : (
-              <div className="items-no-requirements">
-                No requirements
-              </div>
-              )}
+                  <button
+                    type="button"
+                    className="items-control-button"
+                    onClick={() => {
+                      const bridge = resolveBridge();
+                      bridge?.decreaseItemQuantity?.(item.id, 1);
+                    }}
+                  >
+                    −
+                  </button>
+                </div>
+              );
+            } else {
+              leftAction = (
+                <div className="items-no-requirements">
+                  No requirements
+                </div>
+              );
+            }
+            return (
+            <div
+              key={item.id}
+              className={`items-card${
+                highlightedItemId === item.id ? " is-highlighted" : ""
+              }`}
+              id={`items-card-${item.id}`}
+            >
+              {leftAction}
               <div className="items-image">
                 <RarityPatternBackground
                   rarity={ItemsElementUtils.getItemRarity(item.id)}
@@ -546,23 +954,86 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
                 </ItemRequirementTooltip>
               </div>
               <div className="items-info">
-                <div className="items-name">{item.name}</div>
-                <div className="items-description">{getItemDescription(item)}</div>
-                <div className="items-meta-row">
-                <div
-                  className={`items-total-count${
-                    current >= total && total > 0 ? " is-complete" : ""
-                  }`}
-                >
-                  Total: {total}
-                </div>
-                </div>
+                {!isEditingItem && (
+                  <>
+                    <div className="items-name">{item.name}</div>
+                    <div className="items-description">{getItemDescription(item)}</div>
+                  </>
+                )}
+                {isEditingItem && (
+                  <div className="items-edit-fields">
+                    <input
+                      className="items-edit-input"
+                      value={item.name ?? ""}
+                      onChange={(event) =>
+                        updateDraftTextField(item.id, "name", event.target.value)
+                      }
+                      placeholder="Name"
+                    />
+                    <select
+                      className="items-edit-input"
+                      value={(item as { rarity?: string }).rarity ?? ""}
+                      onChange={(event) =>
+                        updateDraftTextField(item.id, "rarity", event.target.value)
+                      }
+                    >
+                      <option value="">Unknown</option>
+                      {rarityOptions.map((rarity) => (
+                        <option key={rarity} value={rarity}>
+                          {rarity}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      className="items-edit-input"
+                      value={getEditableType(item)}
+                      onChange={(event) =>
+                        updateDraftTextField(item.id, "type", event.target.value)
+                      }
+                    >
+                      <option value="">Unknown</option>
+                      {typeOptions.map((type) => (
+                        <option key={type} value={type}>
+                          {type}
+                        </option>
+                      ))}
+                    </select>
+                    <input
+                      className="items-edit-input"
+                      value={itemCostValue === null || itemCostValue === undefined ? "" : String(itemCostValue)}
+                      onChange={(event) => updateDraftCost(item.id, event.target.value)}
+                      placeholder="Cost"
+                      type="number"
+                      min={0}
+                      step="any"
+                    />
+                    <textarea
+                      className="items-edit-textarea"
+                      value={getEditableDescription(item)}
+                      onChange={(event) =>
+                        updateDraftTextField(item.id, "description", event.target.value)
+                      }
+                      placeholder="Description"
+                    />
+                  </div>
+                )}
+                {!isEditingItem && (
+                  <div className="items-meta-row">
+                    <div
+                      className={`items-total-count${
+                        current >= total && total > 0 ? " is-complete" : ""
+                      }`}
+                    >
+                      Total: {total}
+                    </div>
+                  </div>
+                )}
               </div>
               <div
                 className="items-card-header"
-                style={{ "--item-popup-rarity-color": getRarityColor(item.id) } as React.CSSProperties}
+                style={{ "--item-popup-rarity-color": getRarityColor(item) } as React.CSSProperties}
               >
-                <span className="items-card-header-rarity">{getRarityLabel(item.id)}</span>
+                <span className="items-card-header-rarity">{getRarityLabel(item)}</span>
                 <span className="items-card-header-type">{getItemTypeLabel(item)}</span>
                 <span className="items-card-header-cost">{getItemValue(item)}</span>
               </div>
@@ -595,6 +1066,9 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
               Next →
             </button>
           </div>
+        )}
+        {isSessionEditEnabled && saveMessage && (
+          <div className="items-dev-save-message">{saveMessage}</div>
         )}
       </section>
     </div>

@@ -55,6 +55,26 @@
   gap: 10px;
 }
 
+.weapons-dev-button {
+  border: 1px solid var(--bg-control-strong);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 12px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.weapons-dev-button.is-active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.weapons-dev-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .weapons-search {
   width: 280px;
   padding: 8px 12px;
@@ -120,6 +140,12 @@
   overflow-x: hidden;
   scrollbar-gutter: stable;
   padding-right: 5px;
+}
+
+.weapons-dev-save-message {
+  font-size: 12px;
+  color: var(--accent);
+  padding: 4px 0 10px;
 }
 
 .weapons-empty {
@@ -326,6 +352,27 @@
   background: var(--bg-control);
 }
 
+.weapon-detail-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.weapon-detail-remove-button {
+  border: 1px solid #b53c3c;
+  background: #5f1717;
+  color: #ffe5e5;
+  font-size: 12px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.weapon-detail-remove-button:hover {
+  background: #7e2222;
+  border-color: #cf4e4e;
+  color: #ffffff;
+}
+
 .weapon-detail-header {
   display: grid;
   grid-template-columns: minmax(210px, 260px) 1fr;
@@ -333,7 +380,9 @@
   border: 1px solid var(--border-soft);
   background: var(--bg-card);
   padding: 8px;
-  height: 127px;
+  min-height: 127px;
+  height: auto;
+  align-items: start;
 }
 
 .weapon-detail-image-wrap {
@@ -589,6 +638,86 @@
   justify-content: space-between;
   align-items: baseline;
   gap: 10px;
+}
+
+.weapon-dev-edit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.weapon-dev-edit-input,
+.weapon-dev-edit-textarea {
+  border: 1px solid var(--bg-control-strong);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 12px;
+  padding: 6px;
+}
+
+.weapon-dev-edit-textarea {
+  grid-column: 1 / -1;
+  min-height: 56px;
+  resize: vertical;
+}
+
+.weapon-dev-mod-types {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.weapon-dev-mod-types-label {
+  font-size: 12px;
+  color: var(--text-soft);
+}
+
+.weapon-dev-mod-types-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.weapon-dev-mod-type-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.weapon-dev-mod-type-option.is-selected {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-card));
+}
+
+.weapon-dev-stats-editor {
+  border: 1px solid var(--border-soft);
+  background: color-mix(in srgb, var(--bg-sidebar) 60%, transparent);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.weapon-dev-stats-grid,
+.weapon-dev-ttk-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 10px;
+}
+
+.weapon-dev-stats-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--text-soft);
+  font-size: 12px;
 }
 
 .weapon-attachment-selector-header strong {

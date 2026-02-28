@@ -9,6 +9,7 @@ import { EventEmitter } from 'events';
 import { AccountServiceBase, AccountToken } from './account-service';
 import OverwolfCheckoutRequest from './utils/overwolf-checkout-request';
 import endpoints from './config/endpoints';
+import { log } from 'console';
 
 export type SubscriptionStatus = {
   userId: string;
@@ -48,10 +49,13 @@ export class SubscriptionStatusServiceBase extends EventEmitter<
         return fetch(OverwolfCheckoutRequest(endpoints.subscriptions), {
           headers,
         }).then((result) => {          
-          if (result.status !== 200)
+          if (result.status !== 200){
+            console.error(result.json());
             throw new Error(
               `Request failed! ${result.status} ${result.statusText}`,
-          );
+            );
+          }
+
           return result.json().then(
             (newStatus) => {
               console.log(newStatus);

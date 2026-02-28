@@ -4,8 +4,56 @@ import { QuestFilterSelect } from "../components/quests/filters/QuestFilterSelec
 import "../components/quests/filters/quest-filters.css";
 import "./runners/runners.css";
 import { RunnerDetailSubPage } from "./runners/RunnerDetailSubPage";
+import {
+  ensureItemsEditSessionConsoleApi,
+  isItemsEditSessionEnabled,
+  subscribeItemsEditSessionEnabled,
+} from "../services/ItemsEditSessionGate";
 
 const FALLBACK_RUNNER_ICON = "./img/side-nav-quest-icon.png";
+const DEV_EDIT_STORAGE_KEY = "runnersMapDevEdited";
+const cloneRunners = (data: Runner[]): Runner[] => structuredClone(data);
+const DEFAULT_RUNNER_STATS: Runner["stats"] = {
+  heatCapacity: 0,
+  agility: 0,
+  lootingSpeed: 0,
+  meleeDamage: 0,
+  primeRecovery: 0,
+  tactivalRecovery: 0,
+  selfRepairSpeed: 0,
+  finisherSiphon: 0,
+  reviveSpeed: 0,
+  hardware: 0,
+  firewall: 0,
+  fallResistance: 0,
+  pingDuration: 0,
+};
+
+const normalizeRunnerIdFromName = (name: string): string => {
+  const source = name.trim().toLowerCase();
+  let normalized = "";
+  let lastWasDash = false;
+
+  for (const char of source) {
+    const isAlphaNumeric =
+      (char >= "a" && char <= "z") || (char >= "0" && char <= "9");
+    const shouldBeDash = char === " " || char === "_" || char === "-";
+    if (isAlphaNumeric) {
+      normalized += char;
+      lastWasDash = false;
+      continue;
+    }
+    if (shouldBeDash && !lastWasDash && normalized.length > 0) {
+      normalized += "-";
+      lastWasDash = true;
+    }
+  }
+
+  if (normalized.endsWith("-")) {
+    return normalized.slice(0, -1);
+  }
+  return normalized;
+};
 
 const getRunnerRarityTagClass = (rarity?: string): string => {
   const normalized = (rarity ?? "").trim().toLowerCase();
@@ -34,7 +82,13 @@ const getPortraitImageSource = (runner: Runner): string =>
   runner.portraitUrl?.trim() || FALLBACK_RUNNER_ICON;
 
 export const RunnersPage: React.FC = () => {
+  const [isSessionEditEnabled, setIsSessionEditEnabled] = useState(() =>
+    isItemsEditSessionEnabled(),
+  );
   const [runners, setRunners] = useState<Runner[]>([]);
+  const [draftRunners, setDraftRunners] = useState<Runner[]>([]);
+  const [isEditingEnabled, setIsEditingEnabled] = useState(false);
+  const [saveMessage, setSaveMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeRoles, setActiveRoles] = useState<string[]>([]);
@@ -65,7 +119,11 @@ export const RunnersPage: React.FC = () => {
       }
 
       const data = bridge.getItemsData?.() as ItemsModel | undefined;
-      setRunners(data?.items?.runners ?? []);
+      const loadedRunners = data?.items?.runners ?? [];
+      setRunners(loadedRunners);
+      if (isSessionEditEnabled) {
+        setDraftRunners(cloneRunners(loadedRunners));
+      }
       const allImplants = data?.items?.implants ?? [];
       setCores(data?.items?.cores ?? []);
       const hasSlotKeyword = (implant: ImplantItem, keywords: string[]): boolean => {
@@ -110,42 +168,59 @@ export const RunnersPage: React.FC = () => {
     return () => {
       isMounted = false;
     };
+  }, [isSessionEditEnabled]);
+
+  useEffect(() => {
+    ensureItemsEditSessionConsoleApi();
+    return subscribeItemsEditSessionEnabled(setIsSessionEditEnabled);
   }, []);
+
+  useEffect(() => {
+    if (!isSessionEditEnabled && isEditingEnabled) {
+      setIsEditingEnabled(false);
+      return;
+    }
+    if (isSessionEditEnabled && draftRunners.length === 0 && runners.length > 0) {
+      setDraftRunners(cloneRunners(runners));
+    }
+  }, [draftRunners.length, isEditingEnabled, isSessionEditEnabled, runners]);
+
+  const renderedRunners = isSessionEditEnabled && isEditingEnabled ? draftRunners : runners;
 
   const roles = useMemo(
     () =>
       Array.from(
         new Set(
-          runners
+          renderedRunners
             .map((runner) => runner.role?.trim())
             .filter((role): role is string => Boolean(role)),
         ),
       ).sort((a, b) => a.localeCompare(b)),
-    [runners],
+    [renderedRunners],
   );
 
   const rarities = useMemo(
     () =>
       Array.from(
         new Set(
-          runners
+          renderedRunners
             .map((runner) => runner.rarity?.trim())
             .filter((rarity): rarity is string => Boolean(rarity)),
         ),
       ).sort((a, b) => a.localeCompare(b)),
-    [runners],
+    [renderedRunners],
   );
 
   const difficulties = useMemo(
     () =>
       Array.from(
         new Set(
-          runners
+          renderedRunners
             .map((runner) => runner.difficulty?.trim())
             .filter((difficulty): difficulty is string => Boolean(difficulty)),
         ),
       ).sort((a, b) => a.localeCompare(b)),
-    [runners],
+    [renderedRunners],
   );
 
   const matchesSearch = (runner: Runner, normalizedSearch: string) => {
@@ -172,7 +247,7 @@ export const RunnersPage: React.FC = () => {
     const selectedRarities = new Set(activeRarities);
     const selectedDifficulties = new Set(activeDifficulties);
 
-    return runners.filter((runner) => {
+    return renderedRunners.filter((runner) => {
       const role = runner.role?.trim() || "Unknown";
       const rarity = runner.rarity?.trim() || "Unknown";
       const difficulty = runner.difficulty?.trim() || "Unknown";
@@ -187,13 +262,13 @@ export const RunnersPage: React.FC = () => {
       }
       return matchesSearch(runner, normalizedSearch);
     });
-  }, [activeDifficulties, activeRarities, activeRoles, runners, searchTerm]);
+  }, [activeDifficulties, activeRarities, activeRoles, renderedRunners, searchTerm]);
 
   const roleCounts = useMemo(() => {
     const selectedRarities = new Set(activeRarities);
     const selectedDifficulties = new Set(activeDifficulties);
     const normalizedSearch = searchTerm.trim().toLowerCase();
-    return runners.reduce<Record<string, number>>((acc, runner) => {
+    return renderedRunners.reduce<Record<string, number>>((acc, runner) => {
       const role = runner.role?.trim() || "Unknown";
       const rarity = runner.rarity?.trim() || "Unknown";
       const difficulty = runner.difficulty?.trim() || "Unknown";
@@ -209,13 +284,13 @@ export const RunnersPage: React.FC = () => {
       acc[role] = (acc[role] ?? 0) + 1;
       return acc;
     }, {});
-  }, [activeDifficulties, activeRarities, runners, searchTerm]);
+  }, [activeDifficulties, activeRarities, renderedRunners, searchTerm]);
 
   const rarityCounts = useMemo(() => {
     const selectedRoles = new Set(activeRoles);
     const selectedDifficulties = new Set(activeDifficulties);
     const normalizedSearch = searchTerm.trim().toLowerCase();
-    return runners.reduce<Record<string, number>>((acc, runner) => {
+    return renderedRunners.reduce<Record<string, number>>((acc, runner) => {
       const role = runner.role?.trim() || "Unknown";
       const rarity = runner.rarity?.trim() || "Unknown";
       const difficulty = runner.difficulty?.trim() || "Unknown";
@@ -231,13 +306,13 @@ export const RunnersPage: React.FC = () => {
       acc[rarity] = (acc[rarity] ?? 0) + 1;
       return acc;
     }, {});
-  }, [activeDifficulties, activeRoles, runners, searchTerm]);
+  }, [activeDifficulties, activeRoles, renderedRunners, searchTerm]);
 
   const difficultyCounts = useMemo(() => {
     const selectedRoles = new Set(activeRoles);
     const selectedRarities = new Set(activeRarities);
     const normalizedSearch = searchTerm.trim().toLowerCase();
-    return runners.reduce<Record<string, number>>((acc, runner) => {
+    return renderedRunners.reduce<Record<string, number>>((acc, runner) => {
       const role = runner.role?.trim() || "Unknown";
       const rarity = runner.rarity?.trim() || "Unknown";
       const difficulty = runner.difficulty?.trim() || "Unknown";
@@ -253,7 +328,7 @@ export const RunnersPage: React.FC = () => {
       acc[difficulty] = (acc[difficulty] ?? 0) + 1;
       return acc;
     }, {});
-  }, [activeRarities, activeRoles, runners, searchTerm]);
+  }, [activeRarities, activeRoles, renderedRunners, searchTerm]);
 
   const roleOptions = useMemo(
     () =>
@@ -283,9 +358,125 @@ export const RunnersPage: React.FC = () => {
   );
 
   const selectedRunner = useMemo(
-    () => runners.find((runner) => runner.id === selectedRunnerId) ?? null,
-    [runners, selectedRunnerId],
+    () => renderedRunners.find((runner) => runner.id === selectedRunnerId) ?? null,
+    [renderedRunners, selectedRunnerId],
   );
+
+  const updateDraftRunner = (runnerId: string, updater: (runner: Runner) => void) => {
+    setDraftRunners((previous) => {
+      if (previous.length === 0) {
+        return previous;
+      }
+      const next = cloneRunners(previous);
+      const index = next.findIndex((entry) => entry.id === runnerId);
+      if (index < 0) {
+        return previous;
+      }
+      updater(next[index]);
+      return next;
+    });
+  };
+
+  const updateDraftRunnerTextField = (
+    runnerId: string,
+    field:
+      | "name"
+      | "description"
+      | "rarity"
+      | "role"
+      | "difficulty"
+      | "heroUrl"
+      | "portraitUrl",
+    value: string,
+  ) => {
+    updateDraftRunner(runnerId, (runner) => {
+      runner[field] = value;
+    });
+    setSaveMessage("");
+  };
+
+  const updateDraftRunnerStat = (runnerId: string, statKey: string, rawValue: string) => {
+    updateDraftRunner(runnerId, (runner) => {
+      if (!runner.stats || typeof runner.stats !== "object") {
+        runner.stats = {} as Runner["stats"];
+      }
+      const nextValue = rawValue.trim().replace(",", ".");
+      if (!nextValue) {
+        (runner.stats as unknown as Record<string, number>)[statKey] = 0;
+        return;
+      }
+      const parsed = Number.parseFloat(nextValue);
+      if (!Number.isNaN(parsed)) {
+        (runner.stats as unknown as Record<string, number>)[statKey] = parsed;
+      }
+    });
+    setSaveMessage("");
+  };
+
+  const handleSaveDraft = () => {
+    if (!isEditingEnabled) {
+      return;
+    }
+    localStorage.setItem(DEV_EDIT_STORAGE_KEY, JSON.stringify(draftRunners, null, 2));
+    setSaveMessage(`Saved to localStorage key "${DEV_EDIT_STORAGE_KEY}"`);
+  };
+
+  const handleResetDraft = () => {
+    if (!isEditingEnabled) {
+      return;
+    }
+    setDraftRunners(cloneRunners(runners));
+    localStorage.removeItem(DEV_EDIT_STORAGE_KEY);
+    setSelectedRunnerId(null);
+    setSaveMessage(`Reset edits and cleared localStorage key "${DEV_EDIT_STORAGE_KEY}"`);
+  };
+
+  const createUniqueDraftRunnerId = (name: string, sourceRunners: Runner[]): string => {
+    const existingIds = new Set(sourceRunners.map((runner) => runner.id));
+    const base = normalizeRunnerIdFromName(name) || "new-runner";
+    if (!existingIds.has(base)) {
+      return base;
+    }
+    let suffix = 2;
+    let candidate = `${base}-${suffix}`;
+    while (existingIds.has(candidate)) {
+      suffix += 1;
+      candidate = `${base}-${suffix}`;
+    }
+    return candidate;
+  };
+
+  const addDraftRunner = () => {
+    let createdId = "";
+    setDraftRunners((previous) => {
+      const next = cloneRunners(previous);
+      const newRunnerName = "New Runner";
+      const newRunnerId = createUniqueDraftRunnerId(newRunnerName, next);
+      const defaultRarity = rarities[0] ?? "Common";
+      const defaultRole = roles[0] ?? "Assault";
+      const defaultDifficulty = difficulties[0] ?? "Medium";
+      const newRunner: Runner = {
+        id: newRunnerId,
+        name: newRunnerName,
+        role: defaultRole,
+        description: "",
+        heroUrl: "",
+        portraitUrl: "",
+        rarity: defaultRarity,
+        difficulty: defaultDifficulty,
+        tags: [],
+        abilities: [],
+        stats: { ...DEFAULT_RUNNER_STATS },
+      };
+      next.unshift(newRunner);
+      createdId = newRunnerId;
+      return next;
+    });
+    if (createdId) {
+      setSelectedRunnerId(createdId);
+    }
+    setSaveMessage("");
+  };
 
   let runnersContent: React.ReactNode;
   if (selectedRunner) {
@@ -298,6 +489,12 @@ export const RunnersPage: React.FC = () => {
         headImplants={headImplants}
         torsoImplants={torsoImplants}
         legImplants={legImplants}
+        isEditingEnabled={isSessionEditEnabled && isEditingEnabled}
+        rarityOptions={rarities}
+        roleOptions={roles}
+        difficultyOptions={difficulties}
+        onUpdateTextField={updateDraftRunnerTextField}
+        onUpdateStat={updateDraftRunnerStat}
         fallbackRunnerIcon={FALLBACK_RUNNER_ICON}
         onBack={() => setSelectedRunnerId(null)}
       />
@@ -377,6 +574,24 @@ export const RunnersPage: React.FC = () => {
               </p>
             </div>
             <div className="runners-header-actions">
+              {isSessionEditEnabled && (
+                <button
+                  type="button"
+                  className={`runners-dev-button${isEditingEnabled ? " is-active" : ""}`}
+                  onClick={() => {
+                    setIsEditingEnabled((previous) => {
+                      const next = !previous;
+                      if (next && draftRunners.length === 0 && runners.length > 0) {
+                        setDraftRunners(cloneRunners(runners));
+                      }
+                      return next;
+                    });
+                    setSaveMessage("");
+                  }}
+                >
+                  {isEditingEnabled ? "Editing Enabled" : "Enable Editing"}
+                </button>
+              )}
               <input
                 className="runners-search"
                 type="search"
@@ -386,6 +601,32 @@ export const RunnersPage: React.FC = () => {
               />
             </div>
           </header>
+        )}
+
+        {isSessionEditEnabled && isEditingEnabled && (
+          <div className="runners-dev-toolbar">
+            <button
+              type="button"
+              className="runners-dev-button"
+              onClick={addDraftRunner}
+            >
+              Add Runner
+            </button>
+            <button
+              type="button"
+              className="runners-dev-button"
+              onClick={handleResetDraft}
+            >
+              Reset Edits
+            </button>
+            <button
+              type="button"
+              className="runners-dev-button"
+              onClick={handleSaveDraft}
+            >
+              Save
+            </button>
+          </div>
         )}
 
         {!selectedRunner && (
@@ -418,6 +659,9 @@ export const RunnersPage: React.FC = () => {
         )}
 
         <div className="runners-content scroll-div">{runnersContent}</div>
+        {isSessionEditEnabled && saveMessage && (
+          <div className="runners-dev-save-message">{saveMessage}</div>
+        )}
       </section>
     </div>
   );

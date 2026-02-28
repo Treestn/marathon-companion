@@ -447,7 +447,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ onClose }) => {
                 </div>
               )}
 
-              <div className="setting-component">
+              {/* <div className="setting-component">
                 <div className="setting-title">
                   <div className="component-title-container">
                     <span className="component-title centered">
@@ -483,7 +483,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ onClose }) => {
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           )}
 

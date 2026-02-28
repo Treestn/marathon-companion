@@ -11,6 +11,23 @@ type RunnerDetailSubPageProps = {
   headImplants: ImplantItem[];
   torsoImplants: ImplantItem[];
   legImplants: ImplantItem[];
+  isEditingEnabled: boolean;
+  rarityOptions: string[];
+  roleOptions: string[];
+  difficultyOptions: string[];
+  onUpdateTextField: (
+    runnerId: string,
+    field:
+      | "name"
+      | "description"
+      | "rarity"
+      | "role"
+      | "difficulty"
+      | "heroUrl"
+      | "portraitUrl",
+    value: string,
+  ) => void;
+  onUpdateStat: (runnerId: string, statKey: string, rawValue: string) => void;
   onBack: () => void;
   fallbackRunnerIcon: string;
 };
@@ -280,6 +297,12 @@ export const RunnerDetailSubPage: React.FC<RunnerDetailSubPageProps> = ({
   headImplants,
   torsoImplants,
   legImplants,
+  isEditingEnabled,
+  rarityOptions,
+  roleOptions,
+  difficultyOptions,
+  onUpdateTextField,
+  onUpdateStat,
   onBack,
   fallbackRunnerIcon,
 }) => {
@@ -506,6 +529,13 @@ export const RunnerDetailSubPage: React.FC<RunnerDetailSubPageProps> = ({
   );
   const scalePercent = (value: number): number =>
     Math.max(0, Math.min(100, (value / scaleMax) * 100));
+  const getStatInputValue = (key: string): string => {
+    const value = baseStatLookup.get(key);
+    if (typeof value !== "number" || !Number.isFinite(value)) {
+      return "";
+    }
+    return String(value);
+  };
 
   const buildStat = (key: string) => {
     const baseValue = baseStatLookup.get(key);
@@ -552,7 +582,17 @@ export const RunnerDetailSubPage: React.FC<RunnerDetailSubPageProps> = ({
           <div className="runner-stat-line-header">
             <span>{stat.label}</span>
             <div className="runner-stat-value-group">
-              <strong>{stat.value}</strong>
+              {!isEditingEnabled && <strong>{stat.value}</strong>}
+              {isEditingEnabled && (
+                <input
+                  className="runner-dev-stat-input"
+                  value={getStatInputValue(stat.id)}
+                  onChange={(event) => onUpdateStat(runner.id, stat.id, event.target.value)}
+                  type="number"
+                  step="any"
+                  aria-label={`${stat.label} value`}
+                />
+              )}
               {stat.deltaValue !== 0 && (
                 <span
                   className={`runner-stat-delta ${
@@ -751,15 +791,83 @@ export const RunnerDetailSubPage: React.FC<RunnerDetailSubPageProps> = ({
             />
           </div>
           <section className="runner-detail-abilities-section">
-            <div className="runner-detail-title-row">
-              <h2 className="runner-detail-stats-title">{runner.name}</h2>
-              <span className="runner-detail-stats-subtitle">
-                Role: {runner.role || "Unknown"} | Difficulty: {runner.difficulty || "Unknown"}
-              </span>
-            </div>
-            <p className="runner-detail-slot-empty">
-              {runner.description || "No runner description available."}
-            </p>
+            {!isEditingEnabled && (
+              <>
+                <div className="runner-detail-title-row">
+                  <h2 className="runner-detail-stats-title">{runner.name}</h2>
+                  <span className="runner-detail-stats-subtitle">
+                    Role: {runner.role || "Unknown"} | Difficulty: {runner.difficulty || "Unknown"}
+                  </span>
+                </div>
+                <p className="runner-detail-slot-empty">
+                  {runner.description || "No runner description available."}
+                </p>
+              </>
+            )}
+            {isEditingEnabled && (
+              <div className="runner-dev-edit-grid">
+                <input
+                  className="runner-dev-edit-input"
+                  value={runner.name ?? ""}
+                  onChange={(event) => onUpdateTextField(runner.id, "name", event.target.value)}
+                  placeholder="Name"
+                />
+                <select
+                  className="runner-dev-edit-input"
+                  value={runner.rarity ?? ""}
+                  onChange={(event) => onUpdateTextField(runner.id, "rarity", event.target.value)}
+                >
+                  <option value="">Unknown</option>
+                  {rarityOptions.map((rarity) => (
+                    <option key={rarity} value={rarity}>
+                      {rarity}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  className="runner-dev-edit-input"
+                  value={runner.role ?? ""}
+                  onChange={(event) => onUpdateTextField(runner.id, "role", event.target.value)}
+                >
+                  <option value="">Unknown role</option>
+                  {roleOptions.map((role) => (
+                    <option key={role} value={role}>
+                      {role}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  className="runner-dev-edit-input"
+                  value={runner.difficulty ?? ""}
+                  onChange={(event) => onUpdateTextField(runner.id, "difficulty", event.target.value)}
+                >
+                  <option value="">Unknown difficulty</option>
+                  {difficultyOptions.map((difficulty) => (
+                    <option key={difficulty} value={difficulty}>
+                      {difficulty}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  className="runner-dev-edit-input"
+                  value={runner.heroUrl ?? ""}
+                  onChange={(event) => onUpdateTextField(runner.id, "heroUrl", event.target.value)}
+                  placeholder="Hero image URL"
+                />
+                <input
+                  className="runner-dev-edit-input"
+                  value={runner.portraitUrl ?? ""}
+                  onChange={(event) => onUpdateTextField(runner.id, "portraitUrl", event.target.value)}
+                  placeholder="Portrait image URL"
+                />
+                <textarea
+                  className="runner-dev-edit-textarea"
+                  value={runner.description ?? ""}
+                  onChange={(event) => onUpdateTextField(runner.id, "description", event.target.value)}
+                  placeholder="Description"
+                />
+              </div>
+            )}
             <h3 className="runner-stats-section-title">Abilities</h3>
             {runner.abilities?.length ? (
               <div className="runner-abilities-list">

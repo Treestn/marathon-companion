@@ -19,6 +19,24 @@ type WeaponDetailSubPageProps = {
   ammoId?: string;
   generalItems: GeneralItemEntry[];
   mods: ModItem[];
+  isEditingEnabled: boolean;
+  rarityOptions: string[];
+  categoryOptions: string[];
+  modTypeOptions: string[];
+  onUpdateTextField: (
+    weaponId: string,
+    field: "name" | "description" | "rarity" | "category",
+    value: string,
+  ) => void;
+  onUpdateCost: (weaponId: string, rawValue: string) => void;
+  onUpdateStat: (weaponId: string, statKey: string, rawValue: string) => void;
+  onUpdateTtk: (
+    weaponId: string,
+    ttkKey: "none" | "green" | "blue" | "purple",
+    rawValue: string,
+  ) => void;
+  onToggleModType: (weaponId: string, modType: string) => void;
+  onRemoveWeapon: (weaponId: string) => void;
   onBack: () => void;
   fallbackWeaponIcon: string;
 };
@@ -190,6 +208,16 @@ export const WeaponDetailSubPage: React.FC<WeaponDetailSubPageProps> = ({
   ammoId,
   generalItems,
   mods,
+  isEditingEnabled,
+  rarityOptions,
+  categoryOptions,
+  modTypeOptions,
+  onUpdateTextField,
+  onUpdateCost,
+  onUpdateStat,
+  onUpdateTtk,
+  onToggleModType,
+  onRemoveWeapon,
   onBack,
   fallbackWeaponIcon,
 }) => {
@@ -466,11 +494,61 @@ export const WeaponDetailSubPage: React.FC<WeaponDetailSubPageProps> = ({
     };
   }, [ammoId, generalItems]);
 
+  const getEditableStatKey = (aliases: string[]): string => {
+    const normalizedAliases = aliases.map((alias) => normalizeStatKey(alias));
+    const exact = Object.keys(weapon.stats ?? {}).find((key) =>
+      normalizedAliases.includes(normalizeStatKey(key)),
+    );
+    return exact ?? aliases[0];
+  };
+
+  const getEditableStatInputValue = (aliases: string[]): string => {
+    const currentValue = getStatValueByAliases(baseStatLookup, aliases);
+    const numeric = parseNumericMetricValue(currentValue);
+    if (numeric === null) {
+      return "";
+    }
+    return String(numeric);
+  };
+
+  const editableStatFields: Array<{ label: string; aliases: string[] }> = [
+    { label: "Firepower", aliases: ["firepower", "damage", "power", "dmg"] },
+    { label: "Accuracy", aliases: ["accuracy", "acc"] },
+    { label: "Handling", aliases: ["handling", "mobility", "control"] },
+    { label: "Range", aliases: ["range", "effectiveRange"] },
+    { label: "Magazine", aliases: ["magazine", "magSize", "ammoPerMag"] },
+    { label: "Zoom", aliases: ["zoom", "zoomMultiplier", "adsZoom"] },
+    { label: "Rate of Fire", aliases: ["rateOfFire", "rpm", "fireRate"] },
+    { label: "Reload Speed", aliases: ["reloadSpeed", "reload", "reloadTime"] },
+    { label: "Aim Assist", aliases: ["aimAssist", "assist"] },
+    { label: "Recoil", aliases: ["recoil", "kick"] },
+    { label: "Precision", aliases: ["precision", "critMultiplier"] },
+  ];
+
+  const getTtkInputValue = (value: unknown): string => {
+    const numeric = parseNumericMetricValue(value);
+    if (numeric === null) {
+      return "";
+    }
+    return String(numeric);
+  };
+
   return (
     <section className="weapon-detail-page">
-      <button type="button" className="weapon-detail-back" onClick={onBack}>
-        Back to weapons
-      </button>
+      <div className="weapon-detail-top-actions">
+        <button type="button" className="weapon-detail-back" onClick={onBack}>
+          Back to weapons
+        </button>
+        {isEditingEnabled && (
+          <button
+            type="button"
+            className="weapon-detail-remove-button"
+            onClick={() => onRemoveWeapon(weapon.id)}
+          >
+            Remove Weapon
+          </button>
+        )}
+      </div>
       <header className="weapon-detail-header">
         <div className="weapon-detail-image-wrap">
           <RarityPatternBackground
@@ -488,42 +566,124 @@ export const WeaponDetailSubPage: React.FC<WeaponDetailSubPageProps> = ({
           />
         </div>
         <div className="weapon-detail-hero-content">
-          <div className="weapon-detail-title-row">
-            <h2 className="weapon-detail-title">{weapon.name}</h2>
-            <span className={`weapon-rarity-tag ${getWeaponRarityTagClass(weapon.rarity)}`}>
-              {weapon.rarity || "Unknown"}
-            </span>
-          </div>
-          <p className="weapon-detail-description">
-            {weapon.description || "No description available."}
-          </p>
-          <div className="weapon-detail-pills">
-            <span className="weapon-pill">{weapon.category || "Uncategorized"}</span>
-            <span className="weapon-pill">{weapon.fireMode || "Unknown fire mode"}</span>
-          </div>
-          <span className="weapon-pill weapon-ammo-pill">
-            {resolvedAmmo.url ? (
-              <img
-                className="weapon-ammo-pill-icon"
-                src={resolvedAmmo.url}
-                alt={resolvedAmmo.name || "Ammo"}
-                loading="lazy"
-                onError={(event) => {
-                  event.currentTarget.onerror = null;
-                  event.currentTarget.style.display = "none";
-                }}
+          {!isEditingEnabled && (
+            <div className="weapon-detail-title-row">
+              <h2 className="weapon-detail-title">{weapon.name}</h2>
+              <span className={`weapon-rarity-tag ${getWeaponRarityTagClass(weapon.rarity)}`}>
+                {weapon.rarity || "Unknown"}
+              </span>
+            </div>
+          )}
+          {!isEditingEnabled && (
+            <p className="weapon-detail-description">
+              {weapon.description || "No description available."}
+            </p>
+          )}
+          {isEditingEnabled && (
+            <div className="weapon-dev-edit-grid">
+              <input
+                className="weapon-dev-edit-input"
+                value={weapon.name ?? ""}
+                onChange={(event) => onUpdateTextField(weapon.id, "name", event.target.value)}
+                placeholder="Name"
               />
-            ) : null}
-            <span>{resolvedAmmo.name ?? "Unknown ammo"}</span>
-          </span>
-          <div className="weapon-cost-badge" aria-label="Weapon cost">
-            <span className="weapon-cost-badge-label">Cost</span>
-            <span className="weapon-cost-badge-value">{weapon.value ?? "N/A"}</span>
-          </div>
+              <select
+                className="weapon-dev-edit-input"
+                value={weapon.rarity ?? ""}
+                onChange={(event) => onUpdateTextField(weapon.id, "rarity", event.target.value)}
+              >
+                <option value="">Unknown</option>
+                {rarityOptions.map((rarity) => (
+                  <option key={rarity} value={rarity}>
+                    {rarity}
+                  </option>
+                ))}
+              </select>
+              <select
+                className="weapon-dev-edit-input"
+                value={weapon.category ?? ""}
+                onChange={(event) => onUpdateTextField(weapon.id, "category", event.target.value)}
+              >
+                <option value="">Uncategorized</option>
+                {categoryOptions.map((categoryOption) => (
+                  <option key={categoryOption} value={categoryOption}>
+                    {categoryOption}
+                  </option>
+                ))}
+              </select>
+              <input
+                className="weapon-dev-edit-input"
+                value={weapon.value === null || weapon.value === undefined ? "" : String(weapon.value)}
+                onChange={(event) => onUpdateCost(weapon.id, event.target.value)}
+                placeholder="Cost"
+                type="number"
+                min={0}
+                step="any"
+              />
+              <textarea
+                className="weapon-dev-edit-textarea"
+                value={weapon.description ?? ""}
+                onChange={(event) => onUpdateTextField(weapon.id, "description", event.target.value)}
+                placeholder="Description"
+              />
+              <div className="weapon-dev-mod-types">
+                <span className="weapon-dev-mod-types-label">Mod Types</span>
+                <div className="weapon-dev-mod-types-grid">
+                  {modTypeOptions.map((modType) => {
+                    const isSelected = (weapon.modTypes ?? []).some(
+                      (value) => value.trim().toLowerCase() === modType.trim().toLowerCase(),
+                    );
+                    return (
+                      <label
+                        key={modType}
+                        className={`weapon-dev-mod-type-option${isSelected ? " is-selected" : ""}`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => onToggleModType(weapon.id, modType)}
+                        />
+                        <span>{modType}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+          {!isEditingEnabled && (
+            <div className="weapon-detail-pills">
+              <span className="weapon-pill">{weapon.category || "Uncategorized"}</span>
+              <span className="weapon-pill">{weapon.fireMode || "Unknown fire mode"}</span>
+            </div>
+          )}
+          {!isEditingEnabled && (
+            <span className="weapon-pill weapon-ammo-pill">
+              {resolvedAmmo.url ? (
+                <img
+                  className="weapon-ammo-pill-icon"
+                  src={resolvedAmmo.url}
+                  alt={resolvedAmmo.name || "Ammo"}
+                  loading="lazy"
+                  onError={(event) => {
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.style.display = "none";
+                  }}
+                />
+              ) : null}
+              <span>{resolvedAmmo.name ?? "Unknown ammo"}</span>
+            </span>
+          )}
+          {!isEditingEnabled && (
+            <div className="weapon-cost-badge" aria-label="Weapon cost">
+              <span className="weapon-cost-badge-label">Cost</span>
+              <span className="weapon-cost-badge-value">{weapon.value ?? "N/A"}</span>
+            </div>
+          )}
         </div>
       </header>
 
-      {weaponModTypeRows.length > 0 && (
+      {!isEditingEnabled && weaponModTypeRows.length > 0 && (
         <div ref={moddingSectionRef} className="weapon-modding-section">
           <h3 className="weapon-stats-section-title">Weapon Modding</h3>
           <div className="weapon-attachment-slots-grid">
@@ -670,6 +830,70 @@ export const WeaponDetailSubPage: React.FC<WeaponDetailSubPageProps> = ({
       )}
 
       <section className="weapon-detail-stats">
+        {isEditingEnabled && (
+          <div className="weapon-dev-stats-editor">
+            <h3 className="weapon-stats-section-title">Edit Weapon Stats</h3>
+            <div className="weapon-dev-stats-grid">
+              {editableStatFields.map((field) => {
+                const statKey = getEditableStatKey(field.aliases);
+                return (
+                  <label className="weapon-dev-stats-row" key={field.label}>
+                    <span>{field.label}</span>
+                    <input
+                      className="weapon-dev-edit-input"
+                      type="number"
+                      step="any"
+                      value={getEditableStatInputValue(field.aliases)}
+                      onChange={(event) => onUpdateStat(weapon.id, statKey, event.target.value)}
+                    />
+                  </label>
+                );
+              })}
+            </div>
+            <div className="weapon-dev-ttk-grid">
+              <label className="weapon-dev-stats-row">
+                <span>TTK No Shield</span>
+                <input
+                  className="weapon-dev-edit-input"
+                  type="number"
+                  step="any"
+                  value={getTtkInputValue(ttkMap.none)}
+                  onChange={(event) => onUpdateTtk(weapon.id, "none", event.target.value)}
+                />
+              </label>
+              <label className="weapon-dev-stats-row">
+                <span>TTK Green</span>
+                <input
+                  className="weapon-dev-edit-input"
+                  type="number"
+                  step="any"
+                  value={getTtkInputValue(ttkMap.green)}
+                  onChange={(event) => onUpdateTtk(weapon.id, "green", event.target.value)}
+                />
+              </label>
+              <label className="weapon-dev-stats-row">
+                <span>TTK Blue</span>
+                <input
+                  className="weapon-dev-edit-input"
+                  type="number"
+                  step="any"
+                  value={getTtkInputValue(ttkMap.blue)}
+                  onChange={(event) => onUpdateTtk(weapon.id, "blue", event.target.value)}
+                />
+              </label>
+              <label className="weapon-dev-stats-row">
+                <span>TTK Purple</span>
+                <input
+                  className="weapon-dev-edit-input"
+                  type="number"
+                  step="any"
+                  value={getTtkInputValue(ttkMap.purple)}
+                  onChange={(event) => onUpdateTtk(weapon.id, "purple", event.target.value)}
+                />
+              </label>
+            </div>
+          </div>
+        )}
         <div className="weapon-stats-two-column">
           <div className="weapon-stats-column">
             <h3 className="weapon-stats-section-title">Core Stats</h3>

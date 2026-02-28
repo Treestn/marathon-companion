@@ -27,6 +27,19 @@ const RARITY_ALIASES: Record<string, RarityLabel> = {
     common: RarityLabel.Standard,
 };
 
+export const ALL_RARITY_OPTIONS: string[] = [
+    "Legendary",
+    "Epic",
+    "Rare",
+    "Uncommon",
+    "Common",
+    RarityLabel.Prestige,
+    RarityLabel.Superior,
+    RarityLabel.Deluxe,
+    RarityLabel.Enhanced,
+    RarityLabel.Standard,
+];
+
 export function rarityToLabel(rarity?: string | null): string {
     if (!rarity) {
         return "Unknown";
