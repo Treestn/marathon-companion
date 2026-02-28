@@ -27,8 +27,11 @@ const getRunnerRarityTagClass = (rarity?: string): string => {
   return "runner-rarity-tag-default";
 };
 
-const getImageSource = (runner: Runner): string =>
-  runner.portraitUrl?.trim() || runner.heroUrl?.trim() || FALLBACK_RUNNER_ICON;
+const getHeroImageSource = (runner: Runner): string =>
+  runner.heroUrl?.trim() || FALLBACK_RUNNER_ICON;
+
+const getPortraitImageSource = (runner: Runner): string =>
+  runner.portraitUrl?.trim() || FALLBACK_RUNNER_ICON;
 
 export const RunnersPage: React.FC = () => {
   const [runners, setRunners] = useState<Runner[]>([]);
@@ -324,7 +327,7 @@ export const RunnersPage: React.FC = () => {
                 </span>
                 <img
                   className="runner-card-image"
-                  src={getImageSource(runner)}
+                  src={getHeroImageSource(runner)}
                   alt={runner.name}
                   loading="lazy"
                   onError={(event) => {
@@ -387,22 +390,6 @@ export const RunnersPage: React.FC = () => {
 
         {!selectedRunner && (
           <div className="runners-filter-row">
-            <QuestFilterSelect
-              id="runners-filter-role"
-              label="Role"
-              value={activeRoles}
-              options={roleOptions}
-              onChange={setActiveRoles}
-              iconSrc="../../img/icons/filter_list.svg"
-            />
-            <QuestFilterSelect
-              id="runners-filter-rarity"
-              label="Rarity"
-              value={activeRarities}
-              options={rarityOptions}
-              onChange={setActiveRarities}
-              iconSrc="../../img/icons/filter_list.svg"
-            />
             <QuestFilterSelect
               id="runners-filter-difficulty"
               label="Difficulty"

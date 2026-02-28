@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ModItem, WeaponItem } from "../../../model/items/IItemsElements";
+import { ItemHoverPopup } from "../../components/items/ItemHoverPopup";
 import { RarityPatternBackground } from "../../components/rarity/RarityPatternBackground";
 
 type AmmoLookupEntry = {
@@ -131,10 +132,10 @@ const getStatValueByAliases = (
 
 const getModRarityClass = (rarity?: string): string => {
   const normalized = (rarity ?? "").trim().toLowerCase();
-  if (normalized.includes("legendary")) {
+  if (normalized.includes("legendary") || normalized.includes("exotic")) {
     return "weapon-mod-rarity-legendary";
   }
-  if (normalized.includes("epic")) {
+  if (normalized.includes("epic") || normalized.includes("heroic")) {
     return "weapon-mod-rarity-epic";
   }
   if (normalized.includes("rare")) {
@@ -143,7 +144,11 @@ const getModRarityClass = (rarity?: string): string => {
   if (normalized.includes("uncommon")) {
     return "weapon-mod-rarity-uncommon";
   }
-  if (normalized.includes("common")) {
+  if (
+    normalized.includes("common") ||
+    normalized.includes("standard") ||
+    normalized.includes("basic")
+  ) {
     return "weapon-mod-rarity-common";
   }
   return "weapon-mod-rarity-default";
@@ -188,6 +193,7 @@ export const WeaponDetailSubPage: React.FC<WeaponDetailSubPageProps> = ({
   onBack,
   fallbackWeaponIcon,
 }) => {
+  const moddingSectionRef = useRef<HTMLDivElement | null>(null);
   type MeterStat = {
     id: string;
     label: string;
@@ -255,6 +261,37 @@ export const WeaponDetailSubPage: React.FC<WeaponDetailSubPageProps> = ({
   );
   const [selectedModsByType, setSelectedModsByType] = useState<Record<string, string>>({});
   const [openModType, setOpenModType] = useState<string | null>(null);
+  const [popupDirectionByModId, setPopupDirectionByModId] = useState<
+    Record<string, "left" | "right" | "below">
+  >({});
+  const updatePopupDirection = (modId: string, trigger: HTMLButtonElement) => {
+    const popupElement = trigger.querySelector<HTMLElement>(".item-hover-popup");
+    if (!popupElement) {
+      return;
+    }
+    const container = trigger.closest<HTMLElement>(
+      ".weapons-page-container, .runners-page-container, .weapons-page, .runners-page",
+    );
+    const triggerRect = trigger.getBoundingClientRect();
+    const containerRect = container?.getBoundingClientRect();
+    const popupWidth = popupElement.offsetWidth || 360;
+    const gap = 10;
+    const rightBoundary = containerRect?.right ?? window.innerWidth;
+    const spaceRight = rightBoundary - triggerRect.right;
+    const leftBoundary = containerRect?.left ?? 0;
+    const spaceLeft = triggerRect.left - leftBoundary;
+    let nextDirection: "left" | "right" | "below" = "right";
+    if (spaceRight < popupWidth + gap) {
+      nextDirection = spaceLeft >= popupWidth + gap ? "left" : "below";
+    }
+
+    setPopupDirectionByModId((previous) => {
+      if (previous[modId] === nextDirection) {
+        return previous;
+      }
+      return { ...previous, [modId]: nextDirection };
+    });
+  };
   const setModSelection = (modType: string, modId: string) => {
     setSelectedModsByType((previous) => ({
       ...previous,
@@ -262,6 +299,39 @@ export const WeaponDetailSubPage: React.FC<WeaponDetailSubPageProps> = ({
     }));
     setOpenModType(null);
   };
+  const activeModTypeRow = useMemo(
+    () => weaponModTypeRows.find(({ modType }) => modType === openModType) ?? null,
+    [openModType, weaponModTypeRows],
+  );
+
+  useEffect(() => {
+    if (!openModType) {
+      return;
+    }
+    const stillExists = weaponModTypeRows.some(({ modType }) => modType === openModType);
+    if (!stillExists) {
+      setOpenModType(null);
+    }
+  }, [openModType, weaponModTypeRows]);
+
+  useEffect(() => {
+    if (!openModType) {
+      return;
+    }
+    const onClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node | null;
+      if (!target || !moddingSectionRef.current) {
+        return;
+      }
+      if (!moddingSectionRef.current.contains(target)) {
+        setOpenModType(null);
+      }
+    };
+    document.addEventListener("mousedown", onClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", onClickOutside);
+    };
+  }, [openModType]);
 
   const selectedMods = useMemo(() => {
     return weaponModTypeRows
@@ -274,7 +344,7 @@ export const WeaponDetailSubPage: React.FC<WeaponDetailSubPageProps> = ({
   const totalModifierByStat = useMemo(() => {
     const map: Record<string, number> = {};
     selectedMods.forEach((mod) => {
-      mod.effects.forEach((effect) => {
+      (mod.effects ?? []).forEach((effect) => {
         const effectKey = normalizeStatKey(effect.effect ?? "");
         const effectModifier = Number(effect.modifier);
         if (!effectKey || !Number.isFinite(effectModifier)) {
@@ -454,89 +524,137 @@ export const WeaponDetailSubPage: React.FC<WeaponDetailSubPageProps> = ({
       </header>
 
       {weaponModTypeRows.length > 0 && (
-        <div className="weapon-modding-section">
+        <div ref={moddingSectionRef} className="weapon-modding-section">
           <h3 className="weapon-stats-section-title">Weapon Modding</h3>
-          <div className="weapon-modding-grid">
+          <div className="weapon-attachment-slots-grid">
             {weaponModTypeRows.map(({ modType, matchingMods }) => {
               const selectedModId = selectedModsByType[modType] ?? "";
               const selectedMod = matchingMods.find((mod) => mod.id === selectedModId);
-              const selectedModName = selectedMod?.name ?? `No ${modType}`;
-              const selectedModEffects = selectedMod ? getModEffectsList(selectedMod) : [];
               const selectedRarityClass = getModRarityClass(selectedMod?.rarity);
               const isOpen = openModType === modType;
               return (
-                <div key={modType} className="weapon-modding-row">
-                <div className="weapon-modding-label">{modType}</div>
-                <div className={`weapon-mod-dropdown ${isOpen ? "is-open" : ""}`}>
-                  <button
-                    type="button"
-                    className="weapon-mod-dropdown-trigger"
-                    onClick={() => setOpenModType((previous) => (previous === modType ? null : modType))}
-                  >
+                <button
+                  key={modType}
+                  type="button"
+                  className={`weapon-attachment-slot ${isOpen ? "is-open" : ""}`}
+                  onClick={() => setOpenModType((previous) => (previous === modType ? null : modType))}
+                  aria-expanded={isOpen}
+                  aria-controls={`weapon-attachment-selector-${normalizeStatKey(modType)}`}
+                >
+                  <span className="weapon-attachment-slot-label">{modType}</span>
+                  <span className="weapon-attachment-slot-content">
                     {selectedMod ? (
-                      <img
-                        className={`weapon-mod-thumbnail ${selectedRarityClass}`}
-                        src={selectedMod.url}
-                        alt={selectedMod.name}
-                        loading="lazy"
-                        onError={(event) => {
-                          event.currentTarget.onerror = null;
-                          event.currentTarget.src = fallbackWeaponIcon;
-                        }}
-                      />
+                      <div className={`weapon-mod-thumbnail-wrap ${getModRarityClass(selectedMod.rarity)}`}>
+                        <RarityPatternBackground rarity={selectedMod.rarity} className="weapon-mod-thumbnail-pattern" />
+                        <img
+                          className="weapon-mod-thumbnail"
+                          src={selectedMod.url}
+                          alt={selectedMod.name}
+                          loading="lazy"
+                          onError={(event) => {
+                            event.currentTarget.onerror = null;
+                            event.currentTarget.src = fallbackWeaponIcon;
+                          }}
+                        />
+                      </div>
                     ) : (
-                      <div className={`weapon-mod-thumbnail weapon-mod-option-icon-placeholder ${selectedRarityClass}`}>
-                        -
+                      <div className="weapon-mod-thumbnail-wrap weapon-mod-rarity-default">
+                        <RarityPatternBackground className="weapon-mod-thumbnail-pattern" />
+                        <div className="weapon-mod-thumbnail weapon-mod-option-icon-placeholder">
+                          +
+                        </div>
                       </div>
                     )}
-                    <div className="weapon-mod-dropdown-main">
-                      <span className="weapon-mod-dropdown-name">{selectedModName}</span>
+                    <div className="weapon-attachment-slot-main">
+                      <span className="weapon-attachment-slot-name">
+                        {selectedMod?.name ?? `Select ${modType}`}
+                      </span>
+                      <span className="weapon-attachment-slot-meta">
+                        {selectedMod ? selectedMod.rarity || "Unknown rarity" : `${matchingMods.length} options`}
+                      </span>
                     </div>
-                    <span className="weapon-mod-dropdown-chevron">▾</span>
-                  </button>
-
-                  {isOpen && (
-                    <div className="weapon-mod-dropdown-menu">
-                    <button
-                      type="button"
-                      className={`weapon-mod-option ${selectedModId === "" ? "is-selected" : ""}`}
-                      onClick={() => setModSelection(modType, "")}
-                    >
-                      <div className="weapon-mod-thumbnail weapon-mod-option-icon-placeholder weapon-mod-rarity-default">-</div>
-                      <div className="weapon-mod-option-main">
-                        <span className="weapon-mod-option-name">No mod</span>
-                      </div>
-                    </button>
-
-                    {matchingMods.map((mod) => (
+                    <span className={`weapon-attachment-slot-chevron ${selectedRarityClass}`}>▾</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          {activeModTypeRow && (
+            <section
+              className="weapon-attachment-selector"
+              id={`weapon-attachment-selector-${normalizeStatKey(activeModTypeRow.modType)}`}
+              aria-label={`${activeModTypeRow.modType} selector`}
+            >
+              <div className="weapon-attachment-selector-header">
+                <strong>{activeModTypeRow.modType}</strong>
+                <span>Select an attachment to apply stat modifiers</span>
+              </div>
+              <div className="weapon-attachment-selector-grid">
+                <button
+                  type="button"
+                  className={`weapon-mod-option ${
+                    (selectedModsByType[activeModTypeRow.modType] ?? "") === "" ? "is-selected" : ""
+                  }`}
+                  onClick={() => setModSelection(activeModTypeRow.modType, "")}
+                >
+                  <div className="weapon-mod-thumbnail-wrap weapon-mod-rarity-default">
+                    <RarityPatternBackground className="weapon-mod-thumbnail-pattern" />
+                    <div className="weapon-mod-thumbnail weapon-mod-option-icon-placeholder">-</div>
+                  </div>
+                  <div className="weapon-mod-option-main">
+                    <span className="weapon-mod-option-name">No attachment</span>
+                    <span className="weapon-mod-option-meta">Clear this slot</span>
+                  </div>
+                </button>
+                {activeModTypeRow.matchingMods.map((mod) => {
+                  const popupDirection = popupDirectionByModId[mod.id];
+                  return (
                     <button
                       key={mod.id}
                       type="button"
-                      className={`weapon-mod-option ${selectedModId === mod.id ? "is-selected" : ""}`}
-                      onClick={() => setModSelection(modType, mod.id)}
+                      className={`weapon-mod-option ${
+                        (selectedModsByType[activeModTypeRow.modType] ?? "") === mod.id ? "is-selected" : ""
+                      }`}
+                      onClick={() => setModSelection(activeModTypeRow.modType, mod.id)}
+                      onMouseEnter={(event) => updatePopupDirection(mod.id, event.currentTarget)}
+                      onFocus={(event) => updatePopupDirection(mod.id, event.currentTarget)}
                     >
-                      <img
-                        className={`weapon-mod-thumbnail ${getModRarityClass(mod.rarity)}`}
-                        src={mod.url}
-                        alt={mod.name}
-                        loading="lazy"
-                        onError={(event) => {
-                          event.currentTarget.onerror = null;
-                          event.currentTarget.src = fallbackWeaponIcon;
-                        }}
-                      />
+                      <div className={`weapon-mod-thumbnail-wrap ${getModRarityClass(mod.rarity)}`}>
+                        <RarityPatternBackground rarity={mod.rarity} className="weapon-mod-thumbnail-pattern" />
+                        <img
+                          className="weapon-mod-thumbnail"
+                          src={mod.url}
+                          alt={mod.name}
+                          loading="lazy"
+                          onError={(event) => {
+                            event.currentTarget.onerror = null;
+                            event.currentTarget.src = fallbackWeaponIcon;
+                          }}
+                        />
+                      </div>
                       <div className="weapon-mod-option-main">
                         <span className="weapon-mod-option-name">{mod.name}</span>
                         <span className="weapon-mod-option-meta">
                           {mod.rarity || "Unknown rarity"} | {mod.type}
                         </span>
                       </div>
+                      <ItemHoverPopup
+                        item={mod}
+                        placement={popupDirection ?? "right"}
+                        typeLabel={mod.type || "Attachment"}
+                      />
                     </button>
-                  ))}
-                  </div>
-                  )}
-                </div>
-                {selectedModEffects.length > 0 && (
+                  );
+                })}
+              </div>
+              {(() => {
+                const selectedModId = selectedModsByType[activeModTypeRow.modType] ?? "";
+                const selectedMod = activeModTypeRow.matchingMods.find((mod) => mod.id === selectedModId);
+                const selectedModEffects = selectedMod ? getModEffectsList(selectedMod) : [];
+                if (selectedModEffects.length === 0) {
+                  return null;
+                }
+                return (
                   <div className="weapon-mod-selected-effects">
                     {selectedModEffects.map((effectText) => (
                       <span key={effectText} className="weapon-mod-selected-effect-pill">
@@ -544,11 +662,10 @@ export const WeaponDetailSubPage: React.FC<WeaponDetailSubPageProps> = ({
                       </span>
                     ))}
                   </div>
-                )}
-              </div>
-            );
-            })}
-          </div>
+                );
+              })()}
+            </section>
+          )}
         </div>
       )}
 

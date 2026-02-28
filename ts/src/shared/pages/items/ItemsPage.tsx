@@ -274,16 +274,16 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
     return visibleItems.slice(start, start + PAGE_SIZE);
   }, [visibleItems, currentPage]);
 
-  const getRarityStyle = (itemId: string) => {
+  const getRarityColor = (itemId: string) => {
     const rarity = ItemsElementUtils.getItemRarity(itemId);
     if (!rarity) {
-      return { backgroundColor: "white" };
+      return "#545e6c";
     }
     const color = rarityToColor(rarity);
     if (!color || color === "black") {
-      return undefined;
+      return "#545e6c";
     }
-    return { backgroundColor: color };
+    return color;
   };
 
   const getRarityLabel = (itemId: string) => {
@@ -305,6 +305,26 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
       return "N/A";
     }
     return value.toLocaleString();
+  };
+
+  const getItemTypeLabel = (item: Item) => {
+    const modType = (item as { type?: string }).type;
+    if (modType?.trim()) {
+      return modType.trim();
+    }
+    const slotType = (item as { slotType?: string }).slotType;
+    if (slotType?.trim()) {
+      return slotType.trim();
+    }
+    const category = (item as { category?: string }).category;
+    if (category?.trim()) {
+      return category.trim();
+    }
+    const runnerType = (item as { runnerType?: string[] }).runnerType;
+    if (Array.isArray(runnerType) && runnerType.length > 0) {
+      return runnerType.filter(Boolean).join(" / ");
+    }
+    return "Item";
   };
 
   useEffect(() => {
@@ -538,17 +558,13 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
                 </div>
                 </div>
               </div>
-              <div className="items-card-overlays">
-                <div
-                  className="items-rarity-label"
-                  style={getRarityStyle(item.id)}
-                >
-                  {getRarityLabel(item.id)}
-                </div>
-                <div className="items-cost-badge">
-                  <span className="items-cost-badge-label">Cost</span>
-                  <span className="items-cost-badge-value">{getItemValue(item)}</span>
-                </div>
+              <div
+                className="items-card-header"
+                style={{ "--item-popup-rarity-color": getRarityColor(item.id) } as React.CSSProperties}
+              >
+                <span className="items-card-header-rarity">{getRarityLabel(item.id)}</span>
+                <span className="items-card-header-type">{getItemTypeLabel(item)}</span>
+                <span className="items-card-header-cost">{getItemValue(item)}</span>
               </div>
             </div>
           );

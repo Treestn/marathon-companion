@@ -145,11 +145,11 @@ export const SubscriptionPage: React.FC = () => {
           <div className="subscription-hero">
             <img
               className="subscription-hero-image"
-              src="../img/subscription/subscription-header.png"
+              src="../img/subscription/subscription-header.jpg"
               alt="Marathon Companion Premium"
             />
             <div className="subscription-hero-badge">Unlock companion premium</div>
-            <div className="subscription-hero-title">The Ultimate Raider Experience</div>
+            <div className="subscription-hero-title">The Ultimate Runner Experience</div>
           </div>
 
           <div className="subscription-perks">
