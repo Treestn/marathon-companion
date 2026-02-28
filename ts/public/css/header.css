@@ -22,6 +22,17 @@ body.second-screen * {
   user-select: none;
 }
 
+.app-header,
+.app-header *,
+.app-header *::before,
+.app-header *::after,
+.screen-header,
+.screen-header *,
+.screen-header *::before,
+.screen-header *::after {
+  border-radius: 0 !important;
+}
+
 .screen-header {
   display: flex;
   align-items: center;

@@ -1,7 +1,6 @@
 import { OWGames, OWHotkeys } from "@overwolf/overwolf-api-ts/dist";
 import { IFrame } from "../IFrame";
 import { AppConfigUtils } from "../escape-from-tarkov/utils/AppConfigUtils";
-import { SidePageQuestController } from "../escape-from-tarkov/page/controller/SidePageQuestController";
 import { I18nHelper } from "../locale/I18nHelper";
 
 export class Hotkeys extends IFrame {

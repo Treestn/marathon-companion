@@ -20,7 +20,7 @@ export const QuestFilterSelect: React.FC<QuestFilterSelectProps> = ({
   value,
   options,
   onChange,
-  iconSrc = "../../icons/logo-white-blue-side.png",
+  iconSrc = "../../icons/logo-256x256.png",
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);

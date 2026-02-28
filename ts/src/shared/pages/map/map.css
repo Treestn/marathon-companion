@@ -725,7 +725,7 @@
   justify-content: center;
   border: 2px solid color-mix(in srgb, var(--important-button-color) 88%, var(--bg-placeholder) 12%);
   transition: all 0.2s ease-in-out;
-  z-index: 1000;
+  z-index: 9;
 }
 
 .map-reset-button:hover {
@@ -745,7 +745,7 @@
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 999;
+  z-index: 9;
   display: flex;
   flex-direction: column;
   align-items: center;

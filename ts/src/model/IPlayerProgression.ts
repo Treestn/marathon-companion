@@ -20,6 +20,7 @@ export interface IProgression {
     getQuestStates():QuestState[];
     getQuestState(id:string):QuestState;
     getHideoutState(id:string):HideoutState;
+    getItemStates():ItemState[];
     getItemState(id:string):ItemState;
     addNewQuest(questId:string, active?:boolean, completed?:boolean):void
     removeQuest(questId:string):void

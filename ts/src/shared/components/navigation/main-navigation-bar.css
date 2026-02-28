@@ -54,6 +54,10 @@
   filter: brightness(0) saturate(100%);
 }
 
+.main-navigation-item.is-active .subscription-button-image {
+  filter: none;
+}
+
 .page-icon-image-container {
   display: flex;
   align-items: center;

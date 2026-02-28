@@ -70,7 +70,15 @@ export const MainNavigationBar: React.FC<MainNavigationBarProps> = ({
           aria-pressed={activePageId === 'subscription'}
         >
           <div className="page-icon-image-container">
-            <img className="page-icon-image" src="./icons/subscription-button.png" alt="Subscription" />
+            <img
+              className="page-icon-image subscription-button-image"
+              src={
+                activePageId === 'subscription'
+                  ? "./icons/logo-subscription-active-256x256.png"
+                  : "./icons/logo-subscription-256x256.png"
+              }
+              alt="Subscription"
+            />
           </div>
           <div className="icon-text-container">
             <b className="icon-text">Premium</b>

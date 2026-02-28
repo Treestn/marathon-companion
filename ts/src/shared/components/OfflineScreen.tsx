@@ -10,7 +10,7 @@ export const OfflineScreen: React.FC<OfflineScreenProps> = ({ onRetry }) => (
     <div className="offline-screen-background-image-container">
       <img
         className="offline-screen-background-image"
-        src="../../img/background/firstTimeUserExperienceAppBackground-1.webp"
+        src="../../img/background/ftue-pitched.png"
         alt=""
       />
     </div>
@@ -19,7 +19,7 @@ export const OfflineScreen: React.FC<OfflineScreenProps> = ({ onRetry }) => (
       <div className="offline-screen-header">
         <img
           className="offline-screen-logo"
-          src="../../icons/logo-white-blue-side.png"
+          src="../../icons/logo-256x256.png"
           alt="Marathon Companion"
         />
       </div>

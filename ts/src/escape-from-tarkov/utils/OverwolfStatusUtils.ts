@@ -119,7 +119,7 @@ export class OverwolfStatusUtils {
     }
 
     static async refreshOverwolfEventStatus(refreshPage?:boolean) {
-        const overwolfEventsStatus = await fetch("https://game-events-status.overwolf.com/27168_prod.json", {
+        const overwolfEventsStatus = await fetch("https://game-events-status.overwolf.com/27856_prod.json", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

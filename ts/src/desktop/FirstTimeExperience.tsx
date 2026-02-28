@@ -6,11 +6,10 @@ type FirstTimeExperienceProps = {
 
 export const FirstTimeExperience: React.FC<FirstTimeExperienceProps> = ({ onComplete }) => (
   <div className="first-time-user-screen">
-    <div className="first-time-user-background" />
     <div className="first-time-user-background-image-container">
         <img
             className="first-time-user-background-image"
-            src="../../img/background/firstTimeUserExperienceAppBackground-1.webp"
+            src="../../img/background/ftue-pitched.png"
             alt=""
         />
     </div>
@@ -19,7 +18,7 @@ export const FirstTimeExperience: React.FC<FirstTimeExperienceProps> = ({ onComp
       <div className="first-time-user-header">
         <img
           className="first-time-user-logo"
-          src="../../icons/logo-white-blue-side.png"
+          src="../../icons/logo-256x256.png"
           alt="Marathon Companion"
         />
       </div>
@@ -30,10 +29,9 @@ export const FirstTimeExperience: React.FC<FirstTimeExperienceProps> = ({ onComp
       </div>
       <div className="first-time-user-cards">
         <div className="first-time-user-card">
-          <img
-            className="first-time-user-card-icon"
-            src="../../img/icons/map_search.svg"
-            alt=""
+          <span
+            className="first-time-user-card-icon first-time-user-card-icon-uncommon first-time-user-card-icon-map"
+            aria-hidden="true"
           />
           <div className="first-time-user-card-title">Tactical Maps</div>
           <div className="first-time-user-card-description">
@@ -41,10 +39,9 @@ export const FirstTimeExperience: React.FC<FirstTimeExperienceProps> = ({ onComp
           </div>
         </div>
         <div className="first-time-user-card">
-          <img
-            className="first-time-user-card-icon"
-            src="../../img/icons/rubric.svg"
-            alt=""
+          <span
+            className="first-time-user-card-icon first-time-user-card-icon-rare first-time-user-card-icon-rubric"
+            aria-hidden="true"
           />
           <div className="first-time-user-card-title">Track Your Progress</div>
           <div className="first-time-user-card-description">
@@ -52,14 +49,13 @@ export const FirstTimeExperience: React.FC<FirstTimeExperienceProps> = ({ onComp
           </div>
         </div>
         <div className="first-time-user-card">
-          <img
-            className="first-time-user-card-icon"
-            src="../../img/icons/trade.svg"
-            alt=""
+          <span
+            className="first-time-user-card-icon first-time-user-card-icon-legendary first-time-user-card-icon-trade"
+            aria-hidden="true"
           />
-          <div className="first-time-user-card-title">Trade Resources</div>
+          <div className="first-time-user-card-title">Builds & Advanced Stats</div>
           <div className="first-time-user-card-description">
-            Connect with other players to buy and sell items
+            Dive into advanced stats and build your own runners and weapon loadouts.
           </div>
         </div>
       </div>

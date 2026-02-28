@@ -77,7 +77,7 @@ export const SecondScreenApp: React.FC = () => {
         <div className="screen-header-left">
           <img
             className="screen-logo"
-            src="../../icons/logo-white-blue-side.png"
+            src="../../icons/logo-256x256.png"
             alt="Marathon Companion"
           />
           <h1 className="screen-title">Marathon Companion</h1>

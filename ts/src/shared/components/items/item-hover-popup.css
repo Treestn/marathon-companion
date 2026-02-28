@@ -35,6 +35,7 @@
   border-bottom: 1px solid
 color-mix(in srgb, #000 30%, transparent);
   color: #ffffff;
+  border-radius: 0;
 }
 
 .item-hover-popup-header > span {
@@ -42,6 +43,7 @@ color-mix(in srgb, #000 30%, transparent);
   display: inline-flex;
   align-items: center;
   background: var(--item-popup-rarity-color, #545e6c);
+  border-radius: 0;
 }
 
 .item-hover-popup-rarity {

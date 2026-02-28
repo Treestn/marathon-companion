@@ -29,6 +29,8 @@ type UserStatusBridgeDeps = {
 };
 
 export class UserStatusBridge implements BridgeModule {
+  // Temporary kill-switch: disable trading backend auth while backend login is unstable.
+  private readonly DISABLE_TARKOV_COMPANION_LOGIN = true;
   private bearerToken: string | null = null;
   private bearerTokenPromise: Promise<void> | null = null;
   private lastUserId: string | null = null;
@@ -142,6 +144,12 @@ export class UserStatusBridge implements BridgeModule {
   }
 
   private async ensureBearerToken(userId: string): Promise<void> {
+    if (this.DISABLE_TARKOV_COMPANION_LOGIN) {
+      this.lastUserId = userId;
+      this.clearBearerToken('login disabled');
+      return;
+    }
+
     if (this.isBearerTokenValid(userId)) {
       return;
     }
@@ -174,6 +182,14 @@ export class UserStatusBridge implements BridgeModule {
       this.tradingProfileExists = false;
       this.clearBearerToken('no user id in ensureTradingProfile');
       this.lastUserId = null;
+      return;
+    }
+
+    if (this.DISABLE_TARKOV_COMPANION_LOGIN) {
+      this.lastUserId = userId;
+      this.tradingProfileExists = false;
+      this.clearBearerToken('login disabled in ensureTradingProfile');
+      this.notifyStatusChanged();
       return;
     }
 

@@ -22,13 +22,6 @@ export class ItemsUtils {
             map.set(itemId, amount);
         })
 
-        this.getHideoutRequiredAmount(progression).forEach((count, itemId) => {
-            let amount = count;
-            if(map.has(itemId)) {
-                amount += map.get(itemId);
-            }
-            map.set(itemId, amount);
-        })
         return map
     }
 
@@ -203,33 +196,6 @@ export class ItemsUtils {
                             amount += map.get(obj.item.id);
                         }
                         map.set(obj.item.id, amount);
-                    }
-                })
-            }
-        })
-        HideoutUtils.getData().hideoutStations.forEach(station => {
-            if(station.levels && station.levels.length > 0) {
-                station.levels.forEach(level => {
-                    if(AppConfigUtils.getAppConfig().userSettings.getProgressionType() === progressionTypes.pve) {
-                        if(level.itemPveRequirements && level.itemPveRequirements.length > 0) {
-                            level.itemPveRequirements.forEach(requirement => {
-                                let amount = requirement.quantity;
-                                if(map.has(requirement.item.id)) {
-                                    amount += map.get(requirement.item.id);
-                                }
-                                map.set(requirement.item.id, amount);
-                            })
-                        }
-                    } else {
-                        if(level.itemRequirements && level.itemRequirements.length > 0) {
-                            level.itemRequirements.forEach(requirement => {
-                                let amount = requirement.quantity;
-                                if(map.has(requirement.item.id)) {
-                                    amount += map.get(requirement.item.id);
-                                }
-                                map.set(requirement.item.id, amount);
-                            })
-                        }
                     }
                 })
             }

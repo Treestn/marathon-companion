@@ -1,5 +1,5 @@
 export const kGames = {
-    arcRaiders: 27168
+    marathon: 27856
 }
 
 export const kGamesFeature = {
@@ -25,7 +25,7 @@ export const kGameInfo = {
 export const kGamesFeatures = new Map([
   // Arc Raiders
   [
-    kGames.arcRaiders,
+    kGames.marathon,
     [
       kGamesFeature.matchInfo,
       kGamesFeature.gameInfo

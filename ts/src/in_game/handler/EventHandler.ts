@@ -111,7 +111,7 @@ export class EventHandler {
 
 
     private setFeatures() {
-        overwolf.games.events.setRequiredFeatures(kGamesFeatures.get(kGames.arcRaiders), info => {
+        overwolf.games.events.setRequiredFeatures(kGamesFeatures.get(kGames.marathon), info => {
             if (info.error){
               window.setTimeout(this.setFeatures, 2000);
               return;

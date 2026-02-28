@@ -1,6 +1,6 @@
 export const LogoPathConst = {
-    LOGO_WHITE_BLUE_SIDE: "../../icons/logo-white-blue-side.png",
-    LOGO_WHITE_256_BLUE_SIDE: "../../icons/logo-white-256-blue-side.png",
+    LOGO_WHITE_BLUE_SIDE: "../../icons/logo-256x256.png",
+    LOGO_WHITE_256_BLUE_SIDE: "../../icons/logo-256x256.png",
     LOADING_GIF: "../../animation/Eclipse-1.3s-207px.gif",
     X_ICON_WHITE: "../../img/x_icon_white.png",
     ADD_ICON: "../../img/add-icon.png",

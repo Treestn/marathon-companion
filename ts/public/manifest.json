@@ -8,11 +8,11 @@
     "version": "1.0.0",
     "minimum-overwolf-version": "0.240.0.5",
     "description": "This app will help you through your journey on Marathon",
-    "dock_button_title": "ARC",
-    "icon": "icons/logo-white-256-blue-side.png",
-    "icon_gray": "icons/logo-greyscale.png",
+    "dock_button_title": "MC",
+    "icon": "icons/logo-256x256.png",
+    "icon_gray": "icons/logo-greyscale-256x256.png",
     "launcher_icon": "icons/logo-white-blue-side.ico",
-    "window_icon": "icons/logo-white-256-blue-side.png"
+    "window_icon": "icons/logo-256x256.png"
   },
   "permissions": [
     "Hotkeys",
@@ -48,7 +48,7 @@
     "url_protocol": {
       "schemes": [
         "tebex-subs-sample-purchased",
-        "tebex-arc-raiders-companion-subs"
+        "tebex-marathon-companion-subs"
       ]
     },
     "externally_connectable": {
@@ -132,14 +132,14 @@
     },
     "game_targeting": {
       "type": "dedicated",
-      "game_ids": [27168]
+      "game_ids": [27856]
     },
-    "game_events": [27168],
+    "game_events": [27856],
     "launch_events": [
       {
         "event": "GameLaunch",
         "event_data": {
-          "game_ids": [27168]
+          "game_ids": [27856]
         },
         "start_minimized": true
       }

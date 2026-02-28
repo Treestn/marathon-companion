@@ -26,6 +26,8 @@ export class GameInfoService {
     }
 
     public isSupportedGame(info: overwolf.games.RunningGameInfo) {
+        console.log("supported game");
+        console.log(info.classId && kGameClassIds.includes(info.classId));
         return info.classId && kGameClassIds.includes(info.classId);
     }
 

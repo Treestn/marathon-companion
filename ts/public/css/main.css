@@ -161,19 +161,6 @@ a {
   overflow: hidden;
 }
 
-.first-time-user-background {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 45%;
-  height: 100%;
-  background-image: url("../img/background/stripes.webp");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: right center;
-  opacity: 0.9;
-}
-
 .first-time-user-background-image-container {
   position: absolute;
   height: 100%;
@@ -183,7 +170,7 @@ a {
   z-index: 1;
   right: 0;
   perspective: 1000px;
-  width: 926px;
+  width: 1100px;
 }
 
 .first-time-user-background-image {
@@ -251,13 +238,49 @@ a {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  width: 150px;
+  width: 200px;
   gap: 10px;
 }
 
 .first-time-user-card-icon {
   width: 35px;
   height: 35px;
+  display: block;
+  background-color: var(--ftue-icon-rarity-color, #c8c6c8);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--ftue-icon-rarity-color, #c8c6c8) 45%, transparent));
+}
+
+.first-time-user-card-icon-map {
+  -webkit-mask-image: url("../img/icons/map_search.svg");
+  mask-image: url("../img/icons/map_search.svg");
+}
+
+.first-time-user-card-icon-rubric {
+  -webkit-mask-image: url("../img/icons/rubric.svg");
+  mask-image: url("../img/icons/rubric.svg");
+}
+
+.first-time-user-card-icon-trade {
+  -webkit-mask-image: url("../img/icons/trade.svg");
+  mask-image: url("../img/icons/trade.svg");
+}
+
+.first-time-user-card-icon-uncommon {
+  --ftue-icon-rarity-color: #01abf4;
+}
+
+.first-time-user-card-icon-rare {
+  --ftue-icon-rarity-color: #c43198;
+}
+
+.first-time-user-card-icon-legendary {
+  --ftue-icon-rarity-color: #ffcc00;
 }
 
 .first-time-user-card-title {

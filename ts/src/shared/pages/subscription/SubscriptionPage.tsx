@@ -127,7 +127,7 @@ export const SubscriptionPage: React.FC = () => {
         <div className="subscription-page-header">
           <img
             className="subscription-page-header-image"
-            src="../icons/subscription-button.png"
+            src="../icons/logo-subscription-256x256.png"
             alt="Marathon Companion Premium"
           />
           <div className="subscription-page-title">Marathon Companion Premium</div>
@@ -154,7 +154,7 @@ export const SubscriptionPage: React.FC = () => {
 
           <div className="subscription-perks">
             <ul className="subscription-perks-list">
-              <li className="subscription-perk-item">
+              {/* <li className="subscription-perk-item">
                 <img
                   className="subscription-bullet-point-image"
                   src="../img/subscription/service_toolbox.png"
@@ -164,7 +164,7 @@ export const SubscriptionPage: React.FC = () => {
                   <span className="subscription-bullet-point-header">More Active Trades</span>
                   <span className="subscription-bullet-point-description">Track up to 20 concurrent trades at once for faster progression and better planning.</span>
                 </div>
-              </li>
+              </li> */}
               <li className="subscription-perk-item">
                 <img
                   className="subscription-bullet-point-image"

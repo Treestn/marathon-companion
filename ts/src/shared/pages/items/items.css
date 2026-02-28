@@ -360,6 +360,7 @@
   gap: 2px;
   border-bottom: 1px solid color-mix(in srgb, #000 30%, transparent);
   color: #fff;
+  border-radius: 0;
 }
 
 .items-card-header > span {
@@ -367,6 +368,7 @@
   display: inline-flex;
   align-items: center;
   background: var(--item-popup-rarity-color, #545e6c);
+  border-radius: 0;
 }
 
 .items-card-header-rarity {

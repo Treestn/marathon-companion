@@ -20,7 +20,7 @@ export class PopupHelper {
                 <div id="popup" class="popup">
                     <div class="popup-title">
                         <div class="popup-title-logo-container">
-                            <img class="popup-title-logo" src="../../icons/logo-white-256-blue-side.png">
+                            <img class="popup-title-logo" src="../../icons/logo-256x256.png">
                         </div>
                         <b class="popup-title-text">${title}</b>
                     </div>
@@ -44,7 +44,7 @@ export class PopupHelper {
                 <div id="popup" class="popup">
                     <div class="fatal-popup-title">
                         <div class="popup-title-logo-container">
-                            <img class="popup-title-logo" src="../../icons/logo-white-256-blue-side.png">
+                            <img class="popup-title-logo" src="../../icons/logo-256x256.png">
                         </div>
                         <b class="popup-title-text">Fatal Error</b>
                     </div>
