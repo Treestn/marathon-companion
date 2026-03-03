@@ -117,7 +117,7 @@ export class PopupBuilderHelper {
                 const checkmarkWrapper = HelperCreation.createDiv(wrapper.id, PopupUtils.imageDescriptionCheckmarkWrapperClass, "")
                 const checkmark = new Image();
                 checkmark.classList.add(PopupUtils.imageDescriptionCheckmarkClass);
-                checkmark.src = "./img/side-nav-quest-icon.png"
+                checkmark.src = "../../icons/logo-256x256.png"
                 checkmarkWrapper.appendChild(checkmark);
                 descriptionElement.parentElement.appendChild(checkmarkWrapper)
                 return checkmarkWrapper

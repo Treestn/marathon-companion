@@ -19,34 +19,8 @@
   width: -webkit-fill-available;
   max-width: 900px;
   height: 100%;
-  padding: 20px 20px 0 20px;
   box-sizing: border-box;
   color: var(--text-primary);
-}
-
-.weapons-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.weapons-title-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.weapons-title {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 600;
-}
-
-.weapons-subtitle {
-  margin: 0;
-  color: var(--white-a70);
-  font-size: 13px;
 }
 
 .weapons-header-actions {

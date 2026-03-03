@@ -1,7 +1,7 @@
 // const hostname = "https://companions-api.treestn-dev.ca";
-const submissionHostname = "https://companions-submissions.treestn-dev.ca";
+// const submissionHostname = "https://companions-submissions.treestn-dev.ca";
 const hostname = "http://localhost:8080";
-// const submissionHostname = "http://localhost:8080";
+const submissionHostname = "http://localhost:8081";
 
 const RESOURCE_GAME = "marathon";
 const GAME_NAMESPACE_ID = "2a412452-9b3a-48c4-bc73-4daaf89cfd9a";
@@ -9,6 +9,7 @@ const resourceBase = `${hostname}/v1/resources/${RESOURCE_GAME}`;
 
 const endpoints = {
   hostname,
+  RESOURCE_GAME,
   submissionHostname,
   health: `${hostname}/health`,
   ammo_config: `${hostname}/resources/ammo`,
@@ -25,9 +26,9 @@ const endpoints = {
   login: `${submissionHostname}/v1/${GAME_NAMESPACE_ID}/auth/login`,
 
   submission_health: `${submissionHostname}/actuator/health`,
-  newSubmission: `${submissionHostname}/v2/arc-raiders/submission/new`,
-  upload_image_no_crop: `${submissionHostname}/v2/arc-raiders/submission/upload/image/noCrop`,
-  upload_image_crop: `${submissionHostname}/v2/arc-raiders/submission/upload/image/cropped`,
+  newSubmission: `${submissionHostname}/v2/${RESOURCE_GAME}/submission/new`,
+  upload_image_no_crop: `${submissionHostname}/v2/${RESOURCE_GAME}/submission/upload/image/noCrop`,
+  upload_image_crop: `${submissionHostname}/v2/${RESOURCE_GAME}/submission/upload/image/cropped`,
 
 
   trades: `${submissionHostname}/v2/${GAME_NAMESPACE_ID}/trades`,

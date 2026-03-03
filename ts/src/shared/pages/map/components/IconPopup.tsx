@@ -210,7 +210,7 @@ export const IconPopup: React.FC<IconPopupProps> = ({
   }, [map, icon]);
 
 
-  const isQuestIconType = icon?.iconTypeId === "Quests:Quests";
+  const isQuestIconType = icon?.iconTypeId === "Contracts:Contracts";
   const isQuestIcon = !!(icon?.entity.questId);
   const quest = React.useMemo(() => {
     if (!isQuestIconType || !icon?.entity.questId) {

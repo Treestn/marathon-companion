@@ -17,15 +17,18 @@ export class WindowManager {
   private readonly gameInfoService: GameInfoService;
   private readonly gameEventsService: GameEventsService;
   private readonly windowPositionService: WindowPositionService;
+  private readonly refreshSubscriptionStatus?: () => Promise<boolean>;
 
   constructor(
     gameRunningService: GameInfoService,
     gameEventsService: GameEventsService,
     windowPositionService: WindowPositionService,
+    refreshSubscriptionStatus?: () => Promise<boolean>,
   ) {
     this.gameInfoService = gameRunningService;
     this.gameEventsService = gameEventsService;
     this.windowPositionService = windowPositionService;
+    this.refreshSubscriptionStatus = refreshSubscriptionStatus;
   }
 
   public async registerListeners(): Promise<void> {
@@ -147,6 +150,14 @@ export class WindowManager {
   }
 
   private readonly appLaunched = async (e?: overwolf.extensions.AppLaunchTriggeredEvent) => {    
+    if (this.refreshSubscriptionStatus) {
+      try {
+        await this.refreshSubscriptionStatus();
+      } catch (error) {
+        console.warn("App launched: failed to refresh subscription status", error);
+      }
+    }
+
     if(this.gameInfoService.isGameRunning() && !AppConfigUtils.getAppConfig().userSettings.isDesktopOnly()) {
       console.log(`App launched: Game running, restoring in-game`);
       await WindowsService.close(kWindowNames.desktop);

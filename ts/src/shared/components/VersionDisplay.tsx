@@ -15,6 +15,6 @@ export const VersionDisplay: React.FC = () => {
     return null;
   }
 
-  return <b id="arc-raiders-companion-version" className="companion-version-text">{version}</b>;
+  return <b id="marathon-companion-version" className="companion-version-text">{version}</b>;
 };
 

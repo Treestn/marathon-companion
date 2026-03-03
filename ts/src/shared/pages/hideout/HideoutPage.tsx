@@ -12,6 +12,7 @@ import { HideoutItemControl } from "./components/HideoutItemControl";
 import "./hideout.css";
 import { NavigationTarget } from "../../services/NavigationEvents";
 import { AppConfigClient } from "../../services/AppConfigClient";
+import { PageHeader } from "../../components/PageHeader";
 
 type StationProgress = {
   level: HideoutLevels | null;
@@ -123,16 +124,11 @@ export const HideoutPage: React.FC<HideoutPageProps> = ({
   return (
     <div className="hideout-container">
       <section className="hideout-page">
-        <header className="hideout-header">
-          <div className="hideout-title">
-            <img
-              className="hideout-title-logo"
-              src="../img/hideout.png"
-              alt=""
-            />
-            <span className="hideout-title-text">Raider Den</span>
-          </div>
-        </header>
+        <PageHeader
+          className="hideout-header"
+          title="Raider Den"
+          iconSrc="../img/hideout.png"
+        />
         <div className="hideout-station-list scroll-div">
           {stations.map((station) => {
             const progress = stationProgress[station.id];

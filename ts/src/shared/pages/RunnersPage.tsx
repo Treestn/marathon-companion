@@ -9,8 +9,9 @@ import {
   isItemsEditSessionEnabled,
   subscribeItemsEditSessionEnabled,
 } from "../services/ItemsEditSessionGate";
+import { PageHeader } from "../components/PageHeader";
 
-const FALLBACK_RUNNER_ICON = "./img/side-nav-quest-icon.png";
+const FALLBACK_RUNNER_ICON = "../../icons/logo-256x256.png";
 const DEV_EDIT_STORAGE_KEY = "runnersMapDevEdited";
 const cloneRunners = (data: Runner[]): Runner[] => structuredClone(data);
 const DEFAULT_RUNNER_STATS: Runner["stats"] = {
@@ -413,6 +414,43 @@ export const RunnersPage: React.FC = () => {
     setSaveMessage("");
   };
 
+  const updateDraftRunnerAbilityTextField = (
+    runnerId: string,
+    abilityIndex: number,
+    field: "name" | "description",
+    value: string,
+  ) => {
+    updateDraftRunner(runnerId, (runner) => {
+      if (!Array.isArray(runner.abilities) || abilityIndex < 0 || abilityIndex >= runner.abilities.length) {
+        return;
+      }
+      runner.abilities[abilityIndex][field] = value;
+    });
+    setSaveMessage("");
+  };
+
+  const updateDraftRunnerAbilityCooldown = (
+    runnerId: string,
+    abilityIndex: number,
+    rawValue: string,
+  ) => {
+    updateDraftRunner(runnerId, (runner) => {
+      if (!Array.isArray(runner.abilities) || abilityIndex < 0 || abilityIndex >= runner.abilities.length) {
+        return;
+      }
+      const normalized = rawValue.trim().replace(",", ".");
+      if (!normalized) {
+        runner.abilities[abilityIndex].cooldown = 0;
+        return;
+      }
+      const parsed = Number.parseFloat(normalized);
+      if (!Number.isNaN(parsed)) {
+        runner.abilities[abilityIndex].cooldown = parsed;
+      }
+    });
+    setSaveMessage("");
+  };
+
   const handleSaveDraft = () => {
     if (!isEditingEnabled) {
       return;
@@ -495,6 +533,8 @@ export const RunnersPage: React.FC = () => {
         difficultyOptions={difficulties}
         onUpdateTextField={updateDraftRunnerTextField}
         onUpdateStat={updateDraftRunnerStat}
+        onUpdateAbilityTextField={updateDraftRunnerAbilityTextField}
+        onUpdateAbilityCooldown={updateDraftRunnerAbilityCooldown}
         fallbackRunnerIcon={FALLBACK_RUNNER_ICON}
         onBack={() => setSelectedRunnerId(null)}
       />
@@ -566,41 +606,41 @@ export const RunnersPage: React.FC = () => {
     <div className="runners-page-container">
       <section className="runners-page">
         {!selectedRunner && (
-          <header className="runners-header">
-            <div className="runners-title-wrap">
-              <h1 className="runners-title">Runners</h1>
-              <p className="runners-subtitle">
-                Browse runner hero cards with key details, roles, rarity, and difficulty.
-              </p>
-            </div>
-            <div className="runners-header-actions">
-              {isSessionEditEnabled && (
-                <button
-                  type="button"
-                  className={`runners-dev-button${isEditingEnabled ? " is-active" : ""}`}
-                  onClick={() => {
-                    setIsEditingEnabled((previous) => {
-                      const next = !previous;
-                      if (next && draftRunners.length === 0 && runners.length > 0) {
-                        setDraftRunners(cloneRunners(runners));
-                      }
-                      return next;
-                    });
-                    setSaveMessage("");
-                  }}
-                >
-                  {isEditingEnabled ? "Editing Enabled" : "Enable Editing"}
-                </button>
-              )}
-              <input
-                className="runners-search"
-                type="search"
-                placeholder="Search runners, roles, tags, or rarity..."
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-              />
-            </div>
-          </header>
+          <PageHeader
+            className="runners-header"
+            title="Runners"
+            subtitle="Browse runner hero cards with key details, roles, rarity, and difficulty."
+            iconSrc="../img/pages/runner.png"
+            actions={
+              <div className="runners-header-actions">
+                {isSessionEditEnabled && (
+                  <button
+                    type="button"
+                    className={`runners-dev-button${isEditingEnabled ? " is-active" : ""}`}
+                    onClick={() => {
+                      setIsEditingEnabled((previous) => {
+                        const next = !previous;
+                        if (next && draftRunners.length === 0 && runners.length > 0) {
+                          setDraftRunners(cloneRunners(runners));
+                        }
+                        return next;
+                      });
+                      setSaveMessage("");
+                    }}
+                  >
+                    {isEditingEnabled ? "Editing Enabled" : "Enable Editing"}
+                  </button>
+                )}
+                <input
+                  className="runners-search"
+                  type="search"
+                  placeholder="Search runners, roles, tags, or rarity..."
+                  value={searchTerm}
+                  onChange={(event) => setSearchTerm(event.target.value)}
+                />
+              </div>
+            }
+          />
         )}
 
         {isSessionEditEnabled && isEditingEnabled && (

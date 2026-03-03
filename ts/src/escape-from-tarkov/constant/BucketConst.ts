@@ -1,5 +1,5 @@
 export enum BucketConst {
-    BASE_URI = "https://assets.arc-raiders-companion.ca/",
+    BASE_URI = "https://companions-assets.treestn-dev.ca/",
     TARKOV_ICONS = "items/",
     FLOORS = "floors/",
     GUNSMITH = "gunsmith/",

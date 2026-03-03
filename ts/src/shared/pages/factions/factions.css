@@ -22,6 +22,10 @@
   gap: 16px;
 }
 
+.factions-page-header {
+  margin-top: 2px;
+}
+
 .factions-header {
   border-radius: 0;
   background: var(--bg-card);

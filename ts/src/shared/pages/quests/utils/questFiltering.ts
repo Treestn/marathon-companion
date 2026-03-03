@@ -60,7 +60,7 @@ const isQuestTypeAllowed = (quest: Quest, selectedTypes: string[]): boolean => {
   if (selectedTypes.length === 0) {
     return true;
   }
-  const questType = quest.questType ?? QuestType.SIDE_QUEST;
+  const questType = quest.questType ?? QuestType.PRIORITY;
   return selectedTypes.includes(questType);
 };
 

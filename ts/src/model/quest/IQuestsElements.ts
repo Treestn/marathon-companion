@@ -1,6 +1,6 @@
 import { MapAdapter } from "../../adapter/MapAdapter";
 import { ObjectiveTypeConst } from "../../escape-from-tarkov/constant/EditQuestConst";
-import { TraderConst } from "../../escape-from-tarkov/constant/TraderConst";
+import { TraderConst, TraderList } from "../../escape-from-tarkov/constant/TraderConst";
 import { UuidGenerator } from "../../escape-from-tarkov/service/helper/UuidGenerator";
 
 
@@ -20,7 +20,6 @@ export interface Quest {
     questType: string;
     active: boolean;
     completed: boolean;
-    tarkovDataId: number;
     name: string;
     locales: Locales;
     normalizedName:string;
@@ -53,7 +52,6 @@ export class QuestImpl implements Quest {
     questType: string;
     active: boolean;
     completed: boolean;
-    tarkovDataId: number;
     name: string;
     locales: Locales;
     normalizedName: string;
@@ -154,7 +152,7 @@ export class QuestTraderUnlock implements TraderUnlock {
         this.trader = new QuestObject();
         this.item = new QuestObject();
         this.item.id = itemId;
-        this.trader.id = TraderConst.APOLLO.id;
+        this.trader.id = TraderList[0].id;
         this.level = 1;
     }
 }

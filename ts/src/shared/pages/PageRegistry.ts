@@ -23,7 +23,7 @@ export const PAGE_REGISTRY: PageConfig[] = [
     name: 'Maps',
     path: '/maps',
     navigationId: 'map-navigation',
-    icon: '../img/maps-icon.png',
+    icon: './img/pages/map.png',
     i18nKey: 'nav.maps',
     enabled: true
   },
@@ -32,7 +32,7 @@ export const PAGE_REGISTRY: PageConfig[] = [
     name: 'Contracts',
     path: '/quests',
     navigationId: 'quests-navigation',
-    icon: '../img/side-nav-quest-icon.png',
+    icon: './img/pages/contract.png',
     i18nKey: 'nav.quests',
     enabled: true
   },
@@ -50,7 +50,7 @@ export const PAGE_REGISTRY: PageConfig[] = [
     name: 'Items',
     path: '/items-needed',
     navigationId: 'items-needed-navigation',
-    icon: './img/items-needed.png',
+    icon: './img/pages/items.png',
     i18nKey: 'pages.questReminder.items.button',
     enabled: true
   },
@@ -59,7 +59,7 @@ export const PAGE_REGISTRY: PageConfig[] = [
     name: 'Weapons',
     path: '/weapons',
     navigationId: 'weapons-navigation',
-    icon: './img/side-nav-quest-icon.png',
+    icon: './img/pages/weapon.png',
     i18nKey: 'nav.weapons',
     enabled: true
   },
@@ -68,7 +68,7 @@ export const PAGE_REGISTRY: PageConfig[] = [
     name: 'Runners',
     path: '/runners',
     navigationId: 'runners-navigation',
-    icon: './img/pvp_icon.png',
+    icon: './img/pages/runner.png',
     i18nKey: 'nav.runners',
     enabled: true
   },
@@ -77,7 +77,7 @@ export const PAGE_REGISTRY: PageConfig[] = [
     name: 'Factions',
     path: '/factions',
     navigationId: 'factions-navigation',
-    icon: './img/side-nav-quest-icon.png',
+    icon: './img/pages/faction.png',
     i18nKey: 'nav.factions',
     enabled: true
   },

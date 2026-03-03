@@ -187,7 +187,7 @@ export const ItemRequirementTooltip: React.FC<ItemRequirementTooltipProps> = ({
                     {entry.kind === "hideout" ? (
                       <img src="../img/hideout.png" alt="" />
                     ) : (
-                      <img src="../img/side-nav-quest-icon.png" alt="" />
+                      <img src=".../../icons/logo-256x256.png" alt="" />
                     )}
                   </div>
                   <div className="item-requirement-name">{entry.name}</div>

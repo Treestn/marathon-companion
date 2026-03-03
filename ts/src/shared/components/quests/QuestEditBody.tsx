@@ -7,6 +7,8 @@ import { ObjectiveTypeConst, ObjectiveTypeList } from '../../../escape-from-tark
 import { MapAdapter } from '../../../adapter/MapAdapter';
 import { MapsList } from '../../../escape-from-tarkov/constant/MapsConst';
 import { QuestDataStore } from '../../services/QuestDataStore';
+import { QuestType } from '../../../escape-from-tarkov/constant/QuestConst';
+import { TraderList } from '../../../escape-from-tarkov/constant/TraderConst';
 
 // ---------------------------------------------------------------------------
 // UI-friendly types used by callbacks (not submission-specific)
@@ -22,6 +24,12 @@ export type EditRewardItem = {
   itemId: string;
   itemName: string;
   count: number;
+};
+
+export type EditTraderStandingReward = {
+  traderId: string;
+  traderName: string;
+  standing: number;
 };
 
 export type UpsertObjectiveMetaPayload = {
@@ -59,6 +67,12 @@ const MAP_OPTIONS = MapsList.map((m) => ({
   name: m.name,
 }));
 
+const QUEST_TYPE_OPTIONS: { value: string; label: string }[] = [
+  { value: QuestType.PRIORITY, label: 'Priority' },
+  { value: QuestType.LIAISON, label: 'Liaison' },
+  { value: QuestType.STANDARD, label: 'Standard' },
+];
+
 /** Objective types that only allow a single map selection */
 const SINGLE_MAP_TYPES = new Set([
     ObjectiveTypeConst.MARK.type,
@@ -85,6 +99,7 @@ type QuestEditBodyProps = {
   /** The effective quest — if the user has made edits, this already contains them. */
   quest: Quest;
   onLevelChange?: (level: number | null) => void;
+  onQuestTypeChange?: (questType: string) => void;
   onTaskRequirementsChange?: (requirements: EditTaskRequirement[]) => void;
   leadsToRequirements?: EditTaskRequirement[];
   linkQuestOptions?: Quest[];
@@ -95,6 +110,7 @@ type QuestEditBodyProps = {
   onRemoveObjective?: (questId: string, questName: string, objectiveId: string) => void;
   onReorderObjectives?: (questId: string, questName: string, objectiveOrder: string[]) => void;
   onRewardChange?: (rewards: EditRewardItem[]) => void;
+  onTraderStandingRewardChange?: (rewards: EditTraderStandingReward[]) => void;
 };
 
 // ---------------------------------------------------------------------------
@@ -104,6 +120,7 @@ type QuestEditBodyProps = {
 export const QuestEditBody = React.memo<QuestEditBodyProps>(({
   quest,
   onLevelChange,
+  onQuestTypeChange,
   onTaskRequirementsChange,
   leadsToRequirements = [],
   linkQuestOptions = [],
@@ -114,6 +131,7 @@ export const QuestEditBody = React.memo<QuestEditBodyProps>(({
   onRemoveObjective,
   onReorderObjectives,
   onRewardChange,
+  onTraderStandingRewardChange,
 }) => {
   const [viewerImages, setViewerImages] = useState<string[] | null>(null);
   const [viewerIndex, setViewerIndex] = useState<number>(0);
@@ -129,17 +147,31 @@ export const QuestEditBody = React.memo<QuestEditBodyProps>(({
   // -------------------------------------------------------------------------
 
   const resolvedLevel = quest.minPlayerLevel ?? null;
+  const resolvedQuestType = useMemo(() => {
+    if (!quest.questType) return '';
+    const lowered = quest.questType.toLowerCase();
+    if (lowered === QuestType.PRIORITY.toLowerCase()) return QuestType.PRIORITY;
+    if (lowered === QuestType.LIAISON.toLowerCase()) return QuestType.LIAISON;
+    if (lowered === QuestType.STANDARD.toLowerCase()) return QuestType.STANDARD;
+    return '';
+  }, [quest.questType]);
 
   const [levelInput, setLevelInput] = useState<string>(
     resolvedLevel == null ? '' : String(resolvedLevel),
   );
   const [levelError, setLevelError] = useState<string | null>(null);
+  const [questTypeInput, setQuestTypeInput] = useState<string>(resolvedQuestType);
+  const [questTypeError, setQuestTypeError] = useState<string | null>(
+    resolvedQuestType ? null : 'Quest type is required',
+  );
 
   useEffect(() => {
     const level = quest.minPlayerLevel ?? null;
     setLevelInput(level == null ? '' : String(level));
     setLevelError(null);
-  }, [quest.id, quest.minPlayerLevel]);
+    setQuestTypeInput(resolvedQuestType);
+    setQuestTypeError(resolvedQuestType ? null : 'Quest type is required');
+  }, [quest.id, quest.minPlayerLevel, resolvedQuestType]);
 
   const handleLevelChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -166,6 +198,20 @@ export const QuestEditBody = React.memo<QuestEditBodyProps>(({
       onLevelChange?.(parsed);
     },
     [onLevelChange],
+  );
+
+  const handleQuestTypeChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const nextType = e.target.value;
+      setQuestTypeInput(nextType);
+      if (!nextType) {
+        setQuestTypeError('Quest type is required');
+        return;
+      }
+      setQuestTypeError(null);
+      onQuestTypeChange?.(nextType);
+    },
+    [onQuestTypeChange],
   );
 
   // -------------------------------------------------------------------------
@@ -517,6 +563,71 @@ export const QuestEditBody = React.memo<QuestEditBodyProps>(({
     onRewardChange?.(next);
   }, [editableRewards, onRewardChange]);
 
+  const editableTraderStandingRewards = useMemo<EditTraderStandingReward[]>(() => {
+    return (quest.finishRewards?.traderStanding ?? []).map((reward) => {
+      const traderId = reward.trader?.id ?? '';
+      const listMatch = TraderList.find((t) => t.id === traderId);
+      const traderName = listMatch?.name ?? reward.trader?.name ?? traderId;
+      return {
+        traderId,
+        traderName,
+        standing: reward.standing ?? 0,
+      };
+    });
+  }, [quest.finishRewards?.traderStanding]);
+
+  const handleTraderStandingTraderChange = useCallback(
+    (index: number, traderId: string) => {
+      const traderInfo = TraderList.find((trader) => trader.id === traderId);
+      if (!traderInfo) return;
+      const next = [...editableTraderStandingRewards];
+      next[index] = {
+        ...next[index],
+        traderId: traderInfo.id,
+        traderName: traderInfo.name,
+      };
+      onTraderStandingRewardChange?.(next);
+    },
+    [editableTraderStandingRewards, onTraderStandingRewardChange],
+  );
+
+  const handleTraderStandingValueChange = useCallback(
+    (index: number, standing: number) => {
+      const next = [...editableTraderStandingRewards];
+      next[index] = { ...next[index], standing };
+      onTraderStandingRewardChange?.(next);
+    },
+    [editableTraderStandingRewards, onTraderStandingRewardChange],
+  );
+
+  const handleTraderStandingRemove = useCallback(
+    (index: number) => {
+      const next = editableTraderStandingRewards.filter((_, i) => i !== index);
+      onTraderStandingRewardChange?.(next);
+    },
+    [editableTraderStandingRewards, onTraderStandingRewardChange],
+  );
+
+  const handleTraderStandingMove = useCallback(
+    (index: number, direction: 'up' | 'down') => {
+      const next = [...editableTraderStandingRewards];
+      const swapIdx = direction === 'up' ? index - 1 : index + 1;
+      if (swapIdx < 0 || swapIdx >= next.length) return;
+      [next[index], next[swapIdx]] = [next[swapIdx], next[index]];
+      onTraderStandingRewardChange?.(next);
+    },
+    [editableTraderStandingRewards, onTraderStandingRewardChange],
+  );
+
+  const handleTraderStandingAdd = useCallback(() => {
+    if (TraderList.length === 0) return;
+    const next = [
+      ...editableTraderStandingRewards,
+      { traderId: TraderList[0].id, traderName: TraderList[0].name, standing: 0.01 },
+    ];
+    onTraderStandingRewardChange?.(next);
+  }, [editableTraderStandingRewards, onTraderStandingRewardChange]);
+
   // -------------------------------------------------------------------------
   // Image viewer
   // -------------------------------------------------------------------------
@@ -562,8 +673,30 @@ export const QuestEditBody = React.memo<QuestEditBodyProps>(({
                 onChange={handleLevelChange}
               />
             </div>
+            <div className="quest-edit-level-row">
+              <label className="quest-edit-level-label" htmlFor={`quest-type-${quest.id}`}>
+                Type
+              </label>
+              <select
+                id={`quest-type-${quest.id}`}
+                className={`quest-edit-level-input quest-edit-quest-type-select${questTypeError ? ' has-error' : ''}`}
+                value={questTypeInput}
+                required
+                onChange={handleQuestTypeChange}
+              >
+                <option value="">Select type...</option>
+                {QUEST_TYPE_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
             {levelError && (
               <div className="quest-edit-level-error">{levelError}</div>
+            )}
+            {questTypeError && (
+              <div className="quest-edit-level-error">{questTypeError}</div>
             )}
             {otherRequirements.length > 0 && (
               <div className="quest-edit-other-requirements">
@@ -806,6 +939,34 @@ export const QuestEditBody = React.memo<QuestEditBodyProps>(({
           onClick={handleRewardAdd}
         >
           + Add Reward
+        </button>
+      </div>
+
+      <div className="quest-divider" />
+
+      <div className="quest-section-title">Trader Reputation Rewards:</div>
+      <div className="quest-edit-rewards">
+        {editableTraderStandingRewards.length === 0 && (
+          <div className="quest-edit-unlocked-by-empty">None</div>
+        )}
+        {editableTraderStandingRewards.map((reward, index) => (
+          <EditableTraderStandingRewardRow
+            key={`trader-standing-${reward.traderId || 'empty'}-${index}`}
+            reward={reward}
+            index={index}
+            totalCount={editableTraderStandingRewards.length}
+            onTraderChange={handleTraderStandingTraderChange}
+            onStandingChange={handleTraderStandingValueChange}
+            onRemove={handleTraderStandingRemove}
+            onMove={handleTraderStandingMove}
+          />
+        ))}
+        <button
+          type="button"
+          className="quest-edit-add-objective-button"
+          onClick={handleTraderStandingAdd}
+        >
+          + Add Trader Reputation
         </button>
       </div>
 
@@ -1461,6 +1622,114 @@ const EditableRewardRow: React.FC<{
         className="quest-edit-objective-delete-button"
         aria-label="Remove reward"
         title="Remove reward"
+        onClick={() => onRemove(index)}
+      >
+        ✕
+      </button>
+    </div>
+  );
+};
+
+const EditableTraderStandingRewardRow: React.FC<{
+  reward: EditTraderStandingReward;
+  index: number;
+  totalCount: number;
+  onTraderChange: (index: number, traderId: string) => void;
+  onStandingChange: (index: number, standing: number) => void;
+  onRemove: (index: number) => void;
+  onMove: (index: number, direction: 'up' | 'down') => void;
+}> = ({ reward, index, totalCount, onTraderChange, onStandingChange, onRemove, onMove }) => {
+  const [standingInput, setStandingInput] = useState(String(reward.standing));
+
+  useEffect(() => {
+    setStandingInput(String(reward.standing));
+  }, [reward.standing]);
+
+  const isFirst = index === 0;
+  const isLast = index === totalCount - 1;
+
+  const handleStandingInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    setStandingInput(raw);
+    if (raw.trim() === '') return;
+    const parsed = Number(raw);
+    if (Number.isNaN(parsed)) return;
+    onStandingChange(index, parsed);
+  };
+
+  const handleStandingBlur = () => {
+    const parsed = Number(standingInput);
+    if (standingInput.trim() === '' || Number.isNaN(parsed)) {
+      setStandingInput(String(reward.standing));
+    }
+  };
+
+  return (
+    <div className="quest-edit-reward-row">
+      <div className="quest-edit-objective-arrows">
+        <button
+          type="button"
+          className="quest-edit-objective-arrow-button"
+          aria-label="Move up"
+          title="Move up"
+          disabled={isFirst}
+          onClick={() => onMove(index, 'up')}
+        >
+          ▲
+        </button>
+        <button
+          type="button"
+          className="quest-edit-objective-arrow-button"
+          aria-label="Move down"
+          title="Move down"
+          disabled={isLast}
+          onClick={() => onMove(index, 'down')}
+        >
+          ▼
+        </button>
+      </div>
+
+      <div className="quest-edit-reward-content">
+        <div className="quest-edit-trader-standing-field">
+          <label className="quest-edit-objective-field-label" htmlFor={`trader-standing-${index}`}>
+            Trader
+          </label>
+          <select
+            id={`trader-standing-${index}`}
+            className="quest-edit-unlock-status-select"
+            value={reward.traderId}
+            onChange={(e) => onTraderChange(index, e.target.value)}
+          >
+            {TraderList.map((trader) => (
+              <option key={trader.id} value={trader.id}>
+                {trader.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="quest-edit-reward-count-wrapper">
+          <label className="quest-edit-objective-field-label" htmlFor={`rep-value-${index}`}>
+            Rep
+          </label>
+          <input
+            id={`rep-value-${index}`}
+            type="text"
+            inputMode="decimal"
+            className="quest-edit-reward-count-input"
+            value={standingInput}
+            onChange={handleStandingInput}
+            onBlur={handleStandingBlur}
+            placeholder="0.01"
+          />
+        </div>
+      </div>
+
+      <button
+        type="button"
+        className="quest-edit-objective-delete-button"
+        aria-label="Remove trader standing reward"
+        title="Remove trader standing reward"
         onClick={() => onRemove(index)}
       >
         ✕

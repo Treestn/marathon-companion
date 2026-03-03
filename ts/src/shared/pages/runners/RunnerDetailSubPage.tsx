@@ -28,6 +28,13 @@ type RunnerDetailSubPageProps = {
     value: string,
   ) => void;
   onUpdateStat: (runnerId: string, statKey: string, rawValue: string) => void;
+  onUpdateAbilityTextField: (
+    runnerId: string,
+    abilityIndex: number,
+    field: "name" | "description",
+    value: string,
+  ) => void;
+  onUpdateAbilityCooldown: (runnerId: string, abilityIndex: number, rawValue: string) => void;
   onBack: () => void;
   fallbackRunnerIcon: string;
 };
@@ -303,6 +310,8 @@ export const RunnerDetailSubPage: React.FC<RunnerDetailSubPageProps> = ({
   difficultyOptions,
   onUpdateTextField,
   onUpdateStat,
+  onUpdateAbilityTextField,
+  onUpdateAbilityCooldown,
   onBack,
   fallbackRunnerIcon,
 }) => {
@@ -889,12 +898,57 @@ export const RunnerDetailSubPage: React.FC<RunnerDetailSubPageProps> = ({
                     ) : null}
                     <div className="runner-ability-main">
                       <div className="runner-ability-title-row">
-                        <strong>{ability.name || "Unknown ability"}</strong>
-                        <span>{ability.cooldown ? `${ability.cooldown}s` : "N/A"}</span>
+                        {!isEditingEnabled && <strong>{ability.name || "Unknown ability"}</strong>}
+                        {!isEditingEnabled && <span>{ability.cooldown ? `${ability.cooldown}s` : ""}</span>}
+                        {isEditingEnabled && (
+                          <input
+                            className="runner-dev-edit-input"
+                            value={ability.name ?? ""}
+                            onChange={(event) =>
+                              onUpdateAbilityTextField(runner.id, index, "name", event.target.value)
+                            }
+                            placeholder="Ability name"
+                          />
+                        )}
+                        {isEditingEnabled && (
+                          <input
+                            className="runner-dev-stat-input"
+                            value={
+                              typeof ability.cooldown === "number" && Number.isFinite(ability.cooldown)
+                                ? String(ability.cooldown)
+                                : ""
+                            }
+                            onChange={(event) =>
+                              onUpdateAbilityCooldown(runner.id, index, event.target.value)
+                            }
+                            type="number"
+                            step="any"
+                            min={0}
+                            aria-label={`${ability.name || "Ability"} cooldown`}
+                            placeholder="Cooldown (s)"
+                          />
+                        )}
                       </div>
-                      <p className="runner-ability-description">
-                        {ability.description || "No description available."}
-                      </p>
+                      {!isEditingEnabled && (
+                        <p className="runner-ability-description">
+                          {ability.description || "No description available."}
+                        </p>
+                      )}
+                      {isEditingEnabled && (
+                        <textarea
+                          className="runner-dev-edit-textarea"
+                          value={ability.description ?? ""}
+                          onChange={(event) =>
+                            onUpdateAbilityTextField(
+                              runner.id,
+                              index,
+                              "description",
+                              event.target.value,
+                            )
+                          }
+                          placeholder="Ability description"
+                        />
+                      )}
                       <div className="runner-ability-type">
                         {normalizeAbilityType(ability.type)}
                       </div>

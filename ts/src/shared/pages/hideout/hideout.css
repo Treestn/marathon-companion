@@ -16,30 +16,6 @@
   color: var(--text-primary);
 }
 
-.hideout-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.hideout-title {
-  font-size: 22px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.hideout-title-logo {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-}
-
-.hideout-title-text {
-  display: inline-block;
-}
-
 .hideout-station-list {
   display: flex;
   flex-direction: column;

@@ -224,7 +224,7 @@ export class QuestsFiltersUtils {
         const traderAllowed:boolean = this.traderFilter.get(quest.trader.id);
         let questTypeAllowed:boolean;
         if(!quest.questType) {
-            questTypeAllowed = this.questTypeFilter.get(QuestType.SIDE_QUEST);
+            questTypeAllowed = this.questTypeFilter.get(QuestType.PRIORITY);
         } else {
             questTypeAllowed = this.questTypeFilter.get(quest.questType);
         }
@@ -285,7 +285,7 @@ export class QuestsFiltersUtils {
         const traderAllowed:boolean = this.traderFilter.get(quest.trader.id);
         let questTypeAllowed:boolean;
         if(!quest.questType) {
-            questTypeAllowed = this.questTypeFilter.get(QuestType.SIDE_QUEST);
+            questTypeAllowed = this.questTypeFilter.get(QuestType.PRIORITY);
         } else {
             questTypeAllowed = this.questTypeFilter.get(quest.questType);
         }

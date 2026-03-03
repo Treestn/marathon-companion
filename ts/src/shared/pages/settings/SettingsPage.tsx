@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { I18nHelper } from "../../../locale/I18nHelper";
 import { WindowsService } from "../../../WindowsService";
 import { BackgroundHelper } from "../../../background/BackgroundHelper";
-import { Background } from "../../../background/background";
 import { kHotkeys, kWindowNames, progressionTypes } from "../../../consts";
 import { MapUtils } from "../../../escape-from-tarkov/page/map/utils/MapUtils";
-import { PopupHelper } from "../../../popup/PopupHelper";
 import { openWipeProgressionModal } from "../../services/WipeProgressionModalEvents";
 import { openAutoCompleteModal } from "../../services/AutoCompleteModalEvents";
 import {
@@ -16,6 +14,7 @@ import {
   openHotkeyModal,
   subscribeHotkeyAssigned,
 } from "../../services/HotkeyModalEvents";
+import { PageHeader } from "../../components/PageHeader";
 import { AppConfigClient } from "../../services/AppConfigClient";
 import { AppConfig, UserSettingsConfig } from "../../models/AppConfig";
 import "./settings.css";
@@ -36,11 +35,8 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ onClose }) => {
 
   const [monitors, setMonitors] = useState<overwolf.utils.Display[]>([]);
   const [selectedMonitorId, setSelectedMonitorId] = useState<string>("");
-  const [opacityValue, setOpacityValue] = useState(100);
-  const [opacityLabel, setOpacityLabel] = useState("100%");
   const [sideQuestHotkey, setSideQuestHotkey] = useState("F1");
   const [inGameHotkey, setInGameHotkey] = useState("");
-  const [desktopHotkey, setDesktopHotkey] = useState("");
 
   const [openWindowOnMatchmaking, setOpenWindowOnMatchmaking] = useState(false);
   const [desktopOnly, setDesktopOnly] = useState(false);
@@ -90,12 +86,6 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ onClose }) => {
     const nextMonitorId = userSettings.secondMonitorPreference ?? "";
     setSelectedMonitorId(nextMonitorId);
     setSideQuestHotkey(userSettings.sidePageQuestHotkey ?? "F1");
-    const opacity = userSettings.inGameWindowOpacity;
-    if (opacity !== undefined && opacity !== null) {
-      const percent = Math.round(opacity * 100);
-      setOpacityValue(percent);
-      setOpacityLabel(`${percent}%`);
-    }
     setOpenWindowOnMatchmaking(toBool(userSettings.openWindowOnMatchmaking));
     setDesktopOnly(userSettings.desktopOnly === "true");
     setMinimizeOnGameClose(toBool(userSettings.minimizeOnGameClose));
@@ -116,27 +106,10 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ onClose }) => {
       return;
     }
     BackgroundHelper.getHotkey(kHotkeys.toggle).then(setInGameHotkey);
-    BackgroundHelper.getHotkey(kHotkeys.switchScreenToggle).then(setDesktopHotkey);
   }, [isDesktopWindow]);
 
   const t = (key: string, fallback: string) =>
     isI18nReady ? I18nHelper.get(key) : fallback;
-
-  const handleOpacityChange = (value: number) => {
-    setOpacityValue(value);
-    setOpacityLabel(`${value}%`);
-    if (!isDesktopWindow) {
-      Background.setOpacity(value / 100);
-    }
-  };
-
-  const handleOpacityCommit = () => {
-    AppConfigClient.updateConfig({
-      userSettings: {
-        inGameWindowOpacity: opacityValue / 100,
-      },
-    });
-  };
 
   useEffect(() => {
     return subscribeHotkeyAssigned((detail) => {
@@ -147,9 +120,6 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ onClose }) => {
       if (detail.kind === "overwolf") {
         if (detail.hotkeyName === kHotkeys.toggle) {
           setInGameHotkey(detail.value);
-        }
-        if (detail.hotkeyName === kHotkeys.switchScreenToggle) {
-          setDesktopHotkey(detail.value);
         }
       }
     });
@@ -189,16 +159,11 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ onClose }) => {
   return (
     <div className="settings-container">
       <section className="settings-page">
-        <header className="settings-header">
-          <div className="settings-title">
-            <img
-              className="settings-title-logo"
-              src="../img/window_settings.png"
-              alt=""
-            />
-            <span className="settings-title-text">Settings</span>
-          </div>
-        </header>
+        <PageHeader
+          className="settings-header"
+          title="Settings"
+          iconSrc="../img/window_settings.png"
+        />
 
         <div className="settings-options">
           <button
@@ -370,35 +335,6 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ onClose }) => {
                       />
                       <span className="slider round" />
                     </label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="setting-component">
-                <div className="setting-title">
-                  <div className="component-title-container">
-                    <span className="component-title centered">
-                      {t("pages.settings.app.opacity", "Opacity")}
-                    </span>
-                  </div>
-                </div>
-                <div className="setting-value">
-                  <div className="slidecontainer">
-                    <input
-                      className="setting-slider"
-                      type="range"
-                      min={40}
-                      max={100}
-                      value={opacityValue}
-                      onChange={(event) =>
-                        handleOpacityChange(Number(event.target.value))
-                      }
-                      onMouseUp={handleOpacityCommit}
-                      onTouchEnd={handleOpacityCommit}
-                    />
-                    <span className="opacity-slider-text-value">
-                      {opacityLabel}
-                    </span>
                   </div>
                 </div>
               </div>

@@ -43,7 +43,7 @@ export class HideoutBuilder {
         const station = component.getStation();
 
         const image = new Image();
-        ImageUtils.loadImage(image, `https://assets.arc-raiders-companion.ca/hideout/images/bench/${station.id}.webp`, 3600);
+        ImageUtils.loadImage(image, `https://companions-assets.treestn-dev.ca/hideout/images/bench/${station.id}.webp`, 3600);
         image.onload = () => {
             const canvas = document.createElement('canvas') as HTMLCanvasElement;
             canvas.className = 'hideout-station-image';

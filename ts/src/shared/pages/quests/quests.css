@@ -671,6 +671,17 @@
   border-radius: 4px;
 }
 
+.quest-reward-reputation-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent-text-reward);
+  border: 1px solid var(--accent-subtle);
+}
+
 .quest-reward-details {
   display: flex;
   flex-direction: column;
@@ -1154,6 +1165,11 @@ ease;
 
 .quest-edit-level-input:focus {
   border-color: var(--accent);
+}
+
+.quest-edit-quest-type-select {
+  width: 100%;
+  min-width: 150px;
 }
 
 .quest-edit-level-input.has-error {
@@ -1773,6 +1789,13 @@ ease;
   align-items: center;
   gap: 6px;
   flex-shrink: 0;
+}
+
+.quest-edit-trader-standing-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 180px;
 }
 
 .quest-edit-reward-count-input {

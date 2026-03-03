@@ -92,9 +92,9 @@ export class QuestHeaderBuilder {
 
     static createQuestHeader(wrapper:HTMLElement, quest:Quest) {
         let headerDiv:HTMLDivElement;
-        if(QuestType.EVENT_QUEST === quest.questType) {
+        if(QuestType.STANDARD === quest.questType) {
             headerDiv = HelperCreation.createDiv(quest.id, "quest-header quest-header-event", "")
-        } else if(QuestType.MAIN_QUEST === quest.questType) {
+        } else if(QuestType.LIAISON === quest.questType) {
             headerDiv = HelperCreation.createDiv(quest.id, "quest-header quest-header-main", "")
         } else {
             headerDiv = HelperCreation.createDiv(quest.id, "quest-header", "")

@@ -19,6 +19,7 @@ import {
   isItemsEditSessionEnabled,
   subscribeItemsEditSessionEnabled,
 } from "../../services/ItemsEditSessionGate";
+import { PageHeader } from "../../components/PageHeader";
 import "./items.css";
 
 type ItemsPageProps = {
@@ -704,86 +705,83 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
   return (
     <div className="items-container">
       <section className="items-page">
-        <header className="items-header">
-          <div className="items-title">
-            <img
-              className="items-title-logo"
-              src="../img/items-needed.png"
-              alt=""
-            />
-            <span className="items-title-text">Items</span>
-          </div>
-          <div className="items-header-right">
-            {isSessionEditEnabled && (
-              <>
-                <button
-                  type="button"
-                  className={`items-dev-button${isEditingEnabled ? " is-active" : ""}`}
-                  onClick={() => {
-                    setIsEditingEnabled((prev) => {
-                      const next = !prev;
-                      if (next && itemsData && !draftItemsData) {
-                        setDraftItemsData(cloneItemsModel(itemsData));
-                      }
-                      return next;
-                    });
-                    setSaveMessage("");
-                  }}
-                >
-                  {isEditingEnabled ? "Editing Enabled" : "Enable Editing"}
-                </button>
-                {isEditingEnabled && (
-                  <>
-                    <select
-                      className="items-edit-input items-dev-select"
-                      value={newItemCategory}
-                      onChange={(event) =>
-                        setNewItemCategory(event.target.value as ItemCategoryKey)
-                      }
-                    >
-                      <option value="general">General</option>
-                      <option value="cores">Cores</option>
-                      <option value="implants">Implants</option>
-                      <option value="weapons">Weapons</option>
-                      <option value="mods">Mods</option>
-                    </select>
-                    <button
-                      type="button"
-                      className="items-dev-button"
-                      onClick={addDraftItem}
-                    >
-                      Add Item
-                    </button>
-                    <button
-                      type="button"
-                      className="items-dev-button"
-                      onClick={handleResetDraft}
-                    >
-                      Reset Edits
-                    </button>
-                    <button
-                      type="button"
-                      className="items-dev-button"
-                      onClick={handleSaveDraft}
-                    >
-                      Save
-                    </button>
-                  </>
-                )}
-              </>
-            )}
-            <input
-              className="items-search"
-              type="search"
-              placeholder="Search items..."
-              value={searchTerm}
-              onChange={(event) => setSearchTerm(event.target.value)}
-              onInput={(event) =>
-                setSearchTerm((event.target as HTMLInputElement).value)
-              }
-            />
-          </div>
-        </header>
+        <PageHeader
+          className="items-header"
+          title="Items"
+          iconSrc="../img/pages/items.png"
+          actions={
+            <div className="items-header-right">
+              {isSessionEditEnabled && (
+                <>
+                  <button
+                    type="button"
+                    className={`items-dev-button${isEditingEnabled ? " is-active" : ""}`}
+                    onClick={() => {
+                      setIsEditingEnabled((prev) => {
+                        const next = !prev;
+                        if (next && itemsData && !draftItemsData) {
+                          setDraftItemsData(cloneItemsModel(itemsData));
+                        }
+                        return next;
+                      });
+                      setSaveMessage("");
+                    }}
+                  >
+                    {isEditingEnabled ? "Editing Enabled" : "Enable Editing"}
+                  </button>
+                  {isEditingEnabled && (
+                    <>
+                      <select
+                        className="items-edit-input items-dev-select"
+                        value={newItemCategory}
+                        onChange={(event) =>
+                          setNewItemCategory(event.target.value as ItemCategoryKey)
+                        }
+                      >
+                        <option value="general">General</option>
+                        <option value="cores">Cores</option>
+                        <option value="implants">Implants</option>
+                        <option value="weapons">Weapons</option>
+                        <option value="mods">Mods</option>
+                      </select>
+                      <button
+                        type="button"
+                        className="items-dev-button"
+                        onClick={addDraftItem}
+                      >
+                        Add Item
+                      </button>
+                      <button
+                        type="button"
+                        className="items-dev-button"
+                        onClick={handleResetDraft}
+                      >
+                        Reset Edits
+                      </button>
+                      <button
+                        type="button"
+                        className="items-dev-button"
+                        onClick={handleSaveDraft}
+                      >
+                        Save
+                      </button>
+                    </>
+                  )}
+                </>
+              )}
+              <input
+                className="items-search"
+                type="search"
+                placeholder="Search items..."
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                onInput={(event) =>
+                  setSearchTerm((event.target as HTMLInputElement).value)
+                }
+              />
+            </div>
+          }
+        />
         <div className="items-filters">
           <button
             type="button"
@@ -920,12 +918,6 @@ export const ItemsPage: React.FC<ItemsPageProps> = ({
                   >
                     −
                   </button>
-                </div>
-              );
-            } else {
-              leftAction = (
-                <div className="items-no-requirements">
-                  No requirements
                 </div>
               );
             }

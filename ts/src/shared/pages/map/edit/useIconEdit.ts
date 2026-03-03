@@ -248,7 +248,7 @@ const resolveObjectiveIdFromQuestData = (
 };
 
 /** The layer ID used by quest icons in the map data */
-const QUEST_ICON_TYPE_ID = "Quests:Quests";
+const QUEST_ICON_TYPE_ID = "Contracts:Contracts";
 const START_CORRELATION_PICK_EVENT = "map-correlation-pick:start";
 const STOP_CORRELATION_PICK_EVENT = "map-correlation-pick:stop";
 const TARGET_PICKED_CORRELATION_EVENT = "map-correlation-pick:target-picked";

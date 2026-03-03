@@ -146,10 +146,6 @@ export class SubscriptionPageHandler {
             }
         }
 
-        const gif = document.getElementById("subscribers-feature-gif-image");
-        if(gif && gif instanceof HTMLImageElement) {
-            gif.src = "https://assets.arc-raiders-companion.ca/art/subscription/subscription-gif.gif";
-        }
     }
     
     private static registerDisplaySubscriptionPage(packageService:StorePackagesServiceBase, 

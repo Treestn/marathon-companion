@@ -2,7 +2,13 @@ import React, { useCallback, useDeferredValue, useEffect, useMemo, useRef, useSt
 import { QuestFilters } from "../../components/quests/filters/QuestFilters";
 import { QuestHeader } from "../../components/quests/QuestHeader";
 import { QuestBody } from "../../components/quests/QuestBody";
-import { QuestEditBody, type EditRewardItem, type EditTaskRequirement, type UpsertObjectiveMetaPayload } from "../../components/quests/QuestEditBody";
+import {
+  QuestEditBody,
+  type EditRewardItem,
+  type EditTaskRequirement,
+  type EditTraderStandingReward,
+  type UpsertObjectiveMetaPayload,
+} from "../../components/quests/QuestEditBody";
 import { ProgressionStateService } from "../../services/ProgressionStateService";
 import { ItemsElementUtils } from "../../../escape-from-tarkov/utils/ItemsElementUtils";
 import { useQuestFilters } from "./hooks/useQuestFilters";
@@ -22,6 +28,7 @@ import { QuestObjective } from "../../../model/quest/IQuestsElements";
 import type { ProgressionUpdateOp } from "../../services/ProgressionUpdatesService";
 import { QuestType } from "../../../escape-from-tarkov/constant/QuestConst";
 import { TraderList } from "../../../escape-from-tarkov/constant/TraderConst";
+import { PageHeader } from "../../components/PageHeader";
 
 // ---------------------------------------------------------------------------
 // QuestCard — extracted + memoized so only the changed card re-renders
@@ -121,6 +128,15 @@ const QuestCard = React.memo<QuestCardProps>(({
     (level: number | null) => {
       const modified = structuredClone(quest);
       modified.minPlayerLevel = level ?? 0;
+      upsertQuest(modified);
+    },
+    [quest, upsertQuest],
+  );
+
+  const onQuestTypeChange = useCallback(
+    (questType: string) => {
+      const modified = structuredClone(quest);
+      modified.questType = questType;
       upsertQuest(modified);
     },
     [quest, upsertQuest],
@@ -240,6 +256,22 @@ const QuestCard = React.memo<QuestCardProps>(({
     [quest, upsertQuest],
   );
 
+  const onTraderStandingRewardChange = useCallback(
+    (rewards: EditTraderStandingReward[]) => {
+      const modified = structuredClone(quest);
+      if (!modified.finishRewards) {
+        modified.finishRewards = { traderStanding: [], items: [], offerUnlock: [], skillLevelReward: [], traderUnlock: [] };
+      }
+      modified.finishRewards.traderStanding = rewards.map((reward) => ({
+        trader: { id: reward.traderId, name: reward.traderName, __typename: 'Trader' as const },
+        standing: reward.standing,
+        __typename: 'TaskRewardTraderStanding' as const,
+      }));
+      upsertQuest(modified);
+    },
+    [quest, upsertQuest],
+  );
+
   const onAddLeadsToRequirement = useCallback(
     (targetQuestId: string, status: string) => {
       if (!targetQuestId || targetQuestId === quest.id) return;
@@ -333,6 +365,7 @@ const QuestCard = React.memo<QuestCardProps>(({
               <QuestEditBody
                 quest={quest}
                 onLevelChange={onLevelChange}
+                onQuestTypeChange={onQuestTypeChange}
                 onTaskRequirementsChange={onTaskRequirementsChange}
                 leadsToRequirements={leadsToRequirements}
                 linkQuestOptions={linkQuestOptions}
@@ -343,6 +376,7 @@ const QuestCard = React.memo<QuestCardProps>(({
                 onRemoveObjective={onRemoveObjective}
                 onReorderObjectives={onReorderObjectives}
                 onRewardChange={onRewardChange}
+                onTraderStandingRewardChange={onTraderStandingRewardChange}
               />
             ) : (
               <QuestBody
@@ -558,10 +592,9 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
       [I18nHelper.currentLocale()]: localizedDefaultName,
     };
     newQuest.normalizedName = localizedDefaultName.toLowerCase();
-    newQuest.questType = QuestType.SIDE_QUEST;
+    newQuest.questType = QuestType.PRIORITY;
     newQuest.active = false;
     newQuest.completed = false;
-    newQuest.tarkovDataId = Date.now();
     newQuest.trader = {
       id: defaultTrader.id,
       name: defaultTrader.name,
@@ -618,50 +651,45 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
   return (
     <div className="desktop-quests-container">
         <section className="desktop-quests">
-            <header className="desktop-quests-header">
-                <div className="desktop-quests-header-left">
-                    <div className="desktop-quests-title">
-                        <img
-                            className="desktop-quests-title-logo"
-                            src="../img/side-nav-quest-icon.png"
-                            alt=""
-                        />
-                        <span className="desktop-quests-title-text">Contracts</span>
-                    </div>
-                </div>
+            <PageHeader
+              className="desktop-quests-header"
+              title="Contracts"
+              iconSrc="../img/pages/contract.png"
+              actions={
                 <div className="desktop-quests-header-right">
-                    <input
-                        className="desktop-quests-search"
-                        type="search"
-                        placeholder="Search quests..."
-                        value={searchTerm}
-                        onChange={(event) => setSearchTerm(event.target.value)}
-                        onInput={(event) => setSearchTerm((event.target as HTMLInputElement).value)}
-                    />
-                    {isAvailable && canEdit && isEditMode && (
-                      <button
-                        type="button"
-                        className="desktop-quests-order-button desktop-quests-edit-toggle"
-                        onClick={handleAddQuest}
-                        title="Add a new quest"
-                      >
-                        Add Quest
-                      </button>
-                    )}
-                    {isAvailable && canEdit && (
-                        <button
-                            type="button"
-                            className={`desktop-quests-order-button desktop-quests-edit-toggle${
-                              isEditMode ? " is-active" : ""
-                            }`}
-                            onClick={toggleEditMode}
-                            title={editButtonTitle}
-                        >
-                            {editButtonLabel}
-                        </button>
-                    )}
+                  <input
+                    className="desktop-quests-search"
+                    type="search"
+                    placeholder="Search quests..."
+                    value={searchTerm}
+                    onChange={(event) => setSearchTerm(event.target.value)}
+                    onInput={(event) => setSearchTerm((event.target as HTMLInputElement).value)}
+                  />
+                  {isAvailable && canEdit && isEditMode && (
+                    <button
+                      type="button"
+                      className="desktop-quests-order-button desktop-quests-edit-toggle"
+                      onClick={handleAddQuest}
+                      title="Add a new quest"
+                    >
+                      Add Quest
+                    </button>
+                  )}
+                  {isAvailable && canEdit && (
+                    <button
+                      type="button"
+                      className={`desktop-quests-order-button desktop-quests-edit-toggle${
+                        isEditMode ? " is-active" : ""
+                      }`}
+                      onClick={toggleEditMode}
+                      title={editButtonTitle}
+                    >
+                      {editButtonLabel}
+                    </button>
+                  )}
                 </div>
-            </header>
+              }
+            />
             <div className="desktop-quests-filters">
                 <QuestFilters
                 stateOptions={stateOptions}

@@ -62,7 +62,7 @@ export class HideoutHeaderBuilder {
         const imgWrapper = HelperCreation.createDiv("", "hideout-station-icon-wrapper", "");
 
         let image = new Image();
-        image.src = "./img/side-nav-quest-icon.png"
+        image.src = "../../icons/logo-256x256.png"
         image.id = levelId ? levelId : component.getStation().id;
         image.classList.add(class_, "button-low-opacity");
 

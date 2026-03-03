@@ -387,7 +387,7 @@ export const ReviewSubmissionModal: React.FC<ReviewSubmissionModalProps> = ({
         setPhase({ kind: 'uploading-image', current: i + 1, total: images.length });
         const img = images[i];
         const { blob } = await createImageBlobFromFile(img.filePath);
-        const imgResponse = await TarkovCompanionService.uploadArcImage(
+        const imgResponse = await TarkovCompanionService.uploadImage(
           blob,
           img.imageId,
           submissionId,

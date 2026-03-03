@@ -54,7 +54,7 @@ export class TarkovCompanionService {
     const request: SubmissionV2Request = {
       overwolfId,
       overwolfName,
-      game: "arc-raiders",
+      game: "marathon",
       submission: data,
     };
     return fetch(endpoints.newSubmission, {
@@ -68,7 +68,7 @@ export class TarkovCompanionService {
     });
   }
 
-  public static async uploadArcImage(
+  public static async uploadImage(
     blob: Blob,
     imageId: string,
     submissionId: string,
@@ -77,39 +77,13 @@ export class TarkovCompanionService {
     formData.append("screenshot", blob, `${imageId}.png`);
     const { overwolfId, overwolfToken } = await this.getOverwolfUserInfo();
     return fetch(
-      `${endpoints.submissionHostname}/v2/arc-raiders/submission/${submissionId}/upload/image/noCrop`,
+      `${endpoints.submissionHostname}/v2/${endpoints.RESOURCE_GAME}/submission/${submissionId}/upload/image/noCrop`,
       {
         method: "POST",
         headers: this.mergeHeaders(
           { Authorization: `Bearer ${overwolfToken}` },
           {
             "X-OW-UserId": overwolfId,
-            "X-OW-SubmissionId": submissionId,
-          },
-        ),
-        body: formData,
-      },
-    );
-  }
-
-  public static async uploadImage(
-    blob: Blob,
-    screenshotId: string,
-    submissionId: string,
-    userInfo: overwolf.profile.GetCurrentUserResult,
-    _searchParams?: { [key: string]: string | undefined },
-  ): Promise<Response> {
-    const formData = new FormData();
-    formData.append("screenshot", blob, `${screenshotId}.png`);
-    const { overwolfToken } = await this.getOverwolfUserInfo();
-    return fetch(
-      `${endpoints.submissionHostname}/v2/arc-raiders/submission/${submissionId}/upload/image/noCrop`,
-      {
-        method: "POST",
-        headers: this.mergeHeaders(
-          { Authorization: `Bearer ${overwolfToken}` },
-          {
-            "X-OW-UserId": userInfo.uuid,
             "X-OW-SubmissionId": submissionId,
           },
         ),

@@ -24,7 +24,7 @@ export const App: React.FC<AppProps> = ({ windowType }) => {
   useEffect(() => {
     // Wait for DOM to be ready, then find the containers
     const findContainers = () => {
-      const versionCont = document.getElementById('arc-raiders-companion-version');
+      const versionCont = document.getElementById('marathon-companion-version');
       if (versionCont) {
         setVersionContainer(versionCont);
       }

@@ -9,7 +9,6 @@ import { EventEmitter } from 'events';
 import { AccountServiceBase, AccountToken } from './account-service';
 import OverwolfCheckoutRequest from './utils/overwolf-checkout-request';
 import endpoints from './config/endpoints';
-import { log } from 'console';
 
 export type SubscriptionStatus = {
   userId: string;

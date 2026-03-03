@@ -12,45 +12,13 @@
   width: -webkit-fill-available;
   max-width: 900px;
   height: 100%;
-  padding: 20px 20px 0px 20px;
   box-sizing: border-box;
   color: var(--text-primary);
-}
-
-.desktop-quests-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.desktop-quests-header-left {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
 }
 
 .desktop-quests-header-right {
   display: flex;
   align-items: center;
-}
-
-.desktop-quests-title {
-  font-size: 22px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.desktop-quests-title-logo {
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
-}
-
-.desktop-quests-title-text {
-  display: inline-block;
 }
 
 .desktop-quests-subtitle {

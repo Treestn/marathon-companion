@@ -1,7 +1,6 @@
 import { IFrame } from "../IFrame";
 import { WindowsService } from "../WindowsService";
 import { BackgroundHelper } from "../background/BackgroundHelper";
-import { Background } from "../background/background";
 import { kHotkeys, kWindowNames, progressionTypes } from "../consts";
 import { MapAdapter } from "../adapter/MapAdapter";
 import { MapsList } from "../escape-from-tarkov/constant/MapsConst";
@@ -130,7 +129,6 @@ export class Settings extends IFrame {
 
         // wrapper.appendChild(SettingsPageCreator.createDropwdown(I18nHelper.get("pages.settings.app.locale"), "localePreferenceDropdown"))
         wrapper.appendChild(SettingsPageCreator.createDropwdown(I18nHelper.get("pages.settings.app.monitor"), "monitorDropdown"))
-        wrapper.appendChild(SettingsPageCreator.createSlider(I18nHelper.get("pages.settings.app.opacity"),  "opacity-slider-text", "", "opacity-slider", 40, 100, 100))
 
         wrapper.appendChild(SettingsPageCreator.createHotkeyButton("side-page-quest-setting", I18nHelper.get("pages.settings.app.sidePanelHotkey"), "side-page-quest-hotkey"))
         wrapper.appendChild(SettingsPageCreator.createHotkeyButton("in-game-hotkey-setting",  I18nHelper.get("pages.settings.app.inGameHotkey.text"), "in-game-hotkey"))
@@ -207,19 +205,6 @@ export class Settings extends IFrame {
                     }
                 }
             });
-        }
-
-        const opacitySlider = this.frame.contentWindow.document.getElementById("opacity-slider")
-        const opacityText = this.frame.contentWindow.document.getElementById("opacity-slider-text")
-        if(opacitySlider && opacityText) {
-            const opacity = AppConfigUtils.getAppConfig().userSettings.getInGameWindowOpacity();
-            if(opacity) {
-                (opacitySlider as HTMLInputElement).value = String(opacity*100);
-                opacityText.textContent = String(opacity*100)+"%";;
-            } else {
-                (opacitySlider as HTMLInputElement).value = String(100);
-                opacityText.textContent = "100%";
-            }
         }
 
         const sidePageQuestHotkey = this.frame.contentWindow.document.getElementById("side-page-quest-hotkey");
@@ -389,33 +374,6 @@ export class Settings extends IFrame {
                 console.log(`Changed Second Monitor Preference to ${monitorPreferenceSelect.value}`);
             }
         }
-
-        const opacitySlider = this.frame.contentWindow.document.getElementById("opacity-slider")
-        const opacityText = this.frame.contentWindow.document.getElementById("opacity-slider-text")
-        WindowsService.getCurrentWindow().then(window => {
-            if(window.success) {
-                if(opacitySlider && opacityText) {
-                    opacitySlider.onmousemove = (e) => {
-                        const valueString:string = (opacitySlider as HTMLInputElement).value
-                        const value:number = Number(valueString);
-                        if(value) {
-                            if(window.window.name === kWindowNames.inGame) {
-                                Background.setOpacity(value/100);
-                            }
-                            opacityText.textContent = String(value)+"%";;
-                        }
-                    }
-                    opacitySlider.onmouseup = () => {
-                        const valueString:string = (opacitySlider as HTMLInputElement).value
-                        const value:number = Number(valueString);
-                        if(value) {
-                            AppConfigUtils.getAppConfig().userSettings.setInGameWindowOpacity(value/100);
-                            AppConfigUtils.save();
-                        }
-                    }
-                }
-            }
-        })
 
         // const openQuestReminder:HTMLInputElement = this.frame.contentWindow.document.getElementById('openQuestReminderPreference') as HTMLInputElement
         // const openQuestReminderLabel:HTMLLabelElement = this.frame.contentWindow.document.getElementById("openQuestReminderPreferenceLabel") as HTMLLabelElement

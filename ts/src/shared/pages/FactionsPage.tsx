@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { FACTIONS_DATA, FactionModel } from "../../model/faction/IFactionsElements";
 import "./factions/factions.css";
+import { PageHeader } from "../components/PageHeader";
 
 const getFactionImagePath = (name: string): string => {
   return `/img/faction/${name.toLowerCase()}.png`;
@@ -38,8 +39,14 @@ export const FactionsPage: React.FC = () => {
   return (
     <div className="factions-page-container">
       <div className="factions-page-content-wrapper scroll-div">
+        <PageHeader
+          className="factions-page-header"
+          title="Factions"
+          subtitle="Browse each faction, perks, and contract progression."
+          iconSrc="../img/pages/faction.png"
+        />
         <section className="factions-section-header">
-          <h2 className="factions-section-title">Factions</h2>
+          <h2 className="factions-section-title">Choose a Faction</h2>
           <div className="factions-grid">
             {FACTIONS_DATA.map((faction) => {
               const isActive = faction.factionId === activeFaction.factionId;

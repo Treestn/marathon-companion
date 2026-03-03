@@ -1491,7 +1491,7 @@ export class QuestBodyBuilder {
             }
 
             // let checkMarkImage = new Image();
-            // checkMarkImage.src = "./img/side-nav-quest-icon.png";
+            // checkMarkImage.src = "../../icons/logo-256x256.png";
             // checkMarkImage.classList.add("quest-goal-checkmark-image")
             // questGoalDiv.appendChild(checkMarkImage)
     

@@ -194,7 +194,7 @@ export const SubscribedSidePanel: React.FC<SubscribedSidePanel> = ({
                                 <div className="quest-objective-description-maps">
                                   <img
                                     className="quest-objective-map-icon"
-                                    src="../../img/maps-icon.png"
+                                    src="../../img/pages/map.png"
                                     alt="Map"
                                   />
                                   <span className="quest-objective-map">

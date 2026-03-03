@@ -32,7 +32,7 @@ export class SubscriptionHelper {
         console.log("Not Subscribed: Reloading ads");
         const adRunnerContainer = document.getElementById("ad-runner-container")
         if(adRunnerContainer?.children.length === 0) {
-            document.getElementById("ad-runner-container").innerHTML = '<div id="ads-container"><div id="show-hide-side-page-quests" class="ads-quest-button-container"><img class="ads-quest-image" src="./img/side-nav-quest-icon.png"></img><b id="ads-quest-text">View Active Quests | Hotkey F1</b></div><div class="ads-wrapper"><div class="remove-ads-text-container"><b id="adRemover" class="remove-ads-text">Remove ads</b></div><div class="ads-runner-container"><img class="ads-background-image" src="../../icons/logo-256x256.png"><div id="ad-runner"></div></div></div></div>'
+            document.getElementById("ad-runner-container").innerHTML = '<div id="ads-container"><div id="show-hide-side-page-quests" class="ads-quest-button-container"><img class="ads-quest-image" src="../../icons/logo-256x256.png"></img><b id="ads-quest-text">View Active Quests | Hotkey F1</b></div><div class="ads-wrapper"><div class="remove-ads-text-container"><b id="adRemover" class="remove-ads-text">Remove ads</b></div><div class="ads-runner-container"><img class="ads-background-image" src="../../icons/logo-256x256.png"><div id="ad-runner"></div></div></div></div>'
             SidePageQuestController.registerEventListeners();
         }
         WindowsService.getCurrentWindow().then(result => {

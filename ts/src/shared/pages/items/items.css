@@ -10,15 +10,8 @@
   max-width: 850px;
   width: -webkit-fill-available;
   height: 100%;
-  padding: 20px 20px 0px 20px;
   box-sizing: border-box;
   color: var(--text-primary);
-}
-
-.items-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .items-header-right {
@@ -59,24 +52,6 @@
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 2px var(--accent-a25);
-}
-
-.items-title {
-  font-size: 22px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.items-title-logo {
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
-}
-
-.items-title-text {
-  display: inline-block;
 }
 
 .items-filters {

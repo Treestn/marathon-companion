@@ -19,7 +19,7 @@ export class MapAdapter {
 
     public static getMapNameFromId(id: string): string {
         this._instance ??= new MapAdapter();
-        return this._instance.mapAdapter.get(id).name;
+        return this._instance.mapAdapter.get(id)?.name ?? "";
     }
 
     public static getLocalizedMap(id: string): string {

@@ -1,13 +1,13 @@
 export const QuestType = {
-    MAIN_QUEST: "Main",
-    SIDE_QUEST: "Side",
-    EVENT_QUEST: "Event",
+    LIAISON: "Liaison",
+    PRIORITY: "Priority",
+    STANDARD: "Standard",
 }
 
 export const QuestTypeList = [
-    QuestType.MAIN_QUEST,
-    QuestType.SIDE_QUEST,
-    QuestType.EVENT_QUEST
+    QuestType.LIAISON,
+    QuestType.PRIORITY,
+    QuestType.STANDARD
 ]
 
 export const QuestState = {

@@ -25,31 +25,6 @@
   border-radius: 0 !important;
 }
 
-.settings-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 14px;
-}
-
-.settings-title {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.settings-title-logo {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
-.settings-title-text {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
 .settings-content {
   flex: 1 1 auto;
   min-height: 0;

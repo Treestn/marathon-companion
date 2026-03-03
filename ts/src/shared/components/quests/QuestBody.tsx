@@ -10,6 +10,7 @@ import { MapAdapter } from '../../../adapter/MapAdapter';
 import { QuestDataStore } from '../../services/QuestDataStore';
 import { ProgressionStateService } from '../../services/ProgressionStateService';
 import { dispatchDesktopNavigation } from '../../services/NavigationEvents';
+import { TraderList } from '../../../escape-from-tarkov/constant/TraderConst';
 
 type QuestBodyProps = {
   quest: Quest;
@@ -64,6 +65,23 @@ export const QuestBody: React.FC<QuestBodyProps> = ({
   const leadsTo = useMemo(() => {
     return QuestDataStore.getQuestUnlocksFromId(quest.id.toString()) || [];
   }, [quest.id]);
+
+  const reputationRewards = useMemo(() => {
+    return (quest.finishRewards?.traderStanding ?? [])
+      .filter((entry) => entry?.trader?.id && typeof entry.standing === 'number')
+      .map((entry) => {
+        const traderId = entry.trader.id;
+        const traderName =
+          TraderList.find((trader) => trader.id === traderId)?.name ??
+          entry.trader?.name ??
+          traderId;
+        return {
+          traderId,
+          traderName,
+          standing: entry.standing,
+        };
+      });
+  }, [quest.finishRewards?.traderStanding]);
 
   const objectives = useMemo(() => {
     return quest.objectives.map((objective) => {
@@ -154,7 +172,7 @@ export const QuestBody: React.FC<QuestBodyProps> = ({
   useEffect(() => {
     const handler = async (event: Event) => {
       const detail = (event as CustomEvent).detail;
-      if (!detail || detail.questId !== quest.id) {
+      if (!detail?.questId || detail.questId !== quest.id) {
         return;
       }
       setObjectiveVersion((prev) => prev + 1);
@@ -274,7 +292,7 @@ export const QuestBody: React.FC<QuestBodyProps> = ({
                   <div className="quest-objective-description-maps">
                     <img
                       className="quest-objective-map-icon"
-                      src="../../img/maps-icon.png"
+                      src="../../img/pages/map.png"
                       alt="Map"
                     />
                     <span className="quest-objective-map">
@@ -389,6 +407,25 @@ export const QuestBody: React.FC<QuestBodyProps> = ({
             </div>
           );
         })}
+        {reputationRewards.map((reward, index) => (
+          <div
+            key={`${quest.id}-${reward.traderId}-rep-${index}`}
+            className="quest-reward-row quest-reward-row-reputation"
+          >
+            <div className="quest-reward-image-wrapper">
+              <div className="quest-reward-image-placeholder quest-reward-reputation-badge">
+                REP
+              </div>
+            </div>
+            <div className="quest-reward-details">
+              <div className="quest-reward-name">{reward.traderName}</div>
+              <div className="quest-reward-count">
+                {reward.standing >= 0 ? '+' : ''}
+                {reward.standing}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       <div className="quest-complete-action">

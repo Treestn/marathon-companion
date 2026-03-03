@@ -11,8 +11,9 @@ import {
   isItemsEditSessionEnabled,
   subscribeItemsEditSessionEnabled,
 } from "../services/ItemsEditSessionGate";
+import { PageHeader } from "../components/PageHeader";
 
-const FALLBACK_WEAPON_ICON = "./img/side-nav-quest-icon.png";
+const FALLBACK_WEAPON_ICON = "../../icons/logo-256x256.png";
 const DEV_EDIT_STORAGE_KEY = "weaponsMapDevEdited";
 const CATEGORY_ORDER = [
   "Assault Rifles",
@@ -650,41 +651,41 @@ export const WeaponsPage: React.FC = () => {
     <div className="weapons-page-container">
       <section className="weapons-page">
         {!selectedWeapon && (
-          <header className="weapons-header">
-            <div className="weapons-title-wrap">
-              <h1 className="weapons-title">Weapons</h1>
-              <p className="weapons-subtitle">
-                Complete weapon guide with categories, ammo types, mods, and rarity.
-              </p>
-            </div>
-            <div className="weapons-header-actions">
-              {isSessionEditEnabled && (
-                <button
-                  type="button"
-                  className={`weapons-dev-button${isEditingEnabled ? " is-active" : ""}`}
-                  onClick={() => {
-                    setIsEditingEnabled((previous) => {
-                      const next = !previous;
-                      if (next && draftWeapons.length === 0 && weapons.length > 0) {
-                        setDraftWeapons(cloneWeapons(weapons));
-                      }
-                      return next;
-                    });
-                    setSaveMessage("");
-                  }}
-                >
-                  {isEditingEnabled ? "Editing Enabled" : "Enable Editing"}
-                </button>
-              )}
-              <input
-                className="weapons-search"
-                type="search"
-                placeholder="Search weapons, categories, ammo, or fire mode..."
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-              />
-            </div>
-          </header>
+          <PageHeader
+            className="weapons-header"
+            title="Weapons"
+            subtitle="Complete weapon guide with categories, ammo types, mods, and rarity."
+            iconSrc="../img/pages/weapon.png"
+            actions={
+              <div className="weapons-header-actions">
+                {isSessionEditEnabled && (
+                  <button
+                    type="button"
+                    className={`weapons-dev-button${isEditingEnabled ? " is-active" : ""}`}
+                    onClick={() => {
+                      setIsEditingEnabled((previous) => {
+                        const next = !previous;
+                        if (next && draftWeapons.length === 0 && weapons.length > 0) {
+                          setDraftWeapons(cloneWeapons(weapons));
+                        }
+                        return next;
+                      });
+                      setSaveMessage("");
+                    }}
+                  >
+                    {isEditingEnabled ? "Editing Enabled" : "Enable Editing"}
+                  </button>
+                )}
+                <input
+                  className="weapons-search"
+                  type="search"
+                  placeholder="Search weapons, categories, ammo, or fire mode..."
+                  value={searchTerm}
+                  onChange={(event) => setSearchTerm(event.target.value)}
+                />
+              </div>
+            }
+          />
         )}
 
         {isSessionEditEnabled && isEditingEnabled && (

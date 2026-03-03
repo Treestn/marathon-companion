@@ -127,6 +127,7 @@ export class Background {
       gameInfoService,
       new GameEventsService(),
       this.windowPositionService,
+      () => this.refreshSubscriptionStatus(),
     );
 
     await this.onlineService.init();
