@@ -3,11 +3,11 @@
 	"tasks": [
 		{
 			"type": "npm",
-			"script": "prod",
+			"script": "prod:verified",
 			"path": "ts",
 			"problemMatcher": [],
-			"label": "npm: prod - ts",
-			"detail": "webpack --watch --mode=production"
+			"label": "npm: prod:verified - ts",
+			"detail": "npm run prod && npm run verify:prod-endpoints"
 		},
 		{
 			"type": "npm",

@@ -1,13 +1,15 @@
 {
   "name": "Marathon Companion",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --mode=production --env makeOpk",
+    "build": "cross-env NODE_ENV=production webpack --mode=production --env makeOpk && npm run verify:prod-endpoints",
     "dev": "webpack --watch --mode=development",
     "watch": "webpack --watch --mode=development",
-    "prod": "cross-env NODE_ENV=production webpack --mode=production"
+    "prod": "cross-env NODE_ENV=production webpack --mode=production && npm run verify:prod-endpoints",
+    "verify:prod-endpoints": "node ./scripts/verify-prod-endpoints.js",
+    "prod:verified": "npm run prod"
   },
   "keywords": [],
   "author": "15844371 Canada Inc.",
