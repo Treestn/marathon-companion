@@ -116,7 +116,7 @@
       "title": "Automate Quest Completion",
       "warning": {
         "1": "This option is to easily complete the quests you have already done but have not tracked. (Especially useful if you just got the app mid wipe)",
-        "2": "To use this feature properly, make sure to activate all of the quests in the app that you have currently active on Arc Raiders. The app will then complete all of the requirements for the activated quests of the app only.",
+        "2": "To use this feature properly, make sure to activate all of the quests in the app that you have currently active on Marathon. The app will then complete all of the requirements for the activated quests of the app only.",
         "3": "Please take note that finishing a branch of quests that does not lead to anything will not be completed automatically. You can mark the last quest as completed so the auto completion works properly. "
       },
       "yes": "Continue",

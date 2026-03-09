@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  QuestState,
   QuestStateList,
   QuestTypeList,
 } from "../../../../escape-from-tarkov/constant/QuestConst";
@@ -63,15 +62,12 @@ export const useQuestFilters = (): QuestFilterState &
   );
 
   const defaultStateValues = useMemo(
-    () =>
-      QuestStateList.filter(
-        (state) => state !== QuestState.COMPLETED && state !== QuestState.NO_TRACKING,
-      ),
+    () => [],
     [],
   );
-  const defaultTypeValues = useMemo(() => QuestTypeList.slice(), []);
-  const defaultTraderValues = useMemo(() => TraderList.map((trader) => trader.id), []);
-  const defaultMapValues = useMemo(() => MapsList.map((map) => map.id), []);
+  const defaultTypeValues = useMemo(() => [], []);
+  const defaultTraderValues = useMemo(() => [], []);
+  const defaultMapValues = useMemo(() => [], []);
 
   const [stateValue, setStateValue] = useState<string[]>(defaultStateValues);
   const [typeValue, setTypeValue] = useState<string[]>(defaultTypeValues);

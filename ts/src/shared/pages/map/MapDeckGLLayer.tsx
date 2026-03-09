@@ -29,8 +29,7 @@ function buildEditIcons(
   activeEditFeatureId: string | null,
 ): IconDatum[] {
   if (!editDoc || !coord) return [];
-
-  const activeIdNum = activeEditFeatureId ? Number(activeEditFeatureId) : Number.NaN;
+  const activeId = activeEditFeatureId ? String(activeEditFeatureId) : null;
 
   type Entry = { feature: GeoJSON.Feature<GeoJSON.Geometry, FeatureProps>; layer: typeof editDoc.groups[0]["layers"][0] };
   const entries: Entry[] = [];
@@ -38,7 +37,7 @@ function buildEditIcons(
   for (const group of editDoc.groups) {
     for (const layer of group.layers) {
       for (const feature of layer.data.features) {
-        if (feature.properties.id !== activeIdNum) {
+        if (String(feature.properties.id) !== activeId) {
           entries.push({ feature, layer });
         }
       }

@@ -53,7 +53,7 @@
 .quests-loading-spinner {
   width: 26px;
   height: 26px;
-  border-radius: 999px;
+  border-radius: 999px !important;
   border: 3px solid var(--accent-a30);
   border-top-color: var(--accent);
   animation: quests-spinner 0.9s linear infinite;
@@ -105,6 +105,34 @@
   gap: 12px;
   position: relative;
   border: 1px solid transparent;
+}
+
+.quest-header.quest-header-completed:not(.quest-header-removed) {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent) 20%, var(--bg-card) 80%),
+    color-mix(in srgb, var(--accent) 8%, var(--bg-card) 92%)
+  );
+  border-color: color-mix(in srgb, var(--accent) 48%, var(--border-hard) 52%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--accent) 24%, transparent),
+    0 4px 12px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.quest-header.quest-header-completed:not(.quest-header-removed) .quest-header-type-tag {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border-hard) 45%);
+  background: color-mix(in srgb, var(--accent) 16%, var(--bg-card) 84%);
+}
+
+.quest-header.quest-header-completed:not(.quest-header-removed) .quest-header-completed-indicator {
+  color: color-mix(in srgb, var(--accent) 85%, var(--text-primary) 15%);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 38%, transparent);
+}
+
+.quest-header.quest-header-completed:not(.quest-header-removed) .quest-header-completed-check {
+  background: color-mix(in srgb, var(--accent) 34%, var(--bg-card) 66%);
+  border-color: color-mix(in srgb, var(--accent) 72%, transparent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 28%, transparent);
 }
 
 .quest-header:not(.quest-header-removed):not(.quest-header-edit):is(:hover, .quest-header-open) {
@@ -224,12 +252,35 @@
   color: var(--text-placeholder);
 }
 
+.quest-header-type-tag {
+  margin-left: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 78px;
+  min-width: 78px;
+  max-width: 78px;
+  height: 20px;
+  padding: 0 6px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  background: color-mix(in srgb, var(--bg-card) 72%, var(--bg-placeholder) 28%);
+  border: 1px solid color-mix(in srgb, var(--border-hard) 70%, transparent 30%);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .quest-header-switch {
   width: 34px;
   height: 18px;
   border-radius: 999px;
-  border: 1px solid var(--accent-subtle);
-  background: var(--accent-bg);
+  border: 1px solid rgba(182, 74, 90, 0.72);
+  background: color-mix(in srgb, #9f2e3f 42%, var(--bg-card) 58%);
   position: relative;
   cursor: pointer;
   transition: background 0.2s ease, border-color 0.2s ease;
@@ -242,7 +293,7 @@
   width: 12px;
   height: 12px;
   border-radius: 999px;
-  background: var(--text-muted);
+  background: color-mix(in srgb, #ffb9c5 72%, #ffffff 28%);
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
@@ -260,6 +311,11 @@
     width: 40px;
     height: 40px;
     object-fit: contain;
+}
+
+.quest-header:not(.quest-header-removed):not(.quest-header-edit) img.quest-trader-image {
+  filter: grayscale(0.9) saturate(0.45) brightness(0.76);
+  opacity: 0.9;
 }
 
 .quest-trader-image-active {
@@ -416,6 +472,22 @@
   font-weight: 500;
   line-height: 1.3;
   color: var(--text-primary);
+}
+
+.quest-link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--accent);
+  cursor: pointer;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.quest-link-button:hover {
+  color: var(--text-muted);
 }
 
 .quest-divider {
@@ -595,13 +667,29 @@
 }
 
 .quest-objective-image-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
   background: var(--accent-bg);
   border: 1px solid var(--accent-subtle);
-  color: var(--text-primary);
-  padding: 6px 10px;
+  padding: 0;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 12px;
+}
+
+.quest-objective-image-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
 }
 
 .quest-objective-target-button {
@@ -656,6 +744,19 @@
   align-items: center;
   justify-content: center;
   border-radius: 6px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--accent-text-on);
+}
+
+.quest-reward-image-pattern {
+  opacity: 0.78;
+}
+
+.quest-reward-item-image {
+  position: relative;
+  z-index: 1;
 }
 
 .quest-reward-image {
@@ -696,19 +797,22 @@
 .quest-complete-action {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 8px;
-  padding-top: 8px;
+  width: 100%;
+  padding: 8px 0;
 }
 
 .quest-complete-note {
   font-size: 12px;
   color: var(--text-soft);
+  text-align: center;
 }
 
 .quest-complete-button {
-  width: auto;
-  min-width: 150px;
-  align-self: flex-end;
+  width: 100%;
+  min-width: 0;
+  align-self: center;
   position: relative;
   z-index: 0;
   isolation: isolate;
@@ -719,6 +823,7 @@
   padding: 11px 30px;
   border-radius: 0;
   cursor: pointer;
+  text-align: center;
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
@@ -1225,6 +1330,10 @@ ease;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.quest-edit-unlock-quest-link {
+  display: block;
 }
 
 .quest-edit-unlock-remove-button {

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { SubmissionApprovalModal } from '../components/modals/SubmissionApprovalModal';
 
 import { useUserStatusContext } from './UserStatusContext';
 
@@ -16,12 +17,16 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const { status } = useUserStatusContext();
   const canEdit = Boolean(status?.user?.isLoggedIn);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isApprovalModalOpen, setIsApprovalModalOpen] = useState(false);
 
   useEffect(() => {
     if (!canEdit && isEditMode) {
       setIsEditMode(false);
     }
-  }, [canEdit, isEditMode]);
+    if (!canEdit && isApprovalModalOpen) {
+      setIsApprovalModalOpen(false);
+    }
+  }, [canEdit, isEditMode, isApprovalModalOpen]);
 
   const setEditMode = (value: boolean) => {
     if (!value || canEdit) {
@@ -30,9 +35,16 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const toggleEditMode = () => {
-    if (canEdit) {
-      setIsEditMode((prev) => !prev);
+    if (!canEdit) {
+      return;
     }
+
+    if (isEditMode) {
+      setIsEditMode(false);
+      return;
+    }
+
+    setIsApprovalModalOpen(true);
   };
 
   const value = useMemo(
@@ -46,7 +58,19 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     [canEdit, isEditMode],
   );
 
-  return <EditModeContext.Provider value={value}>{children}</EditModeContext.Provider>;
+  return (
+    <EditModeContext.Provider value={value}>
+      {children}
+      <SubmissionApprovalModal
+        isOpen={isApprovalModalOpen}
+        onClose={() => setIsApprovalModalOpen(false)}
+        onAccept={() => {
+          setIsEditMode(true);
+          setIsApprovalModalOpen(false);
+        }}
+      />
+    </EditModeContext.Provider>
+  );
 };
 
 export const useEditModeContext = () => {

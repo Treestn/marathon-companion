@@ -16,6 +16,7 @@ import type { QuestOption } from "./QuestSelectorSection";
 import type { ObjectiveOption } from "./ObjectiveSelectorSection";
 import type { QuestEditEntry } from "../../../context/QuestSubmissionContext";
 import type { Quest, QuestImage } from "../../../../model/quest/IQuestsElements";
+import type { RemovedMapIconEntry } from "../../../context/MapSubmissionContext";
 
 export type IconOption = {
   id: string;
@@ -85,24 +86,27 @@ const hexToLineColor = (
   return [clampByte(r), clampByte(g), clampByte(b), clampByte(alpha)] as [number, number, number, number];
 };
 
+const resolveQuestImageId = (iconFeatureId: string): string => {
+  return String(iconFeatureId).trim();
+};
+
 /**
  * Check if a feature id is tracked (added or edited) in the given layer.
  */
-const isTrackedInLayer = (layer: EditLayer, idNum: number): boolean =>
-  layer.addedFeatureIds.includes(idNum) || layer.editedFeatureIds.includes(idNum);
+const isTrackedInLayer = (layer: EditLayer, featureId: string): boolean =>
+  layer.addedFeatureIds.includes(featureId) || layer.editedFeatureIds.includes(featureId);
 
 /**
  * Search the editDoc for a tracked (added/edited) feature matching the given id.
  * Returns the feature data if found, or null.
  */
 const findFeatureInEditDoc = (editDoc: EditMapDocument, targetId: string): IconSourceData | null => {
-  const targetIdNum = Number(targetId);
-  if (Number.isNaN(targetIdNum)) return null;
+  const target = String(targetId);
 
   for (const group of editDoc.groups) {
     for (const layer of group.layers) {
-      if (!isTrackedInLayer(layer, targetIdNum)) continue;
-      const match = layer.data.features.find((f) => f.properties.id === targetIdNum);
+      if (!isTrackedInLayer(layer, target)) continue;
+      const match = layer.data.features.find((f) => String(f.properties.id) === target);
       if (match) {
         const coords = (match.geometry as GeoJSON.Point).coordinates;
         return {
@@ -235,7 +239,7 @@ const resolveQuestImagePaths = (
  */
 const resolveObjectiveIdFromQuestData = (
   questId: string,
-  entityId: number | undefined,
+  entityId: string | number | undefined,
 ): string | null => {
   const quest = QuestDataStore.getQuestById(questId);
   if (!quest?.objectives || entityId == null) return null;
@@ -310,6 +314,7 @@ type UseIconEditInput = {
   onRemoveIconElement: (params: { editFeatureId?: string; originalEntityId: string }) => void;
   upsertQuest?: (quest: Quest) => void;
   removeQuestEntry?: (questId: string) => void;
+  addRemovedMapIcon?: (entry: RemovedMapIconEntry) => void;
   questEdits?: QuestEditEntry[];
   editIconRequest?: IconDatum | null;
   onEditIconRequestHandled?: () => void;
@@ -323,6 +328,7 @@ export const useIconEdit = ({
   onRemoveIconElement,
   upsertQuest,
   removeQuestEntry,
+  addRemovedMapIcon,
   questEdits = [],
   editIconRequest,
   onEditIconRequestHandled,
@@ -443,18 +449,29 @@ export const useIconEdit = ({
     ],
   );
 
+  const editableQuestMap = useMemo(() => {
+    const map = new Map<string, Quest>();
+    for (const quest of QuestDataStore.getStoredQuestList()) {
+      map.set(quest.id, quest);
+    }
+    for (const entry of questEdits) {
+      map.set(entry.quest.id, entry.quest);
+    }
+    return map;
+  }, [questEdits]);
+
   // ---------------------------------------------------------------------------
-  // Quest options — built from QuestDataStore
+  // Quest options — built from merged base + edit-session quests
   // ---------------------------------------------------------------------------
   const questOptions = useMemo<QuestOption[]>(() => {
     if (!isQuestIcon) return [];
-    const quests = QuestDataStore.getStoredQuestList();
+    const quests = Array.from(editableQuestMap.values());
     return quests.map((q) => ({
       id: q.id,
       name: q.locales?.[I18nHelper.currentLocale()] ?? q.locales?.[I18nHelper.defaultLocale] ?? q.name,
       traderName: (q.trader as { name?: string })?.name ?? undefined,
     }));
-  }, [isQuestIcon]);
+  }, [editableQuestMap, isQuestIcon]);
 
   // Clear quest selection when the icon type changes away from quest
   useEffect(() => {
@@ -465,24 +482,30 @@ export const useIconEdit = ({
   }, [isQuestIcon]);
 
   // ---------------------------------------------------------------------------
-  // Objective options — built from the selected quest's objectives
+  // Objective options — built from the selected quest's objectives in merged edit data
   // ---------------------------------------------------------------------------
   const objectiveOptions = useMemo<ObjectiveOption[]>(() => {
     if (!isQuestIcon || !selectedQuestId) return [];
-    const quest = QuestDataStore.getQuestById(selectedQuestId);
+    const quest = editableQuestMap.get(selectedQuestId);
     if (!quest?.objectives) return [];
     return quest.objectives.map((obj) => ({
       id: obj.id,
       description: obj.locales?.[I18nHelper.currentLocale()] ?? obj.description ?? obj.id,
     }));
-  }, [isQuestIcon, selectedQuestId]);
+  }, [editableQuestMap, isQuestIcon, selectedQuestId]);
 
   /**
-   * Push the current quest + objective + images to the quest edit context.
-   * Called whenever a relevant piece of quest data changes so the popup / overview stays in sync.
+   * Upsert a single objective.questImages entry (matched by icon feature id)
+   * in the quest edit context.
    */
   const syncQuestEditToContext = useCallback(
-    (questId: string, objectiveId: string, imagePaths: string[]) => {
+    (
+      questId: string,
+      objectiveId: string,
+      imagePaths: string[],
+      iconFeatureId?: string | null,
+      descriptionText?: string,
+    ) => {
       if (!upsertQuest) return;
       // Find existing edit or original quest
       const existingEdit = questEdits.find((e) => e.quest.id === questId);
@@ -490,14 +513,80 @@ export const useIconEdit = ({
         existingEdit?.quest ?? QuestDataStore.getQuestById(questId);
       if (!baseQuest) return;
 
-      const modified = structuredClone(baseQuest);
+      if (!iconFeatureId) return;
+
+      const modified = structuredClone(existingEdit?.quest ?? baseQuest);
       const obj = modified.objectives.find((o) => o.id === objectiveId);
       if (obj) {
-        obj.questImages = imagePaths.map((p, i): QuestImage => ({
-          id: `edit-${objectiveId}-${i}`,
-          paths: [p],
-        }));
+        const questImageId = resolveQuestImageId(String(iconFeatureId));
+        const remaining = (obj.questImages ?? []).filter((qi) => String(qi.id) !== questImageId);
+        const normalizedDescription = (descriptionText ?? "").trim();
+        const localizedDescription: Record<string, string> = {};
+        if (normalizedDescription) {
+          const currentLocale = I18nHelper.currentLocale();
+          const defaultLocale = I18nHelper.defaultLocale;
+          localizedDescription[currentLocale] = normalizedDescription;
+          if (!localizedDescription[defaultLocale]) {
+            localizedDescription[defaultLocale] = normalizedDescription;
+          }
+        }
+        const nextQuestImage: QuestImage & { locales: Record<string, string> } = {
+          id: questImageId,
+          paths: [...imagePaths],
+          description: normalizedDescription,
+          locales: localizedDescription,
+        };
+        obj.questImages = [...remaining, nextQuestImage];
       }
+      upsertQuest(modified);
+    },
+    [upsertQuest, questEdits],
+  );
+
+  /**
+   * Remove a single objective.questImages entry (matched by icon feature id)
+   * from the quest edit context.
+   */
+  const removeQuestImageFromContext = useCallback(
+    (questId: string, objectiveId: string | null, iconFeatureIds: string[]) => {
+      if (!upsertQuest) return;
+      const existingEdit = questEdits.find((e) => e.quest.id === questId);
+      const baseQuest: Quest | null | undefined =
+        existingEdit?.quest ?? QuestDataStore.getQuestById(questId);
+      if (!baseQuest) return;
+
+      const modified = structuredClone(existingEdit?.quest ?? baseQuest);
+      const normalizedIds = Array.from(
+        new Set(
+          iconFeatureIds
+            .map((candidate) => resolveQuestImageId(String(candidate)))
+            .filter((candidate) => candidate.length > 0),
+        ),
+      );
+      if (normalizedIds.length === 0) return;
+      let didRemove = false;
+
+      const removeFromObjective = (target: Quest["objectives"][number]) => {
+        const beforeCount = (target.questImages ?? []).length;
+        target.questImages = (target.questImages ?? []).filter(
+          (qi) => !normalizedIds.includes(String(qi.id)),
+        );
+        if (target.questImages.length !== beforeCount) {
+          didRemove = true;
+        }
+      };
+
+      const explicitlySelectedObjective = objectiveId
+        ? modified.objectives.find((o) => o.id === objectiveId)
+        : null;
+      if (explicitlySelectedObjective) {
+        removeFromObjective(explicitlySelectedObjective);
+      }
+      if (!didRemove) {
+        // Fallback: remove across every objective in case selected objective is stale/missing.
+        modified.objectives.forEach(removeFromObjective);
+      }
+      if (!didRemove) return;
       upsertQuest(modified);
     },
     [upsertQuest, questEdits],
@@ -527,9 +616,19 @@ export const useIconEdit = ({
         questId,
         selectedObjectiveId,
         selectedImages.map((img) => img.path),
+        currentFeatureId,
+        iconDescription,
       );
     }
-  }, [setActiveFeature, requestRefresh, selectedObjectiveId, selectedImages, syncQuestEditToContext]);
+  }, [
+    currentFeatureId,
+    iconDescription,
+    setActiveFeature,
+    requestRefresh,
+    selectedObjectiveId,
+    selectedImages,
+    syncQuestEditToContext,
+  ]);
 
   const handleSelectObjective = useCallback((objectiveId: string) => {
     setSelectedObjectiveId(objectiveId);
@@ -539,9 +638,11 @@ export const useIconEdit = ({
         selectedQuestId,
         objectiveId,
         selectedImages.map((img) => img.path),
+        currentFeatureId,
+        iconDescription,
       );
     }
-  }, [selectedQuestId, selectedImages, syncQuestEditToContext]);
+  }, [currentFeatureId, iconDescription, selectedQuestId, selectedImages, syncQuestEditToContext]);
 
   const createBlankFeatureProps = (iconTypeId?: string): FeatureProps => ({
     id: 0,
@@ -834,7 +935,7 @@ export const useIconEdit = ({
       const sourceId = Number(currentFeatureId);
       const mainRole: CorrelationMeta["role"] = "node";
       const targetRole: CorrelationMeta["role"] =
-        detail.geometry.type === "Polygon" ? "area" : "node";
+        detail.geometry.type === "Polygon" ? "area" : "edge";
       const mainCorrelation: CorrelationMeta = {
         correlationId: nextCorrelationId,
         anchors: Number.isFinite(sourceId) && sourceId > 0 ? [sourceId] : [],
@@ -1252,7 +1353,7 @@ export const useIconEdit = ({
       return;
     }
 
-    // For quest icons, quest + objective + description + at least one image are mandatory
+    // For quest icons, quest + objective + description are mandatory (images are optional)
     if (isQuestIcon) {
       if (!selectedQuestId || !selectedObjectiveId) {
         console.warn("[IconEdit] Quest icon requires quest and objective");
@@ -1260,10 +1361,6 @@ export const useIconEdit = ({
       }
       if (!iconDescription.trim()) {
         console.warn("[IconEdit] Quest icon requires a description");
-        return;
-      }
-      if (selectedImages.length === 0) {
-        console.warn("[IconEdit] Quest icon requires at least one image");
         return;
       }
     }
@@ -1299,6 +1396,8 @@ export const useIconEdit = ({
         selectedQuestId,
         selectedObjectiveId,
         selectedImages.map((image) => image.path),
+        resolvedId,
+        iconDescription,
       );
       console.log("[IconEdit] Submitted quest edit for", selectedQuestId);
     }
@@ -1328,6 +1427,8 @@ export const useIconEdit = ({
         selectedQuestId,
         selectedObjectiveId,
         nextImages.map((img) => img.path),
+        currentFeatureId,
+        iconDescription,
       );
     }
   };
@@ -1416,7 +1517,7 @@ export const useIconEdit = ({
     requestSelectionReset();
   };
 
-  const resetCurrentEdit = () => {
+  const resetCurrentEdit = (_options?: { keepQuestEdit?: boolean }) => {
     if (correlationRevertsRef.current.size > 0) {
       correlationRevertsRef.current.forEach((snapshot) => {
         const restoredCorrelations =
@@ -1443,11 +1544,6 @@ export const useIconEdit = ({
         });
       });
       correlationRevertsRef.current.clear();
-    }
-
-    // Remove quest edit from context before clearing state
-    if (selectedQuestId && removeQuestEntry) {
-      removeQuestEntry(selectedQuestId);
     }
 
     setSelectedIconId(null);
@@ -1493,12 +1589,54 @@ export const useIconEdit = ({
   const deleteCurrentIcon = useCallback(() => {
     if (!currentFeatureId) return;
 
+    const questIdForDelete = selectedQuestId ?? draftFeature?.properties?.questId ?? null;
+    if (isQuestIcon && questIdForDelete) {
+      const candidateIds = [
+        currentFeatureId,
+        draftFeature?.properties?.id == null ? "" : String(draftFeature.properties.id),
+      ].filter((candidate) => candidate.length > 0);
+      removeQuestImageFromContext(questIdForDelete, selectedObjectiveId, candidateIds);
+    }
+
+    const isAddedInCurrentSession = editDoc.groups.some((group) =>
+      group.layers.some((layer) => layer.addedFeatureIds.includes(String(currentFeatureId))),
+    );
+    const isExistingFeature = !isAddedInCurrentSession;
+    if (
+      isExistingFeature &&
+      (mapDoc?.mapId || mapDoc?.id) &&
+      selectedIcon
+    ) {
+      addRemovedMapIcon?.({
+        mapId: mapDoc.mapId ?? mapDoc.id,
+        layerId: selectedIcon.layerId,
+        layerName: selectedIcon.layerName,
+        featureId: currentFeatureId,
+        label: iconDescription || undefined,
+      });
+    }
+
     onRemoveIconElement({
       editFeatureId: currentFeatureId,
       originalEntityId: currentFeatureId,
     });
-    resetCurrentEdit();
-  }, [currentFeatureId, onRemoveIconElement, resetCurrentEdit]);
+    resetCurrentEdit({ keepQuestEdit: true });
+  }, [
+    addRemovedMapIcon,
+    currentFeatureId,
+    editDoc.groups,
+    iconDescription,
+    draftFeature?.properties?.questId,
+    isQuestIcon,
+    mapDoc?.id,
+    mapDoc?.mapId,
+    onRemoveIconElement,
+    removeQuestImageFromContext,
+    resetCurrentEdit,
+    selectedIcon,
+    selectedObjectiveId,
+    selectedQuestId,
+  ]);
 
   // ---------------------------------------------------------------------------
   // Load an existing icon into the edit panel (click-to-edit flow)

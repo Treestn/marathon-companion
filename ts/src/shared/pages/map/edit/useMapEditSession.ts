@@ -1,16 +1,18 @@
 import { useCallback, useMemo, useState } from "react";
+import { UuidGenerator } from "../../../../escape-from-tarkov/service/helper/UuidGenerator";
 
 import { CorrelationMeta, FeatureProps } from "../../../../model/map/FeatureProps";
 import { MapGeoDocument } from "../../../../model/map/MapGeoDocument";
+import type { RemovedMapIconEntry } from "../../../context/MapSubmissionContext";
 
 export type EditLayer = {
   id: string;
   name: string;
   iconPath: string;
   /** IDs of features added by the user (not in the original layer) */
-  addedFeatureIds: number[];
+  addedFeatureIds: string[];
   /** IDs of original features the user modified */
-  editedFeatureIds: number[];
+  editedFeatureIds: string[];
   /**
    * GeoJSON FeatureCollection containing **only** user-changed features
    * (added or edited).  Does NOT include untouched originals.
@@ -87,12 +89,7 @@ const createEmptyEditDoc = (mapId: string): EditMapDocument => ({
   removedFeatureIds: [],
 });
 
-/** Module-level counter for temporary negative IDs assigned to new features. */
-let _tempFeatureId = 0;
-const nextTempFeatureId = () => {
-  _tempFeatureId -= 1;
-  return _tempFeatureId;
-};
+const nextGeneratedFeatureId = (): string => UuidGenerator.generate();
 
 /** Build an empty GeoJSON FeatureCollection. */
 const emptyFeatureCollection = (): GeoJSON.FeatureCollection<GeoJSON.Geometry, FeatureProps> => ({
@@ -107,12 +104,13 @@ const emptyFeatureCollection = (): GeoJSON.FeatureCollection<GeoJSON.Geometry, F
  */
 const findOriginalFeatureProps = (
   mapDoc: MapGeoDocument | null,
-  featureId: number,
+  featureId: string,
 ): FeatureProps | null => {
   if (!mapDoc) return null;
+  const target = String(featureId);
   for (const group of mapDoc.groups) {
     for (const layer of group.layers) {
-      const match = layer.data.features.find((f) => f.properties.id === featureId);
+      const match = layer.data.features.find((f) => String(f.properties.id) === target);
       if (match) return match.properties;
     }
   }
@@ -133,18 +131,19 @@ type ExtractedFeature = {
  * Returns the extracted data or null if the feature is not tracked in this layer.
  */
 const extractFromLayer = (layer: EditLayer, idNum: number): ExtractedFeature | null => {
-  const isAdded = layer.addedFeatureIds.includes(idNum);
-  const isEdited = !isAdded && layer.editedFeatureIds.includes(idNum);
+  const id = String(idNum);
+  const isAdded = layer.addedFeatureIds.includes(id);
+  const isEdited = !isAdded && layer.editedFeatureIds.includes(id);
   if (!isAdded && !isEdited) return null;
 
-  const idx = layer.data.features.findIndex((f) => f.properties.id === idNum);
+  const idx = layer.data.features.findIndex((f) => String(f.properties.id) === id);
   if (idx < 0) return null;
 
   const [removed] = layer.data.features.splice(idx, 1);
   if (isAdded) {
-    layer.addedFeatureIds = layer.addedFeatureIds.filter((id) => id !== idNum);
+    layer.addedFeatureIds = layer.addedFeatureIds.filter((trackedId) => trackedId !== id);
   } else {
-    layer.editedFeatureIds = layer.editedFeatureIds.filter((id) => id !== idNum);
+    layer.editedFeatureIds = layer.editedFeatureIds.filter((trackedId) => trackedId !== id);
   }
   return { geoFeature: removed, changeType: isAdded ? "added" : "edited" };
 };
@@ -158,12 +157,22 @@ const extractExistingFeature = (
   featureId: string | undefined,
 ): ExtractedFeature | null => {
   if (!featureId) return null;
-  const idNum = Number(featureId);
-  if (Number.isNaN(idNum)) return null;
+  const targetId = String(featureId);
 
   for (const group of groups) {
     for (const layer of group.layers) {
-      const result = extractFromLayer(layer, idNum);
+      const idx = layer.data.features.findIndex((f) => String(f.properties.id) === targetId);
+      if (idx < 0) continue;
+      const isAdded = layer.addedFeatureIds.includes(targetId);
+      const isEdited = !isAdded && layer.editedFeatureIds.includes(targetId);
+      const [removed] = layer.data.features.splice(idx, 1);
+      if (isAdded) {
+        layer.addedFeatureIds = layer.addedFeatureIds.filter((id) => id !== targetId);
+      } else if (isEdited) {
+        layer.editedFeatureIds = layer.editedFeatureIds.filter((id) => id !== targetId);
+      }
+      const changeType: "added" | "edited" = isAdded ? "added" : "edited";
+      const result: ExtractedFeature = { geoFeature: removed, changeType };
       if (result) return result;
     }
   }
@@ -249,17 +258,17 @@ const findOrCreateLayer = (
  * MapGeoDocument); for new features it's a blank slate.
  */
 const buildBaseProps = (
-  featureIdNum: number,
+  featureId: string,
   changeType: "added" | "edited",
   previousVersion: ExtractedFeature | null,
   mapDoc: MapGeoDocument | null,
 ): FeatureProps => {
   if (previousVersion) return { ...previousVersion.geoFeature.properties };
   if (changeType === "edited") {
-    const original = findOriginalFeatureProps(mapDoc, featureIdNum);
-    return original ? { ...original } : { id: featureIdNum };
+    const original = findOriginalFeatureProps(mapDoc, featureId);
+    return original ? { ...original } : { id: featureId };
   }
-  return { id: featureIdNum };
+  return { id: featureId };
 };
 
 /**
@@ -304,7 +313,29 @@ const buildGeoFeature = (
 export const useMapEditSession = (
   mapDoc: MapGeoDocument | null,
   onUpsertIconElement?: (payload: UpsertIconElementPayload, resolvedId: string) => void,
+  onOriginalIconRemoved?: (entry: RemovedMapIconEntry) => void,
 ) => {
+  const resolveOriginalRemovalEntry = useCallback(
+    (featureId: string): RemovedMapIconEntry | null => {
+      if (!mapDoc) return null;
+      for (const group of mapDoc.groups) {
+        for (const layer of group.layers) {
+          const match = layer.data.features.find((feature) => String(feature.properties?.id) === featureId);
+          if (!match) continue;
+          return {
+            mapId: mapDoc.mapId ?? mapDoc.id,
+            layerId: layer.id,
+            layerName: layer.name,
+            featureId: match.properties?.id ?? featureId,
+            label: match.properties?.description ?? undefined,
+          };
+        }
+      }
+      return null;
+    },
+    [mapDoc],
+  );
+
   const id = mapDoc?.id ?? "unknown-map";
   const [editDocs, setEditDocs] = useState<Map<string, EditMapDocument>>(new Map());
 
@@ -321,7 +352,9 @@ export const useMapEditSession = (
   }, [editDocs]);
 
   const upsertGeometryElement = useCallback((payload: UpsertGeometryElementPayload) => {
-    let resolvedId = payload.featureId ?? "";
+    const resolvedId = payload.featureId
+      ? String(payload.featureId)
+      : nextGeneratedFeatureId();
 
     setEditDocs((prev) => {
       const next = new Map(prev);
@@ -330,38 +363,34 @@ export const useMapEditSession = (
 
       // If we are updating an existing feature, pull it out of wherever it lives
       // so we can re-insert it in the correct group/layer with updated data.
-      const previousVersion = extractExistingFeature(groups, payload.featureId);
+      const previousVersion = extractExistingFeature(groups, resolvedId);
 
       const group = findOrCreateGroup(groups, payload);
       const layer = findOrCreateLayer(group, payload);
 
-      // Determine the numeric feature ID
-      const featureIdNum = payload.featureId
-        ? Number(payload.featureId)
-        : (previousVersion?.geoFeature.properties.id ?? nextTempFeatureId());
-      resolvedId = String(featureIdNum);
+      const featureId = resolvedId;
 
-      const isExistingMapFeature = featureIdNum > 0;
+      const isExistingMapFeature = Number(featureId) > 0;
       const changeType = previousVersion?.changeType ?? (isExistingMapFeature ? "edited" : "added");
 
-      const baseProps = buildBaseProps(featureIdNum, changeType, previousVersion, mapDoc);
+      const baseProps = buildBaseProps(featureId, changeType, previousVersion, mapDoc);
       const geoFeature = buildGeoFeature(baseProps, payload);
 
       // Insert / replace in data.features
       if (changeType === "edited") {
-        const existingIdx = layer.data.features.findIndex((f) => f.properties.id === featureIdNum);
+        const existingIdx = layer.data.features.findIndex((f) => String(f.properties.id) === featureId);
         if (existingIdx >= 0) {
           layer.data.features[existingIdx] = geoFeature;
         } else {
           layer.data.features.push(geoFeature);
         }
-        if (!layer.editedFeatureIds.includes(featureIdNum)) {
-          layer.editedFeatureIds.push(featureIdNum);
+        if (!layer.editedFeatureIds.includes(featureId)) {
+          layer.editedFeatureIds.push(featureId);
         }
       } else {
         layer.data.features.push(geoFeature);
-        if (!layer.addedFeatureIds.includes(featureIdNum)) {
-          layer.addedFeatureIds.push(featureIdNum);
+        if (!layer.addedFeatureIds.includes(featureId)) {
+          layer.addedFeatureIds.push(featureId);
         }
       }
 
@@ -445,8 +474,23 @@ export const useMapEditSession = (
       const extracted = extractExistingFeature(groups, editFeatureId);
 
       if (extracted) {
-        console.log("[MapEditSession] Removed edit feature", editFeatureId);
-        next.set(id, { ...doc, groups: cleanEmptyGroupsAndLayers(groups) });
+        const cleanedGroups = cleanEmptyGroupsAndLayers(groups);
+        if (extracted.changeType === "edited") {
+          const editedOriginalId = String(extracted.geoFeature.properties.id);
+          const removedFeatureIds = doc.removedFeatureIds.includes(editedOriginalId)
+            ? doc.removedFeatureIds
+            : [...doc.removedFeatureIds, editedOriginalId];
+          const removalEntry = resolveOriginalRemovalEntry(editedOriginalId);
+          if (removalEntry) {
+            onOriginalIconRemoved?.(removalEntry);
+          }
+          console.log("[MapEditSession] Removed edited original feature", editedOriginalId);
+          next.set(id, { ...doc, groups: cleanedGroups, removedFeatureIds });
+          return next;
+        }
+
+        console.log("[MapEditSession] Removed added edit feature", editFeatureId);
+        next.set(id, { ...doc, groups: cleanedGroups });
         return next;
       }
 
@@ -455,10 +499,14 @@ export const useMapEditSession = (
       }
 
       console.log("[MapEditSession] Marked original feature as removed", originalEntityId);
+      const removalEntry = resolveOriginalRemovalEntry(originalEntityId);
+      if (removalEntry) {
+        onOriginalIconRemoved?.(removalEntry);
+      }
       next.set(id, { ...doc, groups, removedFeatureIds: [...doc.removedFeatureIds, originalEntityId] });
       return next;
     });
-  }, [id]);
+  }, [id, onOriginalIconRemoved, resolveOriginalRemovalEntry]);
 
   const removeGeometryElement = useCallback(
     (params: { editFeatureId?: string; originalEntityId: string }) => removeIconElement(params),

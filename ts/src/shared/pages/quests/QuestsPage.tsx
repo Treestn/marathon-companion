@@ -51,6 +51,7 @@ type QuestCardProps = {
   addRemovedQuest: (questId: string) => void;
   removeQuestEntry: (questId: string) => void;
   cancelRemovedQuest: (questId: string) => void;
+  onNavigateToQuest: (questId: string) => void;
 };
 
 const EMPTY_LEADS_TO_REQUIREMENTS: EditTaskRequirement[] = [];
@@ -72,6 +73,7 @@ const QuestCard = React.memo<QuestCardProps>(({
   addRemovedQuest,
   removeQuestEntry,
   cancelRemovedQuest,
+  onNavigateToQuest,
 }) => {
   // --- Stable callbacks ---
 
@@ -377,12 +379,14 @@ const QuestCard = React.memo<QuestCardProps>(({
                 onReorderObjectives={onReorderObjectives}
                 onRewardChange={onRewardChange}
                 onTraderStandingRewardChange={onTraderStandingRewardChange}
+                onNavigateToQuest={onNavigateToQuest}
               />
             ) : (
               <QuestBody
                 quest={quest}
                 onQuestCompletedChange={onQuestCompletedChange}
                 onObjectiveChange={onObjectiveChange}
+                onNavigateToQuest={onNavigateToQuest}
               />
             )
           )}
@@ -407,10 +411,10 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
   navigationTarget,
   onNavigationHandled,
 }) => {
-  const [orderByTrader, setOrderByTrader] = useState(false);
-  const [orderByQuestName, setOrderByQuestName] = useState(false);
   const [openQuestIds, setOpenQuestIds] = useState<Set<string>>(new Set());
   const [forcedQuestId, setForcedQuestId] = useState<string | null>(null);
+  const [progressionVersion, setProgressionVersion] = useState(0);
+  const [isProgressionStylingUpdate, setIsProgressionStylingUpdate] = useState(false);
   const { isEditMode, canEdit, isAvailable, toggleEditMode } = useOptionalEditModeContext();
   const {
     questEdits,
@@ -446,7 +450,37 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
     setTraderValue,
     setMapValue,
   } = useQuestFilters();
-  const { quests, sendProgressionUpdate } = useQuestList();
+  const { quests, refreshQuestList, sendProgressionUpdate } = useQuestList();
+
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const detail = (event as CustomEvent).detail;
+      if (!detail?.questId) {
+        return;
+      }
+      if (
+        detail.type === "objective" ||
+        detail.type === "active-state" ||
+        detail.type === "completed"
+      ) {
+        return;
+      }
+      setProgressionVersion((prev) => prev + 1);
+      setIsProgressionStylingUpdate(true);
+    };
+    globalThis.addEventListener("quest-progress-updated", handler);
+    return () => globalThis.removeEventListener("quest-progress-updated", handler);
+  }, []);
+
+  useEffect(() => {
+    if (!isProgressionStylingUpdate) {
+      return;
+    }
+    const handle = globalThis.requestAnimationFrame(() => {
+      setIsProgressionStylingUpdate(false);
+    });
+    return () => globalThis.cancelAnimationFrame(handle);
+  }, [isProgressionStylingUpdate]);
 
   const editableQuests = useMemo(() => {
     if (!isEditMode) {
@@ -476,7 +510,7 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
       traderValue,
       mapValue,
     });
-  }, [editableQuests, stateValue, typeValue, traderValue, mapValue]);
+  }, [editableQuests, stateValue, typeValue, traderValue, mapValue, progressionVersion]);
 
   const visibleQuests = useMemo(() => {
     const baseList = searchResults.length > 0 ? searchResults : filteredQuests;
@@ -487,20 +521,23 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
         next = [targetQuest, ...next];
       }
     }
-    return orderQuests(next, orderByTrader, orderByQuestName);
+    return orderQuests(next, true);
   }, [
     searchResults,
     filteredQuests,
-    orderByTrader,
-    orderByQuestName,
     forcedQuestId,
     editableQuests,
+    progressionVersion,
   ]);
   const deferredVisibleQuests = useDeferredValue(visibleQuests);
   // In edit mode, render the current list immediately so field edits do not
   // show the global loading overlay and feel like a full-page refresh.
-  const renderedVisibleQuests = isEditMode ? visibleQuests : deferredVisibleQuests;
-  const isFiltering = !isEditMode && deferredVisibleQuests !== visibleQuests;
+  // Progression updates (active/completed/objectives) should apply styling
+  // immediately without showing a page-level "loading" transition.
+  const renderedVisibleQuests =
+    isEditMode || isProgressionStylingUpdate ? visibleQuests : deferredVisibleQuests;
+  const isFiltering =
+    !isEditMode && !isProgressionStylingUpdate && deferredVisibleQuests !== visibleQuests;
   const editableQuestsMap = useMemo(() => {
     const map = new Map<string, Quest>();
     for (const quest of editableQuests) {
@@ -648,6 +685,42 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
     [editableQuests],
   );
 
+  const handleNavigateToQuest = useCallback(
+    (questId: string) => {
+      if (!questId) return;
+      setSearchTerm('');
+      setStateValue([]);
+      setTypeValue([]);
+      setTraderValue([]);
+      setMapValue([]);
+      setForcedQuestId(questId);
+      setOpenQuestIds((prev) => {
+        const next = new Set(prev);
+        next.add(questId);
+        return next;
+      });
+    },
+    [
+      setMapValue,
+      setSearchTerm,
+      setStateValue,
+      setTraderValue,
+      setTypeValue,
+    ],
+  );
+
+  const handleClearFilters = useCallback(() => {
+    setStateValue([]);
+    setTypeValue([]);
+    setTraderValue([]);
+    setMapValue([]);
+  }, [setMapValue, setStateValue, setTraderValue, setTypeValue]);
+
+  const handleRefreshPage = useCallback(() => {
+    refreshQuestList();
+    setProgressionVersion((prev) => prev + 1);
+  }, [refreshQuestList]);
+
   return (
     <div className="desktop-quests-container">
         <section className="desktop-quests">
@@ -665,6 +738,13 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
                     onChange={(event) => setSearchTerm(event.target.value)}
                     onInput={(event) => setSearchTerm((event.target as HTMLInputElement).value)}
                   />
+                  <button
+                    type="button"
+                    className="desktop-quests-order-button desktop-quests-clear-filters-button"
+                    onClick={handleClearFilters}
+                  >
+                    Clear Filters
+                  </button>
                   {isAvailable && canEdit && isEditMode && (
                     <button
                       type="button"
@@ -709,26 +789,19 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
                 onTraderChange={setTraderValue}
                 onMapChange={setMapValue}
                 />
-                <div className="desktop-quests-order">
                 <button
-                    type="button"
-                    className={`desktop-quests-order-button${
-                    orderByTrader ? " is-active" : ""
-                    }`}
-                    onClick={() => setOrderByTrader((prev) => !prev)}
+                  type="button"
+                  className="desktop-quests-order-button desktop-quests-refresh-button"
+                  onClick={handleRefreshPage}
+                  title="Refresh quests"
+                  aria-label="Refresh quests"
                 >
-                    Order By Trader
+                  <img
+                    className="desktop-quests-refresh-icon"
+                    src="/img/icons/replay.svg"
+                    alt=""
+                  />
                 </button>
-                <button
-                    type="button"
-                    className={`desktop-quests-order-button${
-                    orderByQuestName ? " is-active" : ""
-                    }`}
-                    onClick={() => setOrderByQuestName((prev) => !prev)}
-                >
-                    Order By Quest Name
-                </button>
-                </div>
             </div>
 
             <div className="quests-content">
@@ -770,6 +843,7 @@ export const QuestsPage: React.FC<QuestsPageProps> = ({
                       addRemovedQuest={addRemovedQuest}
                       removeQuestEntry={removeQuestEntry}
                       cancelRemovedQuest={cancelRemovedQuest}
+                      onNavigateToQuest={handleNavigateToQuest}
                     />
                       );
                     })()

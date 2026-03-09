@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { MapFloorElementsData } from '../../../model/floor/IMapFloorElements';
 import endpoints from '../../services/api/tarkov-companion/endpoint';
 import { TarkovCompanionService } from '../../services/api/tarkov-companion/TarkovCompanionService';
@@ -11,6 +11,7 @@ interface UseMapDataResult {
   floors: MapFloorElementsData | null;
   loading: boolean;
   error: string | null;
+  refreshMapData: () => void;
 }
 
 export const useMapData = (mapId: string): UseMapDataResult => {
@@ -18,6 +19,10 @@ export const useMapData = (mapId: string): UseMapDataResult => {
   const [floors, setFloors] = useState<MapFloorElementsData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [refreshCount, setRefreshCount] = useState(0);
+  const refreshMapData = useCallback(() => {
+    setRefreshCount((prev) => prev + 1);
+  }, []);
 
   const parseStoredJson = <T,>(storedRaw: unknown): T | null => {
     if (!storedRaw) return null;
@@ -113,9 +118,9 @@ export const useMapData = (mapId: string): UseMapDataResult => {
     if (mapId) {
       fetchMapData();
     }
-  }, [mapId]);
+  }, [mapId, refreshCount]);
 
-  return { mapDoc, floors, loading, error };
+  return { mapDoc, floors, loading, error, refreshMapData };
 };
 
 

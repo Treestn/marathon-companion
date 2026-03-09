@@ -114,7 +114,7 @@
       "warning": {
         "1": "Označí ako splnené úlohy, ktoré si spravil, no nesledoval. (Užitočné, ak si app pridal uprostred wipe)",
         "2": "Dokončí len úlohy pre aktuálne zvolený postup (PvP alebo PvE).",
-        "3": "Pre správnu funkciu aktivuj v app všetky úlohy, ktoré máš aktívne v Arc Raiderse. App splní iba požiadavky úloh aktívnych v app.",
+        "3": "Pre správnu funkciu aktivuj v app všetky úlohy, ktoré máš aktívne v Marathone. App splní iba požiadavky úloh aktívnych v app.",
         "4": "Dokončenie vetvy, ktorá nikam nevedie, sa neoznačí automaticky. Označ poslednú úlohu ako dokončenú, aby auto-dokončenie fungovalo správne.",
         "5": "Príklad: Stirrup nikam nevedie; ak ju neoznačíš ako dokončenú, predchádzajúce úlohy sa neoznačia automaticky."
       },

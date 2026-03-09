@@ -1,4 +1,3 @@
-import { MapAdapter } from "../../../../adapter/MapAdapter";
 import { ObjectiveTypeConst, QuestConditionConst } from "../../../constant/EditQuestConst";
 import { Objectives, Quest, QuestsObject, TaskObject } from "../../../../model/quest/IQuestsElements";
 import { StorageHelper } from "../../../service/helper/StorageHelper";
@@ -8,8 +7,13 @@ import { PlayerProgressionUtils } from "../../../utils/PlayerProgressionUtils";
 import { EditSession } from "../edit/EditSession";
 import { QuestPageUtils } from "./QuestPageUtils";
 import { QuestsFiltersUtils } from "./QuestsFiltersUtils";
+import { QuestType } from "../../../constant/QuestConst";
 
 export class QuestsUtils {
+    private static isManualOnlyQuest(quest: Quest | null | undefined): boolean {
+        return quest?.questType === QuestType.STANDARD;
+    }
+
 
     private static questsObject:QuestsObject;
     private static localStorageKey = "QuestsObjects"
@@ -171,6 +175,9 @@ export class QuestsUtils {
             }
             if(this.isQuestRequirementsCompleted(quest) 
                 && !AppConfigUtils.getAppConfig().userSettings.getQuestAutomationFlag()) {
+                if (this.isManualOnlyQuest(quest)) {
+                    return;
+                }
                 PlayerProgressionUtils.setActiveQuestState(quest.id, true);
             }
         })
@@ -230,6 +237,9 @@ export class QuestsUtils {
                 }
             })
             if(requirementsCompleted) {
+                if (this.isManualOnlyQuest(nextQuest)) {
+                    return;
+                }
                 PlayerProgressionUtils.setActiveQuestState(nextQuest.id, true);
                 questToUpdate.set(nextQuest.id, true);
                 this.resolveQuestsOnAccepting(nextQuest.id, questToUpdate);
@@ -280,6 +290,9 @@ export class QuestsUtils {
             quest.taskRequirements.forEach(taskRequirement => {
                 if(taskRequirement.task.id === acceptedQuestId && taskRequirement.status && taskRequirement.status.includes("active")) {
                     if(!PlayerProgressionUtils.isQuestCompleted(quest.id)) {
+                        if (this.isManualOnlyQuest(quest)) {
+                            return;
+                        }
                         PlayerProgressionUtils.setActiveQuestState(quest.id, true);
                     }
                 }
@@ -292,6 +305,9 @@ export class QuestsUtils {
             if(quest.taskRequirements) {
                 quest.taskRequirements.forEach(questRequirement => {
                     if(questRequirement.status.includes("active") && questRequirement.task.id === acceptedQuestId && !PlayerProgressionUtils.isQuestCompleted(quest.id)) {
+                        if (this.isManualOnlyQuest(quest)) {
+                            return;
+                        }
                         PlayerProgressionUtils.setActiveQuestState(quest.id, true);
                         QuestPageUtils.resolveQuestActiveButton(quest.id);
                         QuestPageUtils.resolveQuestGlow(quest);

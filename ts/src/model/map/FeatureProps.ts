@@ -6,7 +6,7 @@ export interface FeatureProps {
     /**
      * Stable identifier used for picking, correlation, and persistence.
      */
-    id: number;
+    id: string | number;
 
     /** Optional semantic type for styling / filtering */
     kind?: string;

@@ -114,7 +114,7 @@
       "warning": {
         "1": "Cette option permet de terminer facilement les quêtes déjà faites mais non suivies. (Particulièrement utile si vous venez d’installer l’app en milieu de wipe)",
         "2": "Cela ne terminera que les quêtes pour la progression actuellement sélectionnée (PvP ou PvE).",
-        "3": "Pour bien utiliser cette fonction, activez dans l’app toutes les quêtes que vous avez actuellement actives sur Arc Raiders. L’app ne complètera que les exigences des quêtes activées dans l’app.",
+        "3": "Pour bien utiliser cette fonction, activez dans l’app toutes les quêtes que vous avez actuellement actives sur Marathon. L’app ne complètera que les exigences des quêtes activées dans l’app.",
         "4": "Notez que terminer une branche de quêtes qui ne mène à rien ne sera pas fait automatiquement. Marquez la dernière quête comme terminée pour que l’auto-complétion fonctionne correctement.",
         "5": "Exemple : Stirrup, cette quête ne mène à rien ; si vous ne la marquez pas terminée, les quêtes précédentes ne seront pas marquées automatiquement."
       },

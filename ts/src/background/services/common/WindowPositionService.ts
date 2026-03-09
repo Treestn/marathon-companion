@@ -8,6 +8,12 @@ type WindowPosition = {
 };
 
 type WindowPositions = Record<string, WindowPosition>;
+type Rect = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
 
 export class WindowPositionService {
   private positions: WindowPositions = {};
@@ -40,11 +46,135 @@ export class WindowPositionService {
       if (!window?.id) {
         return false;
       }
-      overwolf.windows.changePosition(window.id, position.left, position.top, () => {});
+      let displays: overwolf.utils.Display[] = [];
+      try {
+        displays = await WindowsService.getMonitorsList();
+      } catch {
+        displays = [];
+      }
+
+      const normalized = this.normalizePosition(position, window, displays);
+      overwolf.windows.changePosition(window.id, normalized.left, normalized.top, () => {});
+      if (normalized.left !== position.left || normalized.top !== position.top) {
+        this.positions[windowName] = normalized;
+        this.persistIfChanged();
+      }
       return true;
     } catch {
       return false;
     }
+  }
+
+  private normalizePosition(
+    position: WindowPosition,
+    windowInfo: overwolf.windows.WindowInfo,
+    displays: overwolf.utils.Display[],
+  ): WindowPosition {
+    if (!displays?.length) {
+      return position;
+    }
+
+    const windowRect: Rect = {
+      x: position.left,
+      y: position.top,
+      width: Math.max(1, Math.floor(windowInfo?.width ?? 1)),
+      height: Math.max(1, Math.floor(windowInfo?.height ?? 1)),
+    };
+
+    const targetDisplay = this.pickTargetDisplay(windowRect, displays);
+    if (!targetDisplay) {
+      return position;
+    }
+
+    const displayRect: Rect = {
+      x: targetDisplay.x,
+      y: targetDisplay.y,
+      width: targetDisplay.width,
+      height: targetDisplay.height,
+    };
+
+    return {
+      left: this.clampAxis(windowRect.x, windowRect.width, displayRect.x, displayRect.width),
+      top: this.clampAxis(windowRect.y, windowRect.height, displayRect.y, displayRect.height),
+    };
+  }
+
+  private pickTargetDisplay(
+    windowRect: Rect,
+    displays: overwolf.utils.Display[],
+  ): overwolf.utils.Display | null {
+    let bestByOverlap: { display: overwolf.utils.Display; overlap: number } | null = null;
+    for (const display of displays) {
+      const overlap = this.getOverlapArea(windowRect, {
+        x: display.x,
+        y: display.y,
+        width: display.width,
+        height: display.height,
+      });
+      if (!bestByOverlap || overlap > bestByOverlap.overlap) {
+        bestByOverlap = { display, overlap };
+      }
+    }
+
+    if (bestByOverlap && bestByOverlap.overlap > 0) {
+      return bestByOverlap.display;
+    }
+
+    let closest: { display: overwolf.utils.Display; distance: number } | null = null;
+    const centerX = windowRect.x + windowRect.width / 2;
+    const centerY = windowRect.y + windowRect.height / 2;
+    for (const display of displays) {
+      const distance = this.distanceToRectSquared(centerX, centerY, {
+        x: display.x,
+        y: display.y,
+        width: display.width,
+        height: display.height,
+      });
+      if (!closest || distance < closest.distance) {
+        closest = { display, distance };
+      }
+    }
+
+    if (closest) {
+      return closest.display;
+    }
+    return displays.find((display) => display.is_primary) ?? displays[0] ?? null;
+  }
+
+  private clampAxis(
+    value: number,
+    windowSize: number,
+    displayStart: number,
+    displaySize: number,
+  ): number {
+    const min = displayStart;
+    const max = displayStart + displaySize - windowSize;
+    if (max < min) {
+      return min;
+    }
+    return Math.min(Math.max(value, min), max);
+  }
+
+  private getOverlapArea(a: Rect, b: Rect): number {
+    const overlapX = Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x));
+    const overlapY = Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y));
+    return overlapX * overlapY;
+  }
+
+  private distanceToRectSquared(px: number, py: number, rect: Rect): number {
+    const dx = this.axisDistance(px, rect.x, rect.x + rect.width);
+    const dy = this.axisDistance(py, rect.y, rect.y + rect.height);
+    return dx * dx + dy * dy;
+  }
+
+  private axisDistance(value: number, min: number, max: number): number {
+    if (value < min) {
+      return min - value;
+    }
+    if (value > max) {
+      return value - max;
+    }
+    return 0;
   }
 
   private async captureWindowPosition(_windowName: string): Promise<void> {

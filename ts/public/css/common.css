@@ -1,5 +1,5 @@
 /* Shared app styles */
-/* Available themes: theme.css (Arc Raiders purple), theme-military.css (tactical OD green), theme-neon-obsidian.css (neon green/obsidian) */
+/* Available themes: theme.css (Marathon purple), theme-military.css (tactical OD green), theme-neon-obsidian.css (neon green/obsidian) */
 @import "./theme-neon-obsidian.css";
 
 @font-face {

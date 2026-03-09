@@ -114,7 +114,7 @@
       "warning": {
         "1": "Diese Option schließt leicht Quests ab, die Sie bereits erledigt, aber nicht getrackt haben. (Nützlich, wenn Sie die App mitten im Wipe bekommen haben)",
         "2": "Es werden nur Quests für den aktuell gewählten Fortschritt (PvP oder PvE) abgeschlossen.",
-        "3": "Aktivieren Sie in der App alle Quests, die in Arc Raiders aktuell aktiv sind. Die App erfüllt nur Anforderungen der in der App aktivierten Quests.",
+        "3": "Aktivieren Sie in der App alle Quests, die in Marathon aktuell aktiv sind. Die App erfüllt nur Anforderungen der in der App aktivierten Quests.",
         "4": "Das Beenden eines Quest-Zweigs, der zu nichts führt, erfolgt nicht automatisch. Markieren Sie die letzte Quest als abgeschlossen, damit Auto-Abschluss korrekt funktioniert.",
         "5": "Beispiel: Stirrup führt zu nichts; wenn Sie sie nicht als abgeschlossen markieren, werden vorherige Quests nicht automatisch markiert."
       },

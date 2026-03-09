@@ -114,7 +114,7 @@
       "warning": {
         "1": "Esta opção marca como concluídas as missões já feitas mas não rastreadas. (Útil se você instalou o app no meio do wipe)",
         "2": "Concluirá apenas as missões da progressão selecionada (PvP ou PvE).",
-        "3": "Para usar corretamente, ative no app todas as missões que estão ativas no Arc Raiders. O app completará apenas os requisitos das missões ativadas no app.",
+        "3": "Para usar corretamente, ative no app todas as missões que estão ativas no Marathon. O app completará apenas os requisitos das missões ativadas no app.",
         "4": "Encerrar um ramo que não leva a nada não será concluído automaticamente. Marque a última missão como concluída para o auto-complete funcionar bem.",
         "5": "Exemplo: Stirrup não leva a nada; se não marcá-la como concluída, as anteriores não serão marcadas automaticamente."
       },

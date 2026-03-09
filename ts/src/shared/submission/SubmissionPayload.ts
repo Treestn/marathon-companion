@@ -9,7 +9,7 @@ import type { Quest } from '../../model/quest/IQuestsElements';
 export type SubmissionIconType = {
   type: string;
   path: string;
-  iconIds: number[];
+  iconIds: Array<string | number>;
 };
 
 export type SubmissionRemovedMapIcon = {

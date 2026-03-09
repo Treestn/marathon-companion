@@ -114,7 +114,7 @@
       "warning": {
         "1": "Ezzel könnyen befejezheti a már teljesített, de nem követett küldetéseket. (Hasznos, ha wipe közben szerezte be az appot)",
         "2": "Csak a jelenleg kiválasztott előrehaladáshoz (PvP vagy PvE) tartozó küldetéseket fejezi be.",
-        "3": "Helyes használathoz aktiváljon az appban minden, Arc Raidersban aktív küldetést. Az app csak az appban aktivált küldetések követelményeit teljesíti.",
+        "3": "Helyes használathoz aktiváljon az appban minden, Marathonban aktív küldetést. Az app csak az appban aktivált küldetések követelményeit teljesíti.",
         "4": "Egy olyan küldetéság, amely nem vezet sehova, nem fejeződik be automatikusan. Jelölje késznek az utolsó küldetést, hogy az autó-kompletálás megfelelően működjön.",
         "5": "Példa: Stirrup nem vezet sehova; ha nem jelöli késznek, az előző küldetések sem lesznek automatikusan megjelölve."
       },

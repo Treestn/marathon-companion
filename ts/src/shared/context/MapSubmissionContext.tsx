@@ -20,7 +20,7 @@ export type RemovedMapIconEntry = {
   mapId: string;
   layerId: string;
   layerName: string;
-  featureId: number;
+  featureId: string | number;
   label?: string;
 };
 
@@ -40,7 +40,7 @@ export type MapSubmissionContextValue = {
 
   removedMapIcons: RemovedMapIconEntry[];
   addRemovedMapIcon: (entry: RemovedMapIconEntry) => void;
-  cancelRemovedMapIcon: (mapId: string, featureId: number) => void;
+  cancelRemovedMapIcon: (mapId: string, featureId: string | number) => void;
   clearRemovedMapIcons: (mapId?: string) => void;
 };
 
@@ -273,9 +273,9 @@ export const MapSubmissionProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   }, []);
 
-  const cancelRemovedMapIcon = useCallback((mapId: string, featureId: number) => {
+  const cancelRemovedMapIcon = useCallback((mapId: string, featureId: string | number) => {
     setRemovedMapIcons((prev) =>
-      prev.filter((e) => !(e.mapId === mapId && e.featureId === featureId)),
+      prev.filter((e) => !(e.mapId === mapId && String(e.featureId) === String(featureId))),
     );
   }, []);
 

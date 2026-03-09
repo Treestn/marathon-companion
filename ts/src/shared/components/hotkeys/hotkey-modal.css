@@ -87,3 +87,9 @@
 .hotkey-modal-apply:active:not(:disabled) {
   transform: scale(0.98);
 }
+
+/* Force square corners in this modal */
+.hotkey-modal-card,
+.hotkey-modal-card * {
+  border-radius: 0 !important;
+}

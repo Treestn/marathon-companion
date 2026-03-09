@@ -23,7 +23,7 @@ export const kGameInfo = {
 }
 
 export const kGamesFeatures = new Map([
-  // Arc Raiders
+  // Marathon
   [
     kGames.marathon,
     [
@@ -38,7 +38,6 @@ export const kGameClassIds = Array.from(kGamesFeatures.keys());
 export const kWindowNames = {
   background: 'background',
   inGame: 'in_game',
-  questsReminder: 'quests_reminder',
   desktop: 'desktop',
   secondScreen: 'second_screen',
   setting: 'setting'

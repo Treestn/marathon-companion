@@ -2263,3 +2263,9 @@
   color: #888;
 }
 
+
+/* Force square corners in trading modals */
+.trading-modal-content,
+.trading-modal-content * {
+  border-radius: 0 !important;
+}

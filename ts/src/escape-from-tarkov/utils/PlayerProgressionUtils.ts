@@ -9,7 +9,7 @@ import { QuestsUtils } from "../page/quests/utils/QuestsUtils";
 import { AppConfigUtils } from "./AppConfigUtils";
 import { ItemsUtils } from "./ItemsUtils";
 import { Objectives, Quest, QuestsObject } from "../model/IQuestsElements";
-import { HideoutStations } from "../../model/hideout/HideoutObject";
+import { QuestType } from "../constant/QuestConst";
 
 export class PlayerProgressionUtils {
 
@@ -857,6 +857,9 @@ export class PlayerProgressionUtils {
             PlayerProgressionUtils.setCompletedQuestState(quest.id, isCompleded)
         }
         if(!storedData && Progression.startingQuests.includes(quest.id) && !questState) {
+            if (quest.questType === QuestType.STANDARD) {
+                return;
+            }
             PlayerProgressionUtils.setActiveQuestState(quest.id, true);
         }
     }

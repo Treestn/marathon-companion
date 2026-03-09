@@ -114,7 +114,7 @@
       "warning": {
         "1": "Tato volba snadno dokončí úkoly, které už máte splněné, ale nesledované. (Užitečné, pokud jste aplikaci získali uprostřed wipe)",
         "2": "Dokončí pouze úkoly pro aktuálně vybraný postup (PvP nebo PvE).",
-        "3": "Pro správné použití aktivujte v aplikaci všechny úkoly, které nyní v Arc Raidersu máte aktivní. Aplikace pak dokončí požadavky jen u těchto aktivovaných úkolů.",
+        "3": "Pro správné použití aktivujte v aplikaci všechny úkoly, které nyní v Marathonu máte aktivní. Aplikace pak dokončí požadavky jen u těchto aktivovaných úkolů.",
         "4": "Vezměte na vědomí, že větev úkolů, která k ničemu nevede, nebude dokončena automaticky. Označte poslední úkol jako splněný, aby auto-dokončení fungovalo správně.",
         "5": "Příklad: Stirrup – tato mise k ničemu nevede, takže pokud ji neoznačíte jako dokončenou, předchozí úkoly nebudou označeny automaticky."
       },

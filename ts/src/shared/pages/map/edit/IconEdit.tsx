@@ -11,6 +11,7 @@ import { ObjectiveSelector } from "./ObjectiveSelectorSection";
 import type { IconDatum } from "../deck/builder/icon.builder";
 import type { QuestEditEntry } from "../../../context/QuestSubmissionContext";
 import type { Quest } from "../../../../model/quest/IQuestsElements";
+import type { RemovedMapIconEntry } from "../../../context/MapSubmissionContext";
 
 const CORRELATION_ITEM_HOVER_EVENT = "map-correlation-item:hover";
 
@@ -22,6 +23,7 @@ type IconEditProps = {
   onRemoveIconElement: (params: { editFeatureId?: string; originalEntityId: string }) => void;
   upsertQuest?: (quest: Quest) => void;
   removeQuestEntry?: (questId: string) => void;
+  addRemovedMapIcon?: (entry: RemovedMapIconEntry) => void;
   questEdits?: QuestEditEntry[];
   editIconRequest?: IconDatum | null;
   onEditIconRequestHandled?: () => void;
@@ -35,6 +37,7 @@ export const IconEdit: React.FC<IconEditProps> = ({
   onRemoveIconElement,
   upsertQuest,
   removeQuestEntry,
+  addRemovedMapIcon,
   questEdits,
   editIconRequest,
   onEditIconRequestHandled,
@@ -94,6 +97,7 @@ export const IconEdit: React.FC<IconEditProps> = ({
     onRemoveIconElement,
     upsertQuest,
     removeQuestEntry,
+    addRemovedMapIcon,
     questEdits,
     editIconRequest,
     onEditIconRequestHandled,
@@ -112,9 +116,9 @@ export const IconEdit: React.FC<IconEditProps> = ({
     placeButtonText = "Move Icon";
   }
 
-  // For quest icons: quest, objective, description, and at least one image are mandatory
+  // For quest icons: quest, objective, and description are mandatory (images are optional)
   const isQuestFieldsMissing =
-    isQuestIcon && (!selectedQuestId || !selectedObjectiveId || !iconDescription.trim() || selectedImages.length === 0);
+    isQuestIcon && (!selectedQuestId || !selectedObjectiveId || !iconDescription.trim());
   const isSubmitDisabled =
     isDisabled || !selectedIcon || !placedLocation || Boolean(isQuestFieldsMissing);
 
@@ -187,9 +191,6 @@ export const IconEdit: React.FC<IconEditProps> = ({
               onMoveImageUp={(path) => moveImagePath(path, "up")}
               onMoveImageDown={(path) => moveImagePath(path, "down")}
             />
-            {isQuestIcon && selectedImages.length === 0 && (
-              <div className="map-edit-field-hint">At least one image is required for quest icons.</div>
-            )}
           </div>
           <div className="map-edit-field">
             <div className="map-edit-field-label">Correlation</div>

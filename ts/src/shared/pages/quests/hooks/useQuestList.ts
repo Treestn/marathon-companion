@@ -16,7 +16,9 @@ export const useQuestList = (): QuestListState => {
   const [quests, setQuests] = useState<Quest[]>([]);
 
   const refreshQuestList = useCallback(() => {
-    setQuests(QuestDataStore.getStoredQuestList());
+    // Always provide a new array reference so quest pages recompute
+    // memoized filters/order when progression state changes.
+    setQuests([...QuestDataStore.getStoredQuestList()]);
   }, []);
 
   useEffect(() => {
@@ -25,7 +27,6 @@ export const useQuestList = (): QuestListState => {
 
   useEffect(() => {
     return ProgressionUpdatesService.subscribe((op) => {
-      refreshQuestList();
       if (typeof globalThis.dispatchEvent !== "function") {
         return;
       }
@@ -45,7 +46,7 @@ export const useQuestList = (): QuestListState => {
         globalThis.dispatchEvent(new CustomEvent("quest-progress-updated", { detail }));
       }
     });
-  }, [refreshQuestList]);
+  }, []);
 
   const sendProgressionUpdate = useCallback((update: ProgressionUpdateOp) => {
     const bridge = (overwolf?.windows?.getMainWindow?.() as any)?.backgroundBridge;

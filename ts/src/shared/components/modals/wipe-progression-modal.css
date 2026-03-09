@@ -86,3 +86,9 @@
 .wipe-progression-button:hover {
   filter: brightness(1.05);
 }
+
+/* Force square corners in this modal */
+.wipe-progression-card,
+.wipe-progression-card * {
+  border-radius: 0 !important;
+}

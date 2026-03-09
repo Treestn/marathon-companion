@@ -111,6 +111,7 @@ type QuestEditBodyProps = {
   onReorderObjectives?: (questId: string, questName: string, objectiveOrder: string[]) => void;
   onRewardChange?: (rewards: EditRewardItem[]) => void;
   onTraderStandingRewardChange?: (rewards: EditTraderStandingReward[]) => void;
+  onNavigateToQuest?: (questId: string) => void;
 };
 
 // ---------------------------------------------------------------------------
@@ -132,6 +133,7 @@ export const QuestEditBody = React.memo<QuestEditBodyProps>(({
   onReorderObjectives,
   onRewardChange,
   onTraderStandingRewardChange,
+  onNavigateToQuest,
 }) => {
   const [viewerImages, setViewerImages] = useState<string[] | null>(null);
   const [viewerIndex, setViewerIndex] = useState<number>(0);
@@ -243,15 +245,28 @@ export const QuestEditBody = React.memo<QuestEditBodyProps>(({
     if (!quest.taskRequirements || quest.taskRequirements.length === 0) {
       return [];
     }
+
+    const linkQuestNameById = new Map<string, string>();
+    for (const linkedQuest of linkQuestOptions) {
+      const linkedName =
+        linkedQuest.locales?.[I18nHelper.currentLocale()] ??
+        linkedQuest.name ??
+        linkedQuest.id;
+      linkQuestNameById.set(linkedQuest.id, linkedName);
+    }
+
     return quest.taskRequirements.map((req) => {
-      const questData = QuestDataStore.getQuestById(req.task.id);
-      const name = questData
-        ? (questData.locales?.[I18nHelper.currentLocale()] ?? questData.name)
-        : req.task.id;
+      const linkedQuestName = linkQuestNameById.get(req.task.id);
+      const questData = linkedQuestName ? null : QuestDataStore.getQuestById(req.task.id);
+      const name =
+        linkedQuestName ??
+        (questData
+          ? (questData.locales?.[I18nHelper.currentLocale()] ?? questData.name)
+          : req.task.id);
       const status = req.status?.[0] ?? 'complete';
       return { questId: req.task.id, questName: name, status };
     });
-  }, [quest.taskRequirements]);
+  }, [linkQuestOptions, quest.taskRequirements]);
 
   const handleRemoveRequirement = useCallback(
     (index: number) => {
@@ -271,14 +286,17 @@ export const QuestEditBody = React.memo<QuestEditBodyProps>(({
   const questSearchResults = useMemo(() => {
     if (!newReqQuestQuery.trim()) return [];
     const query = newReqQuestQuery.toLowerCase();
-    const allQuests = QuestDataStore.getStoredQuestList();
+    const allQuests = linkQuestOptions.length > 0
+      ? linkQuestOptions
+      : QuestDataStore.getStoredQuestList();
     return allQuests
       .filter((q) => {
+        if (q.id === quest.id) return false;
         const name = q.locales?.[I18nHelper.currentLocale()] ?? q.name ?? '';
         return name.toLowerCase().includes(query);
       })
       .slice(0, 20);
-  }, [newReqQuestQuery]);
+  }, [linkQuestOptions, newReqQuestQuery, quest.id]);
 
   const handleSelectNewReqQuest = useCallback((q: Quest) => {
     const name = q.locales?.[I18nHelper.currentLocale()] ?? q.name;
@@ -718,9 +736,14 @@ export const QuestEditBody = React.memo<QuestEditBodyProps>(({
                 <span className="quest-edit-unlock-status">
                   {UNLOCK_STATUS_OPTIONS.find((o) => o.value === req.status)?.label ?? req.status}
                 </span>
-                <span className="quest-edit-unlock-quest-name" title={req.questName}>
+                <button
+                  type="button"
+                  className="quest-edit-unlock-quest-name quest-link-button quest-edit-unlock-quest-link"
+                  title={req.questName}
+                  onClick={() => onNavigateToQuest?.(req.questId)}
+                >
                   {req.questName}
-                </span>
+                </button>
                 <button
                   type="button"
                   className="quest-edit-unlock-remove-button"
@@ -807,9 +830,14 @@ export const QuestEditBody = React.memo<QuestEditBodyProps>(({
                 <span className="quest-edit-unlock-status">
                   {UNLOCK_STATUS_OPTIONS.find((o) => o.value === lead.status)?.label ?? lead.status}
                 </span>
-                <span className="quest-edit-unlock-quest-name" title={lead.questName}>
+                <button
+                  type="button"
+                  className="quest-edit-unlock-quest-name quest-link-button quest-edit-unlock-quest-link"
+                  title={lead.questName}
+                  onClick={() => onNavigateToQuest?.(lead.questId)}
+                >
                   {lead.questName}
-                </span>
+                </button>
                 <button
                   type="button"
                   className="quest-edit-unlock-remove-button"
@@ -1366,9 +1394,18 @@ const EditableObjectiveRow: React.FC<{
               <button
                 type="button"
                 className="quest-objective-image-button"
+                aria-label={`View objective images (${objective.images.length})`}
+                title={`View objective images (${objective.images.length})`}
                 onClick={() => openViewer(objective.images, 'Quest images')}
               >
-                Images ({objective.images.length})
+                <span
+                  className="quest-objective-image-icon"
+                  aria-hidden="true"
+                  style={{
+                    WebkitMaskImage: "url('/img/icons/image.svg')",
+                    maskImage: "url('/img/icons/image.svg')",
+                  }}
+                />
               </button>
             </div>
           )}

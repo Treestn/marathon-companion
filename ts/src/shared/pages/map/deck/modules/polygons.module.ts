@@ -20,6 +20,7 @@ type PolygonDatum = {
   polygon: [number, number][];
   correlation?: CorrelationMeta;
   correlations?: CorrelationMeta[];
+  properties?: FeatureProps;
 };
 
 const normalizeCoord = (
@@ -48,6 +49,7 @@ const pushPolygon = (
   ring: [number, number][],
   mapDoc: MapGeoDocument,
   coord: CoordinateUtils,
+  properties?: FeatureProps,
   correlation?: CorrelationMeta,
   correlations?: CorrelationMeta[],
 ) => {
@@ -55,6 +57,7 @@ const pushPolygon = (
   out.push({
     id: `${idPrefix}:${out.length}`,
     polygon: toPolygon(ring, mapDoc, coord),
+    properties,
     correlation,
     correlations,
   });
@@ -66,19 +69,20 @@ const appendFeaturePolygons = (
   geometry: GeoJSON.Geometry,
   mapDoc: MapGeoDocument,
   coord: CoordinateUtils,
+  properties?: FeatureProps,
   correlation?: CorrelationMeta,
   correlations?: CorrelationMeta[],
 ) => {
   if (geometry.type === "Polygon") {
     const ring = geometry.coordinates?.[0] as [number, number][];
-    pushPolygon(out, idPrefix, ring, mapDoc, coord, correlation, correlations);
+    pushPolygon(out, idPrefix, ring, mapDoc, coord, properties, correlation, correlations);
     return;
   }
   if (geometry.type === "MultiPolygon") {
     const polys = geometry.coordinates as [number, number][][][];
     polys.forEach((poly) => {
       const ring = poly?.[0];
-      pushPolygon(out, idPrefix, ring, mapDoc, coord, correlation, correlations);
+      pushPolygon(out, idPrefix, ring, mapDoc, coord, properties, correlation, correlations);
     });
   }
 };
@@ -99,6 +103,7 @@ const buildPolygonData = (
           feature.geometry,
           mapDoc,
           coord,
+          props,
           props?.correlation,
           props?.correlations,
         );
@@ -146,6 +151,7 @@ export const buildPolygonLayer = ({
       const [px, py] = normalizeCoord(point, mapDoc);
       return coord.pixelToLngLat(px, py);
     }),
+    properties: undefined,
     correlation: item.correlation,
   }));
 
@@ -163,8 +169,30 @@ export const buildPolygonLayer = ({
     stroked: true,
     filled: true,
     getPolygon: (d: PolygonDatum) => d.polygon,
-    getFillColor: [90, 140, 160, 90],
-    getLineColor: [90, 200, 200, 200],
+    getFillColor: (d: PolygonDatum) => {
+      const hex = d.properties?.polygonFillColor;
+      if (!hex) return [90, 140, 160, 90];
+      const parsed = hex.match(/^#([0-9a-fA-F]{6})$/);
+      if (!parsed) return [90, 140, 160, 90];
+      return [
+        Number.parseInt(hex.slice(1, 3), 16),
+        Number.parseInt(hex.slice(3, 5), 16),
+        Number.parseInt(hex.slice(5, 7), 16),
+        90,
+      ];
+    },
+    getLineColor: (d: PolygonDatum) => {
+      const hex = d.properties?.polygonOutlineColor;
+      if (!hex) return [90, 200, 200, 200];
+      const parsed = hex.match(/^#([0-9a-fA-F]{6})$/);
+      if (!parsed) return [90, 200, 200, 200];
+      return [
+        Number.parseInt(hex.slice(1, 3), 16),
+        Number.parseInt(hex.slice(3, 5), 16),
+        Number.parseInt(hex.slice(5, 7), 16),
+        220,
+      ];
+    },
     lineWidthMinPixels: 1,
     parameters: { depthTest: false, depthMask: false },
   });

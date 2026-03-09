@@ -5,6 +5,7 @@ import { useMapEditPanel } from "./useMapEditPanel";
 import { useMapEditSession } from "./useMapEditSession";
 import { IconEdit } from "./IconEdit";
 import { useOptionalQuestSubmissionContext } from "../../../context/QuestSubmissionContext";
+import { useOptionalMapSubmissionContext } from "../../../context/MapSubmissionContext";
 import { useOptionalMapEditPlacementContext } from "../../../context/MapEditPlacementContext";
 import { PolygonEdit } from "./PolygonEdit";
 import type { IconDatum } from "../deck/builder/icon.builder";
@@ -24,6 +25,7 @@ export const MapEditPanel: React.FC<MapEditPanelProps> = ({
 }) => {
   const { selectedTool, setSelectedTool } = useMapEditPanel();
   const { questEdits, upsertQuest, removeQuestEntry } = useOptionalQuestSubmissionContext();
+  const { addRemovedMapIcon } = useOptionalMapSubmissionContext();
   const { setActiveTool } = useOptionalMapEditPlacementContext();
 
   // Auto-switch to icon tool when an icon edit request comes in
@@ -93,10 +95,10 @@ export const MapEditPanel: React.FC<MapEditPanelProps> = ({
                         <div className="map-edit-overview-badges">
                           <span
                             className={`map-edit-overview-badge ${
-                              layer.addedFeatureIds.includes(feature.properties.id) ? "is-added" : "is-edited"
+                              layer.addedFeatureIds.includes(String(feature.properties.id)) ? "is-added" : "is-edited"
                             }`}
                           >
-                            {layer.addedFeatureIds.includes(feature.properties.id) ? "Added" : "Edited"}
+                            {layer.addedFeatureIds.includes(String(feature.properties.id)) ? "Added" : "Edited"}
                           </span>
                         </div>
                       </div>
@@ -132,6 +134,7 @@ export const MapEditPanel: React.FC<MapEditPanelProps> = ({
           onRemoveIconElement={editSession.removeIconElement}
           upsertQuest={upsertQuest}
           removeQuestEntry={removeQuestEntry}
+          addRemovedMapIcon={addRemovedMapIcon}
           questEdits={questEdits}
           editIconRequest={editIconRequest}
           onEditIconRequestHandled={onEditIconRequestHandled}

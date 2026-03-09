@@ -176,11 +176,6 @@ module.exports = env => ({
             chunks: ['marker_window']
         }),
         new HtmlWebpackPlugin({
-            template: './src/quests_reminder/quests_reminder.html',
-            filename: path.resolve(__dirname, './dist/quests_reminder.html'),
-            chunks: ['quests_reminder']
-        }),
-        new HtmlWebpackPlugin({
             template: './src/setting/file_saver.html',
             filename: path.resolve(__dirname, './dist/file_saver.html'),
             chunks: ['quests_reminder']

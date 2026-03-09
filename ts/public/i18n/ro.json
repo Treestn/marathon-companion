@@ -114,7 +114,7 @@
       "warning": {
         "1": "Această opțiune marchează ușor drept finalizate misiunile deja făcute dar neurmărite. (Util mai ales dacă ai instalat aplicația la mijlocul wipe-ului)",
         "2": "Va finaliza doar misiunile pentru progresul selectat (PvP sau PvE).",
-        "3": "Pentru utilizare corectă, activează în aplicație toate misiunile pe care le ai active în Arc Raiders. Aplicația va finaliza doar cerințele misiunilor activate în aplicație.",
+        "3": "Pentru utilizare corectă, activează în aplicație toate misiunile pe care le ai active în Marathon. Aplicația va finaliza doar cerințele misiunilor activate în aplicație.",
         "4": "Închiderea unei ramuri care nu duce nicăieri nu se finalizează automat. Marchează ultima misiune ca finalizată pentru ca auto-completarea să funcționeze corect.",
         "5": "Exemplu: Stirrup nu duce mai departe; dacă nu o marchezi finalizată, misiunile anterioare nu vor fi marcate automat."
       },

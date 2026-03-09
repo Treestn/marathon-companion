@@ -114,7 +114,7 @@
       "warning": {
         "1": "Questa opzione completa facilmente le missioni già fatte ma non tracciate. (Utile se hai ottenuto l’app a metà wipe)",
         "2": "Completerà solo le missioni per la progressione selezionata (PvP o PvE).",
-        "3": "Per usarla correttamente, attiva nell’app tutte le missioni che hai attive in Arc Raiders. L’app completerà solo i requisiti delle missioni attivate nell’app.",
+        "3": "Per usarla correttamente, attiva nell’app tutte le missioni che hai attive in Marathon. L’app completerà solo i requisiti delle missioni attivate nell’app.",
         "4": "Nota che un ramo di missioni che non porta a nulla non verrà completato automaticamente. Segna l’ultima missione come completata affinché l’auto-completamento funzioni bene.",
         "5": "Esempio: Stirrup non porta a nulla; se non la segni completata, le missioni precedenti non verranno marcate automaticamente."
       },

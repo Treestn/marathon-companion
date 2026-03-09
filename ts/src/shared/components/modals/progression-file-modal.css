@@ -134,3 +134,9 @@
   display: flex;
   justify-content: flex-end;
 }
+
+/* Force square corners in this modal */
+.progression-file-card,
+.progression-file-card * {
+  border-radius: 0 !important;
+}

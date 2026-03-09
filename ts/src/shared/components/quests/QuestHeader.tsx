@@ -47,6 +47,15 @@ type StatusAreaProps = {
   onToggleActive: () => void;
 };
 
+const getQuestTypeLabel = (questType?: string): string => {
+  const normalized = (questType ?? '').trim().toLowerCase();
+  if (normalized === 'priority') return 'Priority';
+  if (normalized === 'liaison') return 'Liaison';
+  if (normalized === 'standard') return 'Standard';
+  if (!normalized) return 'Unknown';
+  return normalized.charAt(0).toUpperCase() + normalized.slice(1);
+};
+
 const StatusArea: React.FC<StatusAreaProps> = ({
   isCompleted,
   isActive,
@@ -128,6 +137,7 @@ type EditHeaderProps = {
   isOpen: boolean;
   isCompleted: boolean;
   isActive: boolean;
+  questType?: string;
   traderImageSrc: string | null;
   traderAlt: string;
   factionColor: string;
@@ -143,6 +153,7 @@ const EditHeader: React.FC<EditHeaderProps> = ({
   isOpen,
   isCompleted,
   isActive,
+  questType,
   traderImageSrc,
   traderAlt,
   factionColor,
@@ -243,6 +254,9 @@ const EditHeader: React.FC<EditHeaderProps> = ({
             </div>
           )}
         </div>
+        <span className="quest-header-type-tag" title={getQuestTypeLabel(questType)}>
+          {getQuestTypeLabel(questType)}
+        </span>
 
         {/* Editable quest name */}
         <input
@@ -318,17 +332,17 @@ export const QuestHeader = React.memo<QuestHeaderProps>(({
   );
 
   useEffect(() => {
-    const handler = async (event: Event) => {
+    const handler = (event: Event) => {
       const detail = (event as CustomEvent).detail;
-      if (!detail || detail.questId !== quest.id) {
+      if (!detail) {
         return;
       }
-      if (detail.type === 'active-state') {
-        setIsActive(ProgressionStateService.isQuestActive(quest.id));
-      }
-      if (detail.type === 'completed') {
-        setIsCompleted(ProgressionStateService.isQuestCompleted(quest.id));
-      }
+      // Keep header styles in sync even when one update implicitly changes
+      // multiple state flags (e.g. completing a quest also deactivates it).
+      // We refresh on any quest progression event because one quest update
+      // can activate/deactivate other quests via requirement chains.
+      setIsActive(ProgressionStateService.isQuestActive(quest.id));
+      setIsCompleted(ProgressionStateService.isQuestCompleted(quest.id));
     };
     globalThis.addEventListener('quest-progress-updated', handler);
     return () => globalThis.removeEventListener('quest-progress-updated', handler);
@@ -366,6 +380,7 @@ export const QuestHeader = React.memo<QuestHeaderProps>(({
         isOpen={isOpen}
         isCompleted={isCompleted}
         isActive={isActive}
+        questType={quest.questType}
         traderImageSrc={traderImageSrc}
         traderAlt={traderAlt}
         factionColor={factionColor}
@@ -406,6 +421,9 @@ export const QuestHeader = React.memo<QuestHeaderProps>(({
             className="quest-trader-image"
           />
         )}
+        <span className="quest-header-type-tag" title={getQuestTypeLabel(quest.questType)}>
+          {getQuestTypeLabel(quest.questType)}
+        </span>
         <span className="quest-title">{displayTitle}</span>
       </button>
       <StatusArea

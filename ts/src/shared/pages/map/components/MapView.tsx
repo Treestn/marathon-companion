@@ -160,6 +160,9 @@ export const MapView: React.FC<MapViewProps> = ({ mapDoc, className, style, onMa
             <div className="map-compass-label">
               {Math.round(bearing)}°
             </div>
+            <div className="map-compass-hint">
+              Right click + hold to pitch and rotate
+            </div>
           </div>
         </>
       )}

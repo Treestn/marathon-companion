@@ -31,10 +31,6 @@ const isCorrelationVisible = (
   if (!correlation) {
     return true;
   }
-  // Node links should stay visible; icon-to-icon correlations are represented as node lines.
-  if (correlation.role === "node") {
-    return true;
-  }
   if (correlation.trigger === "always") {
     return true;
   }

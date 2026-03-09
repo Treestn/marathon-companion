@@ -114,7 +114,7 @@
       "warning": {
         "1": "Yaptığın fakat izlemediğin görevleri kolayca tamamlar. (Uygulamayı wipe ortasında aldıysan faydalı)",
         "2": "Sadece seçili ilerleme (PvP veya PvE) için görevleri tamamlar.",
-        "3": "Doğru kullanım için, Arc Raiders’da aktif olan tüm görevlerini uygulamada da etkinleştir. Uygulama yalnız etkinleştirilen görevlerin gereklerini tamamlar.",
+        "3": "Doğru kullanım için, Marathon’da aktif olan tüm görevlerini uygulamada da etkinleştir. Uygulama yalnız etkinleştirilen görevlerin gereklerini tamamlar.",
         "4": "Bir yere varmayan görev dalları otomatik tamamlanmaz. Son görevi tamamlandı olarak işaretle ki otomatik tamamlama düzgün çalışsın.",
         "5": "Örn. Stirrup bir yere bağlanmaz; tamamlandı demezsen önceki görevler otomatik işaretlenmez."
       },

@@ -111,7 +111,7 @@ export class Progression implements IProgression {
     hideoutState:IHideoutState[] = [];
     itemState:IItemsState[] = [];
 
-    static readonly startingQuests:string[] = ["ARC-87a8e500877bba0"]
+    static readonly startingQuests:string[] = ["1f9fbbad-b784-4c85-9c92-c20da6f5e5aa"]
 
     constructor(data?:IProgression) {
         if(data) {

@@ -11,17 +11,20 @@ import { QuestDataStore } from '../../services/QuestDataStore';
 import { ProgressionStateService } from '../../services/ProgressionStateService';
 import { dispatchDesktopNavigation } from '../../services/NavigationEvents';
 import { TraderList } from '../../../escape-from-tarkov/constant/TraderConst';
+import { RarityPatternBackground } from '../rarity/RarityPatternBackground';
 
 type QuestBodyProps = {
   quest: Quest;
   onQuestCompletedChange?: (questId: string, isCompleted: boolean) => void;
   onObjectiveChange?: (questId: string, objectiveId: string, isCompleted: boolean) => void;
+  onNavigateToQuest?: (questId: string) => void;
 };
 
 export const QuestBody: React.FC<QuestBodyProps> = ({
   quest,
   onQuestCompletedChange,
   onObjectiveChange,
+  onNavigateToQuest,
 }) => {
   const [rewardItems, setRewardItems] = useState<Record<string, { name: string; image?: string }>>({});
   const [viewerImages, setViewerImages] = useState<string[] | null>(null);
@@ -219,21 +222,53 @@ export const QuestBody: React.FC<QuestBodyProps> = ({
         <div className="quest-summary-box">
           <div className="quest-summary-label">Unlocked by</div>
           <div className="quest-summary-value">
-            {unlockedBy.length
-              ? unlockedBy
-                  .map((q) => q.locales?.[I18nHelper.currentLocale()] ?? q.name)
-                  .join(', ')
-              : 'None'}
+            {unlockedBy.length ? (
+              unlockedBy.map((linkedQuest, index) => {
+                const linkedName =
+                  linkedQuest.locales?.[I18nHelper.currentLocale()] ?? linkedQuest.name;
+                return (
+                  <React.Fragment key={`${linkedQuest.id}-${index}`}>
+                    <button
+                      type="button"
+                      className="quest-link-button"
+                      onClick={() => onNavigateToQuest?.(linkedQuest.id)}
+                      title={linkedName}
+                    >
+                      {linkedName}
+                    </button>
+                    {index < unlockedBy.length - 1 ? ', ' : ''}
+                  </React.Fragment>
+                );
+              })
+            ) : (
+              'None'
+            )}
           </div>
         </div>
         <div className="quest-summary-box">
           <div className="quest-summary-label">Leads to</div>
           <div className="quest-summary-value">
-            {leadsTo.length
-              ? leadsTo
-                  .map((q) => q.locales?.[I18nHelper.currentLocale()] ?? q.name)
-                  .join(', ')
-              : 'None'}
+            {leadsTo.length ? (
+              leadsTo.map((linkedQuest, index) => {
+                const linkedName =
+                  linkedQuest.locales?.[I18nHelper.currentLocale()] ?? linkedQuest.name;
+                return (
+                  <React.Fragment key={`${linkedQuest.id}-${index}`}>
+                    <button
+                      type="button"
+                      className="quest-link-button"
+                      onClick={() => onNavigateToQuest?.(linkedQuest.id)}
+                      title={linkedName}
+                    >
+                      {linkedName}
+                    </button>
+                    {index < leadsTo.length - 1 ? ', ' : ''}
+                  </React.Fragment>
+                );
+              })
+            ) : (
+              'None'
+            )}
           </div>
         </div>
       </div>
@@ -326,18 +361,6 @@ export const QuestBody: React.FC<QuestBodyProps> = ({
                 />
               ) : (
                 <>
-                  {objective.images.length > 0 && (
-                  <button
-                    type="button"
-                    className="quest-objective-image-button"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      openViewer(objective.images, 'Quest images');
-                    }}
-                  >
-                    Images
-                  </button>
-                  )}
                   {canFocusIcon && (
                     <button
                       type="button"
@@ -346,8 +369,9 @@ export const QuestBody: React.FC<QuestBodyProps> = ({
                       title="Show on map"
                       onClick={(event) => {
                         event.stopPropagation();
-                        const iconId = Number(objective.questImageIds[0]);
-                        if (!objective.mapId || Number.isNaN(iconId)) {
+                        const iconId = objective.questImageIds[0];
+                        const mapId = MapAdapter.getIdFromMap(objective.mapId ?? '') || objective.mapId;
+                        if (!mapId || !iconId) {
                           return;
                         }
                         dispatchDesktopNavigation({ pageId: 'interactive-map' });
@@ -362,7 +386,7 @@ export const QuestBody: React.FC<QuestBodyProps> = ({
                           globalThis.dispatchEvent(
                             new CustomEvent('map-focus-icon', {
                               detail: {
-                                mapId: objective.mapId,
+                                mapId,
                                 iconId,
                               },
                             })
@@ -377,11 +401,62 @@ export const QuestBody: React.FC<QuestBodyProps> = ({
                       />
                     </button>
                   )}
+                  {!isCompleted && objective.images.length > 0 && (
+                    <button
+                      type="button"
+                      className="quest-objective-image-button"
+                      aria-label={`View objective images (${objective.images.length})`}
+                      title={`View objective images (${objective.images.length})`}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        openViewer(objective.images, 'Quest images');
+                      }}
+                    >
+                      <span
+                        className="quest-objective-image-icon"
+                        aria-hidden="true"
+                        style={{
+                          WebkitMaskImage: "url('/img/icons/image.svg')",
+                          maskImage: "url('/img/icons/image.svg')",
+                        }}
+                      />
+                    </button>
+                  )}
                 </>
               )}
             </div>
           </div>
         )})}
+      </div>
+
+      <div className="quest-divider" />
+
+      <div className="quest-complete-action">
+        {isQuestCompleted && (
+          <div className="quest-complete-note">
+            Quest completed. Click to unmark.
+          </div>
+        )}
+        <button
+          type="button"
+          className={`quest-complete-button${isQuestCompleted ? ' button-is-completed' : ''}`}
+          onClick={() => {
+            const nextState = !isQuestCompleted;
+            if (onQuestCompletedChange) {
+              onQuestCompletedChange(quest.id, nextState);
+            } else {
+              const bridge = (overwolf?.windows?.getMainWindow?.() as any)?.backgroundBridge;
+              bridge?.updateProgression?.({
+                type: 'quest-completed',
+                questId: quest.id,
+                isCompleted: nextState,
+              });
+            }
+            setIsQuestCompleted(nextState);
+          }}
+        >
+          {isQuestCompleted ? 'Completed' : 'Mark as Completed'}
+        </button>
       </div>
 
       <div className="quest-divider" />
@@ -395,7 +470,13 @@ export const QuestBody: React.FC<QuestBodyProps> = ({
             <div key={`${quest.id}-${itemId}`} className="quest-reward-row">
               <div className="quest-reward-image-wrapper">
                 {itemId ? (
-                  <ItemRarityImage itemId={itemId} size={40} />
+                  <>
+                    <RarityPatternBackground
+                      rarity={ItemsElementUtils.getItemRarity(itemId)}
+                      className="quest-reward-image-pattern"
+                    />
+                    <ItemRarityImage itemId={itemId} size={40} className="quest-reward-item-image" />
+                  </>
                 ) : (
                   <div className="quest-reward-image-placeholder" />
                 )}
@@ -426,34 +507,6 @@ export const QuestBody: React.FC<QuestBodyProps> = ({
             </div>
           </div>
         ))}
-      </div>
-
-      <div className="quest-complete-action">
-        {isQuestCompleted && (
-          <div className="quest-complete-note">
-            Quest completed. Click to unmark.
-          </div>
-        )}
-        <button
-          type="button"
-          className={`quest-complete-button${isQuestCompleted ? ' button-is-completed' : ''}`}
-          onClick={() => {
-            const nextState = !isQuestCompleted;
-            if (onQuestCompletedChange) {
-              onQuestCompletedChange(quest.id, nextState);
-            } else {
-              const bridge = (overwolf?.windows?.getMainWindow?.() as any)?.backgroundBridge;
-              bridge?.updateProgression?.({
-                type: 'quest-completed',
-                questId: quest.id,
-                isCompleted: nextState,
-              });
-            }
-            setIsQuestCompleted(nextState);
-          }}
-        >
-          {isQuestCompleted ? 'Completed' : 'Mark as Completed'}
-        </button>
       </div>
 
       {viewerImages && viewerContainer && (

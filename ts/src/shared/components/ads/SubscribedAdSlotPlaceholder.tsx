@@ -122,7 +122,7 @@ export const SubscribedSidePanel: React.FC<SubscribedSidePanel> = ({
             value={questOrderBy}
             options={[
               { value: 'name', label: 'Order by name' },
-              { value: 'trader', label: 'Order by trader' },
+              { value: 'trader', label: 'Order by Faction' },
             ]}
             onChange={setQuestOrderBy}
             iconSrc="../../img/icons/filter_list.svg"

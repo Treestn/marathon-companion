@@ -98,3 +98,9 @@
 .auto-complete-button:hover {
   filter: brightness(1.05);
 }
+
+/* Force square corners in this modal */
+.auto-complete-card,
+.auto-complete-card * {
+  border-radius: 0 !important;
+}

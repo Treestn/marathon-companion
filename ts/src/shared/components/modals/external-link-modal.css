@@ -79,3 +79,9 @@
   background: var(--accent-bg-muted);
   border-color: #5d4b66;
 }
+
+/* Force square corners in this modal */
+.external-link-modal-card,
+.external-link-modal-card * {
+  border-radius: 0 !important;
+}

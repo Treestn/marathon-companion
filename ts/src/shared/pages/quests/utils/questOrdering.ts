@@ -4,21 +4,10 @@ import { ProgressionStateService } from "../../../services/ProgressionStateServi
 const sortQuestList = (
   list: Quest[],
   sortByTrader: boolean,
-  sortByQuest: boolean,
 ): Quest[] => {
   return list.sort((a, b) => {
-    if (sortByTrader && sortByQuest) {
-      const traderCompare = a.trader.name.localeCompare(b.trader.name);
-      if (traderCompare !== 0) {
-        return traderCompare;
-      }
-      return a.name.localeCompare(b.name);
-    }
     if (sortByTrader) {
       return a.trader.name.localeCompare(b.trader.name);
-    }
-    if (sortByQuest) {
-      return a.name.localeCompare(b.name);
     }
     return 0;
   });
@@ -27,7 +16,6 @@ const sortQuestList = (
 export const orderQuests = (
   list: Quest[],
   sortByTrader: boolean,
-  sortByQuest: boolean,
 ): Quest[] => {
   const orderedActive: Quest[] = [];
   const orderedOther: Quest[] = [];
@@ -43,7 +31,7 @@ export const orderQuests = (
     }
   });
 
-  const sortedActive = sortQuestList(orderedActive, sortByTrader, sortByQuest);
-  const sortedOther = sortQuestList(orderedOther, sortByTrader, sortByQuest);
+  const sortedActive = sortQuestList(orderedActive, sortByTrader);
+  const sortedOther = sortQuestList(orderedOther, sortByTrader);
   return [...sortedActive, ...sortedOther];
 };

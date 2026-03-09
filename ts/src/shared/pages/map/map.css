@@ -29,12 +29,12 @@
 
 .popup-arrow.popup-top {
   top: -8px;
-  border-bottom: 8px solid var(--filter-hover-bg-color, #333);
+  border-bottom: 8px solid color-mix(in srgb, var(--white-a50) 45%, var(--bg-placeholder) 55%);
 }
 
 .popup-arrow.popup-bottom {
   bottom: -8px;
-  border-top: 8px solid var(--filter-hover-bg-color, #333);
+  border-top: 8px solid color-mix(in srgb, var(--white-a50) 45%, var(--bg-placeholder) 55%);
 }
 
 .title-section-container {
@@ -676,6 +676,22 @@
   color: var(--accent);
 }
 
+.map-error-refresh-button {
+  margin-top: 6px;
+  padding: 8px 16px;
+  border: 1px solid color-mix(in srgb, var(--important-button-color) 90%, var(--bg-placeholder) 10%);
+  background-color: var(--important-button-color);
+  color: var(--important-button-text-color);
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.map-error-refresh-button:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
 .map-loading-container {
   display: flex;
   flex-direction: column;
@@ -775,6 +791,19 @@
   padding: 4px 8px;
   border-radius: 4px;
   pointer-events: none;
+}
+
+.map-compass-hint {
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.2;
+  text-align: center;
+  text-shadow: 1px 1px 2px var(--black-a70);
+  background-color: var(--black-a45);
+  padding: 3px 8px;
+  border-radius: 4px;
+  pointer-events: none;
+  user-select: none;
 }
 
 /* ============================================
@@ -2320,8 +2349,16 @@
 .map-filter-quest-trader-image {
   width: 28px;
   height: 28px;
-  border-radius: 50%;
-  object-fit: cover;
+  border-radius: 6px;
+  background-color: var(--quest-faction-color, var(--accent));
+  -webkit-mask-image: var(--quest-faction-icon);
+  mask-image: var(--quest-faction-icon);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
   flex-shrink: 0;
   box-shadow: 0 0 6px var(--black-a40);
 }
@@ -2336,8 +2373,8 @@
 
 .map-filter-quest-focus {
   margin-left: auto;
-  background: var(--map-accent-light-a18);
-  border: 1px solid var(--map-accent-light-a55);
+  background: var(--white-a12);
+  border: 1px solid var(--white-a45);
   color: var(--text-primary);
   width: 26px;
   height: 26px;
@@ -2352,8 +2389,8 @@
 }
 
 .map-filter-quest-focus:hover {
-  background: var(--map-accent-light-a35);
-  border-color: var(--map-accent-light-a90);
+  background: var(--white-a20);
+  border-color: var(--white-a80);
   transform: translateY(-1px);
 }
 
@@ -2368,7 +2405,7 @@
   height: 14px;
   object-fit: contain;
   pointer-events: none;
-  filter: drop-shadow(0 0 2px var(--black-a35));
+  filter: brightness(0) saturate(100%) invert(100%) drop-shadow(0 0 2px var(--black-a35));
 }
 
 /* .map-filter-quest-focus:not(:disabled):hover::after {

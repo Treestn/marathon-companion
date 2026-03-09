@@ -10,6 +10,7 @@ import { useMapEditSession } from "./map/edit/useMapEditSession";
 import { useOptionalMapEditPlacementContext } from "../context/MapEditPlacementContext";
 import { useOptionalEditModeContext } from "../context/EditModeContext";
 import { useOptionalMapSubmissionContext } from "../context/MapSubmissionContext";
+import { useOptionalQuestSubmissionContext } from "../context/QuestSubmissionContext";
 
 import { Maps, MapsList } from "../../escape-from-tarkov/constant/MapsConst";
 import { MapAdapter } from "../../adapter/MapAdapter";
@@ -18,8 +19,11 @@ import { QuestDataStore } from "../services/QuestDataStore";
 import { ProgressionStateService } from "../services/ProgressionStateService";
 import { CoordinateUtils } from "./map/utils/coordinateUtils";
 import { AppConfigClient } from "../services/AppConfigClient";
+import { I18nHelper } from "../../locale/I18nHelper";
 import type { MapGeoDocument } from "../../model/map/MapGeoDocument";
 import type { IconDatum } from "./map/deck/builder/icon.builder";
+import type { Quest, QuestImage } from "../../model/quest/IQuestsElements";
+import type { UpsertIconElementPayload } from "./map/edit/useMapEditSession";
 
 const getInitialMapId = (): string => {
   const mapDefault =
@@ -131,11 +135,88 @@ export const MapPage: React.FC<MapPageProps> = ({
   const mapContainerRef = useRef<HTMLElement | null>(null);
 
   const { isEditMode, canEdit, isAvailable: isEditModeAvailable, toggleEditMode, setEditMode } = useOptionalEditModeContext();
+  const { addRemovedMapIcon, setMapEditDocs, clearMapEdits, clearRemovedMapIcons } = useOptionalMapSubmissionContext();
+  const { questEdits, upsertQuest, clearQuestEdits } = useOptionalQuestSubmissionContext();
 
-  const { mapDoc, floors, loading, error } = useMapData(mapId);
-  const editSession = useMapEditSession(mapDoc);
+  const { mapDoc, floors, loading, error, refreshMapData } = useMapData(mapId);
+  const upsertQuestIconImage = useCallback(
+    (questId: string, objectiveId: string, iconId: string, imagePaths: string[], description: string) => {
+      const existingEdit = questEdits.find((entry) => entry.quest.id === questId);
+      const baseQuest = existingEdit?.quest ?? QuestDataStore.getQuestById(questId);
+      if (!baseQuest) return;
+      const modified = structuredClone(baseQuest);
+      const objective = modified.objectives.find((obj) => obj.id === objectiveId);
+      if (!objective) return;
+      const iconIdStr = String(iconId);
+      const remaining = (objective.questImages ?? []).filter((qi) => String(qi.id) !== iconIdStr);
+      const normalizedDescription = description.trim();
+      const locales: Record<string, string> = {};
+      if (normalizedDescription) {
+        locales[I18nHelper.currentLocale()] = normalizedDescription;
+        if (!locales[I18nHelper.defaultLocale]) {
+          locales[I18nHelper.defaultLocale] = normalizedDescription;
+        }
+      }
+      const nextQuestImage: QuestImage & { locales: Record<string, string> } = {
+        id: iconIdStr,
+        paths: [...imagePaths],
+        description: normalizedDescription,
+        locales,
+      };
+      objective.questImages = [...remaining, nextQuestImage];
+      upsertQuest(modified);
+    },
+    [questEdits, upsertQuest],
+  );
+  const removeQuestIconImage = useCallback((iconId: string | number) => {
+    const iconIdStr = String(iconId);
+    const questIds = new Set<string>();
+    mapDoc?.groups.forEach((group) => {
+      group.layers?.forEach((layer) => {
+        layer.data?.features?.forEach((feature) => {
+          if (String(feature.properties?.id) !== iconIdStr) return;
+          if (feature.properties?.questId) {
+            questIds.add(String(feature.properties.questId));
+          }
+        });
+      });
+    });
+    questIds.forEach((questId) => {
+      const existingEdit = questEdits.find((entry) => entry.quest.id === questId);
+      const baseQuest: Quest | null | undefined =
+        existingEdit?.quest ?? QuestDataStore.getQuestById(questId);
+      if (!baseQuest) return;
+      const modified = structuredClone(baseQuest);
+      let didRemove = false;
+      modified.objectives.forEach((obj) => {
+        const before = (obj.questImages ?? []).length;
+        obj.questImages = (obj.questImages ?? []).filter((qi) => String(qi.id) !== iconIdStr);
+        if ((obj.questImages ?? []).length !== before) didRemove = true;
+      });
+      if (didRemove) {
+        upsertQuest(modified);
+      }
+    });
+  }, [mapDoc, questEdits, upsertQuest]);
+  const handleIconUpsert = useCallback((payload: UpsertIconElementPayload, resolvedId: string) => {
+    if (!payload.questId || !payload.objectiveId) return;
+    upsertQuestIconImage(
+      payload.questId,
+      payload.objectiveId,
+      resolvedId,
+      payload.imagePaths ?? [],
+      payload.description ?? "",
+    );
+  }, [upsertQuestIconImage]);
+  const editSession = useMapEditSession(
+    mapDoc,
+    handleIconUpsert,
+    (entry) => {
+      addRemovedMapIcon(entry);
+      removeQuestIconImage(entry.featureId);
+    },
+  );
   const placementCtx = useOptionalMapEditPlacementContext();
-  const { setMapEditDocs } = useOptionalMapSubmissionContext();
 
   // Sync all map edit docs into the submission context so the
   // review modal and header button can see map edits across all maps.
@@ -186,7 +267,22 @@ export const MapPage: React.FC<MapPageProps> = ({
     let didChange = false;
 
     const nextDoc = structuredClone(activeMapDoc);
-    const questGroup = nextDoc.groups?.find((group) => group.name === FilterConst.QUESTS.name);
+    const questGroup = nextDoc.groups?.find((group) => {
+      const normalizedName = group.name?.trim().toLowerCase();
+      if (
+        normalizedName === FilterConst.QUESTS.name.toLowerCase() ||
+        normalizedName === "contracts"
+      ) {
+        return true;
+      }
+      return (group.layers ?? []).some((layer) =>
+        (layer.data?.features ?? []).some(
+          (feature) =>
+            Boolean(feature.properties?.questId) ||
+            feature.properties?.iconTypeId === "Contracts:Contracts"
+        )
+      );
+    });
     if (!questGroup?.layers?.length) return;
 
     if (questGroup.active === false) {
@@ -296,11 +392,12 @@ export const MapPage: React.FC<MapPageProps> = ({
     };
   }, [refreshQuestFilters]);
 
+  type MapFocusIconId = string | number;
   type MapFocusDetail = {
     mapId?: string;
     pixelX?: number;
     pixelY?: number;
-    iconId?: number;
+    iconId?: MapFocusIconId;
     floorId?: number | string | null;
   };
   const pendingFocusRef = useRef<MapFocusDetail | null>(null);
@@ -330,11 +427,12 @@ export const MapPage: React.FC<MapPageProps> = ({
   );
 
   const findIconFocus = useCallback(
-    (doc: MapGeoDocument, iconId: number) => {
+    (doc: MapGeoDocument, iconId: MapFocusIconId) => {
+      const normalizedIconId = String(iconId);
       for (const group of doc.groups ?? []) {
         for (const layer of group.layers ?? []) {
           for (const feature of layer.data?.features ?? []) {
-            if (feature.properties?.id !== iconId) {
+            if (String(feature.properties?.id) !== normalizedIconId) {
               continue;
             }
             const point = getFeaturePrimaryPoint(feature, doc);
@@ -359,7 +457,7 @@ export const MapPage: React.FC<MapPageProps> = ({
       if (typeof detail.pixelX === "number" && typeof detail.pixelY === "number") {
         return detail;
       }
-      if (!doc || typeof detail.iconId !== "number") {
+      if (!doc || detail.iconId === undefined || detail.iconId === null) {
         return detail;
       }
       const focus = findIconFocus(doc, detail.iconId);
@@ -445,11 +543,12 @@ export const MapPage: React.FC<MapPageProps> = ({
       }
   };
 
-  const findIconFeature = useCallback((doc: MapGeoDocument, iconId: number) => {
+  const findIconFeature = useCallback((doc: MapGeoDocument, iconId: MapFocusIconId) => {
+    const normalizedIconId = String(iconId);
     for (const group of doc.groups ?? []) {
       for (const layer of group.layers ?? []) {
         for (const feature of layer.data?.features ?? []) {
-          if (feature.properties?.id === iconId) {
+          if (String(feature.properties?.id) === normalizedIconId) {
             return { group, layer, feature };
           }
         }
@@ -459,7 +558,7 @@ export const MapPage: React.FC<MapPageProps> = ({
   }, []);
 
   const enableIconInDoc = useCallback(
-    (doc: MapGeoDocument, iconId: number) => {
+    (doc: MapGeoDocument, iconId: MapFocusIconId) => {
       const nextDoc = structuredClone(doc);
       const match = findIconFeature(nextDoc, iconId);
       if (!match) {
@@ -481,17 +580,21 @@ export const MapPage: React.FC<MapPageProps> = ({
     [findIconFeature]
   );
 
+  const hasFocusIconId = (iconId: unknown): iconId is MapFocusIconId =>
+    (typeof iconId === "number" && Number.isFinite(iconId)) ||
+    (typeof iconId === "string" && iconId.trim().length > 0);
+
   const getValidFocusDetail = useCallback((detail?: MapFocusDetail) => {
     if (!detail) return null;
     const hasCoords =
       typeof detail.pixelX === "number" && typeof detail.pixelY === "number";
-    const hasIcon = typeof detail.iconId === "number";
+    const hasIcon = hasFocusIconId(detail.iconId);
     return hasCoords || hasIcon ? detail : null;
   }, []);
 
   const getDocForFocus = useCallback(
     (detail: MapFocusDetail, doc: MapGeoDocument) => {
-      if (typeof detail.iconId !== "number") {
+      if (!hasFocusIconId(detail.iconId)) {
         return doc;
       }
       const { doc: nextDoc, changed } = enableIconInDoc(doc, detail.iconId);
@@ -721,6 +824,10 @@ export const MapPage: React.FC<MapPageProps> = ({
   const prevEditModeRef = useRef(isEditMode);
   useEffect(() => {
     if (prevEditModeRef.current && !isEditMode) {
+      clearMapEdits();
+      clearRemovedMapIcons();
+      setMapEditDocs([]);
+      clearQuestEdits();
       editSession.resetSession();
       placementCtx.setPlacementState({
         isActive: false,
@@ -736,7 +843,15 @@ export const MapPage: React.FC<MapPageProps> = ({
       setEditIconRequest(null);
     }
     prevEditModeRef.current = isEditMode;
-  }, [isEditMode, editSession, placementCtx]);
+  }, [
+    clearMapEdits,
+    clearQuestEdits,
+    clearRemovedMapIcons,
+    isEditMode,
+    editSession,
+    placementCtx,
+    setMapEditDocs,
+  ]);
 
   const handleMapReady = useCallback((map) => {
     mapRef.current = map;
@@ -769,8 +884,15 @@ export const MapPage: React.FC<MapPageProps> = ({
 
   if (error) {
     return (
-      <div className="mapRunner runner" style={{ padding: 20, textAlign: "center" }}>
-        <div style={{ color: "red" }}>Error loading map: {error}</div>
+      <div className="mapRunner runner map-error-container">
+        <div className="map-error-icon">⚠</div>
+        <div className="map-error-title">Map is temporarily unavailable</div>
+        <div className="map-error-message">
+          The server is currently unavailable. Please try again soon.
+        </div>
+        <button type="button" className="map-error-refresh-button" onClick={refreshMapData}>
+          Refresh
+        </button>
       </div>
     );
   }

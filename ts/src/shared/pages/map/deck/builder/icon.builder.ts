@@ -155,6 +155,16 @@ type BuildIconDatumInput = {
   ordinal: number;
 };
 
+const stableNumericId = (value: string, ordinal: number): number => {
+  let hash = 2166136261;
+  for (let i = 0; i < value.length; i += 1) {
+    hash ^= value.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  const positive = (hash >>> 0) % 900000000;
+  return positive * 1000 + ordinal;
+};
+
 function buildIconDatum({
   props,
   point,
@@ -173,9 +183,7 @@ function buildIconDatum({
 
   const position = coord.pixelToLngLat(px, py);
 
-  const baseId = Number(props.id);
-  const id = Number.isFinite(baseId) ? baseId * 1000 + ordinal : Number.NaN;
-  if (!Number.isFinite(id)) return null;
+  const id = stableNumericId(String(props.id), ordinal);
 
   const image = selectImage(placeholderImage, props, layerName, imageOverride);
 

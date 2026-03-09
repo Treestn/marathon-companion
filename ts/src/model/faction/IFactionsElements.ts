@@ -110,7 +110,7 @@ const FACTION_PAGE_DETAILS_BY_NAME: Record<string, FactionPageDetails> = {
       { title: "Mod Expertise", description: "Faction-exclusive weapon mods and upgrades." },
       { title: "Exclusive Cosmetics", description: "Sekiguchi-branded weapon skins and gear." },
     ],
-    colorSurface: "#cfb72f",
+    colorSurface: "#95EEBF",
     colorOnSurface: "#1c1a1b",
   },
   traxus: {

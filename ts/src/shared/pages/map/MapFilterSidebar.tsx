@@ -11,6 +11,7 @@ import { TraderMapper } from '../../../adapter/TraderMapper';
 import { QuestDataStore } from '../../services/QuestDataStore';
 import { ProgressionStateService } from '../../services/ProgressionStateService';
 import { AppConfigClient } from '../../services/AppConfigClient';
+import { FACTIONS_DATA } from '../../../model/faction/IFactionsElements';
 import './map.css';
 
 interface MapFilterSidebarProps {
@@ -137,6 +138,23 @@ export const MapFilterSidebar: React.FC<MapFilterSidebarProps> = ({
     return { x: coords[0], y: coords[1] };
   };
 
+  const isContractsGroup = (group: HighLevelGroup): boolean => {
+    const normalizedName = group.name?.trim().toLowerCase();
+    if (
+      normalizedName === FilterConst.QUESTS.name.toLowerCase() ||
+      normalizedName === "contracts"
+    ) {
+      return true;
+    }
+    return (group.layers ?? []).some((layer) =>
+      (layer.data?.features ?? []).some(
+        (feature) =>
+          Boolean(feature.properties?.questId) ||
+          feature.properties?.iconTypeId === "Contracts:Contracts"
+      )
+    );
+  };
+
   const getQuestDisplay = (feature: GeoJSON.Feature<GeoJSON.Geometry, FeatureProps>) => {
     if (!feature.properties?.questId) return null;
     const quest = QuestDataStore.getQuestById(feature.properties.questId);
@@ -172,11 +190,16 @@ export const MapFilterSidebar: React.FC<MapFilterSidebarProps> = ({
     const traderImage = quest.trader?.id
       ? TraderMapper.getImageFromTraderId(quest.trader.id)
       : null;
+    const factionColor = quest.trader?.id
+      ? FACTIONS_DATA.find((faction) => faction.factionId === quest.trader?.id)?.colorSurface ??
+        'var(--accent)'
+      : 'var(--accent)';
 
     return {
       questName,
       description,
       traderImage,
+      factionColor,
     };
   };
 
@@ -361,7 +384,7 @@ export const MapFilterSidebar: React.FC<MapFilterSidebarProps> = ({
             {mapDoc.groups.map((group, groupIndex) => {
             const isActive = isGroupActive(group);
             const elementCount = group.layers?.length ?? 0;
-            const isQuestGroup = group.name === FilterConst.QUESTS.name;
+            const isQuestGroup = isContractsGroup(group);
             const hasDropdown = elementCount > 1 || isQuestGroup;
             const isExpanded = hasDropdown ? isHighLevelElementExpanded(groupIndex) : true;
             const singleLayer = elementCount === 1 ? group.layers?.[0] : null;
@@ -391,13 +414,6 @@ export const MapFilterSidebar: React.FC<MapFilterSidebarProps> = ({
                 >
                   <div className="map-filter-hle-header-content">
                     {/* High Level Element Image */}
-                    {group.icon?.imagePath && (
-                      <img
-                        src={group.icon.imagePath}
-                        alt={getElementName(group)}
-                        className={`map-filter-hle-image ${isActive ? 'map-filter-hle-image-active' : 'map-filter-hle-image-inactive'}`}
-                      />
-                    )}
                     {/* Text - only this toggles active state */}
                     <span 
                       className={`map-filter-hle-text ${isActive ? 'map-filter-hle-text-active' : 'map-filter-hle-text-inactive'}`}
@@ -467,10 +483,14 @@ export const MapFilterSidebar: React.FC<MapFilterSidebarProps> = ({
                                 className={`map-filter-quest-item ${isQuestElementActive ? '' : 'map-filter-quest-item-inactive'}`}
                               >
                                 {questDisplay.traderImage && (
-                                  <img
-                                    src={questDisplay.traderImage}
-                                    alt={questDisplay.questName}
+                                  <div
                                     className="map-filter-quest-trader-image"
+                                    style={
+                                      {
+                                        '--quest-faction-color': questDisplay.factionColor,
+                                        '--quest-faction-icon': `url("${questDisplay.traderImage}")`,
+                                      } as React.CSSProperties
+                                    }
                                   />
                                 )}
                                 <div className="map-filter-quest-info">
@@ -494,6 +514,7 @@ export const MapFilterSidebar: React.FC<MapFilterSidebarProps> = ({
                                           detail: {
                                             pixelX: primaryPoint?.x,
                                             pixelY: primaryPoint?.y,
+                                            iconId: questElement.properties?.id,
                                             floorId,
                                           },
                                         })

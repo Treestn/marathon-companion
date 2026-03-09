@@ -101,15 +101,19 @@ export class WindowManager {
       ) {
         console.log(`Closing all windows`);
         for (const windowName of Object.values(kWindowNames)) {
-          if (windowName === kWindowNames.background || windowName === kWindowNames.desktop) {
+          if (windowName === kWindowNames.background) {
             continue;
           }
-          await WindowsService.close(windowName);
+          try {
+            await WindowsService.close(windowName);
+          } catch (error) {
+            console.info(`Error closing window ${windowName}:`, error);
+          }
         }
-        console.log(`Opening desktop window`);
-        await WindowsService.restore(kWindowNames.desktop);
+        // console.log(`Opening desktop window`);
+        // await WindowsService.restore(kWindowNames.desktop);
     } else {
-      console.log(`Game terminated: Not minimizing opening Desktop`);
+      console.log(`Game terminated: Opening Desktop`);
       await WindowsService.close(kWindowNames.inGame);
       await WindowsService.close(kWindowNames.secondScreen);
       await WindowsService.restore(kWindowNames.desktop);

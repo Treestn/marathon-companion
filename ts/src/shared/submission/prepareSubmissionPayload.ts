@@ -120,7 +120,7 @@ export const groupRemovedMapIcons = (
   entries: RemovedMapIconEntry[],
 ): SubmissionRemovedMapIcon[] => {
   // Group by mapId, then by layerId
-  const byMap = new Map<string, Map<string, { layerName: string; ids: number[] }>>();
+  const byMap = new Map<string, Map<string, { layerName: string; ids: Array<string | number> }>>();
 
   for (const entry of entries) {
     let mapEntry = byMap.get(entry.mapId);

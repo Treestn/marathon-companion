@@ -883,3 +883,9 @@
   }
 }
 
+
+/* Force square corners in expedition reset modal */
+.expedition-reset-modal-content,
+.expedition-reset-modal-content * {
+  border-radius: 0 !important;
+}

@@ -114,7 +114,7 @@
       "warning": {
         "1": "Ta opcja łatwo oznaczy jako ukończone zadania, które zrobiłeś, ale nie śledziłeś. (Zwłaszcza gdy dodałeś aplikację w połowie wipe)",
         "2": "Ukończy tylko zadania dla aktualnie wybranej progresji (PvP lub PvE).",
-        "3": "Aby działało poprawnie, aktywuj w aplikacji wszystkie zadania, które masz aktywne w Arc Raiders. Aplikacja ukończy wymagania tylko tych zadań, które są aktywne w aplikacji.",
+        "3": "Aby działało poprawnie, aktywuj w aplikacji wszystkie zadania, które masz aktywne w Marathon. Aplikacja ukończy wymagania tylko tych zadań, które są aktywne w aplikacji.",
         "4": "Zakończenia gałęzi, która do niczego nie prowadzi, nie oznaczy automatycznie. Oznacz ostatnie zadanie jako ukończone, aby auto-ukończenie działało prawidłowo.",
         "5": "Przykład: Stirrup do niczego nie prowadzi; jeśli nie oznaczysz jej jako ukończonej, wcześniejsze zadania nie zostaną oznaczone automatycznie."
       },

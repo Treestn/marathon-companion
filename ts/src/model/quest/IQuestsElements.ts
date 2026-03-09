@@ -74,7 +74,7 @@ export class QuestImpl implements Quest {
     lightkeeperRequired: boolean;
     
     constructor() {
-        this.id = "ARC-" + UuidGenerator.generateSimple();
+        this.id = UuidGenerator.generate();
         this.name = "";
         this.normalizedName = "";
         this.trader = new QuestObject();
@@ -470,7 +470,7 @@ export class QuestObjective implements Objectives {
     neededKeys: NeededKeys[] = [];
     
     constructor() {
-        this.id = "ARC-" + UuidGenerator.generateSimple()
+        this.id = UuidGenerator.generate();
         this.optional = false;
         this.count = 0;
         this.description = ""

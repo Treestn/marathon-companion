@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { buildIconsLayer } from "../modules/icons.module";
 import { buildLineLayer } from "../modules/lines.module";
+import { buildPolygonLayer } from "../modules/polygons.module";
 import { useCoordinateUtils } from "../useCoordinateUtils";
 import { useIconAtlas } from "../useIconAtlas";
 import { useIconImagePaths } from "../useIconImagePaths";
@@ -144,11 +145,30 @@ export const useDeckFlow = ({
     return props.correlation ? [props.correlation] : [];
   }, []);
 
+  const resolveCorrelationId = React.useCallback(
+    (icon: IconDatum | null | undefined): string | null => {
+      if (!icon) return null;
+      const direct = getCorrelations(icon.entity)?.[0]?.correlationId ?? null;
+      if (direct) return direct;
+
+      // Some maps have stacked duplicate icons at the same pixel location where
+      // only one copy carries correlation metadata. Fall back to that copy.
+      const fallback = mergedIconsData.find((candidate) => {
+        if (candidate.id === icon.id) return false;
+        if (candidate.pixelX !== icon.pixelX || candidate.pixelY !== icon.pixelY) return false;
+        if ((candidate.iconTypeId ?? "") !== (icon.iconTypeId ?? "")) return false;
+        return getCorrelations(candidate.entity).length > 0;
+      });
+      return fallback ? getCorrelations(fallback.entity)?.[0]?.correlationId ?? null : null;
+    },
+    [getCorrelations, mergedIconsData],
+  );
+
   const activeCorrelationId = useMemo(() => {
-    const pinnedCorrelation = getCorrelations(pinnedIcon?.entity)?.[0]?.correlationId ?? null;
+    const pinnedCorrelation = resolveCorrelationId(pinnedIcon);
     if (pinnedCorrelation) return pinnedCorrelation;
-    return getCorrelations(hoveredIcon?.entity)?.[0]?.correlationId ?? null;
-  }, [getCorrelations, hoveredIcon, pinnedIcon]);
+    return resolveCorrelationId(hoveredIcon);
+  }, [hoveredIcon, pinnedIcon, resolveCorrelationId]);
 
   useEffect(() => {
     if (!resetSelectionToken) return;
@@ -163,11 +183,22 @@ export const useDeckFlow = ({
     (icon: IconDatum) => {
       const correlations = getCorrelations(icon.entity);
       if (correlations.length === 0) return true;
-      // Correlation nodes must remain visible; only dependent non-node entities are gated.
-      if (correlations.some((c) => c.role === "node")) return true;
       if (correlations.some((c) => c.trigger === "always")) return true;
-      if (!activeCorrelationId) return false;
-      return correlations.some((c) => c.correlationId === activeCorrelationId);
+
+      if (activeCorrelationId) {
+        return correlations.some((c) => c.correlationId === activeCorrelationId);
+      }
+
+      // Keep only the primary/source node visible by default.
+      // Source nodes carry their own id in anchors; target nodes carry source id.
+      const iconId = Number(icon.entity?.id);
+      return correlations.some(
+        (c) =>
+          c.role === "node" &&
+          (((c.anchors ?? []).length === 0) ||
+            (Number.isFinite(iconId) &&
+              (c.anchors ?? []).some((anchorId) => Number(anchorId) === iconId))),
+      );
     },
     [activeCorrelationId, getCorrelations]
   );
@@ -212,7 +243,7 @@ export const useDeckFlow = ({
       visibleIconsData.forEach((icon) => {
         const correlations = getCorrelations(icon.entity);
         correlations.forEach((correlation) => {
-          if (correlation.role !== "node" || !correlation.correlationId) return;
+          if (correlation.role === "area" || !correlation.correlationId) return;
           const list = grouped.get(correlation.correlationId) ?? [];
           list.push({ icon, correlation });
           grouped.set(correlation.correlationId, list);
@@ -239,8 +270,12 @@ export const useDeckFlow = ({
         const isAnchorNode = (node: { icon: IconDatum }) =>
           anchorIds.has(Number(node.icon.entity?.id));
 
-        const anchorNodes = nodes.filter(isAnchorNode);
-        const targetNodes = nodes.filter((node) => !isAnchorNode(node));
+        const anchorNodes = nodes.filter(
+          (node) => node.correlation.role === "node" && isAnchorNode(node),
+        );
+        const targetNodes = nodes.filter(
+          (node) => !(node.correlation.role === "node" && isAnchorNode(node)),
+        );
 
         if (anchorNodes.length > 0 && targetNodes.length > 0) {
           anchorNodes.forEach((anchorNode) => {
@@ -296,6 +331,65 @@ export const useDeckFlow = ({
     setHoveredIcon(icon);
   }, [preferredPinnedId, visibleIconsData]);
 
+  useEffect(() => {
+    const handleFocusIcon = (event: Event) => {
+      const detail = (event as CustomEvent).detail as
+        | { iconId?: string | number }
+        | undefined;
+      const focusIconId = detail?.iconId;
+      if (focusIconId === undefined || focusIconId === null) return;
+      const icon = visibleIconsData.find(
+        (entry) => String(entry.entity?.id) === String(focusIconId)
+      );
+      if (!icon) return;
+      setPinnedId(icon.id);
+      setHoveredId(icon.id);
+      setSelectedId(icon.id);
+      setPinnedIcon(icon);
+      setHoveredIcon(icon);
+    };
+    if (typeof globalThis.addEventListener !== "function") return;
+    globalThis.addEventListener("map-focus-icon", handleFocusIcon);
+    return () => {
+      globalThis.removeEventListener("map-focus-icon", handleFocusIcon);
+    };
+  }, [visibleIconsData]);
+
+  // Keep pinned/hovered icon objects in sync with latest map/edit data so popup
+  // content updates live while editing (description/images/quest metadata).
+  useEffect(() => {
+    if (pinnedId === null) return;
+    const latestPinned = visibleIconsData.find((icon) => icon.id === pinnedId) ?? null;
+    if (!latestPinned) {
+      setPinnedId(null);
+      setPinnedIcon(null);
+      if (hoveredId === pinnedId) {
+        setHoveredId(null);
+        setHoveredIcon(null);
+      }
+      return;
+    }
+    if (pinnedIcon !== latestPinned) {
+      setPinnedIcon(latestPinned);
+    }
+    if (hoveredId === pinnedId && hoveredIcon !== latestPinned) {
+      setHoveredIcon(latestPinned);
+    }
+  }, [hoveredIcon, hoveredId, pinnedIcon, pinnedId, visibleIconsData]);
+
+  useEffect(() => {
+    if (hoveredId === null || hoveredId === pinnedId) return;
+    const latestHovered = visibleIconsData.find((icon) => icon.id === hoveredId) ?? null;
+    if (!latestHovered) {
+      setHoveredId(null);
+      setHoveredIcon(null);
+      return;
+    }
+    if (hoveredIcon !== latestHovered) {
+      setHoveredIcon(latestHovered);
+    }
+  }, [hoveredIcon, hoveredId, pinnedId, visibleIconsData]);
+
   const clearHover = React.useCallback((force = false) => {
     if (!force && pinnedId !== null) {
       return;
@@ -318,18 +412,6 @@ export const useDeckFlow = ({
               clearHover();
             }
             return;
-          }
-          const hoveredEntity = (info.object as IconDatum)?.entity;
-          const hoveredCorrelationId = getCorrelations(hoveredEntity)?.[0]?.correlationId ?? null;
-          const pinnedCorrelationId = getCorrelations(pinnedIcon?.entity)?.[0]?.correlationId ?? null;
-          if (
-            hoveredCorrelationId &&
-            pinnedId !== null &&
-            pinnedCorrelationId === hoveredCorrelationId &&
-            id !== pinnedId
-          ) {
-            setPinnedId(id);
-            setPinnedIcon(info.object as IconDatum);
           }
           setHoveredId(id);
           setHoveredIcon(info.object as IconDatum);
@@ -377,7 +459,7 @@ export const useDeckFlow = ({
         clearHover(true);
       },
     }),
-    [clearHover, getCorrelations, pinnedIcon, pinnedId, onFloorSelect, onIconClick, onIconRemoveClick]
+    [clearHover, pinnedId, onFloorSelect, onIconClick, onIconRemoveClick]
   );
 
   const layers = useMemo(() => {
@@ -394,10 +476,19 @@ export const useDeckFlow = ({
     });
     out.push(...floorLayers);
 
+    const correlationPolygonLayer = buildPolygonLayer({
+      id: "map-correlation-polygons",
+      mapDoc,
+      coord,
+      activeCorrelationId,
+    });
+    if (correlationPolygonLayer) out.push(correlationPolygonLayer);
+
     if (correlationLines.length > 0) {
       const lineLayer = buildLineLayer({
         id: "map-correlation-lines",
         coord,
+        activeCorrelationId,
         lines: correlationLines,
       });
       if (lineLayer) out.push(lineLayer);

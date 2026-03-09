@@ -1,0 +1,129 @@
+.submission-approval-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.submission-approval-card {
+  width: min(860px, 92%);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--border-accent);
+  border-radius: 10px;
+  color: var(--text-primary);
+  box-shadow: 0 12px 30px var(--black-a45);
+}
+
+.submission-approval-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 8px;
+}
+
+.submission-approval-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.submission-approval-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.submission-approval-body {
+  padding: 4px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: auto;
+}
+
+.submission-approval-rules-title {
+  font-size: 22px;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.submission-approval-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.submission-rule,
+.submission-rule-final {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-submissions, var(--text-dim));
+}
+
+.submission-rule-final {
+  color: var(--error-soft);
+  font-weight: 700;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.submission-approval-rules .keyword {
+  color: var(--important-button-color);
+  font-weight: 700;
+}
+
+.submission-rule b,
+.submission-rule-final b {
+  color: inherit;
+}
+
+.submission-approval-notice {
+  margin: 0;
+  text-align: center;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.submission-approval-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.submission-approval-button {
+  background: var(--error-bg);
+  border: 1px solid var(--confirmation-border);
+  color: var(--text-primary);
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+
+.submission-approval-button:hover {
+  background: var(--error-bg-hover);
+}
+
+.submission-approval-button.primary {
+  background: var(--success-bg);
+}
+
+.submission-approval-button.primary:hover {
+  background: var(--success-bg-hover);
+}
+
+/* Force square corners in this modal */
+.submission-approval-card,
+.submission-approval-card * {
+  border-radius: 0 !important;
+}

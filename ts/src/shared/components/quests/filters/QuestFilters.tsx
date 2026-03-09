@@ -45,10 +45,12 @@ export const QuestFilters: React.FC<QuestFiltersProps> = ({
   onMapChange,
 }) => {
   const [stateValue, setStateValue] = useState<string[]>(initialStateValues);
+  const [typeValue, setTypeValue] = useState<string[]>(initialTypeValues);
   const [traderValue, setTraderValue] = useState<string[]>(initialTraderValues);
   const [mapValue, setMapValue] = useState<string[]>(initialMapValues);
 
   const resolvedStateValue = controlledStateValue ?? stateValue;
+  const resolvedTypeValue = controlledTypeValue ?? typeValue;
   const resolvedTraderValue = controlledTraderValue ?? traderValue;
   const resolvedMapValue = controlledMapValue ?? mapValue;
 
@@ -62,6 +64,12 @@ export const QuestFilters: React.FC<QuestFiltersProps> = ({
     setTraderValue(next);
     if (onTraderChange) {
       startTransition(() => onTraderChange(next));
+    }
+  };
+  const handleTypeChange = (next: string[]) => {
+    setTypeValue(next);
+    if (onTypeChange) {
+      startTransition(() => onTypeChange(next));
     }
   };
   const handleMapChange = (next: string[]) => {
@@ -81,16 +89,17 @@ export const QuestFilters: React.FC<QuestFiltersProps> = ({
         onChange={handleStateChange}
         iconSrc="../../img/icons/filter_list.svg"
       />
-      {/* <QuestFilterSelect
+      <QuestFilterSelect
         id="quest-filter-type"
         label="Type"
         value={resolvedTypeValue}
         options={typeOptions}
         onChange={handleTypeChange}
-      /> */}
+        iconSrc="../../img/icons/filter_list.svg"
+      />
       <QuestFilterSelect
         id="quest-filter-trader"
-        label="Traders"
+        label="Factions"
         value={resolvedTraderValue}
         options={traderOptions}
         onChange={handleTraderChange}
